@@ -4,4 +4,3 @@ icon: /favicon.ico
 remote_theme: SpringCloudKubernetes/Jekyll-theme-md@master
 plugins:
 - jekyll-remote-theme
-- jekyll-seo-tag
