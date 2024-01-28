@@ -1,6 +1,5 @@
 title: Home
-description: docs
-url: https://renlm.gitee.io/
+description: 个人笔记.
 icon: /favicon.ico
 remote_theme: SpringCloudKubernetes/Jekyll-theme-md@master
 plugins:
