@@ -22,7 +22,9 @@ prometheus:
 redis:
   enabled: false
   image: redis
-  password: K@tm348TRcr695^uD$
+  nodePort: 30379
+  nodeSelector: {}
+  requirepass: K@tm348TRcr695^uD$
 rabbitmq:
   enabled: false
   image: rabbitmq:management
