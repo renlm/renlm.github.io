@@ -1,3 +1,4 @@
+env: prod
 mygraph:
   image: registry.cn-hangzhou.aliyuncs.com/rlm/mygraph
   host: mygraph.renlm.cn

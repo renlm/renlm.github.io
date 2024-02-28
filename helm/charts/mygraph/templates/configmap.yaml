@@ -28,7 +28,7 @@ data:
         jigsaw: classpath:images/jigsaw
         picClick: classpath:images/pic-click
         type: default
-        waterMark: mygraph.renlm.cn
+        waterMark: {{ .Values.mygraph.host }}
         slipOffset: 5
         aesStatus: true
         interferenceOptions: 0
@@ -47,7 +47,7 @@ data:
     logging:
       level:
         root: info
-        cn.renlm.graph: info
+        cn.renlm.mygraph: info
       file:
         name: /opt/log/{{ $fullName }}.log
       logback:
@@ -74,7 +74,7 @@ data:
       application:
         name: {{ $fullName }}
       profiles:
-        active: prod
+        active: {{ .Values.env }}
       main:
         allow-circular-references: true
       servlet:
