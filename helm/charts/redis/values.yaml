@@ -1,4 +1,5 @@
 redis:
   image: redis
   nodePort: 30379
+  nodeSelector: {}
   defaultPass: ^DP@renlm.cn$
