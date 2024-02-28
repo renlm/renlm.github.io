@@ -3,6 +3,10 @@ mygraph:
   host: mygraph.renlm.cn
   serverPort: 8080
   replicas: 1
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: mygraph-service-account
 prometheus:
   enabled: false
   port: 9000
