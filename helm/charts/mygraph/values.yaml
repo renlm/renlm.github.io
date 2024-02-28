@@ -1,5 +1,6 @@
 env: dev
 mygraph:
+  enabled: false
   image: registry.cn-hangzhou.aliyuncs.com/rlm/mygraph
   host: mygraph.renlm.cn
   tlsSecretName: renlm.secret
@@ -28,13 +29,17 @@ redis:
 rabbitmq:
   enabled: false
   image: rabbitmq:management
+  nodePort: 30672
+  nodeSelector: {}
   host: rabbitmq.renlm.cn
-  defaultVhost: /dev
-  defaultUser: dev
+  defaultVhost: /mygraph
+  defaultUser: mygraph
   defaultPass: K@tm348TRcr695^uD$
 mysql:
   enabled: false
   image: mysql
-  database: dev
-  user: dev
+  nodePort: 30306
+  nodeSelector: {}
+  database: mygraph
+  user: mygraph
   password: K@tm348TRcr695^uD$

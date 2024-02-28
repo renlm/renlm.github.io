@@ -4,7 +4,7 @@ kind: ConfigMap
 metadata:
   name: {{ $fullName }}-configmap
 data:
-  application.yaml: |-
+  {{ .Values.env }}.yaml: |-
     server:
       port: {{ .Values.mygraph.serverPort }}
       servlet:
