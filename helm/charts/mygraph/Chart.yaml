@@ -3,6 +3,9 @@ appVersion: 1.0.1
 name: mygraph
 version: 0.1.0
 dependencies:
+- name: prometheus
+  repository: https://renlm.gitee.io/helm/repo
+  version: 0.1.0
 - name: redis
   repository: https://renlm.gitee.io/helm/repo
   version: 0.1.0
