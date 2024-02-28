@@ -3,10 +3,10 @@ entries:
   redis:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-02-28T14:20:03.34255671+08:00"
-    digest: fa696aaab77d13ba6bcb3c410664f0a9650d3b4b46a8297cf59b06c952e49233
+    created: "2024-02-28T14:32:14.821278576+08:00"
+    digest: dd0033bdfe5e88a271049d5fc00cc76f9385b565c858be1839cd4e70bd152c98
     name: redis
     urls:
     - https://renlm.gitee.io/helm/repo/redis-0.1.0.tgz
     version: 0.1.0
-generated: "2024-02-28T14:20:03.341661774+08:00"
+generated: "2024-02-28T14:32:14.820595449+08:00"
