@@ -5,11 +5,15 @@ metadata:
   labels:
     {{- include "mygraph.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.service.type }}
+  clusterIP: None
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
+    - name: http
+      port: {{ .Values.mygraph.serverPort }}
       protocol: TCP
-      name: http
+      targetPort: {{ .Values.mygraph.serverPort }}
+    - name: {{ .Values.prometheus.portName }}
+      port: {{ .Values.prometheus.port }}
+      protocol: TCP
+      targetPort: {{ .Values.prometheus.port }}
   selector:
     {{- include "mygraph.selectorLabels" . | nindent 4 }}
