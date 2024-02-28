@@ -1,15 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "test.fullname" . }}
+  name: {{ include "redis.fullname" . }}
   labels:
-    {{- include "test.labels" . | nindent 4 }}
+    {{- include "redis.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.service.type }}
+  type: NodePort
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
-      protocol: TCP
-      name: http
+    - port: 6379
+      targetPort: 6379
+      nodePort: {{ .Values.redis.nodePort }}
   selector:
-    {{- include "test.selectorLabels" . | nindent 4 }}
+    {{- include "redis.selectorLabels" . | nindent 4 }}
