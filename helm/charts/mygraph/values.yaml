@@ -19,3 +19,17 @@ prometheus:
   enabled: false
   port: 9000
   portName: prometheus
+redis:
+  image: redis
+  password: K@tm348TRcr695^uD$
+rabbitmq:
+  image: rabbitmq:management
+  host: rabbitmq.renlm.cn
+  defaultVhost: /dev
+  defaultUser: dev
+  defaultPass: K@tm348TRcr695^uD$
+mysql:
+  image: mysql
+  database: dev
+  user: dev
+  password: K@tm348TRcr695^uD$
