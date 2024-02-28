@@ -14,7 +14,6 @@ data:
         remoteip:
           remote-ip-header: X-Forwarded-For
           protocol-header: X-Forwarded-Proto
-    
     my:
       config:
         ctx: https://mygraph.renlm.cn
@@ -22,18 +21,6 @@ data:
         wssHost: wss://mygraph.renlm.cn:443
         wsAllowedOrigins: http://mygraph.renlm.cn,https://mygraph.renlm.cn
         proxyLogConcurrency: 30-50
-    
-    jasypt:
-      encryptor:
-        password: ${JASYPT_ENCRYPTOR_PASSWORD:123654}
-    
-    encrypt:
-      keyStore:
-        location: classpath:keyStore.jks
-        password: ${KEY_STORE_PASSWORD:storepass}
-        alias: ${KEY_STORE_ALIAS:alias}
-        secret: ${KEY_STORE_SECRET:keypass}
-    
     aj:
       captcha:
         cacheType: redis
@@ -44,7 +31,6 @@ data:
         slipOffset: 5
         aesStatus: true
         interferenceOptions: 0
-    
     mica:
       xss:
         enabled: true
@@ -57,7 +43,6 @@ data:
         - /static
         - /webjars
         - /markdown/**
-    
     logging:
       level:
         root: info
@@ -68,14 +53,12 @@ data:
         rollingpolicy:
           maxFileSize: 512MB
           maxHistory: 30
-    
     mybatis-plus:
       configuration:
         localCacheScope: STATEMENT
       global-config:
         db-config:
           update-strategy: IGNORED
-    
     management:
       server:
         port: 9000
@@ -86,7 +69,6 @@ data:
       metrics:
         tags:
           application: ${spring.application.name}
-    
     spring:
       application:
         name: mygraph
