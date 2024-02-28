@@ -4,20 +4,11 @@ name: mygraph
 version: 0.1.0
 dependencies:
 - name: redis
-  version: 0.1.0
   repository: https://renlm.gitee.io/helm/repo
-  import-values:
-  - child: redis
-    parent: redis
-- name: mysql
   version: 0.1.0
-  repository: https://renlm.gitee.io/helm/repo
-  import-values:
-  - child: mysql
-    parent: mysql
 - name: rabbitmq
-  version: 0.1.0
   repository: https://renlm.gitee.io/helm/repo
-  import-values:
-  - child: rabbitmq
-    parent: rabbitmq
+  version: 0.1.0
+- name: mysql
+  repository: https://renlm.gitee.io/helm/repo
+  version: 0.1.0
