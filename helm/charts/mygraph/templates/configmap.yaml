@@ -1,25 +1,26 @@
+{{- $fullName := include "mygraph.fullname" . -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "mygraph.fullname" . }}-configmap
+  name: {{ $fullName }}-configmap
 data:
   application.yaml: |-
     server:
-      port: 80
+      port: {{ .Values.mygraph.serverPort }}
       servlet:
         session:
           cookie:
-            name: MYGRAPH
+            name: {{ $fullName | upper }}
       tomcat:
         remoteip:
           remote-ip-header: X-Forwarded-For
           protocol-header: X-Forwarded-Proto
     my:
       config:
-        ctx: https://mygraph.renlm.cn
-        wsHost: ws://mygraph.renlm.cn
-        wssHost: wss://mygraph.renlm.cn:443
-        wsAllowedOrigins: http://mygraph.renlm.cn,https://mygraph.renlm.cn
+        ctx: https://{{ .Values.mygraph.host }}
+        wsHost: ws://{{ .Values.mygraph.host }}
+        wssHost: wss://{{ .Values.mygraph.host }}
+        wsAllowedOrigins: http://{{ .Values.mygraph.host }},https://{{ .Values.mygraph.host }}
         proxyLogConcurrency: 30-50
     aj:
       captcha:
@@ -48,7 +49,7 @@ data:
         root: info
         cn.renlm.graph: info
       file:
-        name: /opt/log/mygraph.log
+        name: /opt/log/{{ $fullName }}.log
       logback:
         rollingpolicy:
           maxFileSize: 512MB
@@ -68,10 +69,10 @@ data:
             include: prometheus
       metrics:
         tags:
-          application: ${spring.application.name}
+          application: {{ $fullName }}
     spring:
       application:
-        name: mygraph
+        name: {{ $fullName }}
       profiles:
         active: prod
       main:
