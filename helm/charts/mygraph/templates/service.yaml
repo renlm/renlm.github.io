@@ -4,6 +4,9 @@ metadata:
   name: {{ include "mygraph.fullname" . }}
   labels:
     {{- include "mygraph.labels" . | nindent 4 }}
+    {{- if .Values.prometheus.enabled -}}
+    prometheus: enable
+    {{- end }}
 spec:
   clusterIP: None
   ports:
