@@ -2,8 +2,9 @@ mygraph:
   image: registry.cn-hangzhou.aliyuncs.com/rlm/mygraph
   host: mygraph.renlm.cn
   tlsSecretName: renlm.secret
+  imagePullSecrets: aliyun.secret
   serverPort: 8080
-  replicas: 1
+  replicaCount: 1
   serviceAccount:
     create: true
     annotations: {}
