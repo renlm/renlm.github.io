@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ include "redis.fullname" . }}
+  name: {{ include "mysql.fullname" . }}
   labels:
-    {{- include "redis.labels" . | nindent 4 }}
+    {{- include "mysql.labels" . | nindent 4 }}
 spec:
-  serviceName: {{ include "redis.fullname" . }}
+  serviceName: {{ include "mysql.fullname" . }}
   replicas: 1
   selector:
     matchLabels:
-      {{- include "redis.selectorLabels" . | nindent 6 }}
+      {{- include "mysql.selectorLabels" . | nindent 6 }}
   updateStrategy:
     type: RollingUpdate
   template:
     metadata:
       labels:
-        {{- include "redis.selectorLabels" . | nindent 8 }}
+        {{- include "mysql.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.nodeSelector }}
       nodeSelector:
@@ -25,29 +25,30 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: 
-            - redis-server
-            - /etc/redis/redis.conf
+          args:
+            - --character-set-server=utf8mb4
+            - --collation-server=utf8mb4_unicode_ci
+            - --default_authentication_plugin=mysql_native_password
+            - --performance_schema_max_table_instances=600
+            - --table_definition_cache=400
+            - --table_open_cache=256
           env:
-            - name: TZ
-              value: Asia/Shanghai
+            - name: MYSQL_DATABASE
+              value: {{ .Values.mysql.database }}
+            - name: MYSQL_USER
+              value: {{ .Values.mysql.user }}
+            - name: MYSQL_PASSWORD
+              value: {{ .Values.mysql.password }}
+            - name: MYSQL_ROOT_PASSWORD
+              value: {{ .Values.mysql.password }}
           ports:
-            - name: http
+            - name: tcp
               containerPort: {{ .Values.service.port }}
               protocol: TCP
           volumeMounts:
-            - name: redis-conf
-              mountPath: /etc/redis/redis.conf
-              subPath: redis.conf
-            - name: redis-lib
-              mountPath: /var/lib/redis
+            - name: mysql-lib
+              mountPath: /var/lib/mysql
       volumes:
-        - name: redis-conf
-          configMap:
-            name: {{ include "redis.fullname" . }}-configmap
-            items:
-            - key: redis.conf
-              path: redis.conf
-        - name: redis-lib
+        - name: mysql-lib
           hostPath:
-            path: /var/lib/redis
+            path: /var/lib/mysql
