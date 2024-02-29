@@ -1,5 +1,4 @@
-redis:
-  image: redis
-  nodePort: 30379
-  nodeSelector: {}
-  defaultPass: ^DP@renlm.cn$
+image: redis
+nodePort: 30379
+nodeSelector: {}
+requirepass: PWD

@@ -17,13 +17,13 @@ spec:
       labels:
         {{- include "redis.selectorLabels" . | nindent 8 }}
     spec:
-      {{- with .Values.redis.nodeSelector }}
+      {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}
-          image: {{ .Values.redis.image }}
+          image: {{ .Values.image }}
           imagePullPolicy: IfNotPresent
           command: 
             - redis-server

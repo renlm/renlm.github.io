@@ -9,6 +9,6 @@ spec:
   ports:
     - port: 6379
       targetPort: 6379
-      nodePort: {{ .Values.redis.nodePort }}
+      nodePort: {{ .Values.nodePort }}
   selector:
     {{- include "redis.selectorLabels" . | nindent 4 }}
