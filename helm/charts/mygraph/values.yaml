@@ -16,8 +16,13 @@ mygraph:
     minReplicas: 1
     maxReplicas: 5
     targetCPUUtilizationPercentage: 80
+# 子Chart配置
 prometheus:
   enabled: true
+  port: spring-cloud
+  selector:
+  - name: spring-cloud
+    value: enable
 redis:
   enabled: true
   requirepass: PWD@20xx$

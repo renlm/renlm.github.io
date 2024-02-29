@@ -6,12 +6,16 @@ dependencies:
 - name: prometheus
   repository: https://renlm.gitee.io/helm/repo
   version: 0.1.0
+  condition: prometheus.enabled
 - name: redis
   repository: https://renlm.gitee.io/helm/repo
   version: 0.1.0
+  condition: redis.enabled
 - name: rabbitmq
   repository: https://renlm.gitee.io/helm/repo
   version: 0.1.0
+  condition: rabbitmq.enabled
 - name: mysql
   repository: https://renlm.gitee.io/helm/repo
   version: 0.1.0
+  condition: mysql.enabled

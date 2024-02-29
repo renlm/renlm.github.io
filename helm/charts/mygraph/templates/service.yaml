@@ -4,19 +4,12 @@ metadata:
   name: {{ include "mygraph.fullname" . }}
   labels:
     {{- include "mygraph.labels" . | nindent 4 }}
-    {{- if .Values.prometheus.enabled -}}
-    prometheus: enable
-    {{- end }}
 spec:
-  clusterIP: None
+  type: {{ .Values.service.type }}
   ports:
-    - name: http
-      port: {{ .Values.mygraph.serverPort }}
+    - port: {{ .Values.service.port }}
+      targetPort: http
       protocol: TCP
-      targetPort: {{ .Values.mygraph.serverPort }}
-    - name: {{ .Values.prometheus.portName }}
-      port: {{ .Values.prometheus.port }}
-      protocol: TCP
-      targetPort: {{ .Values.prometheus.port }}
+      name: http
   selector:
     {{- include "mygraph.selectorLabels" . | nindent 4 }}
