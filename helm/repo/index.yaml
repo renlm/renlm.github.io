@@ -36,4 +36,30 @@ entries:
     urls:
     - https://renlm.gitee.io/helm/repo/redis-0.1.0.tgz
     version: 0.1.0
+  mygraph:
+  - apiVersion: v2
+    appVersion: 1.0.1
+    created: "2024-02-29T14:36:34.042270849+08:00"
+    dependencies:
+    - condition: prometheus.enabled
+      name: prometheus
+      repository: https://renlm.gitee.io/helm/repo
+      version: 0.1.0
+    - condition: redis.enabled
+      name: redis
+      repository: https://renlm.gitee.io/helm/repo
+      version: 0.1.0
+    - condition: rabbitmq.enabled
+      name: rabbitmq
+      repository: https://renlm.gitee.io/helm/repo
+      version: 0.1.0
+    - condition: mysql.enabled
+      name: mysql
+      repository: https://renlm.gitee.io/helm/repo
+      version: 0.1.0
+    digest: fe58a4d9d56c1a3c5b6fd31e82f43788cbfdf95ed80f01479928684dc7f1878b
+    name: mygraph
+    urls:
+    - https://renlm.gitee.io/helm/repo/mygraph-0.1.0.tgz
+    version: 0.1.0
 generated: "2024-02-29T14:31:40.936411283+08:00"
