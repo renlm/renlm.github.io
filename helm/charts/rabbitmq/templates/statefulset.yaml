@@ -26,6 +26,8 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
+            - name: TZ
+              value: Asia/Shanghai
             - name: RABBITMQ_DEFAULT_VHOST
               value: {{ .Values.defaultVhost }}
             - name: RABBITMQ_DEFAULT_USER
