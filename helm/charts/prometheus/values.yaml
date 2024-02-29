@@ -7,3 +7,5 @@ serviceAccount:
   create: false
 ingress:
   enabled: false
+service:
+  enabled: false
