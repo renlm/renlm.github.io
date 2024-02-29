@@ -10,21 +10,18 @@ serviceAccount:
   create: false
 ingress:
   enabled: true
-  className: nginx
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    kubernetes.io/tls-acme: true
+  annotations: {}
   hosts:
   - host: rabbitmq.renlm.cn
     paths:
     - path: /
-      pathType: ImplementationSpecific
+      pathType: Prefix
   tls:
   - secretName: renlm.secret
     hosts:
     - rabbitmq.renlm.cn
 service:
   type: NodePort
+  port: 15672
   amqpPort: 5672
   amqpNodePort: 30672
-  httpPort: 15672
