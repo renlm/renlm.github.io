@@ -41,9 +41,9 @@ autoscaling:
 prometheus:
   enabled: true
   port: 9000
-  portName: spring-cloud
+  portName: spring-cloud-prometheus
   selector:
-  - name: spring-cloud
+  - name: spring-cloud-prometheus
     value: enable
 redis:
   enabled: true
