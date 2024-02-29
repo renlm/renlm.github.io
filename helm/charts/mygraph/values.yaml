@@ -18,28 +18,9 @@ mygraph:
     targetCPUUtilizationPercentage: 80
 prometheus:
   enabled: false
-  port: 9000
-  portName: prometheus
 redis:
-  enabled: false
-  image: redis
-  nodePort: 30379
-  nodeSelector: {}
-  requirepass: K@tm348TRcr695^uD$
+  enabled: true
 rabbitmq:
-  enabled: false
-  image: rabbitmq:management
-  nodePort: 30672
-  nodeSelector: {}
-  host: rabbitmq.renlm.cn
-  defaultVhost: /mygraph
-  defaultUser: mygraph
-  defaultPass: K@tm348TRcr695^uD$
+  enabled: true
 mysql:
-  enabled: false
-  image: mysql
-  nodePort: 30306
-  nodeSelector: {}
-  database: mygraph
-  user: mygraph
-  password: K@tm348TRcr695^uD$
+  enabled: true
