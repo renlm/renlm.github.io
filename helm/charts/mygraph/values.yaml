@@ -1,5 +1,6 @@
 env: dev
-host: mygraph.renlm.cn
+host: &host mygraph.renlm.cn
+tlsSecretName: &tlsSecretName renlm.secret
 replicaCount: 1
 nodeSelector: {}
 podAnnotations: {}
@@ -21,14 +22,14 @@ ingress:
   enabled: true
   annotations: {}
   hosts:
-  - host: mygraph.renlm.cn
+  - host: *host
     paths:
     - path: /
       pathType: Prefix
   tls:
-  - secretName: renlm.secret
+  - secretName: *tlsSecretName
     hosts:
-    - mygraph.renlm.cn
+    - *host
 service:
   type: ClusterIP
   port: 8080
@@ -50,6 +51,8 @@ redis:
   requirepass: PWD@20xx$
 rabbitmq:
   enabled: true
+  host: rabbitmq.renlm.cn
+  tlsSecretName: *tlsSecretName
   defaultVhost: /mygraph
   defaultUser: mygraph
   defaultPass: PWD@20xx$

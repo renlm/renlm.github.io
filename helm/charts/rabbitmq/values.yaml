@@ -1,3 +1,5 @@
+host: &host rabbitmq.renlm.cn
+tlsSecretName: &tlsSecretName renlm.secret
 defaultVhost: /dev
 defaultUser: dev
 defaultPass: PWD
@@ -12,14 +14,14 @@ ingress:
   enabled: true
   annotations: {}
   hosts:
-  - host: rabbitmq.renlm.cn
+  - host: *host
     paths:
     - path: /
       pathType: Prefix
   tls:
-  - secretName: renlm.secret
+  - secretName: *tlsSecretName
     hosts:
-    - rabbitmq.renlm.cn
+    - *host
 service:
   type: NodePort
   port: 15672
