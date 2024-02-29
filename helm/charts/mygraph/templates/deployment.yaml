@@ -37,14 +37,17 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
+            - name: {{ .Values.prometheus.portName }}
+              containerPort: {{ .Values.prometheus.port }}
+              protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
-              port: http
+              path: /actuator/health/liveness
+              port: {{ .Values.prometheus.portName }}
           readinessProbe:
             httpGet:
-              path: /
-              port: http
+              path: /actuator/health/readiness
+              port: {{ .Values.prometheus.portName }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
