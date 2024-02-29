@@ -1,0 +1,15 @@
+# https://grafana.com/grafana/dashboards/12900
+# https://ranchermanager.docs.rancher.com/zh/v2.6/how-to-guides/advanced-user-guides/monitoring-alerting-guides/customize-grafana-dashboard
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "prometheus.fullname" . }}-service-monitor
+  labels:
+    {{- include "prometheus.labels" . | nindent 4 }}
+spec:
+  endpoints:
+  - interval: 30s
+    port: {{ .Values.prometheus.portName }}
+    path: /actuator/prometheus
+  selector:
+    {{- include "mysql.selectorLabels" . | nindent 4 }}
