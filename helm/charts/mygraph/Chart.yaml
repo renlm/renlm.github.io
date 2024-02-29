@@ -11,11 +11,11 @@ dependencies:
   repository: https://renlm.gitee.io/helm/repo
   version: 0.1.0
   condition: redis.enabled
-- name: rabbitmq
-  repository: https://renlm.gitee.io/helm/repo
-  version: 0.1.0
-  condition: rabbitmq.enabled
 - name: mysql
   repository: https://renlm.gitee.io/helm/repo
   version: 0.1.0
   condition: mysql.enabled
+- name: rabbitmq
+  repository: https://renlm.gitee.io/helm/repo
+  version: 0.1.0
+  condition: rabbitmq.enabled

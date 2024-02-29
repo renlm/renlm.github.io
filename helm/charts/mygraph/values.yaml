@@ -48,6 +48,11 @@ prometheus:
 redis:
   enabled: true
   requirepass: PWD@20xx$
+mysql:
+  enabled: true
+  database: mygraph
+  user: mygraph
+  password: PWD@20xx$
 rabbitmq:
   enabled: true
   defaultVhost: /mygraph
@@ -64,8 +69,3 @@ rabbitmq:
     - secretName: renlm.secret
       hosts:
       - rabbitmq.renlm.cn
-mysql:
-  enabled: true
-  database: mygraph
-  user: mygraph
-  password: PWD@20xx$
