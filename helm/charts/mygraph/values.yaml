@@ -20,7 +20,14 @@ prometheus:
   enabled: false
 redis:
   enabled: true
+  requirepass: PWD@20xx$
 rabbitmq:
   enabled: true
+  defaultVhost: /mygraph
+  defaultUser: mygraph
+  defaultPass: PWD@20xx$
 mysql:
   enabled: true
+  database: mygraph
+  user: mygraph
+  password: PWD@20xx$
