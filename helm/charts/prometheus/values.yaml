@@ -8,4 +8,4 @@ serviceAccount:
 ingress:
   enabled: false
 service:
-  enabled: false
+  type: None
