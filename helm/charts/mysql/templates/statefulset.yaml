@@ -29,9 +29,11 @@ spec:
             - --character-set-server=utf8mb4
             - --collation-server=utf8mb4_unicode_ci
             - --default_authentication_plugin=mysql_native_password
+            {{- if .Values.mini -}}
             - --performance_schema_max_table_instances=600
             - --table_definition_cache=400
             - --table_open_cache=256
+            {{- end }}
           env:
             - name: MYSQL_DATABASE
               value: {{ .Values.database }}
