@@ -4,6 +4,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: {{ include "prometheus.fullname" . }}-service-monitor
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "prometheus.labels" . | nindent 4 }}
 spec:
@@ -11,7 +12,11 @@ spec:
   - interval: 30s
     port: {{ .Values.portName }}
     path: /actuator/prometheus
+  namespaceSelector:
+    matchNames:
+    - {{ .Release.Namespace }}
   selector:
-    {{- range .Values.selector }}
-      {{ .name | nindent 4 }}: {{ .value }}
-    {{- end }}
+    matchLabels:
+      {{- range .Values.selector }}
+        {{ .name | nindent 6 }}: {{ .value }}
+      {{- end }}
