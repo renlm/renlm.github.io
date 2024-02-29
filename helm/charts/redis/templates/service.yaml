@@ -8,9 +8,9 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
+      targetPort: tcp
       nodePort: {{ .Values.service.nodePort }}
       protocol: TCP
-      name: http
+      name: tcp
   selector:
     {{- include "redis.selectorLabels" . | nindent 4 }}

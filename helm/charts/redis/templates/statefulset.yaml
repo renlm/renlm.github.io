@@ -28,11 +28,8 @@ spec:
           command: 
             - redis-server
             - /etc/redis/redis.conf
-          env:
-            - name: TZ
-              value: Asia/Shanghai
           ports:
-            - name: http
+            - name: tcp
               containerPort: {{ .Values.service.port }}
               protocol: TCP
           volumeMounts:
