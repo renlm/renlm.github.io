@@ -36,7 +36,8 @@ autoscaling:
 # 子Chart配置
 prometheus:
   enabled: true
-  port: spring-cloud
+  port: 9000
+  portName: spring-cloud
   selector:
   - name: spring-cloud
     value: enable

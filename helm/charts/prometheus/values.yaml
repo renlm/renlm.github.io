@@ -1,4 +1,5 @@
-port: prometheus
+port: 9000
+portName: prometheus
 selector:
 - name: prometheus
   value: enable

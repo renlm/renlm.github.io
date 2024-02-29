@@ -11,5 +11,9 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
+    - port: {{ .Values.prometheus.port }}
+      targetPort: {{ .Values.prometheus.port }}
+      protocol: TCP
+      name: {{ .Values.prometheus.portName }}
   selector:
     {{- include "mygraph.selectorLabels" . | nindent 4 }}

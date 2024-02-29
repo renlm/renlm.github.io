@@ -9,7 +9,7 @@ metadata:
 spec:
   endpoints:
   - interval: 30s
-    port: {{ .Values.port }}
+    port: {{ .Values.portName }}
     path: /actuator/prometheus
   selector:
     {{- range .Values.selector }}
