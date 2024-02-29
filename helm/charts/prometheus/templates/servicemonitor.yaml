@@ -13,5 +13,5 @@ spec:
     path: /actuator/prometheus
   selector:
     {{- range .Values.selector }}
-    {{ .name }}: {{ .value }}
+      {{ .name | nindent 4 }}: {{ .value }}
     {{- end }}
