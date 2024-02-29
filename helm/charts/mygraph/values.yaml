@@ -1,6 +1,8 @@
 env: dev
 replicaCount: 1
 nodeSelector: {}
+imagePullSecrets:
+- name: aliyun.secret
 image:
   repository: registry.cn-hangzhou.aliyuncs.com/rlm/mygraph
   pullPolicy: Always
