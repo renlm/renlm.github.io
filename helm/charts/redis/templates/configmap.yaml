@@ -6,8 +6,8 @@ metadata:
     {{- include "redis.labels" . | nindent 4 }}
 data:
   redis.conf: |-
-    requirepass {{ .Values.requirepass }}
+    requirepass {{ .Values.configmap.requirepass }}
     protected-mode no
-    port 6379
+    port {{ .Values.service.port }}
     databases 16
     dir /var/lib/redis

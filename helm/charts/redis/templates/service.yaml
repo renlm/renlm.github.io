@@ -5,10 +5,12 @@ metadata:
   labels:
     {{- include "redis.labels" . | nindent 4 }}
 spec:
-  type: NodePort
+  type: {{ .Values.service.type }}
   ports:
-    - port: 6379
-      targetPort: 6379
-      nodePort: {{ .Values.nodePort }}
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      nodePort: {{ .Values.service.nodePort }}
+      protocol: TCP
+      name: http
   selector:
     {{- include "redis.selectorLabels" . | nindent 4 }}
