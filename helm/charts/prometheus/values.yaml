@@ -1,5 +1,7 @@
-port: 9000
-portName: prometheus
+port: prometheus
+selector:
+- name: prometheus
+  value: enable
 serviceAccount:
   create: false
 ingress:

@@ -9,7 +9,9 @@ metadata:
 spec:
   endpoints:
   - interval: 30s
-    port: {{ .Values.prometheus.portName }}
+    port: {{ .Values.port }}
     path: /actuator/prometheus
   selector:
-    {{- include "mysql.selectorLabels" . | nindent 4 }}
+    {{- range .Values.selector }}
+    {{ .name }}: {{ .value }}
+    {{- end }}
