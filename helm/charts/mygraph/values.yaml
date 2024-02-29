@@ -39,7 +39,7 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
 # 子Chart配置
 prometheus:
-  enabled: true
+  enabled: false
   port: 9000
   portName: prometheus
   selector:
