@@ -1,21 +1,34 @@
 env: dev
-mygraph:
+replicaCount: 1
+nodeSelector: {}
+image:
+  repository: registry.cn-hangzhou.aliyuncs.com/rlm/mygraph
+  pullPolicy: Always
+  tag: latest
+serviceAccount:
+  create: true
+  annotations: {}
+  name: mygraph-service-account
+ingress:
+  enabled: true
+  annotations: {}
+  hosts:
+  - host: mygraph.renlm.cn
+    paths:
+    - path: /
+      pathType: Prefix
+  tls:
+  - secretName: renlm.secret
+    hosts:
+    - mygraph.renlm.cn
+service:
+  type: ClusterIP
+  port: 8080
+autoscaling:
   enabled: false
-  image: registry.cn-hangzhou.aliyuncs.com/rlm/mygraph
-  host: mygraph.renlm.cn
-  tlsSecretName: renlm.secret
-  imagePullSecrets: aliyun.secret
-  serverPort: 8080
-  replicaCount: 1
-  serviceAccount:
-    create: true
-    annotations: {}
-    name: mygraph-service-account
-  autoscaling:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 5
-    targetCPUUtilizationPercentage: 80
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
 # 子Chart配置
 prometheus:
   enabled: true
