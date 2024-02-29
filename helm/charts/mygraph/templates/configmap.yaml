@@ -105,9 +105,6 @@ data:
         port: 5672
         username: {{ .Values.rabbitmq.defaultUser }}
         password: {{ .Values.rabbitmq.defaultPass }}
-        listener:
-          direct:
-            missing-queues-fatal: false
       datasource:
         dynamic:
           primary: master
