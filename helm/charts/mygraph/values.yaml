@@ -26,16 +26,6 @@ rabbitmq:
   defaultVhost: /mygraph
   defaultUser: mygraph
   defaultPass: PWD@20xx$
-  ingress:
-    hosts:
-    - host: rabbitmq.renlm.cn
-      paths:
-      - path: /
-        pathType: Prefix
-    tls:
-    - secretName: renlm.secret
-      hosts:
-      - rabbitmq.renlm.cn
 mysql:
   enabled: true
   database: mygraph
