@@ -39,12 +39,12 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
 # 子Chart配置
 prometheus:
-  enabled: true
+  enabled: false
   port: 9000
-  portName: spring-cloud-prometheus
+  portName: prometheus
   selector:
-  - name: spring-cloud-prometheus
-    value: enable
+  - name: prometheus
+    value: monitor
 redis:
   enabled: true
   requirepass: PWD@20xx$
