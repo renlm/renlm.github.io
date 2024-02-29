@@ -4,7 +4,6 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: {{ include "prometheus.fullname" . }}-service-monitor
-  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "prometheus.labels" . | nindent 4 }}
 spec:
