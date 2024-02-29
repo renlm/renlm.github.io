@@ -1,6 +1,10 @@
 env: dev
+host: mygraph.renlm.cn
 replicaCount: 1
 nodeSelector: {}
+podAnnotations: {}
+podSecurityContext: {}
+securityContext: {}
 tolerations: []
 affinity: {}
 imagePullSecrets:
