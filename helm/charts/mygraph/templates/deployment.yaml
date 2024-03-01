@@ -38,6 +38,8 @@ spec:
               value: Asia/Shanghai
             - name: SPRING_APPLICATION_NAME
               value: {{ .Chart.Name }}
+            - name: SPRING_PROFILES_ACTIVE
+              value: {{ .Values.env }}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
