@@ -25,7 +25,7 @@
 # 登录Rancher，打开Kubectl Shell
 $ helm repo add jetstack https://charts.jetstack.io
 $ helm repo update
-$ kubectl apply -f https://springcloudkubernetes.gitee.io/docs/cert-manager/v1.7.1/cert-manager.crds.yaml
+$ kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.7.1/cert-manager.crds.yaml
 $ helm install cert-manager jetstack/cert-manager \
   --namespace cert-manager \
   --create-namespace \
@@ -33,7 +33,7 @@ $ helm install cert-manager jetstack/cert-manager \
 ```
   
 	# 申请自动托管证书
-	$ kubectl apply -f https://springcloudkubernetes.gitee.io/docs/tls.yaml
+	$ kubectl apply -f https://renlm.gitee.io/helm/yaml/tls.yaml
 
 ### KubeConfig
 	https://kubernetes.io/zh-cn/docs/tasks/tls/managing-tls-in-a-cluster/
