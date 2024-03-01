@@ -36,6 +36,8 @@ spec:
           env:
             - name: TZ
               value: Asia/Shanghai
+            - name: SPRING_APPLICATION_NAME
+              value: {{ .Chart.Name }}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
