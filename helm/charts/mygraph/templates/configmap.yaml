@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ $fullName }}-configmap
+  name: {{ .Chart.Name }}-configmap
 data:
   {{ .Values.env | nindent 2 }}.yaml: |-
     server:
