@@ -21,7 +21,15 @@ data:
         wsHost: ws://{{ .Values.host }}
         wssHost: wss://{{ .Values.host }}
         wsAllowedOrigins: http://{{ .Values.host }},https://{{ .Values.host }}
-        proxyLogConcurrency: 30-50
+        chrome:
+          driverPath: D:/chrome/chromedriver.exe
+          sleepTime: 800
+    encrypt:
+      keyStore:
+        location: classpath:keyStore.jks
+        password: ${KEY_STORE_PASSWORD:storepass}
+        alias: ${KEY_STORE_ALIAS:alias}
+        secret: ${KEY_STORE_SECRET:keypass}
     aj:
       captcha:
         cacheType: redis
