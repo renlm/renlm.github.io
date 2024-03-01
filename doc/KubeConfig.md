@@ -55,7 +55,7 @@ source ~/.bashrc
 # 运维团队
 # 集群角色：cluster-admin
 # 命令动作：new、export
-curl -sfL https://springcloudkubernetes.gitee.io/docs/KubeConfig.sh | \
+curl -sfL https://renlm.gitee.io/docs/KubeConfig.sh | \
   SERVER=https://kubernetes.renlm.cn \
   CLUSTER=pubyun \
   NAMESPACE=renlm \
@@ -69,7 +69,7 @@ curl -sfL https://springcloudkubernetes.gitee.io/docs/KubeConfig.sh | \
 # 开发团队
 # 集群角色：admin
 # 命令动作：new、export
-curl -sfL https://springcloudkubernetes.gitee.io/docs/KubeConfig.sh | \
+curl -sfL https://renlm.gitee.io/docs/KubeConfig.sh | \
   SERVER=https://kubernetes.renlm.cn \
   CLUSTER=pubyun \
   NAMESPACE=renlm \
