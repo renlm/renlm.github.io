@@ -3,8 +3,8 @@ entries:
   mysql:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-02-29T16:06:09.925005777+08:00"
-    digest: f7bebe067fd97d435707b564bb8525e9819827b5d2258cbd172d7cb9827cd04d
+    created: "2024-03-01T15:46:00.340308369+08:00"
+    digest: a45a88a07fe8aa7f7148126ec552f85c3452ed2d5f38d441b3261f28993b4f6f
     name: mysql
     urls:
     - https://renlm.gitee.io/helm/repo/mysql-0.1.0.tgz
@@ -12,8 +12,8 @@ entries:
   prometheus:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-02-29T16:06:09.927568855+08:00"
-    digest: a972a9f9645ad25858d67b0f310fddcaafeed51d14d8462eebf931a51ee03fe8
+    created: "2024-03-01T15:46:00.341044413+08:00"
+    digest: ae41ca4eebb725034e95930ae66f10edb5738bced24709f8f4dfc44d6a0e5fea
     name: prometheus
     urls:
     - https://renlm.gitee.io/helm/repo/prometheus-0.1.0.tgz
@@ -21,8 +21,8 @@ entries:
   rabbitmq:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-02-29T16:06:09.927939668+08:00"
-    digest: b829fd33c9384c103f00a9693e58b0f0d1f2f797e5e4ac1f7a99708023f65304
+    created: "2024-03-01T15:46:00.341899876+08:00"
+    digest: 3ca816c8797d7086bb95c335e790c624cd133356806774433317c9bbb2867a9c
     name: rabbitmq
     urls:
     - https://renlm.gitee.io/helm/repo/rabbitmq-0.1.0.tgz
@@ -30,36 +30,10 @@ entries:
   redis:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-02-29T16:06:09.928208652+08:00"
-    digest: a8c2bbf23d5b39b020d81cff13a69b804aafa1d26e4fc804855a4a9cc6432809
+    created: "2024-03-01T15:46:00.342714035+08:00"
+    digest: 04a4ab3ba529e57b61084870056f28cc6b364303b4440bceaf1e34ac7ee15da9
     name: redis
     urls:
     - https://renlm.gitee.io/helm/repo/redis-0.1.0.tgz
     version: 0.1.0
-  mygraph:
-  - apiVersion: v2
-    appVersion: 1.0.1
-    created: "2024-02-29T16:10:03.641491109+08:00"
-    dependencies:
-    - condition: prometheus.enabled
-      name: prometheus
-      repository: https://renlm.gitee.io/helm/repo
-      version: 0.1.0
-    - condition: redis.enabled
-      name: redis
-      repository: https://renlm.gitee.io/helm/repo
-      version: 0.1.0
-    - condition: rabbitmq.enabled
-      name: rabbitmq
-      repository: https://renlm.gitee.io/helm/repo
-      version: 0.1.0
-    - condition: mysql.enabled
-      name: mysql
-      repository: https://renlm.gitee.io/helm/repo
-      version: 0.1.0
-    digest: 17c6f6bf84bd28346bf39a297ef5926eb38c29bb5f240d65913eacfc92997f7f
-    name: mygraph
-    urls:
-    - https://renlm.gitee.io/helm/repo/mygraph-0.1.0.tgz
-    version: 0.1.0
-generated: "2024-02-29T16:06:09.922699055+08:00"
+generated: "2024-03-01T15:46:00.338527382+08:00"
