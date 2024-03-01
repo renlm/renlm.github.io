@@ -4,7 +4,7 @@ kind: ConfigMap
 metadata:
   name: {{ .Chart.Name }}-configmap
 data:
-  {{ .Values.env | nindent 2 }}.yaml: |-
+  {{ .Chart.Name | nindent 2 }}-{{ .Values.env }}.yaml: |-
     server:
       port: {{ .Values.service.port }}
       servlet:
