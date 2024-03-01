@@ -68,23 +68,7 @@ data:
       global-config:
         db-config:
           update-strategy: IGNORED
-    management:
-      server:
-        port: {{ .Values.prometheus.port }}
-      endpoints:
-        web:
-          exposure:
-            include: prometheus
-      metrics:
-        tags:
-          application: {{ $fullName }}
     spring:
-      application:
-        name: {{ $fullName }}
-      profiles:
-        active: {{ .Values.env }}
-      main:
-        allow-circular-references: true
       servlet:
         multipart:
           max-file-size: 30MB
@@ -123,23 +107,23 @@ data:
               username: {{ .Values.mysql.user }}
               password: {{ .Values.mysql.password }}
               driver-class-name: com.mysql.cj.jdbc.Driver
-        sql:
-          init:
-            mode: always
-            schemaLocations:
-            - classpath:db/schema/schema.sql
-            - classpath:db/schema/oauth2.sql
-            - classpath:org/springframework/security/oauth2/server/authorization/oauth2-authorization-schema.sql
-            - classpath:org/springframework/security/oauth2/server/authorization/oauth2-authorization-consent-schema.sql
-            - classpath:org/springframework/security/oauth2/server/authorization/client/oauth2-registered-client-schema.sql
-            dataLocations:
-            - classpath:db/data/sys.sql
-            - classpath:db/data/dict.sql
-            - classpath:db/data/ds-er.sql
-            - classpath:db/data/doc.sql
-            - classpath:db/data/oauth2.sql
-            continueOnError: false
-            separator: ;
+      sql:
+        init:
+          mode: always
+          schemaLocations:
+          - classpath:db/schema/schema.sql
+          - classpath:db/schema/oauth2.sql
+          - classpath:org/springframework/security/oauth2/server/authorization/oauth2-authorization-schema.sql
+          - classpath:org/springframework/security/oauth2/server/authorization/oauth2-authorization-consent-schema.sql
+          - classpath:org/springframework/security/oauth2/server/authorization/client/oauth2-registered-client-schema.sql
+          dataLocations:
+          - classpath:db/data/sys.sql
+          - classpath:db/data/dict.sql
+          - classpath:db/data/ds-er.sql
+          - classpath:db/data/doc.sql
+          - classpath:db/data/oauth2.sql
+          continueOnError: false
+          separator: ;
       quartz:
         job-store-type: jdbc
         jdbc:
