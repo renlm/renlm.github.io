@@ -1,6 +1,6 @@
 title: Home
 description: 个人笔记.
 icon: /favicon.ico
-remote_theme: SpringCloudKubernetes/Jekyll-theme-md@master
+remote_theme: renlm/Jekyll-theme-md@master
 plugins:
 - jekyll-remote-theme
