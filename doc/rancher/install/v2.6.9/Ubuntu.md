@@ -86,6 +86,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	$ helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
 	
 	安装 rancher-stable/rancher v1.7.1
+	$ kubectl -n cattle-system get deploy rancher
 	$ helm install rancher rancher-stable/rancher \
         --namespace cattle-system \ 
         --create-namespace \
@@ -95,8 +96,3 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
         --set ingress.tls.source=letsEncrypt \
         --set letsEncrypt.email=renlm@21cn.com \
         --set letsEncrypt.ingress.class=traefik
-	    
-	查看
-	$ kubectl -n cattle-system get deploy rancher
-	卸载
-	$ helm uninstall rancher -n cattle-system
