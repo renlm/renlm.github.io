@@ -132,9 +132,10 @@ EOF
 	查看网卡MTU
 	$ ip a | grep eth0
 	
+	MTU检测
+	$ ping -s 1451 -M do {目标IP或域名}
 	以MTU=1450为例，选用Calico MTU with VXLAN (IPv4) = 1500 - 1450 = 50
-	1450 - 50 = 1400
-	$ ping -s 1400 -M do {目标IP或域名}
+	集群MTU应设置为：1450 - 50 = 1400
 	
 ```
 # 协议消耗
