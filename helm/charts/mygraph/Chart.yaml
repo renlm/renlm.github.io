@@ -19,3 +19,7 @@ dependencies:
   repository: https://renlm.gitee.io/helm/repo
   version: 0.1.0
   condition: rabbitmq.enabled
+- name: jenkins
+  repository: https://renlm.gitee.io/helm/repo
+  version: 0.1.0
+  condition: jenkins.enabled
