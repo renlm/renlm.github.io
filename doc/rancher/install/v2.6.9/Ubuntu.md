@@ -17,6 +17,10 @@
 	https://docs.rancher.cn/docs/k3s/installation/ha/_index/
 	https://github.com/k3s-io/k3s/releases/
 	
+	restorecon
+	$ apt-get update
+	$ apt-get install -y policycoreutils
+	
 	设置主节点host(192.168.16.3)
 	安装的每个节点机器执行
 	$ sed -i '$a 192.168.16.3 k3s.master' /etc/hosts
