@@ -84,46 +84,16 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	添加 Helm Chart 仓库
 	$ helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
 	$ helm search repo rancher-stable/rancher
-
-	注意放行80和443端口的访问
-	注意服务器的入网带宽，需要下载一些软件包，网速太慢会导致deadline错误
-	RKE Kubernetes 集群默认使用 NGINX Ingress，而 K3s Kubernetes 集群默认使用 Traefik Ingress
-	http01下ingress的class值在不同环境有差异（RKE：nginx，K3s：traefik）
-	
-```
-# 安装最新稳定版
-$ helm install rancher rancher-stable/rancher \
-    --namespace cattle-system --create-namespace \
-    --set hostname=rancher.renlm.cn \
-    --set bootstrapPassword="Pwd123654" \
-    --set ingress.tls.source=letsEncrypt \
-    --set letsEncrypt.email=renlm@21cn.com \
-    --set letsEncrypt.ingress.class=traefik
-```
-
-```
-# 安装指定版本
-$ helm fetch rancher-stable/rancher --version=v2.6.9
-$ helm install rancher ./rancher-2.6.9.tgz \
-    --namespace cattle-system --create-namespace \
-    --set hostname=rancher.renlm.cn \
-    --set bootstrapPassword="Pwd123654" \
-    --set ingress.tls.source=letsEncrypt \
-    --set letsEncrypt.email=renlm@21cn.com \
-    --set letsEncrypt.ingress.class=traefik
-```
-
-## 验证 Rancher Server 是否部署成功
-```
-$ kubectl -n cattle-system rollout status deploy/rancher
-Waiting for deployment "rancher" rollout to finish: 0 of 3 updated replicas are available...
-deployment "rancher" successfully rolled out
-```
-```
-$ kubectl -n cattle-system get deploy rancher
-NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-rancher   3         3         3            3           3m
-```
-
-	卸载Rancher
+	$ helm fetch rancher-stable/rancher --version=v2.6.9
+	$ helm install rancher ./rancher-2.6.9.tgz \
+	    --namespace cattle-system --create-namespace \
+	    --set hostname=rancher.renlm.cn \
+	    --set bootstrapPassword="Pwd123654" \
+	    --set ingress.tls.source=letsEncrypt \
+	    --set letsEncrypt.email=renlm@21cn.com \
+	    --set letsEncrypt.ingress.class=traefik
+	    
+	查看 Rancher
+	$ kubectl -n cattle-system get deploy rancher
+	卸载 Rancher
 	$ helm uninstall rancher -n cattle-system
