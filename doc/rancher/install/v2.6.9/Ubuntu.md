@@ -17,7 +17,8 @@
 	https://docs.rancher.cn/docs/k3s/installation/ha/_index/
 	https://github.com/k3s-io/k3s/releases/
 	
-	k3s.master
+	设置主节点host
+	安装的每个节点机器执行
 	$ sed -i '$a 192.168.16.3 k3s.master' /etc/hosts
 		
 ```	
