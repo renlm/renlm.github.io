@@ -66,7 +66,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	https://github.com/helm/helm/releases/
 	
 	手动上传文件，下载较慢
-	$ wget https://renlm.gitee.io/helm/helm-v3.12.3-linux-amd64.tar.gz
+	$ wget https://renlm.gitee.io/helm/download/helm-v3.12.3-linux-amd64.tar.gz
 	$ tar -zxvf helm-v3.12.3-linux-amd64.tar.gz
 	$ mv linux-amd64/helm /usr/local/bin/helm
 	$ helm version
