@@ -64,13 +64,10 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	Helm版本支持策略
 	https://helm.sh/zh/docs/topics/version_skew/
 	https://github.com/helm/helm/releases/
-
-	手动上传文件，下载较慢
-```
-tar -zxvf helm-v3.12.3-linux-amd64.tar.gz
-mv linux-amd64/helm /usr/local/bin/helm
-```
-
+	
+	$ wget https://renlm.gitee.io/helm/helm-v3.12.3-linux-amd64.tar.gz
+	$ tar -zxvf helm-v3.12.3-linux-amd64.tar.gz
+	$ mv linux-amd64/helm /usr/local/bin/helm
 	$ helm version
 
 ## 安装 cert-manager
