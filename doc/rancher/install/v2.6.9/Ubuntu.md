@@ -123,3 +123,41 @@ EOF
 	清理缓存
 	$ docker system df
 	$ docker system prune
+	
+## MTU 设置（可选）
+	为保障通信，集群节点规格不一致时，需要统一MTU
+	以值最小的那个节点为基准
+	https://projectcalico.docs.tigera.io/networking/mtu
+
+	查看网卡MTU
+	$ ip a | grep eth0
+	
+	以MTU=1450为例，选用Calico MTU with VXLAN (IPv4) = 1500 - 1450 = 50
+	1450 - 50 = 1400
+	$ ping -s 1400 -M do {目标IP或域名}
+	
+```
+# 常见协议 MTU 消耗
+IPv4 – 20 Bytes
+IPv6 – 40 Bytes
+UDP – 8 Bytes
+TCP – 20 Bytes
+WireGuard – 32 Bytes
+ICMP – 8 Bytes
+PPPoE – 8 Bytes
+```
+
+```
+# 修改方式一：
+# 创建集群时，在附加配置的 [ Calico 配置 ] 中找到installation.calicoNetwork，添加mtu设置
+installation:
+  calicoNetwork:
+    mtu: 1400
+```
+	
+```
+# 修改方式二：
+# 命令修改
+kubectl patch installation.operator.tigera.io default --type merge -p '{"spec":{"calicoNetwork":{"mtu":1400}}}'
+```
+
