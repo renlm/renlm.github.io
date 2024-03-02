@@ -65,39 +65,21 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	https://helm.sh/zh/docs/topics/version_skew/
 	https://github.com/helm/helm/releases/
 	
+	手动上传文件，下载较慢
 	$ wget https://renlm.gitee.io/helm/helm-v3.12.3-linux-amd64.tar.gz
 	$ tar -zxvf helm-v3.12.3-linux-amd64.tar.gz
 	$ mv linux-amd64/helm /usr/local/bin/helm
 	$ helm version
 
 ## 安装 cert-manager
-```
-# 如果你手动安装了CRD，而不是在 Helm 安装命令中添加了 `--set installCRDs=true` 选项，你应该在升级 Helm Chart 之前升级 CRD 资源。
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.7.1/cert-manager.crds.yaml
+	$ helm repo add jetstack https://charts.jetstack.io
+	$ helm repo update
+	$ kubectl get pods --namespace cert-manager
+	$ helm install cert-manager jetstack/cert-manager \
+		  --namespace cert-manager \
+		  --create-namespace \
+		  --version v1.7.1
 
-# 添加 Jetstack Helm 仓库
-helm repo add jetstack https://charts.jetstack.io
-
-# 更新本地 Helm Chart 仓库缓存
-helm repo update
-
-# 安装 cert-manager Helm Chart
-helm install cert-manager jetstack/cert-manager \
-  --namespace cert-manager \
-  --create-namespace \
-  --version v1.7.1
-```
-
-## 安装完 cert-manager 后，你可以通过检查 cert-manager 命名空间中正在运行的 Pod 来验证它是否已正确部署
-```
-kubectl get pods --namespace cert-manager
-
-NAME                                       READY   STATUS    RESTARTS   AGE
-cert-manager-5c6866597-zw7kh               1/1     Running   0          2m
-cert-manager-cainjector-577f6d9fd7-tr77l   1/1     Running   0          2m
-cert-manager-webhook-787858fcdb-nlzsq      1/1     Running   0          2m
-```
-	
 ## 安装 Rancher
 	添加 Helm Chart 仓库
 	$ helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
