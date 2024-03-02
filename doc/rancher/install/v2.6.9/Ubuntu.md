@@ -17,11 +17,8 @@
 	https://docs.rancher.cn/docs/k3s/installation/ha/_index/
 	https://github.com/k3s-io/k3s/releases/
 		
-	restorecon
-	$ yum -y install policycoreutils
-	
 	k3s.local
-	$ sed -i '$a 192.168.0.11 k3s.local' /etc/hosts
+	$ sed -i '$a 192.168.16.3 k3s.local' /etc/hosts
 
 ```	
 # master主节点
@@ -63,13 +60,6 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	$ sed -i '$a export KUBECONFIG=/etc/rancher/k3s/KUBECONFIG.yaml' ~/.bashrc
 	$ source ~/.bashrc
 	
-## 环境变量KUBECONFIG
-	https://docs.ranchermanager.rancher.io/zh/how-to-guides/new-user-guides/kubernetes-cluster-setup/k3s-for-rancher
-	$ cp /etc/rancher/k3s/k3s.yaml /etc/rancher/k3s/KUBECONFIG.yaml
-	$ sed -i 's/127.0.0.1:6443/192.168.16.3:6443/g' /etc/rancher/k3s/KUBECONFIG.yaml
-	$ sed -i '$a export KUBECONFIG=/etc/rancher/k3s/KUBECONFIG.yaml' ~/.bashrc
-	$ source ~/.bashrc
-
 ## 安装 Helm
 	Helm版本支持策略
 	https://helm.sh/zh/docs/topics/version_skew/
