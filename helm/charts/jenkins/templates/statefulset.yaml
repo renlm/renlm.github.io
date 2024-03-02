@@ -1,50 +1,69 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ include "rabbitmq.fullname" . }}
+  name: {{ include "jenkins.fullname" . }}
   labels:
-    {{- include "rabbitmq.labels" . | nindent 4 }}
+    {{- include "jenkins.labels" . | nindent 4 }}
 spec:
-  serviceName: {{ include "rabbitmq.fullname" . }}
+  serviceName: {{ include "jenkins.fullname" . }}
   replicas: 1
   selector:
     matchLabels:
-      {{- include "rabbitmq.selectorLabels" . | nindent 6 }}
+      {{- include "jenkins.selectorLabels" . | nindent 6 }}
   updateStrategy:
     type: RollingUpdate
   template:
     metadata:
       labels:
-        {{- include "rabbitmq.selectorLabels" . | nindent 8 }}
+        {{- include "jenkins.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: TZ
               value: Asia/Shanghai
-            - name: RABBITMQ_DEFAULT_VHOST
-              value: {{ .Values.defaultVhost }}
-            - name: RABBITMQ_DEFAULT_USER
-              value: {{ .Values.defaultUser }}
-            - name: RABBITMQ_DEFAULT_PASS
-              value: {{ .Values.defaultPass }}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
-            - name: amqp
-              containerPort: {{ .Values.service.amqpPort }}
+            - name: jnlp
+              containerPort: 50000
               protocol: TCP
           volumeMounts:
-            - name: rabbitmq-lib
-              mountPath: /var/lib/rabbitmq
+            - name: root-m2
+              mountPath: /root/.m2
+            - name: docker-bin
+              mountPath: /usr/bin/docker
+            - name: docker-daemon
+              mountPath: /etc/docker/daemon.json
+              subPath: daemon.json
+            - name: docker-sock
+              mountPath: /var/run/docker.sock
+            - name: jenkins-home
+              mountPath: /var/jenkins_home
       volumes:
-        - name: rabbitmq-lib
+        - name: root-m2
           hostPath:
-            path: /var/lib/rabbitmq
+            path: /root/.m2
+        - name: docker-bin
+          hostPath:
+            path: /usr/bin/docker
+        - name: docker-daemon
+          hostPath:
+            path: /etc/docker
+        - name: docker-sock
+          hostPath: 
+            path: /var/run/docker.sock
+        - name: jenkins-home
+          hostPath: 
+            path: /var/jenkins_home

@@ -1,4 +1,7 @@
 nodeSelector: {}
+securityContext: {}
+podSecurityContext:
+  runAsUser: 0
 image:
   repository: jenkins/jenkins
   pullPolicy: IfNotPresent
@@ -19,4 +22,4 @@ ingress:
     - jenkins.renlm.cn
 service:
   type: ClusterIP
-  port: 80
+  port: 8080
