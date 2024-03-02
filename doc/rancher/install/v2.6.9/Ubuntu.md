@@ -137,7 +137,7 @@ EOF
 	$ ping -s 1400 -M do {目标IP或域名}
 	
 ```
-# 常见协议 MTU 消耗
+# 协议消耗
 IPv4 – 20 Bytes
 IPv6 – 40 Bytes
 UDP – 8 Bytes
