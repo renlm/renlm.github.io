@@ -16,37 +16,37 @@
 	https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-6-9/
 	https://docs.rancher.cn/docs/k3s/installation/ha/_index/
 	https://github.com/k3s-io/k3s/releases/
+	
+	k3s.master
+	$ sed -i '$a 192.168.16.3 k3s.master' /etc/hosts
 		
 ```	
 # master主节点
-$ sed -i '$a 192.168.16.3 k3s.local' /etc/hosts
 $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     INSTALL_K3S_MIRROR=cn \
     INSTALL_K3S_VERSION=v1.24.17+k3s1 \
     K3S_TOKEN=SECRET \
-    sh -s - server --tls-san k3s.local \
+    sh -s - server --tls-san k3s.master \
     --cluster-init
 ```
 
 ```	
 # master从节点
-$ sed -i '$a 192.168.0.3 k3s.local' /etc/hosts
 $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     INSTALL_K3S_MIRROR=cn \
     INSTALL_K3S_VERSION=v1.24.17+k3s1 \
     K3S_TOKEN=SECRET \
-    sh -s - server --tls-san k3s.local \
-    --server https://k3s.local:6443
+    sh -s - server --tls-san k3s.master \
+    --server https://k3s.master:6443
 ```
 
 ```	
 # agent节点
-$ sed -i '$a 192.168.0.7 k3s.local' /etc/hosts
 $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     INSTALL_K3S_MIRROR=cn \
     INSTALL_K3S_VERSION=v1.24.17+k3s1 \
     K3S_TOKEN=SECRET \
-    sh -s - agent --server https://k3s.local:6443
+    sh -s - agent --server https://k3s.master:6443
 ```
 
 	验证k3s（master）
@@ -56,7 +56,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	环境变量KUBECONFIG（master）
 	https://docs.ranchermanager.rancher.io/zh/how-to-guides/new-user-guides/kubernetes-cluster-setup/k3s-for-rancher
 	$ cp /etc/rancher/k3s/k3s.yaml /etc/rancher/k3s/KUBECONFIG.yaml
-	$ sed -i 's/127.0.0.1:6443/k3s.local:6443/g' /etc/rancher/k3s/KUBECONFIG.yaml
+	$ sed -i 's/127.0.0.1:6443/k3s.master:6443/g' /etc/rancher/k3s/KUBECONFIG.yaml
 	$ sed -i '$a export KUBECONFIG=/etc/rancher/k3s/KUBECONFIG.yaml' ~/.bashrc
 	$ source ~/.bashrc
 	
