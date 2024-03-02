@@ -1,4 +1,4 @@
-# Ubuntu 22.04 64位
+# Rancher v2.6.9 + Ubuntu 22.04
 
 ## 检查/etc/hosts
 	修改hostname并立即生效
@@ -50,16 +50,16 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     sh -s - agent --server https://k3s.master:6443
 ```
 
-	验证k3s（master）
-	$ kubectl get nodes
-	$ kubectl version --output=json
-	
 	环境变量KUBECONFIG（master）
 	https://docs.ranchermanager.rancher.io/zh/how-to-guides/new-user-guides/kubernetes-cluster-setup/k3s-for-rancher
 	$ cp /etc/rancher/k3s/k3s.yaml /etc/rancher/k3s/KUBECONFIG.yaml
 	$ sed -i 's/127.0.0.1:6443/k3s.master:6443/g' /etc/rancher/k3s/KUBECONFIG.yaml
 	$ sed -i '$a export KUBECONFIG=/etc/rancher/k3s/KUBECONFIG.yaml' ~/.bashrc
 	$ source ~/.bashrc
+	
+	验证k3s（master）
+	$ kubectl get nodes
+	$ kubectl version --output=json
 	
 ## 安装 Helm
 	Helm版本支持策略
@@ -86,12 +86,12 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	添加 Helm Chart 仓库
 	$ helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
 	
-	安装 rancher-stable/rancher v1.7.1
+	安装 rancher-stable/rancher v2.6.9
 	$ kubectl -n cattle-system get deploy rancher
 	$ helm install rancher rancher-stable/rancher \
         --namespace cattle-system \ 
         --create-namespace \
-        --version v1.7.1 \
+        --version v2.6.9 \
         --set hostname=rancher.renlm.cn \
         --set bootstrapPassword="123654" \
         --set ingress.tls.source=letsEncrypt \
