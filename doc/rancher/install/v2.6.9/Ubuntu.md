@@ -65,7 +65,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	$ kubectl get nodes
 	$ kubectl version --output=json
 	
-## 安装 Helm
+## 安装 helm
 	Helm版本支持策略
 	https://helm.sh/zh/docs/topics/version_skew/
 	https://github.com/helm/helm/releases/
@@ -86,12 +86,13 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 		  --version v1.7.1 \
 		  --set installCRDs=true
 
-## 安装 Rancher
+## 安装 rancher
 	添加 Helm Chart 仓库
 	$ helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
 	
-	安装 rancher-stable/rancher v2.6.9
 	$ kubectl -n cattle-system get deploy rancher
+	
+	安装 rancher-stable/rancher v2.6.9
 	$ helm fetch rancher-stable/rancher --version=v2.6.9
 	$ helm install rancher ./rancher-2.6.9.tgz \
         --namespace cattle-system --create-namespace \
@@ -101,14 +102,14 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
         --set letsEncrypt.email=renlm@21cn.com \
         --set letsEncrypt.ingress.class=traefik
         
-## 申请托管证书（可选）
+## ssl证书（可选）
 	k3s
 	$ kubectl apply -f https://renlm.gitee.io/helm/yaml/tls-traefik.yaml
 	
 	k8s
 	$ kubectl apply -f https://renlm.gitee.io/helm/yaml/tls-nginx.yaml
 
-## 安装 Docker（可选）
+## 安装 docker（可选）
 	https://docs.ranchermanager.rancher.io/zh/getting-started/installation-and-upgrade/installation-requirements/install-docker
 	$ curl https://releases.rancher.com/install-docker/20.10.sh | sh
 
