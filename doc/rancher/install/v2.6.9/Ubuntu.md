@@ -99,7 +99,11 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
         --set letsEncrypt.ingress.class=traefik
         
 ## 申请托管证书（可选）
+	k3s
 	$ kubectl apply -f https://renlm.gitee.io/helm/yaml/tls-traefik.yaml
+	
+	k8s
+	$ kubectl apply -f https://renlm.gitee.io/helm/yaml/tls-nginx.yaml
 
 ## 安装 Docker（可选）
 	https://docs.ranchermanager.rancher.io/zh/getting-started/installation-and-upgrade/installation-requirements/install-docker
