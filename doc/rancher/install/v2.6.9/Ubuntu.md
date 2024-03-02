@@ -17,11 +17,9 @@
 	https://docs.rancher.cn/docs/k3s/installation/ha/_index/
 	https://github.com/k3s-io/k3s/releases/
 		
-	k3s.local
-	$ sed -i '$a 192.168.16.3 k3s.local' /etc/hosts
-
 ```	
 # master主节点
+$ sed -i '$a 192.168.16.3 k3s.local' /etc/hosts
 $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     INSTALL_K3S_MIRROR=cn \
     INSTALL_K3S_VERSION=v1.24.17+k3s1 \
@@ -32,6 +30,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 
 ```	
 # master从节点
+$ sed -i '$a 192.168.0.3 k3s.local' /etc/hosts
 $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     INSTALL_K3S_MIRROR=cn \
     INSTALL_K3S_VERSION=v1.24.17+k3s1 \
@@ -42,6 +41,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 
 ```	
 # agent节点
+$ sed -i '$a 192.168.0.7 k3s.local' /etc/hosts
 $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     INSTALL_K3S_MIRROR=cn \
     INSTALL_K3S_VERSION=v1.24.17+k3s1 \
