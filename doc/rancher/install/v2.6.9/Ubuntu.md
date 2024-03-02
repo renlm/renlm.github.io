@@ -78,22 +78,25 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	$ helm install cert-manager jetstack/cert-manager \
 		  --namespace cert-manager \
 		  --create-namespace \
-		  --version v1.7.1
+		  --version v1.7.1 \
+		  --set installCRDs=true
 
 ## 安装 Rancher
 	添加 Helm Chart 仓库
 	$ helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
-	$ helm search repo rancher-stable/rancher
-	$ helm fetch rancher-stable/rancher --version=v2.6.9
-	$ helm install rancher ./rancher-2.6.9.tgz \
-	    --namespace cattle-system --create-namespace \
-	    --set hostname=rancher.renlm.cn \
-	    --set bootstrapPassword="Pwd123654" \
-	    --set ingress.tls.source=letsEncrypt \
-	    --set letsEncrypt.email=renlm@21cn.com \
-	    --set letsEncrypt.ingress.class=traefik
+	
+	安装 rancher-stable/rancher v1.7.1
+	$ helm install rancher rancher-stable/rancher \
+        --namespace cattle-system \ 
+        --create-namespace \
+        --version v1.7.1 \
+        --set hostname=rancher.renlm.cn \
+        --set bootstrapPassword="123654" \
+        --set ingress.tls.source=letsEncrypt \
+        --set letsEncrypt.email=renlm@21cn.com \
+        --set letsEncrypt.ingress.class=traefik
 	    
-	查看 Rancher
+	查看
 	$ kubectl -n cattle-system get deploy rancher
-	卸载 Rancher
+	卸载
 	$ helm uninstall rancher -n cattle-system
