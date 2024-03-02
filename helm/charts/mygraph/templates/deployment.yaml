@@ -40,6 +40,13 @@ spec:
               value: {{ .Chart.Name }}
             - name: SPRING_PROFILES_ACTIVE
               value: {{ .Values.env }}
+            {{- if .Values.initDb -}}
+            - name: DB_INIT_MODE
+              value: ALWAYS
+            {{- else -}}
+            - name: DB_INIT_MODE
+              value: NEVER
+            {{- end -}}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
