@@ -19,6 +19,26 @@
 	Rancher > 工作负载 > DaemonSets > rke2-ingress-nginx-controller > 启动命令加参数--enable-ssl-passthrough
 	# https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/#ssl-passthrough
 	
+## 安装 cert-manager
+	https://cert-manager.io/docs/installation/helm/
+	$ helm repo add jetstack https://charts.jetstack.io
+	$ helm repo update
+	$ kubectl get pods --namespace cert-manager
+	$ helm install cert-manager jetstack/cert-manager \
+		  --namespace cert-manager \
+		  --create-namespace \
+		  --version v1.7.1 \
+		  --set installCRDs=true
+
+## SSL证书（可选）
+	https://cert-manager.io/docs/usage/certificate/#creating-certificate-resources
+	
+	k3s
+	$ kubectl apply -f https://renlm.gitee.io/helm/yaml/tls-traefik.yaml
+	
+	k8s
+	$ kubectl apply -f https://renlm.gitee.io/helm/yaml/tls-nginx.yaml
+
 ## KubeConfig
 	https://kubernetes.io/zh-cn/docs/tasks/tls/managing-tls-in-a-cluster/
 	https://kubernetes.io/zh-cn/docs/reference/access-authn-authz/certificate-signing-requests/
