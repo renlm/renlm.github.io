@@ -94,9 +94,10 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	$ kubectl -n cattle-system get deploy rancher
 	
 	安装 rancher-stable/rancher v2.6.9
+	$ kubectl create namespace cattle-system
 	$ helm fetch rancher-stable/rancher --version=v2.6.9
 	$ helm install rancher ./rancher-2.6.9.tgz \
-        --namespace cattle-system --create-namespace \
+        --namespace cattle-system \
         --set hostname=rancher.renlm.cn \
         --set bootstrapPassword="PWD" \
         --set ingress.tls.source=letsEncrypt \
@@ -113,7 +114,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	$ kubectl apply -f https://renlm.gitee.io/helm/yaml/tls-nginx.yaml
 
 ## 安装 docker（可选）
-	https://docs.ranchermanager.rancher.io/zh/getting-started/installation-and-upgrade/installation-requirements/install-docker
+	https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/installation-requirements/install-docker
 	$ curl https://releases.rancher.com/install-docker/20.10.sh | sh
 
 ```
