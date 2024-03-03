@@ -20,6 +20,7 @@
 	# https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/#ssl-passthrough
 	
 ## 安装 cert-manager
+	登录Rancher Kubectl Shell控制台
 	https://cert-manager.io/docs/installation/helm/
 	$ helm repo add jetstack https://charts.jetstack.io
 	$ helm repo update
@@ -31,6 +32,7 @@
 		  --set installCRDs=true
 
 ## SSL证书
+	登录Rancher Kubectl Shell控制台
 	https://cert-manager.io/docs/usage/certificate/#creating-certificate-resources
 	
 	k3s
@@ -40,6 +42,7 @@
 	$ kubectl apply -f https://renlm.gitee.io/helm/yaml/tls-nginx.yaml
 
 ## KubeConfig
+	登录机器
 	https://kubernetes.io/zh-cn/docs/tasks/tls/managing-tls-in-a-cluster/
 	https://kubernetes.io/zh-cn/docs/reference/access-authn-authz/certificate-signing-requests/
 	https://kubernetes.io/zh-cn/docs/reference/kubernetes-api/authorization-resources/role-binding-v1/
