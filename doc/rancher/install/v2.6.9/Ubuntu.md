@@ -146,6 +146,7 @@ EOF
 	为保障通信，集群节点规格不一致时，需要统一MTU
 	以值最小的那个节点为基准
 	https://projectcalico.docs.tigera.io/networking/mtu
+	https://docs.rke2.io/install/network_options
 
 	查看网卡MTU
 	$ ip a | grep eth0
@@ -168,7 +169,7 @@ PPPoE – 8 Bytes
 
 ```
 # 修改方式一：
-# 创建集群时，在附加配置的 [ Calico 配置 ] 中找到installation.calicoNetwork，添加mtu设置
+# 创建集群时，[附加配置] 中添加mtu设置
 installation:
   calicoNetwork:
     mtu: 1400
