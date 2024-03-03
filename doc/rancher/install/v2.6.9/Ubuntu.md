@@ -169,7 +169,7 @@ PPPoE – 8 Bytes
 
 ```
 # 修改方式一：
-# 创建集群时，[附加配置] 中添加mtu设置
+# 创建集群时，[附加配置] 添加参数
 installation:
   calicoNetwork:
     mtu: 1400
