@@ -58,10 +58,20 @@ spec:
             httpGet:
               path: /actuator/health/liveness
               port: {{ .Values.prometheus.portName }}
+            initialDelaySeconds: {{ .Values.actuator.health.liveness.initialDelaySeconds }}
+            periodSeconds: {{ .Values.actuator.health.liveness.periodSeconds }}
+            successThreshold: {{ .Values.actuator.health.liveness.successThreshold }}
+            failureThreshold: {{ .Values.actuator.health.liveness.failureThreshold }}
+            timeoutSeconds: {{ .Values.actuator.health.liveness.timeoutSeconds }}
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
               port: {{ .Values.prometheus.portName }}
+            initialDelaySeconds: {{ .Values.actuator.health.readiness.initialDelaySeconds }}
+            periodSeconds: {{ .Values.actuator.health.readiness.periodSeconds }}
+            successThreshold: {{ .Values.actuator.health.readiness.successThreshold }}
+            failureThreshold: {{ .Values.actuator.health.readiness.failureThreshold }}
+            timeoutSeconds: {{ .Values.actuator.health.readiness.timeoutSeconds }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
