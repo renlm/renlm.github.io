@@ -30,7 +30,7 @@
 		  --version v1.7.1 \
 		  --set installCRDs=true
 
-## SSL证书（可选）
+## SSL证书
 	https://cert-manager.io/docs/usage/certificate/#creating-certificate-resources
 	
 	k3s
