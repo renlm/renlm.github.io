@@ -77,6 +77,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	$ helm version
 
 ## 安装 cert-manager
+	https://cert-manager.io/docs/installation/helm/
 	$ helm repo add jetstack https://charts.jetstack.io
 	$ helm repo update
 	$ kubectl get pods --namespace cert-manager
@@ -102,7 +103,9 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
         --set letsEncrypt.email=renlm@21cn.com \
         --set letsEncrypt.ingress.class=traefik
         
-## ssl证书（可选）
+## SSL证书（可选）
+	https://cert-manager.io/docs/usage/certificate/#creating-certificate-resources
+	
 	k3s
 	$ kubectl apply -f https://renlm.gitee.io/helm/yaml/tls-traefik.yaml
 	
