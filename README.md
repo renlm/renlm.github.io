@@ -10,5 +10,4 @@
 	$ helm install mygraph renlm/mygraph \
         --namespace renlm \
         --create-namespace \
-        --version 0.1.0 \
-        --set jenkins.enabled=false
+        --version 0.1.0
