@@ -19,7 +19,7 @@
 	Rancher > 工作负载 > DaemonSets > rke2-ingress-nginx-controller > 启动命令加参数--enable-ssl-passthrough
 	# https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/#ssl-passthrough
 	
-## ingress-nginx 
+## Ingress-nginx 
 	登录Rancher Kubectl Shell控制台
 	启用allow-snippet-annotations（默认false）
 	https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/
