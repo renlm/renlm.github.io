@@ -1,10 +1,36 @@
 apiVersion: v1
 entries:
+  ingress-nginx:
+  - annotations:
+      artifacthub.io/changes: '- "Update Ingress-Nginx version controller-v1.10.0"'
+      artifacthub.io/prerelease: "false"
+    apiVersion: v2
+    appVersion: 1.10.0
+    created: "2024-03-05T12:29:06.560463012+08:00"
+    description: Ingress controller for Kubernetes using NGINX as a reverse proxy
+      and load balancer
+    digest: 74f6590786bee20295bbe76f914514d9a111d7e9317acf13d26de482ae8abc1a
+    home: https://github.com/kubernetes/ingress-nginx
+    icon: https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Nginx_logo.svg/500px-Nginx_logo.svg.png
+    keywords:
+    - ingress
+    - nginx
+    kubeVersion: '>=1.20.0-0'
+    maintainers:
+    - name: rikatz
+    - name: strongjz
+    - name: tao12345666333
+    name: ingress-nginx
+    sources:
+    - https://github.com/kubernetes/ingress-nginx
+    urls:
+    - https://renlm.gitee.io/helm/repo/ingress-nginx-4.10.0.tgz
+    version: 4.10.0
   jenkins:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-03-03T19:17:46.384764185+08:00"
-    digest: 6cf1757e400b9c0a7aa7f410a5755e17a88f89c0a70c579fef924590f07ea995
+    created: "2024-03-05T12:29:06.560859243+08:00"
+    digest: 0e04ce8b254aba2a43814fafeae8f4801492b5815e75844bf6c7cb47eac60ffb
     name: jenkins
     urls:
     - https://renlm.gitee.io/helm/repo/jenkins-0.1.0.tgz
@@ -12,8 +38,8 @@ entries:
   mysql:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-03-03T19:17:46.385399589+08:00"
-    digest: ad010e2ecccaf200e0cb52904ea31edd0956f11aa8f8a495e302199d4fda6be9
+    created: "2024-03-05T12:29:06.561141073+08:00"
+    digest: 0690f54fc9ca86b2afa9ec2906d32b7759fe252664c894608c3d6c4d5e8ac926
     name: mysql
     urls:
     - https://renlm.gitee.io/helm/repo/mysql-0.1.0.tgz
@@ -21,8 +47,8 @@ entries:
   prometheus:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-03-03T19:17:46.38601294+08:00"
-    digest: 06a909c34b4cc69e184c697d5bfcb6a2075b556a580c999abbac4af7ab2c5969
+    created: "2024-03-05T12:29:06.561439135+08:00"
+    digest: 74284e697f24734ed9fb7940e0074e672d1332104eb1091b399ae19076b2da01
     name: prometheus
     urls:
     - https://renlm.gitee.io/helm/repo/prometheus-0.1.0.tgz
@@ -30,8 +56,8 @@ entries:
   rabbitmq:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-03-03T19:17:46.386653027+08:00"
-    digest: 76029301912a91457c4e11b115ec745ca0aca9b29fa9655c5ee9fbd83e33ed97
+    created: "2024-03-05T12:29:06.561814386+08:00"
+    digest: 80d03a0cec151b4c9ee6ed027d01f55f104de0e13d7013eb51d04825114ed6f9
     name: rabbitmq
     urls:
     - https://renlm.gitee.io/helm/repo/rabbitmq-0.1.0.tgz
@@ -39,40 +65,10 @@ entries:
   redis:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-03-03T19:17:46.38722695+08:00"
-    digest: 59da4fbac6a3ffdf0a3329efd5d4e967c149cf477c817e17b8a596d8d00dc6cd
+    created: "2024-03-05T12:29:06.562087329+08:00"
+    digest: 8f59e0e75baf1cb326c615fc50b6eeeaf9041be9b9092ac58bd986f97193e9e3
     name: redis
     urls:
     - https://renlm.gitee.io/helm/repo/redis-0.1.0.tgz
     version: 0.1.0
-  mygraph:
-  - apiVersion: v2
-    appVersion: 1.0.1
-    created: "2024-03-03T19:21:30.907359074+08:00"
-    dependencies:
-    - condition: prometheus.enabled
-      name: prometheus
-      repository: https://renlm.gitee.io/helm/repo
-      version: 0.1.0
-    - condition: redis.enabled
-      name: redis
-      repository: https://renlm.gitee.io/helm/repo
-      version: 0.1.0
-    - condition: mysql.enabled
-      name: mysql
-      repository: https://renlm.gitee.io/helm/repo
-      version: 0.1.0
-    - condition: rabbitmq.enabled
-      name: rabbitmq
-      repository: https://renlm.gitee.io/helm/repo
-      version: 0.1.0
-    - condition: jenkins.enabled
-      name: jenkins
-      repository: https://renlm.gitee.io/helm/repo
-      version: 0.1.0
-    digest: 42f455cf9e70d19446a4a087e8be9f8e042a5b7858c339a773d55df8f31d70ec
-    name: mygraph
-    urls:
-    - https://renlm.gitee.io/helm/repo/mygraph-0.1.0.tgz
-    version: 0.1.0
-generated: "2024-03-03T19:17:46.383883084+08:00"
+generated: "2024-03-05T12:29:06.553649918+08:00"
