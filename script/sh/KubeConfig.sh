@@ -293,7 +293,7 @@ items:
         nginx.ingress.kubernetes.io/ssl-passthrough: "true"
         nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     spec:
-      ingressClassName: nginx
+      ingressClassName: nginx-devrke2
       tls:
       - hosts:
         - ${DOMAIN}
