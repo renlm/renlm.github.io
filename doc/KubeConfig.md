@@ -20,7 +20,8 @@
 	https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/#ssl-passthrough
 	$ helm repo add renlm https://renlm.gitee.io/helm/repo
 	$ helm repo update
-	$ helm install devrke2-ingress-nginx renlm/devrke2-ingress-nginx --namespace kube-system --create-namespace
+	$ helm install devrke2-ingress-nginx renlm/devrke2-ingress-nginx \
+        --namespace kube-system --create-namespace
 	
 ## Ingress-nginx 
 	登录Rancher Kubectl Shell控制台
