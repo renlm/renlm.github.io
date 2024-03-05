@@ -1,5 +1,6 @@
 ingress-nginx:
   controller:
+    kind: DaemonSet
     containerName: devrke2-ingress-nginx-controller
     extraArgs:
       enable-ssl-passthrough: false
@@ -7,29 +8,15 @@ ingress-nginx:
       patch:
         enabled: true
         image:
+          registry: registry.cn-hangzhou.aliyuncs.com
+          image: rlm/ingress-nginx-kube-webhook-certgen
+          tag: v1.4.0
           pullPolicy: IfNotPresent
-          repository: rancher/mirrored-ingress-nginx-kube-webhook-certgen
-          tag: v20230312-helm-chart-4.5.2-28-g66a760794
-        labels: {}
-        nodeSelector:
-          kubernetes.io/os: linux
-        podAnnotations: {}
-        securityContext:
-          fsGroup: 2000
-          runAsNonRoot: true
-          runAsUser: 2000
     image:
-      allowPrivilegeEscalation: true
-      chroot: false
+      registry: registry.cn-hangzhou.aliyuncs.com
+      image: rlm/ingress-nginx-controller
+      tag: v1.4.0
       pullPolicy: IfNotPresent
-      repository: rancher/nginx-ingress-controller
-      runAsUser: 101
-      tag: nginx-1.7.1-hardened1
     ingressClass: nginx-devrke2
-    ingressClassByName: false
     ingressClassResource:
-      controllerValue: k8s.io/ingress-nginx
-      default: false
-      enabled: true
       name: nginx-devrke2
-      parameters: {}
