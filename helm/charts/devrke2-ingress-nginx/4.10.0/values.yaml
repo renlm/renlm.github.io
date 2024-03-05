@@ -5,6 +5,8 @@ ingress-nginx:
     ingressClass: nginx-devrke2
     ingressClassResource:
       name: nginx-devrke2
+    service:
+      enabled: false
     extraArgs:
       enable-ssl-passthrough: true
     image:
