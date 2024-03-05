@@ -1,8 +1,0 @@
-ingress-nginx:
-  controller:
-    containerName: rke2-ingress-nginx-ssl-controller
-    ingressClass: nginx-ssl
-    ingressClassResource:
-      name: nginx-ssl
-    extraArgs:
-      enable-ssl-passthrough: false

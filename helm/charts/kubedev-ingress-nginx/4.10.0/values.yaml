@@ -1,0 +1,8 @@
+ingress-nginx:
+  controller:
+    containerName: kubedev-ingress-nginx-controller
+    ingressClass: nginx-kubedev
+    ingressClassResource:
+      name: nginx-kubedev
+    extraArgs:
+      enable-ssl-passthrough: false
