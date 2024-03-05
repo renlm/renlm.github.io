@@ -12,7 +12,7 @@ ingress-nginx:
       image: rlm/ingress-nginx-controller
       tag: v1.10.0
       digest: sha256:dc6951b9413a7173b7474ecc4fdc6adf930058f4021a10c5ad802afab6382a8a
-      pullPolicy: IfNotPresent
+      pullPolicy: Always
     admissionWebhooks:
       patch:
         enabled: true
@@ -21,4 +21,4 @@ ingress-nginx:
           image: rlm/ingress-nginx-kube-webhook-certgen
           tag: v1.4.0
           digest: sha256:cf6d2b44254ec4ae74216084c6761601f02e712c30a8061155fd6cb2c5fdb126
-          pullPolicy: IfNotPresent
+          pullPolicy: Always
