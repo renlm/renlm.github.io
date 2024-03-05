@@ -71,4 +71,52 @@ entries:
     urls:
     - https://renlm.gitee.io/helm/repo/redis-0.1.0.tgz
     version: 0.1.0
+  devrke2-ingress-nginx:
+  - apiVersion: v2
+    appVersion: 1.0.1
+    created: "2024-03-05T12:35:52.806231463+08:00"
+    dependencies:
+    - name: ingress-nginx
+      repository: https://renlm.gitee.io/helm/repo
+      version: 4.10.0
+    description: 开启ssl透传
+    digest: ccdfba614033447623a07e436bc6ae9d01bcec49a0fa72d2b78263f1b9c6a269
+    keywords:
+    - https://kubernetes.github.io/ingress-nginx/deploy/
+    - 启用ssl透传：Rancher 集群管理 > 工作负载 > DaemonSets > devrke2-ingress-nginx-controller
+      > 编辑配置，命令加启动参数--enable-ssl-passthrough
+    name: devrke2-ingress-nginx
+    urls:
+    - https://renlm.gitee.io/helm/repo/devrke2-ingress-nginx-4.10.0.tgz
+    version: 4.10.0
+  mygraph:
+  - apiVersion: v2
+    appVersion: 1.0.1
+    created: "2024-03-05T12:35:52.808506254+08:00"
+    dependencies:
+    - condition: prometheus.enabled
+      name: prometheus
+      repository: https://renlm.gitee.io/helm/repo
+      version: 0.1.0
+    - condition: redis.enabled
+      name: redis
+      repository: https://renlm.gitee.io/helm/repo
+      version: 0.1.0
+    - condition: mysql.enabled
+      name: mysql
+      repository: https://renlm.gitee.io/helm/repo
+      version: 0.1.0
+    - condition: rabbitmq.enabled
+      name: rabbitmq
+      repository: https://renlm.gitee.io/helm/repo
+      version: 0.1.0
+    - condition: jenkins.enabled
+      name: jenkins
+      repository: https://renlm.gitee.io/helm/repo
+      version: 0.1.0
+    digest: 5c5b441a3f2f53b856fcacd0805f6ef353c50dd53b11e3abb78b525c750442df
+    name: mygraph
+    urls:
+    - https://renlm.gitee.io/helm/repo/mygraph-0.1.0.tgz
+    version: 0.1.0
 generated: "2024-03-05T12:29:06.553649918+08:00"
