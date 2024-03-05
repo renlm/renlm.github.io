@@ -1,0 +1,12 @@
+apiVersion: v2
+appVersion: 1.0.1
+name: devrke2-ingress-nginx
+version: 0.1.0
+description: 开启ssl透传
+keywords:
+- https://kubernetes.github.io/ingress-nginx/deploy/
+- 启用ssl透传：Rancher 集群管理 > 工作负载 > DaemonSets > devrke2-ingress-nginx-controller > 编辑配置，命令加启动参数--enable-ssl-passthrough
+dependencies:
+- name: ingress-nginx
+  repository: https://renlm.gitee.io/helm/repo
+  version: 4.10.0
