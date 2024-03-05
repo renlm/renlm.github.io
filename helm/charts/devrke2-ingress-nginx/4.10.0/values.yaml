@@ -5,10 +5,11 @@ ingress-nginx:
     ingressClass: nginx-devrke2
     ingressClassResource:
       name: nginx-devrke2
+      ontrollerValue: k8s.io/devrke2-ingress-nginx
     service:
       enabled: false
     extraArgs:
-      enable-ssl-passthrough: true
+      enable-ssl-passthrough: on
     image:
       registry: registry.cn-hangzhou.aliyuncs.com
       image: rlm/ingress-nginx-controller
