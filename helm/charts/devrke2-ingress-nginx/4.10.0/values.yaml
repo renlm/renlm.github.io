@@ -1,5 +1,4 @@
 ingress-nginx:
-  commonLabels: {}
   controller:
     containerName: devrke2-ingress-nginx-controller
     extraArgs:
