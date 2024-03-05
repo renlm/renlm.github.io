@@ -74,17 +74,15 @@ entries:
   devrke2-ingress-nginx:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-03-05T12:35:52.806231463+08:00"
+    created: "2024-03-05T12:53:02.56397571+08:00"
     dependencies:
     - name: ingress-nginx
       repository: https://renlm.gitee.io/helm/repo
       version: 4.10.0
     description: 开启ssl透传
-    digest: ccdfba614033447623a07e436bc6ae9d01bcec49a0fa72d2b78263f1b9c6a269
+    digest: b7fd6c2b045e759cd42a3e4824ae77249c6a8063bb307b61b147af3dd2cf579e
     keywords:
     - https://kubernetes.github.io/ingress-nginx/deploy/
-    - 启用ssl透传：Rancher 集群管理 > 工作负载 > DaemonSets > devrke2-ingress-nginx-controller
-      > 编辑配置，命令加启动参数--enable-ssl-passthrough
     name: devrke2-ingress-nginx
     urls:
     - https://renlm.gitee.io/helm/repo/devrke2-ingress-nginx-4.10.0.tgz
