@@ -74,13 +74,13 @@ entries:
   devrke2-ingress-nginx:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-03-05T17:38:44.016787267+08:00"
+    created: "2024-03-05T18:17:12.029200662+08:00"
     dependencies:
     - name: ingress-nginx
       repository: https://renlm.gitee.io/helm/repo
       version: 4.10.0
     description: 开启ssl透传
-    digest: cfae708db19a2a8a1300e04871bce6eae48de7b16e5a34886c52f124b9491b1f
+    digest: 388a8e2453a6e96cd96a753913939343a41680198871dda73a2051c057084a20
     keywords:
     - https://kubernetes.github.io/ingress-nginx/deploy/
     name: devrke2-ingress-nginx
