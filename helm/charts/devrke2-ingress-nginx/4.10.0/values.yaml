@@ -7,6 +7,11 @@ ingress-nginx:
       name: nginx-devrke2
     extraArgs:
       enable-ssl-passthrough: false
+    image:
+      registry: registry.cn-hangzhou.aliyuncs.com
+      image: rlm/ingress-nginx-controller
+      tag: v1.10.0
+      pullPolicy: IfNotPresent
     admissionWebhooks:
       patch:
         enabled: true
@@ -15,8 +20,3 @@ ingress-nginx:
           image: rlm/ingress-nginx-kube-webhook-certgen
           tag: v1.4.0
           pullPolicy: IfNotPresent
-    image:
-      registry: registry.cn-hangzhou.aliyuncs.com
-      image: rlm/ingress-nginx-controller
-      tag: v1.4.0
-      pullPolicy: IfNotPresent
