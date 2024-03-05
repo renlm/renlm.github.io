@@ -80,7 +80,7 @@ ingress-nginx:
     enableMimalloc: true
     enableTopologyAwareRouting: false
     existingPsp: ''
-    extraArgs: 
+    extraArgs:
       enable-ssl-passthrough: false
     extraContainers: null
     extraEnvs: null
@@ -130,7 +130,7 @@ ingress-nginx:
       preStop:
         exec:
           command:
-            - /wait-shutdown
+          - /wait-shutdown
     livenessProbe:
       failureThreshold: 5
       httpGet:
@@ -175,8 +175,7 @@ ingress-nginx:
       containerSecurityContext:
         allowPrivilegeEscalation: false
       enabled: false
-      image: >-
-        registry.k8s.io/ingress-nginx/opentelemetry:v20230312-helm-chart-4.5.2-28-g66a760794@sha256:40f766ac4a9832f36f217bb0e98d44c8d38faeccbfe861fbc1a76af7e9ab257f
+      image: registry.k8s.io/ingress-nginx/opentelemetry:v20230312-helm-chart-4.5.2-28-g66a760794@sha256:40f766ac4a9832f36f217bb0e98d44c8d38faeccbfe861fbc1a76af7e9ab257f
     podAnnotations: {}
     podLabels: {}
     podSecurityContext: {}
@@ -221,7 +220,7 @@ ingress-nginx:
         ports: {}
         targetPorts: {}
       ipFamilies:
-        - IPv4
+      - IPv4
       ipFamilyPolicy: SingleStack
       labels: {}
       loadBalancerIP: ''
@@ -337,4 +336,3 @@ ingress-nginx:
     name: ''
   tcp: {}
   udp: {}
-      
