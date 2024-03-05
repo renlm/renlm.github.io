@@ -5,7 +5,7 @@ ingress-nginx:
     ingressClass: nginx-devrke2
     ingressClassResource:
       name: nginx-devrke2
-      ontrollerValue: k8s.io/devrke2-ingress-nginx
+      controllerValue: k8s.io/devrke2-ingress-nginx
     service:
       enabled: false
     extraArgs:
