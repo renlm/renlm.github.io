@@ -1,0 +1,9 @@
+apiVersion: v2
+appVersion: 1.0.1
+name: ingress-nginx-ssl-passthrough
+version: 0.1.0
+dependencies:
+- name: ingress-nginx
+  repository: https://renlm.gitee.io/helm/repo
+  version: 4.10.0
+  condition: ingress-nginx.enabled
