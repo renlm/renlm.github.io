@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "rabbitmq.fullname" . }}
+  name: {{ include "kubedev-ingress-nginx.fullname" . }}
   labels:
-    {{- include "rabbitmq.labels" . | nindent 4 }}
+    {{- include "kubedev-ingress-nginx.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -11,10 +11,5 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
-    - port: {{ .Values.service.amqpPort }}
-      targetPort: amqp
-      nodePort: {{ .Values.service.amqpNodePort }}
-      protocol: TCP
-      name: amqp
   selector:
-    {{- include "rabbitmq.selectorLabels" . | nindent 4 }}
+    {{- include "kubedev-ingress-nginx.selectorLabels" . | nindent 4 }}
