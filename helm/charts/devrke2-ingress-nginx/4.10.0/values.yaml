@@ -1,8 +1,340 @@
 ingress-nginx:
+  commonLabels: {}
   controller:
+    addHeaders: {}
+    admissionWebhooks:
+      annotations: {}
+      certManager:
+        admissionCert:
+          duration: ''
+        enabled: false
+        rootCert:
+          duration: ''
+      certificate: /usr/local/certificates/cert
+      createSecretJob:
+        resources: {}
+        securityContext:
+          allowPrivilegeEscalation: false
+      enabled: true
+      existingPsp: ''
+      extraEnvs: null
+      failurePolicy: Fail
+      key: /usr/local/certificates/key
+      labels: {}
+      namespaceSelector: {}
+      networkPolicyEnabled: false
+      objectSelector: {}
+      patch:
+        enabled: true
+        image:
+          pullPolicy: IfNotPresent
+          repository: rancher/mirrored-ingress-nginx-kube-webhook-certgen
+          tag: v20230312-helm-chart-4.5.2-28-g66a760794
+        labels: {}
+        nodeSelector:
+          kubernetes.io/os: linux
+        podAnnotations: {}
+        priorityClassName: ''
+        securityContext:
+          fsGroup: 2000
+          runAsNonRoot: true
+          runAsUser: 2000
+        tolerations: null
+      patchWebhookJob:
+        resources: {}
+        securityContext:
+          allowPrivilegeEscalation: false
+      port: 8443
+      service:
+        annotations: {}
+        externalIPs: null
+        loadBalancerSourceRanges: null
+        servicePort: 443
+        type: ClusterIP
+    affinity: {}
+    allowSnippetAnnotations: false
+    annotations: {}
+    autoscaling:
+      annotations: {}
+      apiVersion: autoscaling/v2
+      behavior: {}
+      enabled: false
+      maxReplicas: 11
+      minReplicas: 1
+      targetCPUUtilizationPercentage: 50
+      targetMemoryUtilizationPercentage: 50
+    autoscalingTemplate: null
+    config: {}
+    configAnnotations: {}
+    configMapNamespace: ''
     containerName: devrke2-ingress-nginx-controller
-    ingressClass: nginx-devrke2
-    ingressClassResource:
-      name: nginx-devrke2
-    extraArgs:
+    containerPort:
+      http: 80
+      https: 443
+    customTemplate:
+      configMapKey: ''
+      configMapName: ''
+    dnsConfig: {}
+    dnsPolicy: ClusterFirstWithHostNet
+    electionID: ''
+    enableMimalloc: true
+    enableTopologyAwareRouting: false
+    existingPsp: ''
+    extraArgs: 
       enable-ssl-passthrough: false
+    extraContainers: null
+    extraEnvs: null
+    extraInitContainers: null
+    extraModules: null
+    extraVolumeMounts: null
+    extraVolumes: null
+    healthCheckHost: ''
+    healthCheckPath: /healthz
+    hostNetwork: false
+    hostPort:
+      enabled: true
+      ports:
+        http: 80
+        https: 443
+    hostname: {}
+    image:
+      allowPrivilegeEscalation: true
+      chroot: false
+      pullPolicy: IfNotPresent
+      repository: rancher/nginx-ingress-controller
+      runAsUser: 101
+      tag: nginx-1.7.1-hardened1
+    ingressClass: nginx-devrke2
+    ingressClassByName: false
+    ingressClassResource:
+      controllerValue: k8s.io/ingress-nginx
+      default: false
+      enabled: true
+      name: nginx-devrke2
+      parameters: {}
+    keda:
+      apiVersion: keda.sh/v1alpha1
+      behavior: {}
+      cooldownPeriod: 300
+      enabled: false
+      maxReplicas: 11
+      minReplicas: 1
+      pollingInterval: 30
+      restoreToOriginalReplicaCount: false
+      scaledObject:
+        annotations: {}
+      triggers: null
+    kind: DaemonSet
+    labels: {}
+    lifecycle:
+      preStop:
+        exec:
+          command:
+            - /wait-shutdown
+    livenessProbe:
+      failureThreshold: 5
+      httpGet:
+        path: /healthz
+        port: 10254
+        scheme: HTTP
+      initialDelaySeconds: 10
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+    maxmindLicenseKey: ''
+    metrics:
+      enabled: false
+      port: 10254
+      portName: metrics
+      prometheusRule:
+        additionalLabels: {}
+        enabled: false
+        rules: null
+      service:
+        annotations: {}
+        externalIPs: null
+        labels: {}
+        loadBalancerSourceRanges: null
+        servicePort: 10254
+        type: ClusterIP
+      serviceMonitor:
+        additionalLabels: {}
+        enabled: false
+        metricRelabelings: null
+        namespace: ''
+        namespaceSelector: {}
+        relabelings: null
+        scrapeInterval: 30s
+        targetLabels: null
+    minAvailable: 1
+    minReadySeconds: 0
+    name: controller
+    nodeSelector:
+      kubernetes.io/os: linux
+    opentelemetry:
+      containerSecurityContext:
+        allowPrivilegeEscalation: false
+      enabled: false
+      image: >-
+        registry.k8s.io/ingress-nginx/opentelemetry:v20230312-helm-chart-4.5.2-28-g66a760794@sha256:40f766ac4a9832f36f217bb0e98d44c8d38faeccbfe861fbc1a76af7e9ab257f
+    podAnnotations: {}
+    podLabels: {}
+    podSecurityContext: {}
+    priorityClassName: ''
+    proxySetHeaders: {}
+    publishService:
+      enabled: false
+      pathOverride: ''
+    readinessProbe:
+      failureThreshold: 3
+      httpGet:
+        path: /healthz
+        port: 10254
+        scheme: HTTP
+      initialDelaySeconds: 10
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+    replicaCount: 1
+    reportNodeInternalIp: false
+    resources:
+      requests:
+        cpu: 100m
+        memory: 90Mi
+    scope:
+      enabled: false
+      namespace: ''
+      namespaceSelector: ''
+    service:
+      annotations: {}
+      appProtocol: true
+      enableHttp: true
+      enableHttps: true
+      enabled: false
+      external:
+        enabled: true
+      externalIPs: null
+      internal:
+        annotations: {}
+        enabled: false
+        loadBalancerSourceRanges: null
+        ports: {}
+        targetPorts: {}
+      ipFamilies:
+        - IPv4
+      ipFamilyPolicy: SingleStack
+      labels: {}
+      loadBalancerIP: ''
+      loadBalancerSourceRanges: null
+      nodePorts:
+        http: ''
+        https: ''
+        tcp: {}
+        udp: {}
+      ports:
+        http: 80
+        https: 443
+      targetPorts:
+        http: http
+        https: https
+      type: LoadBalancer
+    shareProcessNamespace: false
+    sysctls: {}
+    tcp:
+      annotations: {}
+      configMapNamespace: ''
+    terminationGracePeriodSeconds: 300
+    tolerations: null
+    topologySpreadConstraints: null
+    udp:
+      annotations: {}
+      configMapNamespace: ''
+    updateStrategy: {}
+    watchIngressWithoutClass: true
+  defaultBackend:
+    affinity: {}
+    autoscaling:
+      annotations: {}
+      apiVersion: autoscaling/v2
+      enabled: false
+      maxReplicas: 2
+      minReplicas: 1
+      targetCPUUtilizationPercentage: 50
+      targetMemoryUtilizationPercentage: 50
+    containerSecurityContext: {}
+    enabled: false
+    existingPsp: ''
+    extraArgs: {}
+    extraEnvs: null
+    extraVolumeMounts: null
+    extraVolumes: null
+    image:
+      allowPrivilegeEscalation: false
+      pullPolicy: IfNotPresent
+      readOnlyRootFilesystem: true
+      repository: rancher/nginx-ingress-controller-defaultbackend
+      runAsNonRoot: true
+      runAsUser: 65534
+      tag: 1.5-rancher1
+    labels: {}
+    livenessProbe:
+      failureThreshold: 3
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 5
+    minAvailable: 1
+    minReadySeconds: 0
+    name: defaultbackend
+    nodeSelector:
+      kubernetes.io/os: linux
+    podAnnotations: {}
+    podLabels: {}
+    podSecurityContext: {}
+    port: 8080
+    priorityClassName: ''
+    readinessProbe:
+      failureThreshold: 6
+      initialDelaySeconds: 0
+      periodSeconds: 5
+      successThreshold: 1
+      timeoutSeconds: 5
+    replicaCount: 1
+    resources: {}
+    service:
+      annotations: {}
+      externalIPs: null
+      loadBalancerSourceRanges: null
+      servicePort: 80
+      type: ClusterIP
+    serviceAccount:
+      automountServiceAccountToken: true
+      create: true
+      name: ''
+    tolerations: null
+    updateStrategy: {}
+  dhParam: ''
+  global:
+    systemDefaultRegistry: ''
+    clusterCIDR: 10.42.0.0/16
+    clusterCIDRv4: 10.42.0.0/16
+    clusterDNS: 10.43.0.10
+    clusterDomain: cluster.local
+    rke2DataDir: /var/lib/rancher/rke2
+    serviceCIDR: 10.43.0.0/16
+  imagePullSecrets: null
+  podSecurityPolicy:
+    enabled: false
+  portNamePrefix: ''
+  rbac:
+    create: true
+    scope: false
+  revisionHistoryLimit: 10
+  serviceAccount:
+    annotations: {}
+    automountServiceAccountToken: true
+    create: true
+    name: ''
+  tcp: {}
+  udp: {}
+      
