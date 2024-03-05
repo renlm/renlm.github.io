@@ -1,7 +1,7 @@
 apiVersion: v2
 appVersion: 1.0.1
 name: devrke2-ingress-nginx
-version: 0.1.0
+version: 4.10.0
 description: 开启ssl透传
 keywords:
 - https://kubernetes.github.io/ingress-nginx/deploy/

@@ -18,10 +18,10 @@
 ## 启用ssl透传
 	Rancher > 工作负载 > DaemonSets > rke2-ingress-nginx-controller > 启动命令加参数--enable-ssl-passthrough
 	https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/#ssl-passthrough
-	$ helm repo add renlm https://renlm.gitee.io/helm/repo
-	$ helm repo update
-	$ helm install devrke2-ingress-nginx renlm/devrke2-ingress-nginx \
-        --namespace kube-system --create-namespace
+	$ helm upgrade --install renlm devrke2-ingress-nginx \
+        --repo https://renlm.gitee.io/helm/repo \
+        --namespace kube-system --create-namespace \
+        --version 4.10.0
 	
 ## Ingress-nginx 
 	登录Rancher Kubectl Shell控制台

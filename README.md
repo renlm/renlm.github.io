@@ -5,9 +5,7 @@
 <a href="/doc/KubeConfig.html" target="_blank">KubeConfig</a>  
 
 ### MyGraph
-	$ helm repo add renlm https://renlm.gitee.io/helm/repo
-	$ helm repo update
-	$ helm install mygraph renlm/mygraph \
-        --namespace renlm \
-        --create-namespace \
+	$ helm upgrade --install renlm mygraph \
+        --repo https://renlm.gitee.io/helm/repo \
+        --namespace renlm --create-namespace \
         --version 0.1.0
