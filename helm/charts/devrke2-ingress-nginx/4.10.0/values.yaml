@@ -6,7 +6,7 @@ ingress-nginx:
     ingressClassResource:
       name: nginx-devrke2
     extraArgs:
-      enable-ssl-passthrough: false
+      enable-ssl-passthrough: true
     image:
       registry: registry.cn-hangzhou.aliyuncs.com
       image: rlm/ingress-nginx-controller
