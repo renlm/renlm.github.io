@@ -20,7 +20,7 @@
 	https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/#ssl-passthrough
 	$ helm upgrade --install renlm devrke2-ingress-nginx \
         --repo https://renlm.gitee.io/helm/repo \
-        --namespace kube-system --create-namespace \
+        --namespace renlm --create-namespace \
         --version 4.10.0
 	
 ## Ingress-nginx 
