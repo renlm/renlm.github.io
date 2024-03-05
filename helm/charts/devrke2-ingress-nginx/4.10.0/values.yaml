@@ -2,6 +2,9 @@ ingress-nginx:
   controller:
     kind: DaemonSet
     containerName: devrke2-ingress-nginx-controller
+    ingressClass: nginx-devrke2
+    ingressClassResource:
+      name: nginx-devrke2
     extraArgs:
       enable-ssl-passthrough: false
     admissionWebhooks:
@@ -17,6 +20,3 @@ ingress-nginx:
       image: rlm/ingress-nginx-controller
       tag: v1.4.0
       pullPolicy: IfNotPresent
-    ingressClass: nginx-devrke2
-    ingressClassResource:
-      name: nginx-devrke2
