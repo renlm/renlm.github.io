@@ -9,7 +9,7 @@ ingress-nginx:
     service:
       enabled: false
     extraArgs:
-      enable-ssl-passthrough: on
+      enable-ssl-passthrough: ""
     image:
       registry: registry.cn-hangzhou.aliyuncs.com
       image: rlm/ingress-nginx-controller
