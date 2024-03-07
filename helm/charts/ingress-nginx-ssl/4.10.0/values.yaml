@@ -7,12 +7,14 @@ ingress-nginx:
       name: nginx-ssl
       controllerValue: k8s.io/ingress-nginx-ssl
     service:
-      type: NodePort
-      nodePorts:
-        http: 30080
-        https: 30443
+      type: LoadBalancer
+      loadBalancerIP: 114.67.113.209
+      externalIPs:
+      - 192.168.0.3
+      - 192.168.16.3
+      - 192.168.0.7
     extraArgs:
-      enable-ssl-passthrough: ""
+      enable-ssl-passthrough: ''
     image:
       registry: registry.cn-hangzhou.aliyuncs.com
       image: rlm/ingress-nginx-controller
