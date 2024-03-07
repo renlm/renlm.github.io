@@ -1,11 +1,11 @@
 ingress-nginx:
   controller:
     kind: DaemonSet
-    containerName: ingress-nginx-dev-controller
-    ingressClass: nginx-dev
+    containerName: ingress-nginx-ssl-controller
+    ingressClass: nginx-ssl
     ingressClassResource:
-      name: nginx-dev
-      controllerValue: k8s.io/ingress-nginx-dev
+      name: nginx-ssl
+      controllerValue: k8s.io/ingress-nginx-ssl
     service:
       type: NodePort
       nodePorts:
