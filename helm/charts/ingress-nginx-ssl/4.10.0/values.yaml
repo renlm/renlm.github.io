@@ -7,8 +7,7 @@ ingress-nginx:
       name: nginx-ssl
       controllerValue: k8s.io/ingress-nginx-ssl
     service:
-      type: LoadBalancer
-      loadBalancerIP: 114.67.113.209
+      type: ClusterIP
       externalIPs:
       - 192.168.0.3
       - 192.168.0.7
