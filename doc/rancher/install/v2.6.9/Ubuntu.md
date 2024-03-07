@@ -96,9 +96,10 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	$ kubectl -n cattle-system rollout status deploy/rancher
 	
 	安装 rancher-stable/rancher v2.6.9
+	$ kubectl create namespace cattle-system
 	$ helm fetch rancher-stable/rancher --version=v2.6.9
 	$ helm install rancher ./rancher-2.6.9.tgz \
-        --namespace cattle-system --create-namespace \
+        --namespace cattle-system \
         --set hostname=rancher.renlm.cn \
         --set bootstrapPassword="PWD" \
         --set ingress.tls.source=letsEncrypt \
