@@ -12,7 +12,7 @@ ingress-nginx:
         http: 30080
         https: 30443
     extraArgs:
-      enable-ssl-passthrough: ''
+      enable-ssl-passthrough: ""
     image:
       registry: registry.cn-hangzhou.aliyuncs.com
       image: rlm/ingress-nginx-controller
