@@ -1,11 +1,11 @@
 ingress-nginx:
   controller:
     kind: DaemonSet
-    containerName: devrke2-ingress-nginx-controller
-    ingressClass: nginx-devrke2
+    containerName: ingress-nginx-dev-controller
+    ingressClass: nginx-dev
     ingressClassResource:
-      name: nginx-devrke2
-      controllerValue: k8s.io/devrke2-ingress-nginx
+      name: nginx-dev
+      controllerValue: k8s.io/ingress-nginx-dev
     service:
       type: NodePort
       nodePorts:
