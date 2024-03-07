@@ -7,9 +7,12 @@ ingress-nginx:
       name: nginx-devrke2
       controllerValue: k8s.io/devrke2-ingress-nginx
     service:
-      enabled: false
+      type: NodePort
+      nodePorts:
+        http: 30080
+        https: 30443
     extraArgs:
-      enable-ssl-passthrough: ""
+      enable-ssl-passthrough: ''
     image:
       registry: registry.cn-hangzhou.aliyuncs.com
       image: rlm/ingress-nginx-controller
