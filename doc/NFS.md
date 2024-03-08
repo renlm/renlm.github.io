@@ -42,9 +42,6 @@ $ vi /etc/exports
     $ /etc/init.d/nfs-kernel-server status
 
 ## 客户端
-    新建挂载目录
-    $ mkdir /nfs_mount
-
     nfs支持
 	$ apt-get update
 	$ apt-get -y install nfs-common
@@ -53,6 +50,9 @@ $ vi /etc/exports
     $ apt-get -y install autofs
     $ systemctl enable autofs
     $ systemctl start autofs
+    
+    新建挂载目录
+    $ mkdir /nfs_mount
 
 ```
 添加挂载点
