@@ -29,7 +29,7 @@ entries:
   ingress-nginx-ssl:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-03-08T20:09:32.020843498+08:00"
+    created: "2024-03-08T20:32:53.233000419+08:00"
     dependencies:
     - condition: frr-k8s.enabled
       name: frr-k8s
@@ -40,7 +40,7 @@ entries:
       repository: https://renlm.gitee.io/helm/repo
       version: 4.10.0
     description: 开启ssl透传
-    digest: 3509977cd92cdc71846dd26e815199249e7dffe8d62bc37db4a4a9541feeee88
+    digest: 523c8f0458f47ee389f749ea91c4af97755f5fb7c06b16431aee55beebbdf166
     keywords:
     - https://kubernetes.github.io/ingress-nginx/deploy/
     name: ingress-nginx-ssl
