@@ -1,7 +1,7 @@
 # NFS
 
 ## 服务端
-    安装服务
+    IP: 192.168.16.3
 	$ apt-get update
 	$ apt-get -y install nfs-kernel-server
 	$ apt-get -y install nfs-common
@@ -11,7 +11,7 @@
     $ chmod o+w /nfs_share
 
 ```
-修改nfs配置文件 
+共享节点授权 
 $ vi /etc/exports
 /nfs_share 192.168.0.3(insecure,rw,async,no_root_squash,no_subtree_check)
 /nfs_share 192.168.0.7(insecure,rw,async,no_root_squash,no_subtree_check)
