@@ -7,13 +7,13 @@ metadata:
   labels:
     {{- include "mysql.labels" . | nindent 4 }}
 spec:
+  volumeMode: Filesystem
+  storageClassName: {{ $fullName }}-sc
+  persistentVolumeReclaimPolicy: Retain
   capacity:
     storage: {{ .Values.nfs.storage }}
-  volumeMode: Filesystem
   accessModes:
     - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: {{ $fullName }}-sc
   nfs:
     path: {{ .Values.nfs.path }}
     server: {{ .Values.nfs.server }}
