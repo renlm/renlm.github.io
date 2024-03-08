@@ -1,0 +1,18 @@
+{{- if .Values.nfs.enabled -}}
+{{- $fullName := include "mygraph.fullname" . -}}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ $fullName }}-pv
+spec:
+  capacity:
+    storage: {{ .Values.nfs.storage }}
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: {{ $fullName }}-sc
+  nfs:
+    path: {{ .Values.nfs.path }}
+    server: {{ .Values.nfs.server }}
+{{- end -}}

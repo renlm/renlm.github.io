@@ -15,3 +15,8 @@ service:
   type: NodePort
   port: 3306
   nodePort: 30306
+nfs:
+  enabled: true
+  storage: 5Gi
+  path: /nfs_share/mysql
+  server: 192.168.16.3
