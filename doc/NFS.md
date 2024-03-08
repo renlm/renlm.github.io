@@ -49,7 +49,7 @@ $ vi /etc/exports
 	$ apt-get update
 	$ apt-get -y install nfs-common
 
-    自动挂载
+    自动挂载（集群节点后续可忽略）
     $ apt-get -y install autofs
     $ systemctl enable autofs
     $ systemctl start autofs
