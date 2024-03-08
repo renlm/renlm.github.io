@@ -4,7 +4,7 @@ ingress:
   enabled: false
 service:
   type: None
-metallb:
+frr-k8s:
   enabled: true
 ingress-nginx:
   enabled: true
