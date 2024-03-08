@@ -1,3 +1,5 @@
+metallb:
+  enabled: true
 ingress-nginx:
   controller:
     kind: DaemonSet
@@ -7,9 +9,8 @@ ingress-nginx:
       name: nginx-ssl
       controllerValue: k8s.io/ingress-nginx-ssl
     service:
-      type: ClusterIP
-      externalIPs:
-      - 192.168.0.7
+      type: LoadBalancer
+      externalTrafficPolicy: Local
     extraArgs:
       enable-ssl-passthrough: ""
     image:

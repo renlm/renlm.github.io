@@ -6,6 +6,10 @@ description: 开启ssl透传
 keywords:
 - https://kubernetes.github.io/ingress-nginx/deploy/
 dependencies:
+- name: metallb
+  repository: https://metallb.github.io/metallb
+  version: 0.14.3
+  condition: metallb.enabled
 - name: ingress-nginx
   repository: https://renlm.gitee.io/helm/repo
   version: 4.10.0
