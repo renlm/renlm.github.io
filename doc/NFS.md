@@ -16,7 +16,7 @@
     # 将磁盘目录/nfs_share共享给多台服务器
 ```
 /nfs_share 192.168.0.3(insecure,rw,async,no_root_squash,no_subtree_check)
-/nfs_share 192.168.16.3(insecure,rw,async,no_root_squash,no_subtree_check)
+/nfs_share 192.168.0.7(insecure,rw,async,no_root_squash,no_subtree_check)
 ```
 
     参数说明：
