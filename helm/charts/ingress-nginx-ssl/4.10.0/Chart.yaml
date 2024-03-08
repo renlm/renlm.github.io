@@ -13,3 +13,4 @@ dependencies:
 - name: ingress-nginx
   repository: https://renlm.gitee.io/helm/repo
   version: 4.10.0
+  condition: ingress-nginx.enabled

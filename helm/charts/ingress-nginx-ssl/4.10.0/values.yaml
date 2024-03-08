@@ -1,6 +1,7 @@
 metallb:
   enabled: true
 ingress-nginx:
+  enabled: true
   controller:
     kind: DaemonSet
     containerName: ingress-nginx-ssl-controller
