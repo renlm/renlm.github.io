@@ -53,6 +53,12 @@ spec:
             - name: mysql-lib
               mountPath: /var/lib/mysql
       volumes:
+        {{- if .Values.nfs.enabled }}
+        - name: mysql-lib
+          persistentVolumeClaim:
+            claimName: {{ $fullName }}-pvc
+        {{- else }}
         - name: mysql-lib
           hostPath:
             path: /var/lib/mysql
+        {{- end }}
