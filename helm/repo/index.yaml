@@ -29,7 +29,7 @@ entries:
   ingress-nginx-ssl:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-03-08T13:56:29.332030682+08:00"
+    created: "2024-03-08T20:09:32.020843498+08:00"
     dependencies:
     - condition: frr-k8s.enabled
       name: frr-k8s
@@ -40,7 +40,7 @@ entries:
       repository: https://renlm.gitee.io/helm/repo
       version: 4.10.0
     description: 开启ssl透传
-    digest: 2752da0c7ef68cb7028ef683a06891daa321eb9df21a6360d606157aa0e8647d
+    digest: 3509977cd92cdc71846dd26e815199249e7dffe8d62bc37db4a4a9541feeee88
     keywords:
     - https://kubernetes.github.io/ingress-nginx/deploy/
     name: ingress-nginx-ssl
@@ -95,7 +95,7 @@ entries:
   mygraph:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-03-08T13:56:29.339039528+08:00"
+    created: "2024-03-08T20:09:32.02481998+08:00"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -117,7 +117,7 @@ entries:
       name: jenkins
       repository: https://renlm.gitee.io/helm/repo
       version: 0.1.0
-    digest: e736d346b1edfa3b52bb291cdefd699e038545692dd204e8a9c88af588f729d0
+    digest: d25e236327665ed80b1eca7d2cfc0804bef9b7e4d3a4d069b88ee6769ff110ed
     name: mygraph
     urls:
     - https://renlm.gitee.io/helm/repo/mygraph-0.1.0.tgz
