@@ -1,5 +1,5 @@
 {{- if .Values.nfs.enabled -}}
-{{- $fullName := include "mygraph.fullname" . -}}
+{{- $fullName := include "mysql.fullname" . -}}
 apiVersion: v1
 kind: PersistentVolume
 metadata:
