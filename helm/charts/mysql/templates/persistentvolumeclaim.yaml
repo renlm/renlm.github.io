@@ -1,0 +1,14 @@
+{{- if .Values.nfs.enabled -}}
+{{- $fullName := include "mysql.fullname" . -}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ $fullName }}-pvc
+spec:
+  storageClassName: {{ $fullName }}-sc
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.nfs.storage }}
+{{- end -}}
