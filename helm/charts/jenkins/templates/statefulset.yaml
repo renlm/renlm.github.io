@@ -1,11 +1,12 @@
+{{- $fullName := include "jenkins.fullname" . -}}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ include "jenkins.fullname" . }}
+  name: {{ $fullName }}
   labels:
     {{- include "jenkins.labels" . | nindent 4 }}
 spec:
-  serviceName: {{ include "jenkins.fullname" . }}
+  serviceName: {{ $fullName }}
   replicas: 1
   selector:
     matchLabels:
@@ -64,6 +65,12 @@ spec:
         - name: docker-sock
           hostPath: 
             path: /var/run/docker.sock
+        {{- if .Values.nfs.enabled }}
+        - name: jenkins-home
+          persistentVolumeClaim:
+            claimName: {{ $fullName }}-pvc
+        {{- else }}
         - name: jenkins-home
           hostPath: 
             path: /var/jenkins_home
+        {{- end }}
