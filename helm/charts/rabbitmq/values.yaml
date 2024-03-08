@@ -25,3 +25,8 @@ service:
   port: 15672
   amqpPort: 5672
   amqpNodePort: 30672
+nfs:
+  enabled: false
+  storage: 5Gi
+  path: /nfs_share/rabbitmq
+  server: 192.168.16.3

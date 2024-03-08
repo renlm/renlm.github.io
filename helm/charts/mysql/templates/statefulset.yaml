@@ -1,11 +1,12 @@
+{{- $fullName := include "mysql.fullname" . -}}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ include "mysql.fullname" . }}
+  name: {{ $fullName }}
   labels:
     {{- include "mysql.labels" . | nindent 4 }}
 spec:
-  serviceName: {{ include "mysql.fullname" . }}
+  serviceName: {{ $fullName }}
   replicas: 1
   selector:
     matchLabels:

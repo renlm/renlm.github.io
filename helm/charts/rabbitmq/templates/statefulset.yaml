@@ -1,11 +1,12 @@
+{{- $fullName := include "rabbitmq.fullname" . -}}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ include "rabbitmq.fullname" . }}
+  name: {{ $fullName }}
   labels:
     {{- include "rabbitmq.labels" . | nindent 4 }}
 spec:
-  serviceName: {{ include "rabbitmq.fullname" . }}
+  serviceName: {{ $fullName }}
   replicas: 1
   selector:
     matchLabels:
@@ -45,6 +46,12 @@ spec:
             - name: rabbitmq-lib
               mountPath: /var/lib/rabbitmq
       volumes:
+        {{- if .Values.nfs.enabled }}
+        - name: rabbitmq-lib
+          persistentVolumeClaim:
+            claimName: {{ $fullName }}-pvc
+        {{- else }}
         - name: rabbitmq-lib
           hostPath:
             path: /var/lib/rabbitmq
+        {{- end }}
