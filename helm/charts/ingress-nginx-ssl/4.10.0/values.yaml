@@ -1,3 +1,9 @@
+serviceAccount:
+  create: false
+ingress:
+  enabled: false
+service:
+  type: None
 metallb:
   enabled: true
 ingress-nginx:
