@@ -95,7 +95,7 @@ entries:
   mygraph:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-03-08T20:09:32.02481998+08:00"
+    created: "2024-03-08T20:14:30.03056715+08:00"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -117,9 +117,9 @@ entries:
       name: jenkins
       repository: https://renlm.gitee.io/helm/repo
       version: 0.1.0
-    digest: d25e236327665ed80b1eca7d2cfc0804bef9b7e4d3a4d069b88ee6769ff110ed
+    digest: f0ce1e22675e5f622ea2b11a61536f111480296c83c2ff1125a6c27a897a3086
     name: mygraph
     urls:
-    - https://renlm.gitee.io/helm/repo/mygraph-0.1.0.tgz
-    version: 0.1.0
+    - https://renlm.gitee.io/helm/repo/mygraph-1.0.1.tgz
+    version: 1.0.1
 generated: "2024-03-08T13:36:53.446143534+08:00"
