@@ -53,6 +53,16 @@
 	
 	k8s
 	$ kubectl apply -f https://renlm.gitee.io/helm/yaml/tls-nginx.yaml
+	
+## 镜像密文
+	# 同一命名空间下使用
+	$ kubectl create namespace renlm
+	
+	# kubectl -n renlm get secret aliyuncs --output="jsonpath={.data.\.dockerconfigjson}" | base64 -d
+	$ kubectl -n renlm create secret docker-registry aliyuncs \
+	  	--docker-server=registry.cn-hangzhou.aliyuncs.com \
+	  	--docker-username=renlm@21cn.com \
+	  	--docker-password=PWD
 
 ## KubeConfig
 	登录机器
