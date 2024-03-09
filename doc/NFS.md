@@ -42,7 +42,7 @@ $ vi /etc/exports
     $ /etc/init.d/nfs-kernel-server status
     
     创建挂载目录
-    $ mkdir /nfs_share/{mysql,jenkins,rabbitmq}
+    $ mkdir -p /nfs_share/{mysql,jenkins,rabbitmq}
     挂载子目录必须提前创建，否则pod将创建失败
     $ kubectl describe pod mygraph-mysql-0 -n renlm
 
