@@ -3,7 +3,7 @@ entries:
   frr-k8s:
   - apiVersion: v2
     appVersion: v0.0.8
-    created: "2024-03-09T14:46:17.416170664+08:00"
+    created: "2024-03-09T14:58:24.972480345+08:00"
     dependencies:
     - condition: crds.enabled
       name: crds
@@ -27,7 +27,7 @@ entries:
       artifacthub.io/prerelease: "false"
     apiVersion: v2
     appVersion: 1.10.0
-    created: "2024-03-09T14:46:17.42246312+08:00"
+    created: "2024-03-09T14:58:24.9829637+08:00"
     description: Ingress controller for Kubernetes using NGINX as a reverse proxy
       and load balancer
     digest: 74f6590786bee20295bbe76f914514d9a111d7e9317acf13d26de482ae8abc1a
@@ -47,20 +47,71 @@ entries:
     urls:
     - https://renlm.gitee.io/helm/repo/ingress-nginx-4.10.0.tgz
     version: 4.10.0
+  ingress-nginx-ssl:
+  - apiVersion: v2
+    appVersion: 1.0.1
+    created: "2024-03-09T14:58:24.996873144+08:00"
+    dependencies:
+    - condition: frr-k8s.enabled
+      name: frr-k8s
+      repository: https://renlm.gitee.io/helm/repo
+      version: 0.0.8
+    - condition: ingress-nginx.enabled
+      name: ingress-nginx
+      repository: https://renlm.gitee.io/helm/repo
+      version: 4.10.0
+    description: 开启ssl透传
+    digest: b5b6d127f7ffeef82121389b577921761fe85655feb5e1e7c8e2a6c7449069e3
+    keywords:
+    - https://kubernetes.github.io/ingress-nginx/deploy/
+    name: ingress-nginx-ssl
+    urls:
+    - https://renlm.gitee.io/helm/repo/ingress-nginx-ssl-4.10.0.tgz
+    version: 4.10.0
   jenkins:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-03-09T14:46:17.424013229+08:00"
-    digest: e2db351665e935c8298e6ad43e93571b2c05654144f1bec2059578e363844d7a
+    created: "2024-03-09T14:58:24.998156797+08:00"
+    digest: 6fe3c1301be8b15af8e6a26ee4d2dceff0347e3857994e183106c3ee8259fc89
     name: jenkins
     urls:
     - https://renlm.gitee.io/helm/repo/jenkins-0.1.0.tgz
     version: 0.1.0
+  mygraph:
+  - apiVersion: v2
+    appVersion: 1.0.1
+    created: "2024-03-09T14:58:25.011514241+08:00"
+    dependencies:
+    - condition: prometheus.enabled
+      name: prometheus
+      repository: https://renlm.gitee.io/helm/repo
+      version: 0.1.0
+    - condition: redis.enabled
+      name: redis
+      repository: https://renlm.gitee.io/helm/repo
+      version: 0.1.0
+    - condition: mysql.enabled
+      name: mysql
+      repository: https://renlm.gitee.io/helm/repo
+      version: 0.1.0
+    - condition: rabbitmq.enabled
+      name: rabbitmq
+      repository: https://renlm.gitee.io/helm/repo
+      version: 0.1.0
+    - condition: jenkins.enabled
+      name: jenkins
+      repository: https://renlm.gitee.io/helm/repo
+      version: 0.1.0
+    digest: df8924169a86e4ba70e0aefb867e343cc12ed116dd9ca4aed7cf4acade5e3287
+    name: mygraph
+    urls:
+    - https://renlm.gitee.io/helm/repo/mygraph-1.0.1.tgz
+    version: 1.0.1
   mysql:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-03-09T14:46:17.424752033+08:00"
-    digest: 8534386301c4dc2d187c2dcd810df8f9ba05e9da983c538de82b744b560d408d
+    created: "2024-03-09T14:58:25.013523389+08:00"
+    digest: ee4044cd5dac904b746a41456ec4bdc0aec4eace87e01c44ee60049f047e1196
     name: mysql
     urls:
     - https://renlm.gitee.io/helm/repo/mysql-0.1.0.tgz
@@ -68,8 +119,8 @@ entries:
   prometheus:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-03-09T14:46:17.425466776+08:00"
-    digest: e159516ee6524fa212a97662d0f4375f1e38862b8033f7030ee24204cde2eb06
+    created: "2024-03-09T14:58:25.014298803+08:00"
+    digest: 73301942ba73c444be1868bc9a6b9cb81e7920518b053d6613f4716da2891cd6
     name: prometheus
     urls:
     - https://renlm.gitee.io/helm/repo/prometheus-0.1.0.tgz
@@ -77,8 +128,8 @@ entries:
   rabbitmq:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-03-09T14:46:17.426353308+08:00"
-    digest: 5f21ff936c0ed042bc2b622c643b5442aebb1d870e611c9bbb463d66e54fd746
+    created: "2024-03-09T14:58:25.015175797+08:00"
+    digest: 966bd8cbaf3c6302db1de63badcc7ccd4ef25326dd7fb939b6703bc2dc178914
     name: rabbitmq
     urls:
     - https://renlm.gitee.io/helm/repo/rabbitmq-0.1.0.tgz
@@ -86,10 +137,10 @@ entries:
   redis:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-03-09T14:46:17.427026198+08:00"
-    digest: 9c68d36cba0f5932ab66bc15298fe5b12a58989009cba05c9316bc144fa54986
+    created: "2024-03-09T14:58:25.016133523+08:00"
+    digest: f672110a0480063c2a88abbfc1705c7948378284d9a67e506c6cf824e8cf4ffb
     name: redis
     urls:
     - https://renlm.gitee.io/helm/repo/redis-0.1.0.tgz
     version: 0.1.0
-generated: "2024-03-09T14:46:17.411846328+08:00"
+generated: "2024-03-09T14:58:24.965863663+08:00"
