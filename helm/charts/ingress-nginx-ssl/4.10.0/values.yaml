@@ -6,6 +6,18 @@ service:
   type: None
 frr-k8s:
   enabled: true
+  prometheus:
+    rbacProxy:
+      repository: registry.cn-hangzhou.aliyuncs.com/rlm/kube-rbac-proxy
+      tag: v0.12.0
+  frrk8s:
+    image:
+      repository: registry.cn-hangzhou.aliyuncs.com/rlm/frr-k8s
+      tag: v0.0.8
+    frr:
+      image:
+        repository: registry.cn-hangzhou.aliyuncs.com/rlm/frrouting-frr
+        tag: 8.4.2
 ingress-nginx:
   enabled: true
   controller:
