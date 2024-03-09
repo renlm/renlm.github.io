@@ -29,14 +29,14 @@ entries:
   ingress-nginx-ssl:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-03-09T17:24:34.570040678+08:00"
+    created: "2024-03-09T17:40:27.293752906+08:00"
     dependencies:
     - condition: ingress-nginx.enabled
       name: ingress-nginx
       repository: https://renlm.gitee.io/helm/repo
       version: 4.10.0
     description: 开启ssl透传
-    digest: c952d731cd2455ae09fc872ac4d785fb77daeaba9d71fd0105726b8b3186492f
+    digest: 0c4e3aec219901d929feb60d142e7dad4c80d6641e602153947c5018dc223535
     keywords:
     - https://kubernetes.github.io/ingress-nginx/deploy/
     name: ingress-nginx-ssl
