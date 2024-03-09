@@ -15,8 +15,6 @@ ingress-nginx:
       controllerValue: k8s.io/ingress-nginx-ssl
     service:
       type: ClusterIP
-      externalTrafficPolicy: Local
-      sessionAffinity: None
       externalIPs:
       - 192.168.16.6
     extraArgs:
