@@ -10,14 +10,17 @@ frr-k8s:
     rbacProxy:
       repository: registry.cn-hangzhou.aliyuncs.com/rlm/kube-rbac-proxy
       tag: v0.12.0
+      pullPolicy: Always
   frrk8s:
     image:
       repository: registry.cn-hangzhou.aliyuncs.com/rlm/frr-k8s
       tag: v0.0.8
+      pullPolicy: Always
     frr:
       image:
         repository: registry.cn-hangzhou.aliyuncs.com/rlm/frrouting-frr
         tag: 8.4.2
+        pullPolicy: Always
 ingress-nginx:
   enabled: true
   controller:
