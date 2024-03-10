@@ -11,6 +11,18 @@
 192.168.16.3 rancher.renlm.cn
 192.168.0.7 JD3
 ```
+
+## 检查DNS servers
+	# Nameserver limits were exceeded
+	# Too many DNS servers configured, the following entries may be ignored.
+	$ cat /run/systemd/resolve/resolv.conf
+	
+	注释掉多余的DNS servers
+	$ vi /etc/systemd/resolved.conf
+	
+	重启服务
+	$ systemctl restart systemd-resolved
+	$ systemctl enable systemd-resolved
 	
 ## 安装k3s
 	https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-6-9/
@@ -180,15 +192,3 @@ installation:
 # 命令修改
 kubectl patch installation.operator.tigera.io default --type merge -p '{"spec":{"calicoNetwork":{"mtu":1400}}}'
 ```
-
-## Nameserver limits were exceeded
-	检查DNS servers
-	# Too many DNS servers configured, the following entries may be ignored.
-	$ cat /run/systemd/resolve/resolv.conf
-	
-	注释掉多余的DNS servers
-	$ vi /etc/systemd/resolved.conf
-	
-	重启服务
-	$ systemctl restart systemd-resolved
-	$ systemctl enable systemd-resolved
