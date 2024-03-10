@@ -15,6 +15,7 @@
 $ vi /etc/exports
 /nfs_share 192.168.0.3(insecure,rw,async,no_root_squash,no_subtree_check)
 /nfs_share 192.168.0.7(insecure,rw,async,no_root_squash,no_subtree_check)
+/nfs_share 192.168.16.6(insecure,rw,async,no_root_squash,no_subtree_check)
 
 参数说明：
 	insecure         允许从这台机器过来的非授权访问
@@ -30,7 +31,7 @@ $ vi /etc/exports
     查看本机挂载磁盘信息
     $ showmount -e localhost
         Export list for localhost:
-		/nfs_share 192.168.0.3,192.168.0.7
+		/nfs_share 192.168.16.6,192.168.0.7,192.168.0.3
  
     启动
     $ /etc/init.d/nfs-kernel-server start
