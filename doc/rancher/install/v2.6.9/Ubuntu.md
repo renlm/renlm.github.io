@@ -12,7 +12,7 @@
 192.168.0.7 JD3
 ```
 
-## 检查DNS
+## 检查DNS配置
 	# Nameserver limits were exceeded
 	# Too many DNS servers configured, the following entries may be ignored.
 	$ cat /run/systemd/resolve/resolv.conf
