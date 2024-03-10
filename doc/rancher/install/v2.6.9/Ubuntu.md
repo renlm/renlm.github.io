@@ -180,3 +180,15 @@ installation:
 # 命令修改
 kubectl patch installation.operator.tigera.io default --type merge -p '{"spec":{"calicoNetwork":{"mtu":1400}}}'
 ```
+
+## Nameserver limits were exceeded
+	检查DNS servers
+	# Too many DNS servers configured, the following entries may be ignored.
+	$ cat /run/systemd/resolve/resolv.conf
+	
+	注释掉多余的DNS servers
+	$ vi /etc/systemd/resolved.conf
+	
+	重启服务
+	$ systemctl restart systemd-resolved
+	$ systemctl enable systemd-resolved
