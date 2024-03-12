@@ -7,6 +7,7 @@ data:
   {{ .Chart.Name | nindent 2 }}-{{ .Values.env }}.yaml: |-
     server:
       port: {{ .Values.service.port }}
+      shutdown: graceful
       servlet:
         session:
           cookie:
