@@ -14,9 +14,10 @@ ingress-nginx:
       name: nginx-ssl
       controllerValue: k8s.io/ingress-nginx-ssl
     service:
-      type: ClusterIP
-      externalIPs:
-      - 192.168.16.6
+      type: NodePort
+      nodePorts:
+        http: 30080
+        https: 30443
     extraArgs:
       enable-ssl-passthrough: ""
     image:
