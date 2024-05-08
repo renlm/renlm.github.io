@@ -83,7 +83,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	https://github.com/helm/helm/releases/
 	
 	手动上传文件，下载较慢
-	$ wget https://renlm.gitee.io/helm/download/helm-v3.12.3-linux-amd64.tar.gz
+	$ wget https://renlm.github.io/helm/download/helm-v3.12.3-linux-amd64.tar.gz
 	$ tar -zxvf helm-v3.12.3-linux-amd64.tar.gz
 	$ mv linux-amd64/helm /usr/local/bin/helm
 	$ helm version
@@ -122,10 +122,10 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	https://cert-manager.io/docs/usage/certificate/#creating-certificate-resources
 	
 	k3s
-	$ kubectl apply -f https://renlm.gitee.io/helm/yaml/tls-traefik.yaml
+	$ kubectl apply -f https://renlm.github.io/helm/yaml/tls-traefik.yaml
 	
 	k8s
-	$ kubectl apply -f https://renlm.gitee.io/helm/yaml/tls-nginx.yaml
+	$ kubectl apply -f https://renlm.github.io/helm/yaml/tls-nginx.yaml
 
 ## 安装 docker（可选）
 	https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/installation-requirements/install-docker

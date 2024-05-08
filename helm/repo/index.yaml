@@ -24,7 +24,7 @@ entries:
     sources:
     - https://github.com/kubernetes/ingress-nginx
     urls:
-    - https://renlm.gitee.io/helm/repo/ingress-nginx-4.10.0.tgz
+    - https://renlm.github.io/helm/repo/ingress-nginx-4.10.0.tgz
     version: 4.10.0
   ingress-nginx-ssl:
   - apiVersion: v2
@@ -33,7 +33,7 @@ entries:
     dependencies:
     - condition: ingress-nginx.enabled
       name: ingress-nginx
-      repository: https://renlm.gitee.io/helm/repo
+      repository: https://renlm.github.io/helm/repo
       version: 4.10.0
     description: 开启ssl透传
     digest: e3b7ac5a323b3f4696d3a43c15d78f4a0ca4c9bbd558d5d803430934b5d81419
@@ -41,7 +41,7 @@ entries:
     - https://kubernetes.github.io/ingress-nginx/deploy/
     name: ingress-nginx-ssl
     urls:
-    - https://renlm.gitee.io/helm/repo/ingress-nginx-ssl-4.10.0.tgz
+    - https://renlm.github.io/helm/repo/ingress-nginx-ssl-4.10.0.tgz
     version: 4.10.0
   jenkins:
   - apiVersion: v2
@@ -50,7 +50,7 @@ entries:
     digest: 5fc80aad6a57db5453d7afaf2d5baa874a0931635fca4f86d441fdcc56cc7d98
     name: jenkins
     urls:
-    - https://renlm.gitee.io/helm/repo/jenkins-0.1.0.tgz
+    - https://renlm.github.io/helm/repo/jenkins-0.1.0.tgz
     version: 0.1.0
   mygraph:
   - apiVersion: v2
@@ -59,28 +59,28 @@ entries:
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
-      repository: https://renlm.gitee.io/helm/repo
+      repository: https://renlm.github.io/helm/repo
       version: 0.1.0
     - condition: redis.enabled
       name: redis
-      repository: https://renlm.gitee.io/helm/repo
+      repository: https://renlm.github.io/helm/repo
       version: 0.1.0
     - condition: mysql.enabled
       name: mysql
-      repository: https://renlm.gitee.io/helm/repo
+      repository: https://renlm.github.io/helm/repo
       version: 0.1.0
     - condition: rabbitmq.enabled
       name: rabbitmq
-      repository: https://renlm.gitee.io/helm/repo
+      repository: https://renlm.github.io/helm/repo
       version: 0.1.0
     - condition: jenkins.enabled
       name: jenkins
-      repository: https://renlm.gitee.io/helm/repo
+      repository: https://renlm.github.io/helm/repo
       version: 0.1.0
     digest: daecb1cec171d105ce204ccca7acee735af6f6a28158a5d04a9526f9b6ecd954
     name: mygraph
     urls:
-    - https://renlm.gitee.io/helm/repo/mygraph-1.0.1.tgz
+    - https://renlm.github.io/helm/repo/mygraph-1.0.1.tgz
     version: 1.0.1
   mysql:
   - apiVersion: v2
@@ -89,7 +89,7 @@ entries:
     digest: dd6a99519d39ece251815d32418a8ada8576650fcdbb010998797086efe23889
     name: mysql
     urls:
-    - https://renlm.gitee.io/helm/repo/mysql-0.1.0.tgz
+    - https://renlm.github.io/helm/repo/mysql-0.1.0.tgz
     version: 0.1.0
   prometheus:
   - apiVersion: v2
@@ -98,7 +98,7 @@ entries:
     digest: ef00ffaef6b67b0968ce645837c537c96cfb9125d4d95304814b18dd05edb590
     name: prometheus
     urls:
-    - https://renlm.gitee.io/helm/repo/prometheus-0.1.0.tgz
+    - https://renlm.github.io/helm/repo/prometheus-0.1.0.tgz
     version: 0.1.0
   rabbitmq:
   - apiVersion: v2
@@ -107,7 +107,7 @@ entries:
     digest: bd94b9f26778843a54619be852ba816cf6bfb9354e5c2a83542d82a56f6f7004
     name: rabbitmq
     urls:
-    - https://renlm.gitee.io/helm/repo/rabbitmq-0.1.0.tgz
+    - https://renlm.github.io/helm/repo/rabbitmq-0.1.0.tgz
     version: 0.1.0
   redis:
   - apiVersion: v2
@@ -116,6 +116,6 @@ entries:
     digest: ace17c218ac94ab3e423d5c013a273103d2e52d8a52f327c158bb6e5ed9b9925
     name: redis
     urls:
-    - https://renlm.gitee.io/helm/repo/redis-0.1.0.tgz
+    - https://renlm.github.io/helm/repo/redis-0.1.0.tgz
     version: 0.1.0
 generated: "2024-03-13T17:11:55.776044335+08:00"

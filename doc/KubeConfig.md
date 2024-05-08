@@ -20,7 +20,7 @@
 	https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/#ssl-passthrough
 	登录Rancher Kubectl Shell控制台(ingressClass: nginx-ssl)
 	$ helm upgrade --install ingress-nginx-ssl ingress-nginx-ssl \
-        --repo https://renlm.gitee.io/helm/repo \
+        --repo https://renlm.github.io/helm/repo \
         --namespace renlm --create-namespace \
         --version 4.10.0
 	
@@ -49,10 +49,10 @@
 	https://cert-manager.io/docs/usage/certificate/#creating-certificate-resources
 	
 	k3s
-	$ kubectl apply -f https://renlm.gitee.io/helm/yaml/tls-traefik.yaml
+	$ kubectl apply -f https://renlm.github.io/helm/yaml/tls-traefik.yaml
 	
 	k8s
-	$ kubectl apply -f https://renlm.gitee.io/helm/yaml/tls-nginx.yaml
+	$ kubectl apply -f https://renlm.github.io/helm/yaml/tls-nginx.yaml
 	
 ## 镜像密文
 	# 同一命名空间下使用
@@ -85,7 +85,7 @@ source ~/.bashrc
 # 运维团队
 # 集群角色：cluster-admin
 # 命令动作：new、export
-curl -sfL https://renlm.gitee.io/script/sh/KubeConfig.sh | \
+curl -sfL https://renlm.github.io/script/sh/KubeConfig.sh | \
   SERVER=https://kubernetes.renlm.cn \
   CLUSTER=pubyun \
   NAMESPACE=renlm \
@@ -99,7 +99,7 @@ curl -sfL https://renlm.gitee.io/script/sh/KubeConfig.sh | \
 # 开发团队
 # 集群角色：admin
 # 命令动作：new、export
-curl -sfL https://renlm.gitee.io/script/sh/KubeConfig.sh | \
+curl -sfL https://renlm.github.io/script/sh/KubeConfig.sh | \
   SERVER=https://kubernetes.renlm.cn \
   CLUSTER=pubyun \
   NAMESPACE=renlm \

@@ -9,6 +9,6 @@
 
 ### MyGraph
 	$ helm upgrade --install mygraph mygraph \
-        --repo https://renlm.gitee.io/helm/repo \
+        --repo https://renlm.github.io/helm/repo \
         --namespace renlm --create-namespace \
         --version 1.0.1
