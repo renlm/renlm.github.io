@@ -25,7 +25,7 @@
 	$ systemctl enable systemd-resolved
 	
 ## failed to create fsnotify watcher: too many open files
-	$ echo fs.inotify.max_user_instances=8192| tee -a /etc/sysctl.conf && sysctl -p
+	$ echo fs.inotify.max_user_instances = 256 | tee -a /etc/sysctl.conf && sysctl -p
 	
 ## 安装k3s
 	https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-6-9/
