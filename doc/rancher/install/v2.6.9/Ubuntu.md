@@ -123,7 +123,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
         --set letsEncrypt.ingress.class=traefik
 	
 ## 安装 Kubernetes Gateway API
-	$ wget https://github.com/kubernetes-sigs/gateway-api/releases/download/v0.8.1/standard-install.yaml
+	$ wget https://github.com/kubernetes-sigs/gateway-api/releases/download/v0.8.1/experimental-install.yaml
 	$ kubectl apply -f standard-install.yaml
         
 ## SSL证书（可选）
