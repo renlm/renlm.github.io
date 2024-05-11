@@ -124,7 +124,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	
 ## 安装 Kubernetes Gateway API
 	$ wget https://github.com/kubernetes-sigs/gateway-api/releases/download/v0.8.1/experimental-install.yaml
-	$ kubectl apply -f standard-install.yaml
+	$ kubectl apply -f experimental-install.yaml
         
 ## SSL证书（可选）
 	https://cert-manager.io/docs/usage/certificate/#creating-certificate-resources
