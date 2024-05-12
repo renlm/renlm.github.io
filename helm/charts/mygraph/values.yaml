@@ -68,10 +68,17 @@ actuator:
       successThreshold: 1
       failureThreshold: 20
       timeoutSeconds: 1
+resources:
+  limits:
+    memory: 4Gi
+    cpu: 2
+  requests:
+    memory: 500Mi
+    cpu: 200m
 autoscaling:
   enabled: false
-  minReplicas: 1
-  maxReplicas: 5
+  minReplicas: 2
+  maxReplicas: 3
   targetCPUUtilizationPercentage: 80
 # 子Chart配置
 prometheus:
@@ -87,8 +94,7 @@ mysql:
   database: mygraph
   user: mygraph
   password: PWD@20xx$
-  nodeSelector:
-    mygraph/mysql: mark
+  nodeSelector: {}
   image:
     repository: mysql
     pullPolicy: IfNotPresent
@@ -107,8 +113,7 @@ rabbitmq:
   defaultVhost: /mygraph
   defaultUser: mygraph
   defaultPass: PWD@20xx$
-  nodeSelector:
-    mygraph/rabbitmq: mark
+  nodeSelector: {}
   image:
     repository: rabbitmq
     pullPolicy: IfNotPresent
@@ -138,8 +143,7 @@ rabbitmq:
 redis:
   enabled: true
   requirepass: PWD@20xx$
-  nodeSelector:
-    mygraph/redis: mark
+  nodeSelector: {}
   image:
     repository: redis
     pullPolicy: IfNotPresent
@@ -150,8 +154,7 @@ redis:
     nodePort: 30379
 jenkins:
   enabled: false
-  nodeSelector:
-    mygraph/jenkins: mark
+  nodeSelector: {}
   image:
     repository: jenkins/jenkins
     pullPolicy: IfNotPresent
