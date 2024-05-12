@@ -50,6 +50,10 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "rabbitmq.selectorLabels" -}}
+app: {{ include "rabbitmq.fullname" . }}
+{{- if .Chart.Version }}
+version: {{ .Chart.Version | quote }}
+{{- end }}
 app.kubernetes.io/name: {{ include "rabbitmq.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}

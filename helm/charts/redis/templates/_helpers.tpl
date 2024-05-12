@@ -50,6 +50,10 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "redis.selectorLabels" -}}
+app: {{ include "redis.fullname" . }}
+{{- if .Chart.Version }}
+version: {{ .Chart.Version | quote }}
+{{- end }}
 app.kubernetes.io/name: {{ include "redis.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}

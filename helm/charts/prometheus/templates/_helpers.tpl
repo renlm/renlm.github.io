@@ -50,6 +50,10 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "prometheus.selectorLabels" -}}
+app: {{ include "prometheus.fullname" . }}
+{{- if .Chart.Version }}
+version: {{ .Chart.Version | quote }}
+{{- end }}
 app.kubernetes.io/name: {{ include "prometheus.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
