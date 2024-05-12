@@ -23,7 +23,7 @@ spec:
     - selector: {}
       http01:
         ingress:
-          # nginx(k8s) | traefik(k3s)
+          # istio | nginx | traefik
           class: nginx
 ---
 apiVersion: v1
@@ -34,15 +34,15 @@ metadata:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: renlm.cert
+  name: pubyun.renlm.cn
   namespace: renlm
 spec:
-  secretName: renlm.secret
+  secretName: pubyun.renlm.cn
   duration: 2160h
   renewBefore: 360h
   subject:
     organizations:
-      - renlm
+      - pubyun.renlm.cn
   dnsNames:
     - renlm.cn
     - www.renlm.cn
