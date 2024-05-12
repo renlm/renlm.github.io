@@ -36,7 +36,7 @@ Common labels
 {{- define "prometheus.labels" -}}
 helm.sh/chart: {{ include "prometheus.chart" . }}
 {{ include "prometheus.selectorLabels" . }}
-app: {{ prometheus.fullname | quote }}
+app: {{ include "prometheus.fullname" . }}
 {{- if .Chart.Version }}
 version: {{ .Chart.Version | quote }}
 {{- end }}

@@ -36,7 +36,7 @@ Common labels
 {{- define "mygraph.labels" -}}
 helm.sh/chart: {{ include "mygraph.chart" . }}
 {{ include "mygraph.selectorLabels" . }}
-app: {{ mygraph.fullname | quote }}
+app: {{ include "mygraph.fullname" . }}
 {{- if .Chart.Version }}
 version: {{ .Chart.Version | quote }}
 {{- end }}

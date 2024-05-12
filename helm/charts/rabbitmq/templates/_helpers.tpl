@@ -36,7 +36,7 @@ Common labels
 {{- define "rabbitmq.labels" -}}
 helm.sh/chart: {{ include "rabbitmq.chart" . }}
 {{ include "rabbitmq.selectorLabels" . }}
-app: {{ rabbitmq.fullname | quote }}
+app: {{ include "rabbitmq.fullname" . }}
 {{- if .Chart.Version }}
 version: {{ .Chart.Version | quote }}
 {{- end }}
