@@ -28,12 +28,12 @@
 		  --version v1.7.1 \
 		  --set installCRDs=true
 
-## SSL证书
+## SSL证书（可选）
 	登录Rancher Kubectl Shell控制台
 	https://cert-manager.io/docs/usage/certificate/#creating-certificate-resources
 	$ kubectl apply -f https://renlm.github.io/helm/yaml/tls.yaml
 	
-## 镜像密文
+## 镜像密文（可选）
 	# 同一命名空间下使用
 	$ kubectl create namespace renlm
 	
