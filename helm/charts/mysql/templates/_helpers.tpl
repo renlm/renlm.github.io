@@ -36,10 +36,6 @@ Common labels
 {{- define "mysql.labels" -}}
 helm.sh/chart: {{ include "mysql.chart" . }}
 {{ include "mysql.selectorLabels" . }}
-app: {{ include "mysql.fullname" . }}
-{{- if .Chart.Version }}
-version: {{ .Chart.Version | quote }}
-{{- end }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}

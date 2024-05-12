@@ -36,10 +36,6 @@ Common labels
 {{- define "jenkins.labels" -}}
 helm.sh/chart: {{ include "jenkins.chart" . }}
 {{ include "jenkins.selectorLabels" . }}
-app: {{ include "jenkins.fullname" . }}
-{{- if .Chart.Version }}
-version: {{ .Chart.Version | quote }}
-{{- end }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
