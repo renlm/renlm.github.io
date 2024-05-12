@@ -24,7 +24,8 @@
 	$ systemctl restart systemd-resolved
 	$ systemctl enable systemd-resolved
 	
-## 修改fs.inotify.max_user_instances
+## 系统参数
+	# failed to create fsnotify watcher: too many open files
 	$ sysctl -n fs.inotify.max_user_instances
 	$ echo fs.inotify.max_user_instances = 512 | tee -a /etc/sysctl.conf && sysctl -p
 	
@@ -123,13 +124,9 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
         --set letsEncrypt.ingress.class=traefik
 	
 ## SSL证书（可选）
+	登录Rancher Kubectl Shell控制台
 	https://cert-manager.io/docs/usage/certificate/#creating-certificate-resources
-	
-	k3s
-	$ kubectl apply -f https://renlm.github.io/helm/yaml/tls-traefik.yaml
-	
-	k8s
-	$ kubectl apply -f https://renlm.github.io/helm/yaml/tls-nginx.yaml
+	$ kubectl apply -f https://renlm.github.io/helm/yaml/tls.yaml
 
 ## 安装 docker（可选）
 	https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/installation-requirements/install-docker
