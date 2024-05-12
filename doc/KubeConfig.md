@@ -8,22 +8,6 @@
 	# RKE2
 	v1.24.17
 	
-## TLS 可选名称
-	https://docs.rancher.cn/
-	https://docs.rke2.io/reference/server_config
-	# Rancher 文档 > 参考指南 > 集群配置 > Rancher Server 配置 > 集群配置参考
-	# Rancher 集群管理 > {找到指定集群} > 编辑配置 > 网络 > TLS 可选名称 > kubernetes.renlm.cn
-	# Rancher 集群管理 > {找到指定集群} > 轮换证书 > 轮换单个服务证书 > 选择api-server
-	
-## 启用ssl透传
-	Rancher > 工作负载 > DaemonSets > rke2-ingress-nginx-controller > 启动命令加参数--enable-ssl-passthrough
-	https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/#ssl-passthrough
-	登录Rancher Kubectl Shell控制台(ingressClass: nginx-ssl)
-	$ helm upgrade --install ingress-nginx-ssl ingress-nginx-ssl \
-        --repo https://renlm.github.io/helm/repo \
-        --namespace renlm --create-namespace \
-        --version 4.10.0
-	
 ## Ingress-nginx 
 	登录Rancher Kubectl Shell控制台
 	启用allow-snippet-annotations（默认false）
@@ -47,12 +31,7 @@
 ## SSL证书
 	登录Rancher Kubectl Shell控制台
 	https://cert-manager.io/docs/usage/certificate/#creating-certificate-resources
-	
-	k3s
-	$ kubectl apply -f https://renlm.github.io/helm/yaml/tls-traefik.yaml
-	
-	k8s
-	$ kubectl apply -f https://renlm.github.io/helm/yaml/tls-nginx.yaml
+	$ kubectl apply -f https://renlm.github.io/helm/yaml/tls.yaml
 	
 ## 镜像密文
 	# 同一命名空间下使用

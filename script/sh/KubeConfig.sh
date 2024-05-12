@@ -271,64 +271,6 @@ kubectl get secret rke2-serving -n kube-system --output="jsonpath={.data.tls\.cr
 ####################################################################################################################
 fi
 
-# 代理kube-apiserver
-# 启用ssl透传：Rancher 集群管理 > 工作负载 > DaemonSets > rke2-ingress-nginx-controller > 编辑配置，命令加启动参数--enable-ssl-passthrough
-# https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/#ssl-passthrough
-# https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/#backend-protocol
-kubectl delete ingress kube-apiserver -n kube-system --ignore-not-found
-kubectl delete svc kube-apiserver -n kube-system --ignore-not-found
-cat <<EOF | kubectl apply -f -
-apiVersion: v1
-kind: List
-items:
-  - apiVersion: networking.k8s.io/v1
-    kind: Ingress
-    metadata:
-      name: kube-apiserver
-      namespace: kube-system
-      labels:
-        component: kube-apiserver
-        tier: control-plane
-      annotations:
-        nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-        nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-    spec:
-      ingressClassName: nginx-ssl
-      tls:
-      - hosts:
-        - ${DOMAIN}
-        secretName: ${USER}-key.kubeconfig.pem
-      rules:
-      - host: ${DOMAIN}
-        http:
-          paths:
-          - path: /
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: kube-apiserver
-                port:
-                  number: 443
-  - apiVersion: v1
-    kind: Service
-    metadata:
-      name: kube-apiserver
-      namespace: kube-system
-      labels:
-        component: kube-apiserver
-        tier: control-plane
-    spec:
-      type: ClusterIP
-      ports:
-        - name: https
-          port: 443
-          protocol: TCP
-          targetPort: 6443
-      selector:
-        component: kube-apiserver
-        tier: control-plane
-EOF
-
 # 生成kubeconfig
 # https://kubernetes.io/docs/reference/kubectl/generated
 KC_EXEC="kubectl --kubeconfig ${USER}.kubeconfig config"
