@@ -48,7 +48,7 @@ ingress:
     - path: /
       pathType: Prefix
   tls:
-  - secretName: renlm.secret
+  - secretName: pubyun.renlm.cn
     hosts:
     - mygraph.renlm.cn
 service:
@@ -77,7 +77,7 @@ autoscaling:
 prometheus:
   enabled: false
   port: 9000
-  portName: prometheus
+  portName: prometheus-tcp
   selector:
   - name: prometheus
     value: monitor
@@ -122,7 +122,7 @@ rabbitmq:
       - path: /
         pathType: Prefix
     tls:
-    - secretName: renlm.secret
+    - secretName: pubyun.renlm.cn
       hosts:
       - rabbitmq.renlm.cn
   service:
@@ -165,7 +165,7 @@ jenkins:
       - path: /
         pathType: Prefix
     tls:
-    - secretName: renlm.secret
+    - secretName: pubyun.renlm.cn
       hosts:
       - jenkins.renlm.cn
   nfs:

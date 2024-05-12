@@ -39,7 +39,7 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
-            - name: amqp
+            - name: amqp-tcp
               containerPort: {{ .Values.service.amqpPort }}
               protocol: TCP
           volumeMounts:

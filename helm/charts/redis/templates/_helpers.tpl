@@ -36,6 +36,10 @@ Common labels
 {{- define "redis.labels" -}}
 helm.sh/chart: {{ include "redis.chart" . }}
 {{ include "redis.selectorLabels" . }}
+app: {{ redis.fullname | quote }}
+{{- if .Chart.Version }}
+version: {{ .Chart.Version | quote }}
+{{- end }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}

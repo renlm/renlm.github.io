@@ -1,5 +1,5 @@
 port: 9000
-portName: prometheus
+portName: prometheus-tcp
 selector:
 - name: prometheus
   value: monitor

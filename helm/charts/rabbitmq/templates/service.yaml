@@ -12,9 +12,9 @@ spec:
       protocol: TCP
       name: http
     - port: {{ .Values.service.amqpPort }}
-      targetPort: amqp
+      targetPort: amqp-tcp
       nodePort: {{ .Values.service.amqpNodePort }}
       protocol: TCP
-      name: amqp
+      name: amqp-tcp
   selector:
     {{- include "rabbitmq.selectorLabels" . | nindent 4 }}

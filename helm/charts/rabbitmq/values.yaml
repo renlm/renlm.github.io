@@ -17,7 +17,7 @@ ingress:
     - path: /
       pathType: Prefix
   tls:
-  - secretName: renlm.secret
+  - secretName: pubyun.renlm.cn
     hosts:
     - rabbitmq.renlm.cn
 service:

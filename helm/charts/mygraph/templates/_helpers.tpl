@@ -36,6 +36,10 @@ Common labels
 {{- define "mygraph.labels" -}}
 helm.sh/chart: {{ include "mygraph.chart" . }}
 {{ include "mygraph.selectorLabels" . }}
+app: {{ mygraph.fullname | quote }}
+{{- if .Chart.Version }}
+version: {{ .Chart.Version | quote }}
+{{- end }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
