@@ -3,16 +3,46 @@ entries:
   jenkins:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-05-12T15:41:52.294987245+08:00"
+    created: "2024-05-12T15:48:00.843809926+08:00"
     digest: 6ffd4bbef0aa1291b370f89a8486f43f6623e8d847d8242703e926dc3f6d5cee
     name: jenkins
     urls:
     - https://renlm.github.io/helm/repo/jenkins-0.1.0.tgz
     version: 0.1.0
+  mygraph:
+  - apiVersion: v2
+    appVersion: 1.0.1
+    created: "2024-05-12T15:48:00.848296775+08:00"
+    dependencies:
+    - condition: prometheus.enabled
+      name: prometheus
+      repository: https://renlm.github.io/helm/repo
+      version: 0.1.0
+    - condition: redis.enabled
+      name: redis
+      repository: https://renlm.github.io/helm/repo
+      version: 0.1.0
+    - condition: mysql.enabled
+      name: mysql
+      repository: https://renlm.github.io/helm/repo
+      version: 0.1.0
+    - condition: rabbitmq.enabled
+      name: rabbitmq
+      repository: https://renlm.github.io/helm/repo
+      version: 0.1.0
+    - condition: jenkins.enabled
+      name: jenkins
+      repository: https://renlm.github.io/helm/repo
+      version: 0.1.0
+    digest: ae1364276d70bc132a50024f0cf6e5badd2b69b0d5d8cac12e962867ba168069
+    name: mygraph
+    urls:
+    - https://renlm.github.io/helm/repo/mygraph-1.0.1.tgz
+    version: 1.0.1
   mysql:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-05-12T15:41:52.295451239+08:00"
+    created: "2024-05-12T15:48:00.848962238+08:00"
     digest: c6db7d9a5ffa00499494bf1574a36ef985f6f98ce1cbd1b18794f82382a90e4a
     name: mysql
     urls:
@@ -21,7 +51,7 @@ entries:
   prometheus:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-05-12T15:41:52.295731995+08:00"
+    created: "2024-05-12T15:48:00.849506936+08:00"
     digest: afff47d956b6d51c2ce1fb73594a867b5ba6df7fa5d0c9afc4f26706eda9d88b
     name: prometheus
     urls:
@@ -30,7 +60,7 @@ entries:
   rabbitmq:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-05-12T15:41:52.29628844+08:00"
+    created: "2024-05-12T15:48:00.850333368+08:00"
     digest: 69d2cf09b9ca9486b88617f3d31944dddbd44c50f679638b8207c5c749952231
     name: rabbitmq
     urls:
@@ -39,10 +69,10 @@ entries:
   redis:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-05-12T15:41:52.296571409+08:00"
+    created: "2024-05-12T15:48:00.850897433+08:00"
     digest: 327597e40032a728fe715d1de55f509c62a7baac68167c52d46df7f391801ac5
     name: redis
     urls:
     - https://renlm.github.io/helm/repo/redis-0.1.0.tgz
     version: 0.1.0
-generated: "2024-05-12T15:41:52.29430163+08:00"
+generated: "2024-05-12T15:48:00.842727899+08:00"
