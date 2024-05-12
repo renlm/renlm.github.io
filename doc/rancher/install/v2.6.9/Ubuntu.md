@@ -37,6 +37,7 @@
 	restorecon
 	$ apt-get update
 	$ apt-get install -y policycoreutils
+	$ apt-get install -y openssl golang-cfssl jq
 	
 	设置主节点host(192.168.16.3)
 	安装的每个节点机器执行
