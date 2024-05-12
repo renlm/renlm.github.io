@@ -3,46 +3,46 @@ entries:
   jenkins:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-05-12T14:58:49.862302128+08:00"
-    digest: fd5fa58de74c45f598d08cd44ea0906ce16d88f2992f44910b4bdff29bcf05b5
+    created: "2024-05-12T15:17:34.599998741+08:00"
+    digest: a9b7bbc9dcb4fe5e99a54a1ddb90278977f2c72498d53c387c0397a98e89d904
     name: jenkins
     urls:
-    - https://renlm.gitee.io/helm/repo/jenkins-0.1.0.tgz
+    - https://renlm.github.io/helm/repo/jenkins-0.1.0.tgz
     version: 0.1.0
   mysql:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-05-12T14:58:49.862907379+08:00"
-    digest: 2fa8bba3c7fd0a216216701d0390e0dd7772da15274bdc1c8844546e92aeddab
+    created: "2024-05-12T15:17:34.600393591+08:00"
+    digest: 4b0300fb70b583335ca413e870c4754ebc2515e790f13a07bb75f0170d97cd0f
     name: mysql
     urls:
-    - https://renlm.gitee.io/helm/repo/mysql-0.1.0.tgz
+    - https://renlm.github.io/helm/repo/mysql-0.1.0.tgz
     version: 0.1.0
   prometheus:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-05-12T14:58:49.863357368+08:00"
-    digest: ac132eca38f4758d789fab4d74c8b80b7e3c84bf14557613e3886aee2ec0765e
+    created: "2024-05-12T15:17:34.600714003+08:00"
+    digest: 720d9d81544a5189fca7180839ffac5d1970defd943022f2302f6b56e5d39e3b
     name: prometheus
     urls:
-    - https://renlm.gitee.io/helm/repo/prometheus-0.1.0.tgz
+    - https://renlm.github.io/helm/repo/prometheus-0.1.0.tgz
     version: 0.1.0
   rabbitmq:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-05-12T14:58:49.864095821+08:00"
-    digest: 7aabf405465bc5cc7e1c418ccb29da9f5b5197541f3b2fabdf9d4734085f2fd7
+    created: "2024-05-12T15:17:34.601197164+08:00"
+    digest: 218ec018e22968d409029ede42d38cb7b3f3401f5f160ec7ea163c0d560b00be
     name: rabbitmq
     urls:
-    - https://renlm.gitee.io/helm/repo/rabbitmq-0.1.0.tgz
+    - https://renlm.github.io/helm/repo/rabbitmq-0.1.0.tgz
     version: 0.1.0
   redis:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-05-12T14:58:49.864541779+08:00"
-    digest: ca3342cd0e5b895d3f0edc66203dba8553825576f42ec47390a149bf748d76f5
+    created: "2024-05-12T15:17:34.601529754+08:00"
+    digest: 424c64ec9da209f9538aa1d5f29aa200ad8d1d6e8d87ddf1c6fb62826e7fdb56
     name: redis
     urls:
-    - https://renlm.gitee.io/helm/repo/redis-0.1.0.tgz
+    - https://renlm.github.io/helm/repo/redis-0.1.0.tgz
     version: 0.1.0
-generated: "2024-05-12T14:58:49.860456432+08:00"
+generated: "2024-05-12T15:17:34.59612028+08:00"
