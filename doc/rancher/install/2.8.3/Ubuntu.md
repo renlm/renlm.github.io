@@ -130,8 +130,9 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	$ kubectl apply -f https://renlm.github.io/helm/yaml/tls.yaml
 
 ## 安装 docker（可选）
+	https://download.docker.com/linux/static/stable/x86_64/
 	https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/installation-requirements/install-docker
-	$ curl https://releases.rancher.com/install-docker/20.10.sh | sh
+	$ curl https://releases.rancher.com/install-docker/23.0.6.sh | sh
 
 ```
 	阿里云，获取加速地址并配置
