@@ -29,6 +29,8 @@
 	$ sysctl -n fs.inotify.max_user_instances
 	$ echo fs.inotify.max_user_instances = 1024 | tee -a /etc/sysctl.conf && sysctl -p
 	
+	$ echo net.bridge.bridge-nf-call-iptables = 1 | tee -a /etc/sysctl.conf && sysctl -p
+	
 ## 安装k3s
 	https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-8-3/
 	https://docs.rancher.cn/docs/k3s/installation/ha/_index/
