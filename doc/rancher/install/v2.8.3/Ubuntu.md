@@ -29,17 +29,20 @@
 	$ sysctl -n fs.inotify.max_user_instances
 	$ echo fs.inotify.max_user_instances = 1024 | tee -a /etc/sysctl.conf && sysctl -p
 	
-	检测cgroup版本
-	对于 cgroup v2，输出为 cgroup2fs
-	对于 cgroup v1，输出为 tmpfs
-	$ stat -fc %T /sys/fs/cgroup
-	
-	查看是否启用cgroup v2
-	https://rootlesscontaine.rs/getting-started/common/cgroup2/
-	$ cat /sys/fs/cgroup/cgroup.controllers
-	
-```	
+```
+检测cgroup版本
+对于 cgroup v2，输出为 cgroup2fs
+对于 cgroup v1，输出为 tmpfs
+$ stat -fc %T /sys/fs/cgroup
+
+https://rootlesscontaine.rs/getting-started/common/cgroup2/	
 Enabling CPU, CPUSET, and I/O delegation
+By default, a non-root user can only get memory controller and pids controller to be delegated.
+
+$ cat /sys/fs/cgroup/user.slice/user-$(id -u).slice/user@$(id -u).service/cgroup.controllers
+memory pids
+To allow delegation of other controllers such as cpu, cpuset, and io, run the following commands:
+
 $ mkdir -p /etc/systemd/system/user@.service.d
 $ cat <<EOF | tee /etc/systemd/system/user@.service.d/delegate.conf
 [Service]
