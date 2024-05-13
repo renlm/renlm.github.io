@@ -6,7 +6,7 @@
 	cert-manager v1.14.5
 	
 	# RKE2
-	v1.27.13
+	v1.28.8+rke2r1
 	
 ## Ingress-nginx 
 	登录Rancher Kubectl Shell控制台
