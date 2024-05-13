@@ -1,8 +1,8 @@
 # 客户端配置生成
 
 ## 环境配置
-	# Rancher v2.6.9
-	v1.24.17+k3s1
+	# Rancher v2.8.3
+	v1.27.13+k3s1
 	cert-manager v1.7.1
 	
 	# RKE2

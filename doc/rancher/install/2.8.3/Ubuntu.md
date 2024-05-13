@@ -1,4 +1,4 @@
-# Rancher v2.6.9 + Ubuntu 22.04
+# Rancher v2.8.3 + Ubuntu 22.04
 
 ## 检查/etc/hosts
 	修改hostname并立即生效
@@ -8,8 +8,8 @@
 ```
 192.168.0.3 JD1
 192.168.16.3 JD2
-192.168.16.3 rancher.renlm.cn
 192.168.0.7 JD3
+192.168.16.3 rancher.renlm.cn
 ```
 
 ## 检查DNS配置
@@ -27,10 +27,10 @@
 ## 系统参数
 	# failed to create fsnotify watcher: too many open files
 	$ sysctl -n fs.inotify.max_user_instances
-	$ echo fs.inotify.max_user_instances = 512 | tee -a /etc/sysctl.conf && sysctl -p
+	$ echo fs.inotify.max_user_instances = 1024 | tee -a /etc/sysctl.conf && sysctl -p
 	
 ## 安装k3s
-	https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-6-9/
+	https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-8-3/
 	https://docs.rancher.cn/docs/k3s/installation/ha/_index/
 	https://github.com/k3s-io/k3s/releases/
 	
@@ -47,7 +47,7 @@
 # master主节点
 $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     INSTALL_K3S_MIRROR=cn \
-    INSTALL_K3S_VERSION=v1.24.17+k3s1 \
+    INSTALL_K3S_VERSION=v1.27.13+k3s1 \
     K3S_TOKEN=SECRET \
     sh -s - server --tls-san k3s.master \
     --cluster-init
@@ -57,7 +57,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 # master从节点
 $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     INSTALL_K3S_MIRROR=cn \
-    INSTALL_K3S_VERSION=v1.24.17+k3s1 \
+    INSTALL_K3S_VERSION=v1.27.13+k3s1 \
     K3S_TOKEN=SECRET \
     sh -s - server --tls-san k3s.master \
     --server https://k3s.master:6443
@@ -67,7 +67,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 # agent节点
 $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     INSTALL_K3S_MIRROR=cn \
-    INSTALL_K3S_VERSION=v1.24.17+k3s1 \
+    INSTALL_K3S_VERSION=v1.27.13+k3s1 \
     K3S_TOKEN=SECRET \
     sh -s - agent --server https://k3s.master:6443
 ```
@@ -113,10 +113,10 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	$ kubectl -n cattle-system get deploy rancher
 	$ kubectl -n cattle-system rollout status deploy/rancher
 	
-	安装 rancher-stable/rancher v2.6.9
+	安装 rancher-stable/rancher v2.8.3
 	$ kubectl create namespace cattle-system
-	$ helm fetch rancher-stable/rancher --version=v2.6.9
-	$ helm install rancher ./rancher-2.6.9.tgz \
+	$ helm fetch rancher-stable/rancher --version=v2.8.3
+	$ helm install rancher ./rancher-2.8.3.tgz \
         --namespace cattle-system \
         --set hostname=rancher.renlm.cn \
         --set bootstrapPassword="PWD" \
