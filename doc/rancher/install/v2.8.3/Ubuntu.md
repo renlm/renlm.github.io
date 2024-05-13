@@ -30,7 +30,7 @@
 	$ echo fs.inotify.max_user_instances = 1024 | tee -a /etc/sysctl.conf && sysctl -p
 	
 ```
-Enabling CPU, CPUSET, and I/O delegation
+Enabling CPU, CPUSET, and I/O delegation(only cgroup v2)
 https://rootlesscontaine.rs/getting-started/common/cgroup2/	
 
 对于 cgroup v1，输出为 tmpfs
