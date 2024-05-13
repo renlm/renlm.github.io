@@ -103,7 +103,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	$ helm install cert-manager jetstack/cert-manager \
 		  --namespace cert-manager \
 		  --create-namespace \
-		  --version v1.7.1 \
+		  --version v1.14.5 \
 		  --set installCRDs=true
 
 ## 安装 rancher
