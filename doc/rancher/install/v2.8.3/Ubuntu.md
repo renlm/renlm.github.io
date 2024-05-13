@@ -25,11 +25,11 @@
 	$ systemctl enable systemd-resolved
 	
 ## 系统参数
+	$ echo net.bridge.bridge-nf-call-iptables = 1 | tee -a /etc/sysctl.conf && sysctl -p
+	
 	# failed to create fsnotify watcher: too many open files
 	$ sysctl -n fs.inotify.max_user_instances
 	$ echo fs.inotify.max_user_instances = 1024 | tee -a /etc/sysctl.conf && sysctl -p
-	
-	$ echo net.bridge.bridge-nf-call-iptables = 1 | tee -a /etc/sysctl.conf && sysctl -p
 	
 ## 安装k3s
 	https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-8-3/
@@ -127,7 +127,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
         --set letsEncrypt.ingress.class=traefik
 	
 ## SSL证书（可选）
-	登录Rancher Kubectl Shell控制台
+	登录Rancher Kubectl Shell控制台（基于Istio）
 	https://cert-manager.io/docs/usage/certificate/#creating-certificate-resources
 	$ kubectl apply -f https://renlm.github.io/helm/yaml/tls.yaml
 

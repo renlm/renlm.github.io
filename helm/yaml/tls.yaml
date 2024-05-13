@@ -3,10 +3,20 @@ kind: Namespace
 metadata:
   name: letsencrypt
 ---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: istio-system
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: renlm
+---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: letsencrypt-issuer
+  name: istio-letsencrypt-issuer
   namespace: letsencrypt
 spec:
   acme:
@@ -16,7 +26,7 @@ spec:
     email: renlm@21cn.com
     # Name of a secret used to store the ACME account private key
     privateKeySecretRef:
-      name: letsencrypt-issuer
+      name: istio-letsencrypt-issuer
     # Enable the HTTP-01 challenge provider
     solvers:
     # An empty 'selector' means that this solver matches all domains
@@ -24,12 +34,33 @@ spec:
       http01:
         ingress:
           # istio | nginx | traefik
-          class: nginx
+          class: istio
 ---
-apiVersion: v1
-kind: Namespace
+apiVersion: cert-manager.io/v1
+kind: Certificate
 metadata:
-  name: renlm
+  name: istio-system.renlm.cn
+  namespace: istio-system
+spec:
+  secretName: istio-system.renlm.cn
+  duration: 2160h
+  renewBefore: 360h
+  subject:
+    organizations:
+      - istio-system.renlm.cn
+  dnsNames:
+    - renlm.cn
+    - www.renlm.cn
+    - redis.renlm.cn
+    - mysql.renlm.cn
+    - amqp.renlm.cn
+    - rabbitmq.renlm.cn
+    - jenkins.renlm.cn
+    - mygraph.renlm.cn
+    - kubernetes.renlm.cn
+  issuerRef:
+    name: istio-letsencrypt-issuer
+    kind: ClusterIssuer
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -46,9 +77,12 @@ spec:
   dnsNames:
     - renlm.cn
     - www.renlm.cn
-    - jenkins.renlm.cn
+    - redis.renlm.cn
+    - mysql.renlm.cn
+    - amqp.renlm.cn
     - rabbitmq.renlm.cn
+    - jenkins.renlm.cn
     - mygraph.renlm.cn
   issuerRef:
-    name: letsencrypt-issuer
+    name: istio-letsencrypt-issuer
     kind: ClusterIssuer
