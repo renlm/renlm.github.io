@@ -3,10 +3,10 @@
 ## 环境配置
 	# Rancher v2.8.3
 	v1.27.13+k3s1
-	cert-manager v1.7.1
+	cert-manager v1.14.5
 	
 	# RKE2
-	v1.24.17
+	v1.27.13
 	
 ## Ingress-nginx 
 	登录Rancher Kubectl Shell控制台
@@ -25,11 +25,11 @@
 	$ helm install cert-manager jetstack/cert-manager \
 		  --namespace cert-manager \
 		  --create-namespace \
-		  --version v1.7.1 \
+		  --version v1.14.5 \
 		  --set installCRDs=true
 
 ## SSL证书（可选）
-	登录Rancher Kubectl Shell控制台
+	登录Rancher Kubectl Shell控制台（基于Istio）
 	https://cert-manager.io/docs/usage/certificate/#creating-certificate-resources
 	$ kubectl apply -f https://renlm.github.io/helm/yaml/tls.yaml
 	
