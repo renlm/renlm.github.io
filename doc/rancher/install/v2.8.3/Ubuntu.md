@@ -134,6 +134,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	$ kubectl -n cattle-system rollout status deploy/rancher
 	
 	安装 rancher-stable/rancher v2.8.3
+	注意：要保障hostname及其一级域名的DNS解析均指向部署服务器
 	$ kubectl create namespace cattle-system
 	$ helm fetch rancher-stable/rancher --version=v2.8.3
 	$ helm install rancher ./rancher-2.8.3.tgz \
