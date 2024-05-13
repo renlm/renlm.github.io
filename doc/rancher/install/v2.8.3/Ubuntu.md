@@ -29,6 +29,25 @@
 	$ sysctl -n fs.inotify.max_user_instances
 	$ echo fs.inotify.max_user_instances = 1024 | tee -a /etc/sysctl.conf && sysctl -p
 	
+	检测cgroup版本
+	对于 cgroup v2，输出为 cgroup2fs
+	对于 cgroup v1，输出为 tmpfs
+	$ stat -fc %T /sys/fs/cgroup
+	
+	查看是否启用cgroup v2
+	https://rootlesscontaine.rs/getting-started/common/cgroup2/
+	$ cat /sys/fs/cgroup/cgroup.controllers
+	
+```	
+Enabling CPU, CPUSET, and I/O delegation
+$ mkdir -p /etc/systemd/system/user@.service.d
+$ cat <<EOF | tee /etc/systemd/system/user@.service.d/delegate.conf
+[Service]
+Delegate=cpu cpuset io memory pids
+EOF
+$ systemctl daemon-reload
+```
+	
 ## 安装k3s
 	https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-8-3/
 	https://docs.rancher.cn/docs/k3s/installation/ha/_index/
