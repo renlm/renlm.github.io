@@ -40,8 +40,8 @@ $ stat -fc %T /sys/fs/cgroup
 
 $ cat /sys/fs/cgroup/user.slice/user-$(id -u).slice/user@$(id -u).service/cgroup.controllers
 memory pids
-To allow delegation of other controllers such as cpu, cpuset, and io, run the following commands:
 
+To allow delegation of other controllers such as cpu, cpuset, and io, run the following commands:
 $ mkdir -p /etc/systemd/system/user@.service.d
 $ cat <<EOF | tee /etc/systemd/system/user@.service.d/delegate.conf
 [Service]
