@@ -124,7 +124,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
         --set letsEncrypt.ingress.class=traefik
 	
 ## SSL证书（可选）
-	登录Rancher Kubectl Shell控制台（基于Istio）
+	登录Rancher Kubectl Shell控制台
 	https://cert-manager.io/docs/usage/certificate/#creating-certificate-resources
 	$ kubectl apply -f https://renlm.github.io/helm/yaml/tls.yaml
 
