@@ -25,8 +25,6 @@
 	$ systemctl enable systemd-resolved
 	
 ## 系统参数
-	$ echo net.bridge.bridge-nf-call-iptables = 1 | tee -a /etc/sysctl.conf && sysctl -p
-	
 	# failed to create fsnotify watcher: too many open files
 	$ sysctl -n fs.inotify.max_user_instances
 	$ echo fs.inotify.max_user_instances = 1024 | tee -a /etc/sysctl.conf && sysctl -p
