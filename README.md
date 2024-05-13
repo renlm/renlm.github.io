@@ -4,8 +4,8 @@
 
 ### Ubuntu 22.04
 <a href="/doc/NFS.html" target="_blank">NFS配置</a>  
-<a href="/doc/rancher/install/v2.6.9/Ubuntu.html" target="_blank">Rancher v2.6.9</a>  
-<a href="/doc/rancher/install/v2.6.9/KubeConfig.html" target="_blank">KubeConfig</a>  
+<a href="/doc/rancher/install/v2.8.3/Ubuntu.html" target="_blank">Rancher v2.8.3</a>  
+<a href="/doc/rancher/install/v2.8.3/KubeConfig.html" target="_blank">KubeConfig</a>  
 
 ### MyGraph
 	$ helm upgrade --install mygraph mygraph \
