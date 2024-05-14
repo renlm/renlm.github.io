@@ -8,14 +8,6 @@
 	# RKE2
 	v1.28.8+rke2r1
 	
-## Ingress-nginx 
-	登录Rancher Kubectl Shell控制台
-	启用allow-snippet-annotations（默认false）
-	https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/
-	https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/
-	$ kubectl get cm -A | grep ingress
-	$ kubectl edit cm -n kube-system rke2-ingress-nginx-controller
-	
 ## 安装 cert-manager
 	登录Rancher Kubectl Shell控制台
 	https://cert-manager.io/docs/installation/helm/
@@ -27,7 +19,22 @@
 		  --create-namespace \
 		  --version v1.14.5 \
 		  --set installCRDs=true
-
+		  
+## Ingress-nginx（可选）
+	登录Rancher Kubectl Shell控制台
+	启用allow-snippet-annotations（默认false）
+	https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/
+	https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/
+	$ kubectl get cm -A | grep ingress
+	$ kubectl edit cm -n kube-system rke2-ingress-nginx-controller
+		  
+## TLS 可选名称（可选）
+	https://docs.rancher.cn/
+	https://docs.rke2.io/reference/server_config
+	# Rancher 文档 > 参考指南 > 集群配置 > Rancher Server 配置 > 集群配置参考
+	# Rancher 集群管理 > {找到指定集群} > 编辑配置 > 网络 > TLS 可选名称 > kubernetes.renlm.cn
+	# Rancher 集群管理 > {找到指定集群} > 轮换证书 > 轮换单个服务证书 > 选择api-server
+	
 ## SSL证书（可选）
 	登录Rancher Kubectl Shell控制台
 	https://cert-manager.io/docs/usage/certificate/#creating-certificate-resources
