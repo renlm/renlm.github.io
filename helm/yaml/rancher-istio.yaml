@@ -9,7 +9,7 @@ spec:
         service:
           ports:
           - name: tcp
-            nodePort: 30379
+            nodePort: 31379
             port: 31400
             targetPort: 31400
     - name: mysql-ingressgateway
@@ -18,7 +18,7 @@ spec:
         service:
           ports:
           - name: tcp
-            nodePort: 30306
+            nodePort: 31306
             port: 31400
             targetPort: 31400
     - name: rabbitmq-ingressgateway
@@ -27,6 +27,6 @@ spec:
         service:
           ports:
           - name: tcp
-            nodePort: 30672
+            nodePort: 31672
             port: 31400
             targetPort: 31400
