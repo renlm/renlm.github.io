@@ -44,6 +44,8 @@ spec:
     organizations:
       - pubyun.renlm.cn
   dnsNames:
+    - renlm.cn
+    - www.renlm.cn
     - redis.renlm.cn
     - mysql.renlm.cn
     - rabbitmq.renlm.cn
