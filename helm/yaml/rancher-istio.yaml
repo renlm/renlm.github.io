@@ -1,0 +1,32 @@
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  components:
+    ingressGateways:
+    - name: redis-ingressgateway
+      enabled: true
+      k8s:
+        service:
+          ports:
+          - name: tcp
+            nodePort: 30379
+            port: 31400
+            targetPort: 31400
+    - name: mysql-ingressgateway
+      enabled: true
+      k8s:
+        service:
+          ports:
+          - name: tcp
+            nodePort: 30306
+            port: 31400
+            targetPort: 31400
+    - name: rabbitmq-ingressgateway
+      enabled: true
+      k8s:
+        service:
+          ports:
+          - name: tcp
+            nodePort: 30672
+            port: 31400
+            targetPort: 31400
