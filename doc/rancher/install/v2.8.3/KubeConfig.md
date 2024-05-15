@@ -29,9 +29,10 @@
 	启用CNI、Jaeger
 	自定义覆盖文件（扩展tcp代理端口）
 	https://renlm.github.io/helm/yaml/rancher-istio.yaml
-	安装完成后，修改Kiali配置，然后重新部署Kiali
-	$ kubectl edit configmap -n istio-system kiali
-```yaml
+	
+```
+安装完成后，修改Kiali配置，然后重启Kiali
+$ kubectl edit configmap -n istio-system kiali
 kiali:
   auth:
   	# 默认token
