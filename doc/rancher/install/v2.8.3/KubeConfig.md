@@ -19,6 +19,25 @@
 		  --create-namespace \
 		  --version v1.14.5 \
 		  --set installCRDs=true
+	
+## 集群工具
+	Monitoring
+	
+	Istio
+	自定义覆盖文件（扩展tcp代理端口）
+	https://renlm.github.io/helm/yaml/rancher-istio.yaml
+	安装完成后，修改Kiali配置，然后重新部署Kiali
+	$ kubectl edit configmap -n istio-system kiali
+```
+kiali:
+  auth:
+  	# 默认token
+  	# https://kiali.io/docs/configuration/authentication/
+    strategy: anonymous
+  external_services:
+    tracing:
+      url: "../../http:tracing:16686/proxy/jaeger/search"
+```
 		  
 ## Ingress-nginx（可选）
 	登录Rancher Kubectl Shell控制台
