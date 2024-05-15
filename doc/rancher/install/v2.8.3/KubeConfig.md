@@ -22,7 +22,9 @@
 	
 ## 集群工具
 	Monitoring
-	使用默认配置直接安装，导入下方监控面板并设为默认
+	使用默认配置直接安装
+	可选仪表板资源
+	https://grafana.com/grafana/dashboards/12900
 	https://grafana.com/grafana/dashboards/13105-k8s-dashboard-cn-20240513-starsl-cn/
 	
 	Istio
