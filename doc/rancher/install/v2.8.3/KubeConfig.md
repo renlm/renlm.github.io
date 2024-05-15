@@ -22,6 +22,8 @@
 	
 ## 集群工具
 	Monitoring
+	使用默认配置直接安装
+	https://grafana.com/grafana/dashboards
 	
 	Istio
 	自定义覆盖文件（扩展tcp代理端口）
