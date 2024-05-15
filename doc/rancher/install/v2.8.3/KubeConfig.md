@@ -31,7 +31,7 @@
 	https://renlm.github.io/helm/yaml/rancher-istio.yaml
 	安装完成后，修改Kiali配置，然后重新部署Kiali
 	$ kubectl edit configmap -n istio-system kiali
-```
+```yaml
 kiali:
   auth:
   	# 默认token
