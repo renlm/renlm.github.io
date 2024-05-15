@@ -7,15 +7,33 @@ spec:
       k8s:
         service:
           ports:
-          - name: tcp-redis
+          - name: status-port
+            port: 15021
+            targetPort: 15021
+          - name: http2
+            nodePort: 31380
+            port: 80
+            targetPort: 8080
+          - name: https
+            nodePort: 31390
+            port: 443
+            targetPort: 8443
+          - name: tcp
+            nodePort: 31400
+            port: 31400
+            targetPort: 31400
+          - name: tls
+            port: 15443
+            targetPort: 15443
+          - name: redis
             nodePort: 31379
             port: 6379
             targetPort: 6379
-          - name: tcp-mysql
+          - name: mysql
             nodePort: 31306
             port: 3306
             targetPort: 3306
-          - name: tcp-amqp
+          - name: amqp
             nodePort: 31672
             port: 5672
             targetPort: 5672
