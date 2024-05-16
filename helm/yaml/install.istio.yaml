@@ -3,6 +3,9 @@ kind: IstioOperator
 spec:
   meshConfig:
     enableTracing: true
+    defaultConfig:
+      tracing:
+        sampling: 100
     extensionProviders:
     - name: otel-tracing
       opentelemetry:
