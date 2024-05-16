@@ -48,7 +48,9 @@ kiali:
     strategy: anonymous
   external_services:
     tracing:
-      url: "../../http:tracing:16686/proxy/jaeger/search"
+      url: "../../http:tracing-query:16686/proxy/jaeger/search"
+      in_cluster_url: "http://tracing-query.istio-system.svc:16686/jaeger"
+      use_grpc: false
 ```
 		  
 ## Ingress-nginx（可选）
