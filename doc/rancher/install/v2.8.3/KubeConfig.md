@@ -35,6 +35,7 @@
 	Istio
 	启用CNI
 	自定义覆盖文件（扩展tcp代理端口）
+	https://istio.io/latest/docs/reference/config/istio.operator.v1alpha1/
 	https://renlm.github.io/helm/yaml/install.istio.yaml
 	
 ```
