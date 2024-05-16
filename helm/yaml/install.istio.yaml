@@ -1,6 +1,11 @@
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
+  meshConfig:
+    defaultConfig:
+      tracing:
+        zipkin:
+          address: tracing-query.istio-system:9411
   components:
     ingressGateways:
     - name: istio-ingressgateway
