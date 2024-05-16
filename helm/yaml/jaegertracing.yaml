@@ -12,6 +12,9 @@ spec:
         base-path: /jaeger
         service:
           name: tracing
+      collector:
+        service:
+          name: zipkin
       prometheus:
         server-url: http://rancher-monitoring-prometheus.cattle-monitoring-system.svc:9090
     metricsStorage:
