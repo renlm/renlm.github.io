@@ -35,7 +35,7 @@
 	Istio
 	启用CNI
 	自定义覆盖文件（扩展tcp代理端口）
-	https://renlm.github.io/helm/yaml/rancher-istio.yaml
+	https://renlm.github.io/helm/yaml/install.istio.yaml
 	
 ```
 安装完成后，修改Kiali配置，然后重启Kiali
