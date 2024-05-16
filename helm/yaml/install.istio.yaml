@@ -5,7 +5,7 @@ spec:
     defaultConfig:
       tracing:
         zipkin:
-          address: tracing-query.istio-system:9411
+          address: tracing-collector.istio-system:9411
   components:
     ingressGateways:
     - name: istio-ingressgateway
