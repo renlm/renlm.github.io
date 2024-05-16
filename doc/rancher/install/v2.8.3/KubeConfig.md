@@ -27,8 +27,13 @@
 	https://grafana.com/grafana/dashboards/12900
 	https://grafana.com/grafana/dashboards/13105-k8s-dashboard-cn-20240513-starsl-cn/
 	
+	Jaeger Operator
+	namespace: observability
+	https://github.com/jaegertracing/jaeger-operator/tree/main/examples
+	$ kubectl apply -f https://renlm.github.io/helm/yaml/jaegertracing.yaml
+	
 	Istio
-	启用CNI、Jaeger
+	启用CNI
 	自定义覆盖文件（扩展tcp代理端口）
 	https://renlm.github.io/helm/yaml/rancher-istio.yaml
 	
@@ -43,6 +48,8 @@ kiali:
   external_services:
     tracing:
       url: "../../http:tracing:16686/proxy/jaeger/search"
+      in_cluster_url: "http://tracing.observability.svc:16686/jaeger"
+      use_grpc: false
 ```
 		  
 ## Ingress-nginx（可选）
