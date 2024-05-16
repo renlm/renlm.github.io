@@ -3,11 +3,19 @@ kind: IstioOperator
 spec:
   meshConfig:
     enableTracing: true
-    defaultConfig:
-      tracing:
-        sampling: 100
-        zipkin:
-          address: tracing-collector.istio-system:9411
+    extensionProviders:
+    - name: otel-tracing
+      opentelemetry:
+        port: 9411
+        service: tracing-collector.istio-system.svc.cluster.local
+        resource_detectors:
+          environment: {}
+        http:
+          path: /api/traces
+          timeout: 5s
+          headers:
+          - name: tracing
+            value: opentelemetry
   components:
     ingressGateways:
     - name: istio-ingressgateway
