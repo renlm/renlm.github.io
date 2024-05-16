@@ -12,8 +12,6 @@ spec:
         base-path: /jaeger
       prometheus:
         server-url: http://rancher-monitoring-prometheus.cattle-monitoring-system.svc:9090
-        query:
-          support-spanmetrics-connector: true
     metricsStorage:
       type: prometheus
   storage:
