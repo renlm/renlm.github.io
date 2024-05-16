@@ -41,16 +41,16 @@
 ```
 安装完成后，修改Kiali配置，然后重启Kiali
 $ kubectl edit configmap -n istio-system kiali
-kiali:
-  auth:
-  	# 默认token
-  	# https://kiali.io/docs/configuration/authentication/
-    strategy: anonymous
-  external_services:
-    tracing:
-      url: "../../http:tracing-query:16686/proxy/jaeger/search"
-      in_cluster_url: "http://tracing-query.istio-system.svc:16686/jaeger"
-      use_grpc: false
+  kiali:
+    auth:
+      # 默认token
+      # https://kiali.io/docs/configuration/authentication/
+      strategy: anonymous
+    external_services:
+      tracing:
+        url: "../../http:tracing-query:16686/proxy/jaeger/search"
+        in_cluster_url: "http://tracing-query.istio-system.svc:16686/jaeger"
+        use_grpc: false
 ```
 		  
 ## Ingress-nginx（可选）
