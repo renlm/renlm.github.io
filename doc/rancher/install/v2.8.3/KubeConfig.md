@@ -39,6 +39,7 @@
 	Jaeger Operator
 	namespace: observability
 	https://github.com/jaegertracing/jaeger-operator/tree/main/examples
+	在Rancher控制台应用列表中安装Jaeger Operator
 	$ kubectl apply -f https://renlm.github.io/helm/yaml/jaegertracing.yaml
 	
 	Istio
