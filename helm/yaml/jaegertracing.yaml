@@ -13,9 +13,10 @@ items:
       options:
         query:
           base-path: /jaeger
+        prometheus:
+          server-url: http://rancher-monitoring-prometheus.cattle-monitoring-system.svc:9090
       metricsStorage:
         type: prometheus
-        serverUrl: http://rancher-monitoring-prometheus.cattle-monitoring-system.svc:9090
     collector:
       maxReplicas: 2
       resources:
