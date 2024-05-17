@@ -21,4 +21,4 @@ spec:
   storage:
     options:
       memory:
-        max-traces: 50000
+        max-traces: 3000
