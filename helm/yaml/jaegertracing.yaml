@@ -6,7 +6,9 @@ metadata:
 spec:
   strategy: production
   query:
-    base-path: /jaeger
+    options:
+      query:
+        base-path: /jaeger
     metricsStorage:
       type: prometheus
       server-url: http://rancher-monitoring-prometheus.cattle-monitoring-system.svc:9090
