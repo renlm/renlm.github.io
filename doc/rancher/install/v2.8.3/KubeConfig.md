@@ -26,7 +26,15 @@
 	可选仪表板资源
 	https://grafana.com/grafana/dashboards/13105-k8s-dashboard-cn-20240513-starsl-cn/
 	https://grafana.com/grafana/dashboards/12900
-	https://grafana.com/grafana/dashboards/12535-jaeger-all-in-one/
+	
+	OpenTelemetry Collector
+	https://opentelemetry.io/docs/kubernetes/helm/collector/
+	$ helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
+	$ helm upgrade --install opentelemetry-collector open-telemetry/opentelemetry-collector \
+	   --set image.repository="otel/opentelemetry-collector-k8s" \
+	   --set mode=daemonset \
+	   --namespace observability --create-namespace \
+	   -f https://renlm.github.io/helm/yaml/opentelemetry-collector.yaml
 	
 	Jaeger Operator
 	namespace: istio-system

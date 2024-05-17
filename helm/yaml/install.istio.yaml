@@ -4,10 +4,7 @@ spec:
   meshConfig:
     enableTracing: true
     defaultConfig:
-      tracing:
-        sampling: 25
-        zipkin:
-          address: tracing-collector.istio-system:9411
+      tracing: {}
     extensionProviders:
     - name: otel-tracing
       opentelemetry:
