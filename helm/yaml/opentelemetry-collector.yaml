@@ -20,10 +20,23 @@ spec:
         send_batch_size: 10000
         timeout: 10s
     exporters:
-      debug: {}
+      jaeger:
+        endpoint: tracing-collector.observability.svc.cluster.local:14250
+        tls:
+          insecure: true
+        sending_queue:
+          enabled: true
+        retry_on_failure:
+          enabled: true
+    extensions:
+      health_check:
+        port: 13133
     service:
+      extensions:
+      - health_check
       pipelines:
         traces:
-          receivers: [otlp]
-          processors: [memory_limiter, batch]
-          exporters: [debug]
+          receivers:
+          - otlp
+          exporters:
+          - jaeger
