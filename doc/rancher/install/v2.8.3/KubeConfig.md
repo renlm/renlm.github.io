@@ -28,7 +28,9 @@
 	https://grafana.com/grafana/dashboards/12900
 	
 	OpenTelemetry Collector
+	namespace: observability
 	https://opentelemetry.io/docs/kubernetes/helm/collector/
+	$ kubectl create namespace observability
 	$ helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
 	$ helm install opentelemetry-collector open-telemetry/opentelemetry-collector \
         --set image.repository=otel/opentelemetry-collector-k8s \
