@@ -1,24 +1,49 @@
-apiVersion: jaegertracing.io/v1
-kind: Jaeger
-metadata:
-  name: tracing
-  namespace: observability
-spec:
-  strategy: production
-  query:
-    options:
-      query:
-        base-path: /jaeger
-    metricsStorage:
-      type: prometheus
-      server-url: http://rancher-monitoring-prometheus.cattle-monitoring-system.svc:9090
-  collector:
-    maxReplicas: 2
-    resources:
-      limits:
-        cpu: 100m
-        memory: 128Mi
-  storage:
-    options:
-      memory:
-        max-traces: 3000
+# https://github.com/jaegertracing/jaeger-operator/blob/main/docs/api.md
+apiVersion: v1
+kind: List
+items:
+- apiVersion: jaegertracing.io/v1
+  kind: Jaeger
+  metadata:
+    name: tracing
+    namespace: observability
+  spec:
+    strategy: production
+    query:
+      options:
+        query:
+          base-path: /jaeger
+      metricsStorage:
+        type: prometheus
+        server-url: http://rancher-monitoring-prometheus.cattle-monitoring-system.svc:9090
+    collector:
+      maxReplicas: 2
+      resources:
+        limits:
+          cpu: 100m
+          memory: 128Mi
+    storage:
+      options:
+        memory:
+          max-traces: 3000
+- apiVersion: monitoring.coreos.com/v1
+  kind: PodMonitor
+  metadata:
+    name: jaeger-component-monitor
+    namespace: observability
+    labels:
+      monitoring: jaeger-components
+  spec:
+    podMetricsEndpoints:
+    - interval: 15s
+      path: /metrics
+      port: admin-http
+    namespaceSelector:
+      matchNames:
+      - observability
+    selector:
+      matchExpressions:
+      - key: app.kubernetes.io/managed-by
+        operator: In
+        values:
+        - jaeger-operator
