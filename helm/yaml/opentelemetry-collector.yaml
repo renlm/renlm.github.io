@@ -30,26 +30,25 @@ items:
       serviceAccount: opentelemetry-targetallocator-sa
       prometheusCR:
         enabled: true
-    config: |
+    config: |-
       receivers:
         prometheus:
           target_allocator:
             endpoint: http://otel-metrics-targetallocator-service
             interval: 30s
             collector_id: ${POD_NAME}
-      exporters:
-        zipkin:
-          endpoint: zipkin.istio-system.svc.cluster.local:9411
-          tls:
-            insecure: true
-          sending_queue:
-            enabled: true
-          retry_on_failure:
-            enabled: true
+      jaeger:
+        endpoint: tracing-collector.observability.svc.cluster.local:14250
+        tls:
+          insecure: true
+        sending_queue:
+          enabled: true
+        retry_on_failure:
+          enabled: true
       service:
         pipelines:
           metrics:
             receivers:
             - prometheus
             exporters:
-            - zipkin
+            - jaeger
