@@ -30,14 +30,12 @@
 	OpenTelemetry Collector
 	https://opentelemetry.io/docs/kubernetes/helm/collector/
 	$ helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
-	$ helm upgrade --install opentelemetry-collector open-telemetry/opentelemetry-collector \
-	   --set image.repository="otel/opentelemetry-collector-k8s" \
-	   --set mode=daemonset \
-	   --namespace observability --create-namespace \
-	   -f https://renlm.github.io/helm/yaml/opentelemetry-collector.yaml
+	$ helm install opentelemetry-collector open-telemetry/opentelemetry-collector \
+        --set image.repository=otel/opentelemetry-collector-k8s \
+        -f https://renlm.github.io/helm/yaml/opentelemetry-collector.yaml
 	
 	Jaeger Operator
-	namespace: istio-system
+	namespace: observability
 	https://github.com/jaegertracing/jaeger-operator/tree/main/examples
 	$ kubectl apply -f https://renlm.github.io/helm/yaml/jaegertracing.yaml
 	
@@ -57,8 +55,8 @@ $ kubectl edit configmap -n istio-system kiali
       strategy: anonymous
     external_services:
       tracing:
-        url: "../../http:tracing-query:16686/proxy/jaeger/search"
-        in_cluster_url: "http://tracing-query.istio-system.svc:16686/jaeger"
+        url: "../../../../observability/services/http:tracing-query:16686/proxy/jaeger/search"
+        in_cluster_url: "http://tracing-query.observability.svc:16686/jaeger"
         use_grpc: false
 ```
 		  
