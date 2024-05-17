@@ -32,23 +32,33 @@ items:
         enabled: true
     config: |-
       receivers:
+        otlp:
+          protocols:
+            grpc: {}
+            http: {}
         prometheus:
           target_allocator:
             endpoint: http://otel-metrics-targetallocator-service
             interval: 30s
             collector_id: ${POD_NAME}
-      jaeger:
-        endpoint: tracing-collector.observability.svc.cluster.local:14250
-        tls:
-          insecure: true
-        sending_queue:
-          enabled: true
-        retry_on_failure:
-          enabled: true
+      exporters:
+        jaeger:
+          endpoint: tracing-collector.observability.svc.cluster.local:14250
+          tls:
+            insecure: true
+          sending_queue:
+            enabled: true
+          retry_on_failure:
+            enabled: true
       service:
         pipelines:
           metrics:
             receivers:
             - prometheus
+            exporters:
+            - jaeger
+          traces:
+            receivers:
+            - otlp
             exporters:
             - jaeger
