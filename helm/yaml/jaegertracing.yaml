@@ -2,20 +2,20 @@ apiVersion: jaegertracing.io/v1
 kind: Jaeger
 metadata:
   name: tracing
-  namespace: istio-system
+  namespace: observability
 spec:
-  strategy: allInOne
-  allInOne:
-    options:
-      log-level: debug
-      query:
-        base-path: /jaeger
-      prometheus:
-        server-url: http://rancher-monitoring-prometheus.cattle-monitoring-system.svc:9090
-        query:
-          support-spanmetrics-connector: true
+  strategy: production
+  query:
+    base-path: /jaeger
     metricsStorage:
       type: prometheus
+      server-url: http://rancher-monitoring-prometheus.cattle-monitoring-system.svc:9090
+  collector:
+    maxReplicas: 2
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
   storage:
     options:
       memory:
