@@ -8,21 +8,18 @@ items:
     name: tracing
     namespace: observability
   spec:
-    strategy: production
-    query:
+    strategy: allInOne
+    allInOne:
       options:
+        log-level: debug
         query:
           base-path: /jaeger
         prometheus:
           server-url: http://rancher-monitoring-prometheus.cattle-monitoring-system.svc:9090
+          query:
+            support-spanmetrics-connector: true
       metricsStorage:
         type: prometheus
-    collector:
-      maxReplicas: 2
-      resources:
-        limits:
-          cpu: 100m
-          memory: 128Mi
     storage:
       options:
         memory:
