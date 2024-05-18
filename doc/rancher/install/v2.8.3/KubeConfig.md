@@ -28,28 +28,20 @@
 	https://grafana.com/grafana/dashboards/12900
 	
 	OpenTelemetry Collector
-	namespace: observability
-	https://opentelemetry.io/docs/kubernetes/helm/collector/
-	$ kubectl create namespace observability
-	$ helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
-	$ helm install opentelemetry-collector open-telemetry/opentelemetry-collector \
-        --set image.repository=otel/opentelemetry-collector-k8s \
-        -f https://renlm.github.io/helm/yaml/opentelemetry-collector.yaml
-	
-	Jaeger Operator
-	namespace: observability
-	https://github.com/jaegertracing/jaeger-operator/tree/main/examples
-	在Rancher控制台应用列表中安装Jaeger Operator
-	$ kubectl apply -f https://renlm.github.io/helm/yaml/jaegertracing.yaml
+	https://opentelemetry.io/docs/kubernetes/operator/
+	网络不好时直接下载文件后上传
+	$ kubectl apply -f https://github.com/open-telemetry/opentelemetry-operator/releases/latest/download/opentelemetry-operator.yaml
 	
 	Istio
-	启用CNI
-	自定义覆盖文件（扩展tcp代理端口）
+	启用CNI、Jaeger
+	自定义覆盖文件（扩展tcp代理端口、OpenTelemetry）
 	https://istio.io/latest/docs/reference/config/istio.operator.v1alpha1/
+	https://preliminary.istio.io/latest/zh/docs/tasks/observability/distributed-tracing/opentelemetry/
 	https://renlm.github.io/helm/yaml/install.istio.yaml
 	
 ```
-安装完成后，修改Kiali配置，然后重启Kiali
+自定义覆盖文件后，编辑YAML修改Kiali配置
+或安装完成后修改并重启Kiali
 $ kubectl edit configmap -n istio-system kiali
   kiali:
     auth:
@@ -58,8 +50,8 @@ $ kubectl edit configmap -n istio-system kiali
       strategy: anonymous
     external_services:
       tracing:
-        url: "../../../../observability/services/http:tracing-query:16686/proxy/jaeger/search"
-        in_cluster_url: "http://tracing-query.observability.svc:16686/jaeger"
+        url: "../../http:tracing-query:16686/proxy/jaeger/search"
+        in_cluster_url: "http://tracing.observability.svc:16686/jaeger"
         use_grpc: false
 ```
 		  
