@@ -53,8 +53,8 @@ $ kubectl edit configmap -n istio-system kiali
       strategy: anonymous
     external_services:
       tracing:
-        url: "../../http:tracing-query:16686/proxy/jaeger/search"
-        in_cluster_url: "http://tracing.observability.svc:16686/jaeger"
+        url: ../../http:tracing:16686/proxy/jaeger/search
+        in_cluster_url: http://tracing.istio-system.svc:16686/jaeger
         use_grpc: false
 ```
 		  
