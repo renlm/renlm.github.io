@@ -23,6 +23,8 @@ service:
   type: ClusterIP
   port: 8080
 actuator:
+  port: 9000
+  portName: tcp-actuator
   health:
     liveness:
       initialDelaySeconds: 3
