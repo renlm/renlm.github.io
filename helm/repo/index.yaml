@@ -2,15 +2,40 @@ apiVersion: v1
 entries:
   jenkins:
   - apiVersion: v2
-    created: "2024-05-18T17:45:42.211691297+08:00"
+    created: "2024-05-18T21:20:32.703686956+08:00"
     digest: 4866b273c577087f855b5093f8b4ce912f7c3ffe3eb6c0cd623b87b06cd79478
     name: jenkins
     urls:
     - https://renlm.github.io/helm/repo/jenkins-2.452.1.tgz
     version: 2.452.1
+  mygraph:
+  - apiVersion: v2
+    created: "2024-05-18T21:20:32.707340544+08:00"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: https://renlm.github.io/helm/repo
+      version: 7.2.4
+    - condition: mysql.enabled
+      name: mysql
+      repository: https://renlm.github.io/helm/repo
+      version: 8.0.31
+    - condition: rabbitmq.enabled
+      name: rabbitmq
+      repository: https://renlm.github.io/helm/repo
+      version: 3.13.2
+    - condition: jenkins.enabled
+      name: jenkins
+      repository: https://renlm.github.io/helm/repo
+      version: 2.452.1
+    digest: 59cda2fb38277f36ea179637aaee6b740787892fcefbc2328ef51a08f67298f6
+    name: mygraph
+    urls:
+    - https://renlm.github.io/helm/repo/mygraph-1.0.1.tgz
+    version: 1.0.1
   mysql:
   - apiVersion: v2
-    created: "2024-05-18T17:45:42.213988262+08:00"
+    created: "2024-05-18T21:20:32.708201659+08:00"
     digest: 72c351a42b844564af474ca9c8f38f2b8e13618a946c8a966608ba2e35c5ce69
     name: mysql
     urls:
@@ -18,7 +43,7 @@ entries:
     version: 8.0.31
   rabbitmq:
   - apiVersion: v2
-    created: "2024-05-18T17:45:42.214647123+08:00"
+    created: "2024-05-18T21:20:32.708853091+08:00"
     digest: 5f453e9430ef13b8bc3afa6f538f31c2c175fd46bf375089a62a7bb58d564750
     name: rabbitmq
     urls:
@@ -26,10 +51,10 @@ entries:
     version: 3.13.2
   redis:
   - apiVersion: v2
-    created: "2024-05-18T17:45:42.215580705+08:00"
+    created: "2024-05-18T21:20:32.709416139+08:00"
     digest: 19dc15081d612f6df56a6fa22c133ab486a5768f8cf1651b14022c70aa29ec6f
     name: redis
     urls:
     - https://renlm.github.io/helm/repo/redis-7.2.4.tgz
     version: 7.2.4
-generated: "2024-05-18T17:45:42.208640276+08:00"
+generated: "2024-05-18T21:20:32.70233902+08:00"
