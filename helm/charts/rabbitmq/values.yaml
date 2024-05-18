@@ -5,21 +5,11 @@ nodeSelector: {}
 image:
   repository: rabbitmq
   pullPolicy: IfNotPresent
-  tag: management
+  tag: 3.13.2-management
 serviceAccount:
   create: false
 ingress:
-  enabled: true
-  annotations: {}
-  hosts:
-  - host: rabbitmq.renlm.cn
-    paths:
-    - path: /
-      pathType: Prefix
-  tls:
-  - secretName: pubyun.renlm.cn
-    hosts:
-    - rabbitmq.renlm.cn
+  enabled: false
 service:
   type: NodePort
   port: 15672
