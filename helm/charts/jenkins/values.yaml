@@ -9,17 +9,7 @@ image:
 serviceAccount:
   create: false
 ingress:
-  enabled: true
-  annotations: {}
-  hosts:
-  - host: jenkins.renlm.cn
-    paths:
-    - path: /
-      pathType: Prefix
-  tls:
-  - secretName: pubyun.renlm.cn
-    hosts:
-    - jenkins.renlm.cn
+  enabled: false
 service:
   type: ClusterIP
   port: 8080
