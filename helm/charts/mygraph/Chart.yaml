@@ -3,10 +3,6 @@ appVersion: 1.0.1
 name: mygraph
 version: 1.0.1
 dependencies:
-- name: prometheus
-  repository: https://renlm.github.io/helm/repo
-  version: 0.1.0
-  condition: prometheus.enabled
 - name: redis
   repository: https://renlm.github.io/helm/repo
   version: 0.1.0
