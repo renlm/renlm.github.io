@@ -28,9 +28,12 @@
 	https://grafana.com/grafana/dashboards/12900
 	
 	OpenTelemetry Collector
-	https://opentelemetry.io/docs/kubernetes/operator/
-	网络不好时直接下载文件后上传
-	$ kubectl apply -f https://github.com/open-telemetry/opentelemetry-operator/releases/latest/download/opentelemetry-operator.yaml
+	https://opentelemetry.io/docs/kubernetes/helm/collector/
+	$ kubectl create namespace observability
+	$ helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
+	$ helm install opentelemetry-collector open-telemetry/opentelemetry-collector \
+        --set image.repository=otel/opentelemetry-collector-k8s \
+        -f https://renlm.github.io/helm/yaml/opentelemetry-collector.yaml
 	
 	Istio
 	启用CNI、Jaeger
