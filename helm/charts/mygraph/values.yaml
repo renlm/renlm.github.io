@@ -1,6 +1,5 @@
 env: dev
 initDb: true
-version: 1.0.1
 host: mygraph.renlm.cn
 replicaCount: 1
 nodeSelector: {}
