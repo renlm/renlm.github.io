@@ -4,7 +4,6 @@ version: 1.0.1
 host: mygraph.renlm.cn
 replicaCount: 1
 nodeSelector: {}
-podAnnotations: {}
 podSecurityContext: {}
 securityContext: {}
 tolerations: []
@@ -14,6 +13,8 @@ image:
   repository: registry.cn-hangzhou.aliyuncs.com/rlm/mygraph
   pullPolicy: Always
   tag: latest
+podAnnotations:
+  instrumentation.opentelemetry.io/inject-java: true
 serviceAccount:
   create: true
   annotations: {}
