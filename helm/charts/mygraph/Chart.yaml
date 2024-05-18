@@ -5,17 +5,17 @@ version: 1.0.1
 dependencies:
 - name: redis
   repository: https://renlm.github.io/helm/repo
-  version: 0.1.0
+  version: 7.2.4
   condition: redis.enabled
 - name: mysql
   repository: https://renlm.github.io/helm/repo
-  version: 0.1.0
+  version: 8.0.31
   condition: mysql.enabled
 - name: rabbitmq
   repository: https://renlm.github.io/helm/repo
-  version: 0.1.0
+  version: 3.13.2
   condition: rabbitmq.enabled
 - name: jenkins
   repository: https://renlm.github.io/helm/repo
-  version: 0.1.0
+  version: lts-jdk17
   condition: jenkins.enabled
