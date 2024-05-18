@@ -9,3 +9,16 @@ keywords:
 - 在线画图
 - ER模型设计
 - 文档管理
+dependencies:
+- condition: redis.enabled
+  name: redis
+  repository: file://./charts/redis
+- condition: mysql.enabled
+  name: mysql
+  repository: file://./charts/mysql
+- condition: rabbitmq.enabled
+  name: rabbitmq
+  repository: file://./charts/rabbitmq
+- condition: jenkins.enabled
+  name: jenkins
+  repository: file://./charts/jenkins
