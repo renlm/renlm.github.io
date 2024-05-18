@@ -50,4 +50,14 @@ autoscaling:
   enabled: false
   minReplicas: 2
   maxReplicas: 3
-  targetCPUUtilizationPercentage: 80
+  targetCPUUtilizationPercentage: 90
+configmap:
+  enabled: false
+redis:
+  enabled: false
+mysql:
+  enabled: false
+rabbitmq:
+  enabled: false
+jenkins:
+  enabled: false
