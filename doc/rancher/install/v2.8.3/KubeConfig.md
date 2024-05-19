@@ -28,12 +28,12 @@
 	https://grafana.com/grafana/dashboards/12900
 	
 	OpenTelemetry Collector
-	https://github.com/open-telemetry/opentelemetry-helm-charts
-	添加Chart 仓库open-telemetry
-	在Chart列表中选择opentelemetry-collector安装
-	新建namespace observability
-	修改image.repository=otel/opentelemetry-collector-k8s
-	修改mode=deployment
+	https://opentelemetry.io/docs/kubernetes/operator/
+	手动下载资源文件
+	修改manager镜像 ghcr.io/open-telemetry/opentelemetry-operator/opentelemetry-operator 为 otel/opentelemetry-operator
+	修改kube-rbac-proxy镜像 gcr.io/kubebuilder/kube-rbac-proxy 为 kubebuilder/kube-rbac-proxy
+	直接从本地将修改后YAML文件导入集群
+	$ kubectl apply -f https://github.com/open-telemetry/opentelemetry-operator/releases/latest/download/opentelemetry-operator.yaml
 	
 	Istio
 	启用CNI、Jaeger
