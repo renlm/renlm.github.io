@@ -145,11 +145,6 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
         --set letsEncrypt.email=renlm@21cn.com \
         --set letsEncrypt.ingress.class=traefik
 	
-## SSL证书（可选）
-	登录Rancher Kubectl Shell控制台
-	https://cert-manager.io/docs/usage/certificate/#creating-certificate-resources
-	$ kubectl apply -f https://renlm.github.io/helm/yaml/tls.yaml
-
 ## 安装 docker（可选）
 	https://download.docker.com/linux/static/stable/x86_64/
 	https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/installation-requirements/install-docker
