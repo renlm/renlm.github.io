@@ -145,34 +145,6 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
         --set letsEncrypt.email=renlm@21cn.com \
         --set letsEncrypt.ingress.class=traefik
 	
-## 安装 docker（可选）
-	https://download.docker.com/linux/static/stable/x86_64/
-	https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/installation-requirements/install-docker
-	$ curl https://releases.rancher.com/install-docker/23.0.6.sh | sh
-
-```
-	阿里云，获取加速地址并配置
-	https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors
-	$ mkdir -p /etc/docker
-	$ tee /etc/docker/daemon.json <<-'EOF'
-{
-  "registry-mirrors": [ "https://***.mirror.aliyuncs.com" ],
-  "log-driver": "json-file",
-  "log-opts": { "max-size": "500m", "max-file": "3" },
-  "features": { "buildkit" : true }
-}
-EOF
-```
-	
-	启动服务
-	$ systemctl daemon-reload
-	$ systemctl enable docker
-	$ systemctl restart docker
-	
-	清理缓存
-	$ docker system df
-	$ docker system prune
-	
 ## MTU 设置（可选）
 	为保障通信，集群节点规格不一致时，需要统一MTU
 	以值最小的那个节点为基准
@@ -211,3 +183,9 @@ installation:
 # 命令修改
 kubectl patch installation.operator.tigera.io default --type merge -p '{"spec":{"calicoNetwork":{"mtu":1400}}}'
 ```
+
+## Fleet仓库更新失败
+	回滚应用版本后再进行更新
+	helm -n renlm history {部署应用名称}
+	$ helm -n renlm history mygraph
+	$ helm -n renlm rollback mygraph {版本号}
