@@ -6,7 +6,7 @@ spec:
     defaultConfig:
       tracing: {}
     extensionProviders:
-    - name: otel-collector
+    - name: otel-tracing
       opentelemetry:
         port: 4317
         service: otel-collector.istio-system.svc.cluster.local
