@@ -184,7 +184,7 @@ installation:
 kubectl patch installation.operator.tigera.io default --type merge -p '{"spec":{"calicoNetwork":{"mtu":1400}}}'
 ```
 
-## 应用更新回滚
+## 应用版本回滚
 	回滚应用版本后再进行更新
 	helm -n renlm history {部署应用名称}
 	$ helm -n renlm history mygraph
