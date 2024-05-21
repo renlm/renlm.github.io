@@ -5,8 +5,6 @@ spec:
     enableTracing: true
     defaultConfig:
       tracing: {}
-      gatewayTopology:
-        numTrustedProxies: 5
     extensionProviders:
     - name: otel-tracing
       opentelemetry:
