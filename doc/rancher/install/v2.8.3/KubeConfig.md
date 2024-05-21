@@ -58,6 +58,18 @@ $ kubectl edit configmap -n istio-system kiali
         in_cluster_url: http://tracing.istio-system.svc:16686/jaeger
         use_grpc: false
 ```
+
+```
+启用Jaeger Monitor
+为工作负载rancher-istio-tracing添加环境变量
+- METRICS_STORAGE_TYPE=prometheus
+- PROMETHEUS_SERVER_URL=http://rancher-monitoring-prometheus.cattle-monitoring-system.svc:9090
+- PROMETHEUS_QUERY_SUPPORT_SPANMETRICS_CONNECTOR=true
+- PROMETHEUS_QUERY_NAMESPACE=span_metrics
+- PROMETHEUS_QUERY_DURATION_UNIT=s
+- PROMETHEUS_QUERY_NORMALIZE_CALLS=true
+- PROMETHEUS_QUERY_NORMALIZE_DURATION=true
+```
 		  
 ## Ingress-nginx（可选）
 	登录Rancher Kubectl Shell控制台
