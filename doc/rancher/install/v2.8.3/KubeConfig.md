@@ -43,8 +43,11 @@
 	https://preliminary.istio.io/latest/zh/docs/tasks/observability/distributed-tracing/opentelemetry/
 	https://renlm.github.io/helm/yaml/install.istio.yaml
 	
+	创建opentelemetry-collector
+	$ kubectl apply -f https://renlm.github.io/helm/yaml/otel.yaml
+	
 ```
-自定义覆盖文件后，编辑YAML修改Kiali配置
+Istio自定义覆盖文件后，编辑YAML修改Kiali配置
 或安装完成后修改并重启Kiali
 $ kubectl edit configmap -n istio-system kiali
   kiali:
