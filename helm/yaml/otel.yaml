@@ -9,7 +9,7 @@ metadata:
   namespace: istio-system
 spec:
   mode: statefulset
-  image: otel/opentelemetry-collector-contrib:0.99.0
+  image: otel/opentelemetry-collector-contrib:0.100.1
   config: |-
     receivers:
       otlp:
