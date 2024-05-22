@@ -35,8 +35,6 @@
 	修改kube-rbac-proxy镜像 gcr.io/kubebuilder/kube-rbac-proxy 为 kubebuilder/kube-rbac-proxy
 	直接从本地将修改后YAML文件导入集群
 	$ kubectl apply -f https://github.com/open-telemetry/opentelemetry-operator/releases/latest/download/opentelemetry-operator.yaml
-	创建opentelemetry-collector
-	$ kubectl apply -f https://renlm.github.io/helm/yaml/otel.yaml
 	
 	Istio
 	启用CNI、Jaeger
