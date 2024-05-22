@@ -9,7 +9,7 @@ spec:
     - name: otel-tracing
       opentelemetry:
         port: 4317
-        service: otel-collector.istio-system.svc.cluster.local
+        service: otel-collector.observability.svc.cluster.local
   components:
     ingressGateways:
     - name: istio-ingressgateway
