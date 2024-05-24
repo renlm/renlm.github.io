@@ -2,7 +2,8 @@ apiVersion: v1
 entries:
   mygraph:
   - apiVersion: v2
-    created: "2024-05-18T22:17:07.694758404+08:00"
+    appVersion: v1.0.1
+    created: "2024-05-24T16:40:55.223262503+08:00"
     dependencies:
     - condition: redis.enabled
       name: redis
@@ -17,7 +18,7 @@ entries:
       name: jenkins
       repository: file://./charts/jenkins
     description: MyGraph 管理后台，集成经典RABC权限管理、Oauth2.0认证服务、在线画图、ER模型设计与在线文档管理，是一个高度集成的后台模板。
-    digest: 938ec620c36fe4da77b127701ba1fff14c125118fd0ef6cb77a506bbe5b3da60
+    digest: d719dfbf46c75d0b4b87dcb7f1eff102ff0c2ba279237cad970c8351dc988d59
     icon: https://renlm.github.io/favicon.ico
     keywords:
     - RABC权限管理
@@ -29,4 +30,4 @@ entries:
     urls:
     - https://renlm.github.io/helm/repo/mygraph-1.0.1.tgz
     version: 1.0.1
-generated: "2024-05-18T22:17:07.685995395+08:00"
+generated: "2024-05-24T16:40:55.216035039+08:00"
