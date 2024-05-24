@@ -10,5 +10,5 @@
 ### MyGraph
 	$ helm upgrade --install mygraph mygraph \
         --repo https://renlm.github.io/helm/repo \
-        --namespace renlm --create-namespace \
-        --version 1.0.1
+        --namespace alpha --create-namespace \
+        --version v1.0.1
