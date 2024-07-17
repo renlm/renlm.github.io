@@ -94,7 +94,6 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	环境变量KUBECONFIG（master）
 	https://docs.ranchermanager.rancher.io/zh/how-to-guides/new-user-guides/kubernetes-cluster-setup/k3s-for-rancher
 	$ cp /etc/rancher/k3s/k3s.yaml /etc/rancher/k3s/KUBECONFIG.yaml
-	$ sed -i 's/127.0.0.1:6443/k3s.master:6443/g' /etc/rancher/k3s/KUBECONFIG.yaml
 	$ sed -i '$a export KUBECONFIG=/etc/rancher/k3s/KUBECONFIG.yaml' ~/.bashrc
 	$ source ~/.bashrc
 	
