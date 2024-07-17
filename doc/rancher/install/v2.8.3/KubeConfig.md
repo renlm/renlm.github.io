@@ -100,6 +100,7 @@ $ kubectl edit configmap -n istio-system kiali
 	https://download.docker.com/linux/static/stable/x86_64/
 	https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/installation-requirements/install-docker
 	$ curl https://releases.rancher.com/install-docker/23.0.6.sh | sh
+	$ apt install docker docker-buildx docker-compose
 
 ```
 	阿里云，获取加速地址并配置
@@ -107,7 +108,7 @@ $ kubectl edit configmap -n istio-system kiali
 	$ mkdir -p /etc/docker
 	$ tee /etc/docker/daemon.json <<-'EOF'
 {
-  "registry-mirrors": [ "https://***.mirror.aliyuncs.com" ],
+  "registry-mirrors": [ "https://***.mirror.aliyuncs.com", "https://hub.gog.email", "https://dockerhub.icu" ],
   "log-driver": "json-file",
   "log-opts": { "max-size": "500m", "max-file": "3" },
   "features": { "buildkit" : true }
