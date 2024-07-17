@@ -99,7 +99,10 @@ $ kubectl edit configmap -n istio-system kiali
 ## 安装 docker（可选）
 	https://download.docker.com/linux/static/stable/x86_64/
 	https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/installation-requirements/install-docker
+	# 已失效
 	$ curl https://releases.rancher.com/install-docker/23.0.6.sh | sh
+	# 推荐方式
+	$ apt update
 	$ apt install docker docker-buildx docker-compose
 
 ```
@@ -108,7 +111,11 @@ $ kubectl edit configmap -n istio-system kiali
 	$ mkdir -p /etc/docker
 	$ tee /etc/docker/daemon.json <<-'EOF'
 {
-  "registry-mirrors": [ "https://***.mirror.aliyuncs.com", "https://hub.gog.email", "https://dockerhub.icu" ],
+  "registry-mirrors": [ 
+    "https://***.mirror.aliyuncs.com",
+    "https://hub.gog.email", 
+    "https://dockerhub.icu" 
+  ],
   "log-driver": "json-file",
   "log-opts": { "max-size": "500m", "max-file": "3" },
   "features": { "buildkit" : true }
