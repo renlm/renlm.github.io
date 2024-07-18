@@ -1,12 +1,12 @@
 # 客户端配置生成
 
 ## 环境配置
-	# Rancher v2.8.3
+	# Rancher v2.8.5
 	v1.27.13+k3s1
 	cert-manager v1.14.5
 	
 	# RKE2
-	v1.28.8+rke2r1
+	v1.28.10+rke2r1
 	
 ## Containerd 镜像仓库配置
 	创建集群前，在每个节点新建配置
