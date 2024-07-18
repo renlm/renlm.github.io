@@ -48,6 +48,36 @@ Delegate=cpu cpuset io memory pids
 EOF
 $ systemctl daemon-reload
 ```
+
+## 安装docker
+	$ apt update
+	$ apt install -y docker docker-buildx docker-compose
+
+```
+	阿里云，获取加速地址并配置
+	https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors
+	$ mkdir -p /etc/docker
+	$ tee /etc/docker/daemon.json <<-'EOF'
+{
+  "registry-mirrors": [ 
+    "https://hub.gog.email", 
+    "https://dockerhub.icu" 
+  ],
+  "log-driver": "json-file",
+  "log-opts": { "max-size": "500m", "max-file": "3" },
+  "features": { "buildkit" : true }
+}
+EOF
+```
+
+	启动服务
+	$ systemctl daemon-reload
+	$ systemctl enable docker
+	$ systemctl restart docker
+	
+	清理缓存
+	$ docker system df
+	$ docker system prune
 	
 ## 安装k3s
 	https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-8-3/

@@ -96,42 +96,6 @@ $ kubectl edit configmap -n istio-system kiali
 	  	--docker-username=renlm@21cn.com \
 	  	--docker-password=PWD
 
-## 安装 docker（可选）
-	https://download.docker.com/linux/static/stable/x86_64/
-	https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/installation-requirements/install-docker
-	# 已失效
-	$ curl https://releases.rancher.com/install-docker/23.0.6.sh | sh
-	# 推荐方式
-	$ apt update
-	$ apt install docker docker-buildx docker-compose
-
-```
-	阿里云，获取加速地址并配置
-	https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors
-	$ mkdir -p /etc/docker
-	$ tee /etc/docker/daemon.json <<-'EOF'
-{
-  "registry-mirrors": [ 
-    "https://***.mirror.aliyuncs.com",
-    "https://hub.gog.email", 
-    "https://dockerhub.icu" 
-  ],
-  "log-driver": "json-file",
-  "log-opts": { "max-size": "500m", "max-file": "3" },
-  "features": { "buildkit" : true }
-}
-EOF
-```
-	
-	启动服务
-	$ systemctl daemon-reload
-	$ systemctl enable docker
-	$ systemctl restart docker
-	
-	清理缓存
-	$ docker system df
-	$ docker system prune
-	
 ## KubeConfig
 	登录机器
 	https://kubernetes.io/zh-cn/docs/tasks/tls/managing-tls-in-a-cluster/
