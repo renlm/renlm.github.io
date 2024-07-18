@@ -8,6 +8,24 @@
 	# RKE2
 	v1.28.8+rke2r1
 	
+## Containerd 镜像仓库配置
+	创建集群前，在每个节点新建配置
+	修改后，需在每个配置的节点上重启 RKE2
+	
+```
+	$ mkdir -p /etc/rancher/rke2
+	$ tee /etc/rancher/rke2/registries.yaml <<-'EOF'
+mirrors:
+  docker.io:
+    endpoint:
+      - "https://hub.gog.email"
+      - "https://dockerhub.icu"
+  ghcr.io:
+    endpoint:
+      - "https://ghcr.dockerhub.icu"
+EOF
+```
+	
 ## 安装 cert-manager
 	登录Rancher Kubectl Shell控制台
 	https://cert-manager.io/docs/installation/helm/
