@@ -50,6 +50,7 @@ $ systemctl daemon-reload
 ```
 
 ## 安装docker
+	在 k3s 中使用 docker 作为容器运行时，替代默认的 containerd
 	$ apt update
 	$ apt install -y docker docker-buildx docker-compose
 
@@ -99,6 +100,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     INSTALL_K3S_VERSION=v1.27.13+k3s1 \
     K3S_TOKEN=SECRET \
     sh -s - server --tls-san k3s.master \
+    --docker \
     --cluster-init
 ```
 
@@ -109,6 +111,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     INSTALL_K3S_VERSION=v1.27.13+k3s1 \
     K3S_TOKEN=SECRET \
     sh -s - server --tls-san k3s.master \
+    --docker \
     --server https://k3s.master:6443
 ```
 
@@ -118,7 +121,9 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     INSTALL_K3S_MIRROR=cn \
     INSTALL_K3S_VERSION=v1.27.13+k3s1 \
     K3S_TOKEN=SECRET \
-    sh -s - agent --server https://k3s.master:6443
+    sh -s - agent \
+    --docker \
+    --server https://k3s.master:6443
 ```
 
 	环境变量KUBECONFIG（master）
