@@ -54,8 +54,8 @@ $ systemctl daemon-reload
 	$ tee /etc/docker/daemon.json <<-'EOF'
 {
   "registry-mirrors": [ 
-	"https://docker.anyhub.us.kg",
-  	"https://docker.awsl9527.cn",
+    "https://docker.anyhub.us.kg",
+    "https://docker.awsl9527.cn",
     "https://dockerhub.icu",
     "https://hub.gog.email"
   ],
