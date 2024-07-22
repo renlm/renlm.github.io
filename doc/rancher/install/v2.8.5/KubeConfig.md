@@ -10,11 +10,13 @@
 	
 ## Containerd 镜像仓库配置
 	创建集群时，配置镜像仓库
-	docker.io 
-		https://hub.gog.email
-		https://dockerhub.icu
-	ghcr.io
-		https://ghcr.dockerhub.icu
+	为 Rancher 系统容器镜像启用集群级别的容器镜像仓库
+		hub.gog.email
+	Mirror 
+		docker.io 
+			dockerhub.icu
+		ghcr.io
+			ghcr.dockerhub.icu
 	
 ## 安装 cert-manager
 	登录Rancher Kubectl Shell控制台
