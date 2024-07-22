@@ -1,15 +1,8 @@
 # Rancher v2.8.5 + Ubuntu 22.04
 
-## 检查/etc/hosts
-	修改hostname并立即生效
+## 修改hostname
+	立即生效
 	$ hostname -F /etc/hostname
-	将hostname配到/etc/hosts中
-	$ hostname
-```
-192.168.0.3 JD1
-192.168.16.3 JD2
-192.168.16.3 rancher.renlm.cn
-```
 
 ## 检查DNS配置
 	# Nameserver limits were exceeded
