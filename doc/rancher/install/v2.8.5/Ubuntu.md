@@ -56,6 +56,8 @@ $ systemctl daemon-reload
   "registry-mirrors": [ 
     "https://docker.anyhub.us.kg",
     "https://docker.awsl9527.cn",
+    "https://docker.1panel.live",
+    "https://hub.rat.dev",
     "https://dockerhub.icu",
     "https://hub.gog.email"
   ],
