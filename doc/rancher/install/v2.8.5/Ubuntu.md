@@ -54,8 +54,10 @@ $ systemctl daemon-reload
 	$ tee /etc/docker/daemon.json <<-'EOF'
 {
   "registry-mirrors": [ 
-    "https://hub.gog.email", 
-    "https://dockerhub.icu" 
+	"https://docker.anyhub.us.kg",
+  	"https://docker.awsl9527.cn",
+    "https://dockerhub.icu",
+    "https://hub.gog.email"
   ],
   "log-driver": "json-file",
   "log-opts": { "max-size": "500m", "max-file": "3" },
