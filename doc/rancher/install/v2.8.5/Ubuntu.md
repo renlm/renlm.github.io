@@ -180,6 +180,10 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
         --set letsEncrypt.email=renlm@21cn.com \
         --set letsEncrypt.ingress.class=traefik
 	
+	重置密码
+	$ docker ps | grep rancher/rancher
+	$ docker exec -it {CONTAINER ID} reset-password
+
 ## MTU 设置（可选）
 	为保障通信，集群节点规格不一致时，需要统一MTU
 	以值最小的那个节点为基准
