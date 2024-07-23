@@ -149,9 +149,11 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	https://cert-manager.io/docs/installation/helm/
 	$ helm repo add jetstack https://charts.jetstack.io
 	$ helm repo update
+	
 	$ helm -n cert-manager ls -a
-	$ helm -n cert-manager uninstall cert-manager
 	$ kubectl get pods --namespace cert-manager
+	$ helm -n cert-manager uninstall cert-manager
+	
 	$ helm install cert-manager jetstack/cert-manager \
 		  --namespace cert-manager \
 		  --create-namespace \
