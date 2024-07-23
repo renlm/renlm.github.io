@@ -180,7 +180,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
         --set letsEncrypt.email=renlm@21cn.com \
         --set letsEncrypt.ingress.class=traefik
 	
-	重置密码
+	重置密码（admin）
 	$ docker ps | grep rancher/rancher
 	$ docker exec -it {CONTAINER ID} reset-password
 
