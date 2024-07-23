@@ -11,10 +11,10 @@
 ## Containerd 镜像仓库配置
 	创建集群时，配置镜像仓库
 	为 Rancher 系统容器镜像启用集群级别的容器镜像仓库
-		docker.anyhub.us.kg
+		docker.awsl9527.cn
 	Mirror 
 		docker.io 
-			dockerhub.icu
+			docker.awsl9527.cn
 		ghcr.io
 			ghcr.dockerhub.icu
 	
