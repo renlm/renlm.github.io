@@ -43,7 +43,7 @@ EOF
 $ systemctl daemon-reload
 ```
 
-## 私有镜像仓库配置
+## 私有镜像仓库配置（master）
 ```
 $ mkdir -p /etc/rancher/k3s
 $ cat <<EOF | tee /etc/rancher/k3s/registries.yaml
