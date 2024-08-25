@@ -5,20 +5,21 @@
 	$ helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
 	$ helm search repo rancher
 	
-	$ kubectl -n cattle-system get deploy rancher
-	$ kubectl -n cattle-system rollout status deploy/rancher
-	
-	安装 rancher-stable/rancher v2.8.5
+	安装 rancher-stable/rancher v2.8.6
 	注意：要保障hostname及其一级域名的DNS解析均指向部署服务器
 	$ kubectl create namespace cattle-system
-	$ helm fetch rancher-stable/rancher --version=v2.8.5
-	$ helm install rancher ./rancher-2.8.5.tgz \
+	$ helm fetch rancher-stable/rancher --version=v2.8.6
+	$ helm install rancher ./rancher-2.8.6.tgz \
         --namespace cattle-system \
         --set hostname=rancher.renlm.cn \
         --set bootstrapPassword="PWD" \
         --set ingress.tls.source=letsEncrypt \
         --set letsEncrypt.email=renlm@21cn.com \
         --set letsEncrypt.ingress.class=traefik
+	
+	查看安装情况
+	$ kubectl -n cattle-system get deploy rancher
+	$ kubectl -n cattle-system rollout status deploy/rancher
 	
 	重置密码（admin）
 	$ docker ps | grep rancher/rancher
