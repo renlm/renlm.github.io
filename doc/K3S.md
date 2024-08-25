@@ -1,4 +1,4 @@
-# K3S
+# K3S（Ubuntu）
 
 ## 修改hostname
 	立即生效
@@ -70,6 +70,7 @@ EOF
 	https://github.com/helm/helm/releases/
 	
 	手动上传文件，下载较慢
+	master节点安装即可
 	$ wget https://renlm.github.io/helm/helm-v3.14.4-linux-amd64.tar.gz
 	$ tar -zxvf helm-v3.14.4-linux-amd64.tar.gz
 	$ mv linux-amd64/helm /usr/local/bin/helm
