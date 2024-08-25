@@ -157,6 +157,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 ```
 开始安装
 https://istio.io/latest/docs/setup/additional-setup/config-profiles/
+https://istio.io/latest/docs/setup/install/operator/
 $ kubectl apply -f - <<EOF
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
@@ -171,37 +172,39 @@ spec:
       enabled: true
       k8s:
         service:
-          type: NodePort
+          type: LoadBalancer
           ports:
-          - name: status-port
-            port: 15021
+          - port: 15021
             targetPort: 15021
-          - name: http2
-            nodePort: 80
-            port: 80
+            protocol: TCP
+            name: status-port
+          - port: 80
             targetPort: 8080
-          - name: https
-            nodePort: 443
-            port: 443
+            protocol: TCP
+            name: http2
+          - port: 443
             targetPort: 8443
-          - name: redis
-            nodePort: 31379
-            port: 6379
+            protocol: TCP
+            name: https
+          - port: 6379
             targetPort: 6379
-          - name: mysql
-            nodePort: 31306
-            port: 3306
+            protocol: TCP
+            name: redis
+          - port: 3306
             targetPort: 3306
-          - name: amqp
-            nodePort: 31672
-            port: 5672
+            protocol: TCP
+            name: mysql
+          - port: 5672
             targetPort: 5672
+            protocol: TCP
+            name: amqp
 EOF
 ```
 
-	查看
+	查看部署情况（可根据描述信息定位问题）
+	$ kubectl get iop --all-namespaces
+	$ kubectl describe iop default-istiocontrolplane -n istio-system
 	$ kubectl get services -n istio-system
-	$ kubectl get pods -n istio-system
 
 ## 安装 cert-manager
 	配置环境变量KUBECONFIG
