@@ -15,7 +15,6 @@
 	
 	重启服务
 	$ systemctl restart systemd-resolved
-	$ systemctl enable systemd-resolved
 	
 ## 系统参数
 	# failed to create fsnotify watcher: too many open files
@@ -43,8 +42,9 @@ EOF
 $ systemctl daemon-reload
 ```
 
-## 私有镜像仓库配置（master）
+## 镜像仓库配置（master）
 ```
+https://docs.k3s.io/zh/installation/private-registry
 $ mkdir -p /etc/rancher/k3s
 $ cat <<EOF | tee /etc/rancher/k3s/registries.yaml
 mirrors:
