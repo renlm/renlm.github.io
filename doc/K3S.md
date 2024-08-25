@@ -51,16 +51,16 @@ $ cat <<EOF | tee /etc/rancher/k3s/registries.yaml
 mirrors:
   docker.io:
     endpoint:
-      - https://docker-io.renlm.cn
+    - https://docker-io.renlm.cn
   gcr.io:
     endpoint:
-      - https://gcr-io.renlm.cn
+    - https://gcr-io.renlm.cn
   ghcr.io:
     endpoint:
-      - https://ghcr-io.renlm.cn
+    - https://ghcr-io.renlm.cn
   quay.io:
     endpoint:
-      - https://quay-io.renlm.cn
+    - https://quay-io.renlm.cn
 EOF
 ```
 	
