@@ -3,6 +3,7 @@
 ## 修改hostname
 	立即生效
 	$ hostname -F /etc/hostname
+	$ hostname
 
 ## 检查DNS配置
 	# Nameserver limits were exceeded
