@@ -130,15 +130,19 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 ## 安装 cert-manager
 	配置环境变量KUBECONFIG
 	https://cert-manager.io/docs/installation/helm/
-	$ helm repo add jetstack https://charts.jetstack.io
-	$ helm repo update
+	$ helm repo add jetstack https://charts.jetstack.io --force-update
 	
+	安装
+	$ helm install \
+	    cert-manager jetstack/cert-manager \
+	    --namespace cert-manager \
+	    --create-namespace \
+	    --version v1.15.3 \
+	    --set crds.enabled=true
+	
+	查看  
 	$ helm -n cert-manager ls -a
 	$ kubectl get pods --namespace cert-manager
-	$ helm -n cert-manager uninstall cert-manager
 	
-	$ helm install cert-manager jetstack/cert-manager \
-		  --namespace cert-manager \
-		  --create-namespace \
-		  --version v1.14.5 \
-		  --set installCRDs=true
+	卸载
+	$ helm uninstall cert-manager -n cert-manager
