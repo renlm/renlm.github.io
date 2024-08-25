@@ -44,8 +44,8 @@ $ systemctl daemon-reload
 
 ## 私有镜像仓库配置
 ```
-需要再每个节点添加
 https://docs.k3s.io/zh/installation/private-registry
+需要在每个节点添加
 $ mkdir -p /etc/rancher/k3s
 $ cat <<EOF | tee /etc/rancher/k3s/registries.yaml
 mirrors:
