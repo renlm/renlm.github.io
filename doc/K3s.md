@@ -46,7 +46,7 @@ $ systemctl daemon-reload
 ## 私有镜像仓库配置
 
 ```
-	$ tee /etc/rancher/k3s/registries.yaml <<-'EOF'
+$ tee /etc/rancher/k3s/registries.yaml <<-'EOF'
 mirrors:
   docker.io:
     endpoint:
