@@ -159,6 +159,18 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 https://istio.io/latest/docs/setup/additional-setup/config-profiles/
 https://istio.io/latest/docs/setup/install/operator/
 $ kubectl apply -f - <<EOF
+apiVersion: v1
+kind: List
+items:
+- apiVersion: networking.k8s.io/v1
+  kind: IngressClass
+  spec:
+    controller: istio.io/ingress-controller
+  metadata:
+    name: istio
+    annotations:
+      ingressclass.kubernetes.io/is-default-class: "true"
+---
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
