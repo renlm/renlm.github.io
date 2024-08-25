@@ -97,6 +97,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     K3S_TOKEN=SECRET \
     sh -s - server \
     --tls-san k3s.master \
+    --tls-san kubernetes.renlm.cn \
     --cluster-init
 ```
 
