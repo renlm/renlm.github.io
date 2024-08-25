@@ -8,6 +8,7 @@
 	
 	安装 rancher-stable/rancher v2.8.5
 	注意：要保障hostname及其一级域名的DNS解析均指向部署服务器
+	安装 k3s 时使用 istio 代替了 traefik
 	$ kubectl create namespace cattle-system
 	$ helm fetch rancher-stable/rancher --version=v2.8.5
 	$ helm install rancher ./rancher-2.8.5.tgz \
@@ -16,7 +17,7 @@
         --set bootstrapPassword="PWD" \
         --set ingress.tls.source=letsEncrypt \
         --set letsEncrypt.email=renlm@21cn.com \
-        --set letsEncrypt.ingress.class=traefik
+        --set letsEncrypt.ingress.class=istio
 	
 	查看安装情况
 	$ kubectl -n cattle-system get deploy rancher
