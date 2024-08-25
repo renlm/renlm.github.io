@@ -2,14 +2,15 @@
 
 ## 安装 rancher
 	添加 Helm Chart 仓库
+	https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/install-upgrade-on-a-kubernetes-cluster
 	$ helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
 	$ helm search repo rancher
 	
-	安装 rancher-stable/rancher v2.8.6
+	安装 rancher-stable/rancher v2.8.5
 	注意：要保障hostname及其一级域名的DNS解析均指向部署服务器
 	$ kubectl create namespace cattle-system
-	$ helm fetch rancher-stable/rancher --version=v2.8.6
-	$ helm install rancher ./rancher-2.8.6.tgz \
+	$ helm fetch rancher-stable/rancher --version=v2.8.5
+	$ helm install rancher ./rancher-2.8.5.tgz \
         --namespace cattle-system \
         --set hostname=rancher.renlm.cn \
         --set bootstrapPassword="PWD" \
@@ -22,8 +23,8 @@
 	$ kubectl -n cattle-system rollout status deploy/rancher
 	
 	重置密码（admin）
-	$ docker ps | grep rancher/rancher
-	$ docker exec -it {CONTAINER ID} reset-password
+	$ kubectl get pods -n cattle-system -o wide
+	$ kubectl -n cattle-system exec -it [POD_NAME] -- reset-password
 
 ## MTU 设置（可选）
 	使用 rancher 创建的集群
