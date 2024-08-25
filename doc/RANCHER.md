@@ -36,8 +36,9 @@
 	
 	MTU检测
 	$ ping -s 1451 -M do {目标IP或域名}
-	以MTU=1450为例，选用Calico MTU with VXLAN (IPv4) = 1500 - 1450 = 50
-	集群MTU应设置为：1450 - 50 = 1400
+	以MTU=1450为例，选用Calico MTU with VXLAN (IPv4)，集群MTU应设置为：1400（差值50 = 1450 - 1400）
+	如果使用WireGuard进行跨云集群节点的网络穿透，1400 - 80(40[IPv6] + 32[WireGuard] + 8[ICMP]) = 1320
+	运营商可能对UDP数据包有限制，如果使用wstunnel对WireGuard流量进行TCP包装时，MTU = 1320 - 60(40[IPv6] + 20[TCP]) = 1260
 	
 ```
 # 协议消耗
@@ -55,17 +56,17 @@ PPPoE – 8 Bytes
 # 创建集群时，[附加配置] 添加参数
 installation:
   calicoNetwork:
-    mtu: 1400
+    mtu: 1260
 ```
 	
 ```
 # 修改方式二：
 # 命令修改
-kubectl patch installation.operator.tigera.io default --type merge -p '{"spec":{"calicoNetwork":{"mtu":1400}}}'
+kubectl patch installation.operator.tigera.io default --type merge -p '{"spec":{"calicoNetwork":{"mtu":1260}}}'
 ```
 
 ## 应用版本回滚
 	回滚应用版本后再进行更新
-	helm -n renlm history {部署应用名称}
+	helm -n {namespace} history {appName}
 	$ helm -n renlm history mygraph
-	$ helm -n renlm rollback mygraph {版本号}
+	$ helm -n renlm rollback mygraph {version}
