@@ -130,6 +130,9 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	验证k3s（master）
 	$ kubectl get nodes
 	$ kubectl version --output=json
+	
+	查看镜像
+	$ ctr image ls
 
 ## 安装 cert-manager
 	配置环境变量KUBECONFIG
