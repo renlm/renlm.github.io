@@ -1,11 +1,11 @@
 # K3S（Ubuntu）
 
-## 修改hostname
+## 修改 hostname
 	立即生效
 	$ hostname -F /etc/hostname
 	$ hostname
 
-## 检查DNS配置
+## 检查 DNS 配置
 	# Nameserver limits were exceeded
 	# Too many DNS servers configured, the following entries may be ignored.
 	$ cat /run/systemd/resolve/resolv.conf
@@ -76,7 +76,7 @@ EOF
 	$ mv linux-amd64/helm /usr/local/bin/helm
 	$ helm version
 
-## 安装k3s
+## 安装 k3s
 	https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-8-6/
 	https://docs.rancher.cn/docs/k3s/installation/ha/_index/
 	https://github.com/k3s-io/k3s/releases/
@@ -146,6 +146,3 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	查看  
 	$ helm -n cert-manager ls -a
 	$ kubectl get pods --namespace cert-manager
-	
-	卸载
-	$ helm uninstall cert-manager -n cert-manager
