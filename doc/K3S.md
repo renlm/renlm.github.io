@@ -74,7 +74,9 @@ EOF
 	master节点安装即可
 	$ wget https://renlm.github.io/helm/helm-v3.14.4-linux-amd64.tar.gz
 	$ tar -zxvf helm-v3.14.4-linux-amd64.tar.gz
-	$ mv linux-amd64/helm /usr/local/bin/helm
+	$ mv linux-amd64 /usr/local/helm-v3.14.4
+	$ ln -sf /usr/local/helm-v3.14.4 /usr/local/helm
+	$ sed -i '$a export PATH=/usr/local/helm/bin:$PATH' ~/.bashrc
 	$ helm version
 
 ## 安装 k3s
@@ -92,11 +94,13 @@ EOF
 		
 ```	
 # master主节点
+# 禁用traefik，安装istio替代
 $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     INSTALL_K3S_MIRROR=cn \
     INSTALL_K3S_VERSION=v1.28.13+k3s1 \
     K3S_TOKEN=SECRET \
     sh -s - server \
+    --disable=traefik \
     --tls-san k3s.master \
     --tls-san kubernetes.renlm.cn \
     --cluster-init
@@ -134,6 +138,67 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	
 	查看镜像
 	$ ctr image ls
+	
+## 安装 istio
+	配置环境变量KUBECONFIG
+	https://istio.io/latest/docs/setup/additional-setup/download-istio-release/
+	https://github.com/istio/istio/releases
+	
+	手动上传文件，下载较慢
+	istioctl安装，master节点即可
+	$ wget https://renlm.github.io/helm/istio-1.22.4-linux-amd64.tar.gz
+	$ tar -zxvf istio-1.22.4-linux-amd64.tar.gz
+	$ mv istio-1.22.4 /usr/local/
+	$ ln -sf /usr/local/istio-1.22.4 /usr/local/istio
+	$ sed -i '$a export PATH=/usr/local/istio/bin:$PATH' ~/.bashrc
+	$ istioctl operator init
+	$ istioctl version
+	
+```
+开始安装
+$ kubectl apply -f - <<EOF
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  namespace: istio-system
+  name: default-istiocontrolplane
+spec:
+  profile: default
+components:
+  ingressGateways:
+  - name: istio-ingressgateway
+    k8s:
+      service:
+        ports:
+        - name: status-port
+          port: 15021
+          targetPort: 15021
+        - name: http2
+          nodePort: 80
+          port: 80
+          targetPort: 8080
+        - name: https
+          nodePort: 443
+          port: 443
+          targetPort: 8443
+        - name: redis
+          nodePort: 31379
+          port: 6379
+          targetPort: 6379
+        - name: mysql
+          nodePort: 31306
+          port: 3306
+          targetPort: 3306
+        - name: amqp
+          nodePort: 31672
+          port: 5672
+          targetPort: 5672
+EOF
+```
+
+	查看
+	$ kubectl get services -n istio-system
+	$ kubectl get pods -n istio-system
 
 ## 安装 cert-manager
 	配置环境变量KUBECONFIG
