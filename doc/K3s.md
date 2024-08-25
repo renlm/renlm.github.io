@@ -1,5 +1,67 @@
 # K3s
 
+## 修改hostname
+	立即生效
+	$ hostname -F /etc/hostname
+
+## 检查DNS配置
+	# Nameserver limits were exceeded
+	# Too many DNS servers configured, the following entries may be ignored.
+	$ cat /run/systemd/resolve/resolv.conf
+	
+	注释掉多余的DNS servers
+	$ vi /etc/systemd/resolved.conf
+	
+	重启服务
+	$ systemctl restart systemd-resolved
+	$ systemctl enable systemd-resolved
+	
+## 系统参数
+	# failed to create fsnotify watcher: too many open files
+	$ sysctl -n fs.inotify.max_user_instances
+	$ echo fs.inotify.max_user_instances = 1024 | tee -a /etc/sysctl.conf && sysctl -p
+	
+```
+Enabling CPU, CPUSET, and I/O delegation(only cgroup v2)
+By default, a non-root user can only get memory controller and pids controller to be delegated.
+https://rootlesscontaine.rs/getting-started/common/cgroup2/	
+
+对于 cgroup v1，输出为 tmpfs
+对于 cgroup v2，输出为 cgroup2fs
+$ stat -fc %T /sys/fs/cgroup
+
+$ cat /sys/fs/cgroup/user.slice/user-$(id -u).slice/user@$(id -u).service/cgroup.controllers
+memory pids
+
+To allow delegation of other controllers such as cpu, cpuset, and io, run the following commands:
+$ mkdir -p /etc/systemd/system/user@.service.d
+$ cat <<EOF | tee /etc/systemd/system/user@.service.d/delegate.conf
+[Service]
+Delegate=cpu cpuset io memory pids
+EOF
+$ systemctl daemon-reload
+```
+
+## 私有镜像仓库配置
+
+```
+	$ tee /etc/rancher/k3s/registries.yaml <<-'EOF'
+mirrors:
+  docker.io:
+    endpoint:
+      - https://docker-io.renlm.cn
+  gcr.io:
+    endpoint:
+      - https://gcr-io.renlm.cn
+  ghcr.io:
+    endpoint:
+      - https://ghcr-io.renlm.cn
+  quay.io:
+    endpoint:
+      - https://quay-io.renlm.cn
+EOF
+```
+
 ## 安装k3s
 	https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-8-6/
 	https://docs.rancher.cn/docs/k3s/installation/ha/_index/
@@ -20,7 +82,6 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     INSTALL_K3S_VERSION=v1.28.13+k3s1 \
     K3S_TOKEN=SECRET \
     sh -s - server --tls-san k3s.master \
-    --docker \
     --cluster-init
 ```
 
@@ -31,7 +92,6 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     INSTALL_K3S_VERSION=v1.28.13+k3s1 \
     K3S_TOKEN=SECRET \
     sh -s - server --tls-san k3s.master \
-    --docker \
     --server https://k3s.master:6443
 ```
 
@@ -42,7 +102,6 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     INSTALL_K3S_VERSION=v1.28.13+k3s1 \
     K3S_TOKEN=SECRET \
     sh -s - agent \
-    --docker \
     --server https://k3s.master:6443
 ```
 
