@@ -25,6 +25,7 @@
 Enabling CPU, CPUSET, and I/O delegation(only cgroup v2)
 By default, a non-root user can only get memory controller and pids controller to be delegated.
 https://rootlesscontaine.rs/getting-started/common/cgroup2/	
+https://github.com/opencontainers/runc/blob/main/docs/cgroup-v2.md
 
 对于 cgroup v1，输出为 tmpfs
 对于 cgroup v2，输出为 cgroup2fs
