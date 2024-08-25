@@ -63,6 +63,17 @@ mirrors:
       - https://quay-io.renlm.cn
 EOF
 ```
+	
+## 安装 helm
+	Helm版本支持策略
+	https://helm.sh/zh/docs/topics/version_skew/
+	https://github.com/helm/helm/releases/
+	
+	手动上传文件，下载较慢
+	$ wget https://renlm.github.io/helm/helm-v3.12.3-linux-amd64.tar.gz
+	$ tar -zxvf helm-v3.12.3-linux-amd64.tar.gz
+	$ mv linux-amd64/helm /usr/local/bin/helm
+	$ helm version
 
 ## 安装k3s
 	https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-8-6/
@@ -81,7 +92,7 @@ EOF
 # master主节点
 $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     INSTALL_K3S_MIRROR=cn \
-    INSTALL_K3S_VERSION=v1.28.13+k3s1 \
+    INSTALL_K3S_VERSION=v1.27.16+k3s1 \
     K3S_TOKEN=SECRET \
     sh -s - server --tls-san k3s.master \
     --cluster-init
@@ -91,9 +102,9 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 # master从节点
 $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     INSTALL_K3S_MIRROR=cn \
-    INSTALL_K3S_VERSION=v1.28.13+k3s1 \
+    INSTALL_K3S_VERSION=v1.27.16+k3s1 \
     K3S_TOKEN=SECRET \
-    sh -s - server --tls-san k3s.master \
+    sh -s - server \
     --server https://k3s.master:6443
 ```
 
@@ -101,7 +112,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 # agent节点
 $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     INSTALL_K3S_MIRROR=cn \
-    INSTALL_K3S_VERSION=v1.28.13+k3s1 \
+    INSTALL_K3S_VERSION=v1.27.16+k3s1 \
     K3S_TOKEN=SECRET \
     sh -s - agent \
     --server https://k3s.master:6443
@@ -116,17 +127,6 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	验证k3s（master）
 	$ kubectl get nodes
 	$ kubectl version --output=json
-	
-## 安装 helm
-	Helm版本支持策略
-	https://helm.sh/zh/docs/topics/version_skew/
-	https://github.com/helm/helm/releases/
-	
-	手动上传文件，下载较慢
-	$ wget https://renlm.github.io/helm/helm-v3.12.3-linux-amd64.tar.gz
-	$ tar -zxvf helm-v3.12.3-linux-amd64.tar.gz
-	$ mv linux-amd64/helm /usr/local/bin/helm
-	$ helm version
 
 ## 安装 cert-manager
 	配置环境变量KUBECONFIG
