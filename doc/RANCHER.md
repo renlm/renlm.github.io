@@ -26,6 +26,7 @@
 	$ docker exec -it {CONTAINER ID} reset-password
 
 ## MTU 设置（可选）
+	使用 rancher 创建的集群
 	为保障通信，集群节点规格不一致时，需要统一MTU
 	以值最小的那个节点为基准
 	https://projectcalico.docs.tigera.io/networking/mtu
