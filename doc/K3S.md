@@ -156,6 +156,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	
 ```
 开始安装
+https://istio.io/latest/docs/setup/additional-setup/config-profiles/
 $ kubectl apply -f - <<EOF
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
@@ -164,35 +165,37 @@ metadata:
   name: default-istiocontrolplane
 spec:
   profile: default
-components:
-  ingressGateways:
-  - name: istio-ingressgateway
-    k8s:
-      service:
-        ports:
-        - name: status-port
-          port: 15021
-          targetPort: 15021
-        - name: http2
-          nodePort: 80
-          port: 80
-          targetPort: 8080
-        - name: https
-          nodePort: 443
-          port: 443
-          targetPort: 8443
-        - name: redis
-          nodePort: 31379
-          port: 6379
-          targetPort: 6379
-        - name: mysql
-          nodePort: 31306
-          port: 3306
-          targetPort: 3306
-        - name: amqp
-          nodePort: 31672
-          port: 5672
-          targetPort: 5672
+  components:
+    ingressGateways:
+    - name: istio-ingressgateway
+      enabled: true
+      k8s:
+        service:
+          type: NodePort
+          ports:
+          - name: status-port
+            port: 15021
+            targetPort: 15021
+          - name: http2
+            nodePort: 80
+            port: 80
+            targetPort: 8080
+          - name: https
+            nodePort: 443
+            port: 443
+            targetPort: 8443
+          - name: redis
+            nodePort: 31379
+            port: 6379
+            targetPort: 6379
+          - name: mysql
+            nodePort: 31306
+            port: 3306
+            targetPort: 3306
+          - name: amqp
+            nodePort: 31672
+            port: 5672
+            targetPort: 5672
 EOF
 ```
 
