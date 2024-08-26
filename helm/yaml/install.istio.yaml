@@ -53,23 +53,6 @@ items:
     issuerRef:
       name: letsencrypt-issuer
       kind: ClusterIssuer
-- apiVersion: install.istio.io/v1alpha1
-  kind: IstioOperator
-  metadata:
-    name: ingress
-  spec:
-    profile: empty
-    components:
-      ingressGateways:
-      - name: istio-ingressgateway
-        namespace: istio-ingress
-        enabled: true
-        label:
-          istio: ingressgateway
-    values:
-      gateways:
-        istio-ingressgateway:
-          injectionTemplate: gateway
 - apiVersion: networking.istio.io/v1beta1
   kind: Gateway
   metadata:
