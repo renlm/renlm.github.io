@@ -7,7 +7,7 @@
 	$ helm search repo rancher
 	
 	安装 rancher-stable/rancher v2.8.5
-	禁用ingress，使用istio网关进行代理
+	禁用ingress，使用istio网关进行代理和加密
 	https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/installation-references/helm-chart-options
 	https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/installation-references/helm-chart-options#外部 TLS 终止
 	$ kubectl create namespace cattle-system
