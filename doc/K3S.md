@@ -171,7 +171,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	安装istio组件
 	$ istioctl install --set profile=minimal
 	$ kubectl create namespace istio-ingress
-	$ istioctl install -f https://renlm.github.io/yaml/install.istio.yaml
+	$ istioctl install -f https://renlm.github.io/helm/yaml/install.istio.yaml
 
 	查看部署情况（可根据描述信息定位问题）
 	$ kubectl get iop --all-namespaces
