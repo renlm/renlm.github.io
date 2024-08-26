@@ -176,16 +176,17 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	$ istioctl install -y -f install.iop.yaml
 	$ kubectl apply -f install.istio.yaml
 
-	查看部署情况
+	查看资源部署情况
 	$ kubectl get svc -A
 	$ kubectl get pods -A
 	$ kubectl get Gateway -A
 	$ kubectl get VirtualService -A
 	
-	查看Let's Encrypt证书申请
+	查看 Let's Encrypt 证书申请
 	$ kubectl describe ingress -A
     $ kubectl describe challenges -A
     $ kubectl describe certificate -n istio-system
 	$ kubectl get secret -n istio-system
-	失败后，配置DNS，删除secret自动重试
+	
+	证书申请失败后，配置DNS，删除secret自动重试
 	$ kubectl delete secret {tmpSecretName} -n istio-system
