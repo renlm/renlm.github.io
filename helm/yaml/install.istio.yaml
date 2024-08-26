@@ -101,17 +101,10 @@ items:
     http:
     - match:
       - port: 80
-      route:
-      - weight: 100
-        destination:
-          host: rancher.cattle-system.svc.cluster.local
-          port:
-            number: 80
-    - match:
       - port: 443
       route:
       - weight: 100
         destination:
           host: rancher.cattle-system.svc.cluster.local
           port:
-            number: 443
+            number: 80

@@ -13,11 +13,9 @@
 	$ helm fetch rancher-stable/rancher --version=v2.8.5
 	$ helm install rancher ./rancher-2.8.5.tgz \
         --namespace cattle-system \
-        --set hostname=rancher.renlm.cn \
-        --set bootstrapPassword="PWD" \
         --set ingress.enabled=false
 	
-	查看安装情况
+	查看安装情况，完成后根据输出提示获取随机登录密码（admin）
 	$ kubectl -n cattle-system get deploy rancher
 	$ kubectl -n cattle-system rollout status deploy/rancher
 	
