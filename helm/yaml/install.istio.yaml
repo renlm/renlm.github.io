@@ -1,15 +1,14 @@
 # https://istio.io/latest/zh/docs/setup/additional-setup/gateway/
+# https://istio.io/latest/zh/docs/tasks/traffic-management/ingress/kubernetes-ingress/
 apiVersion: v1
 kind: List
 items:
 - apiVersion: networking.k8s.io/v1
   kind: IngressClass
-  spec:
-    controller: istio.io/ingress-controller
   metadata:
     name: istio
-    annotations:
-      ingressclass.kubernetes.io/is-default-class: "true"
+  spec:
+    controller: istio.io/ingress-controller
 - apiVersion: cert-manager.io/v1
   kind: ClusterIssuer
   metadata:
@@ -43,14 +42,14 @@ items:
     renewBefore: 360h
     subject:
       organizations:
-        - renlm.cn
-    dnsNames:
       - renlm.cn
-      - www.renlm.cn
-      - rancher.renlm.cn
-      - jenkins.renlm.cn
-      - rabbitmq.renlm.cn
-      - mygraph.renlm.cn
+    dnsNames:
+    - renlm.cn
+    - www.renlm.cn
+    - rancher.renlm.cn
+    - jenkins.renlm.cn
+    - rabbitmq.renlm.cn
+    - mygraph.renlm.cn
     issuerRef:
       name: letsencrypt-issuer
       kind: ClusterIssuer
@@ -94,14 +93,6 @@ items:
     - port:
         number: 443
         protocol: HTTPS
-        name: tls
-      hosts:
-      - kubernetes.renlm.cn
-      tls:
-        mode: PASSTHROUGH
-    - port:
-        number: 443
-        protocol: HTTPS
         name: https
       hosts:
       - renlm.cn
@@ -124,11 +115,17 @@ items:
     - rancher.renlm.cn
     gateways:
     - istio-system/gateway
-    tls:
+    http:
+    - match:
+      - port: 80
+      route:
+      - weight: 100
+        destination:
+          host: rancher.cattle-system.svc.cluster.local
+          port:
+            number: 80
     - match:
       - port: 443
-        sniHosts:
-        - rancher.renlm.cn
       route:
       - weight: 100
         destination:
