@@ -24,6 +24,10 @@
 	重置密码（admin）
 	$ kubectl get pods -n cattle-system -o wide
 	$ kubectl -n cattle-system exec -it [POD_NAME] -- reset-password
+	
+	卸载
+	$ helm ls -A
+	$ helm uninstall rancher -n cattle-system
 
 ## MTU 设置（可选）
 	使用 rancher 创建的集群
