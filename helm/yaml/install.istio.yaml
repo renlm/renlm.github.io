@@ -97,7 +97,7 @@ items:
     hosts:
     - rancher.renlm.cn
     gateways:
-    - istio-system/gateway
+    - gateway
     http:
     - match:
       - port: 80
