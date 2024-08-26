@@ -70,13 +70,12 @@ EOF
 	https://helm.sh/docs/topics/version_skew/
 	https://github.com/helm/helm/releases/
 	
-	手动上传文件，下载较慢
-	master节点安装即可
+	master节点即可（手动上传文件，下载较慢）
 	$ wget https://renlm.github.io/helm/helm-v3.14.4-linux-amd64.tar.gz
-	$ tar -zxvf helm-v3.14.4-linux-amd64.tar.gz
-	$ mv linux-amd64 /usr/local/helm-v3.14.4
+	$ tar -zxvf helm-v3.14.4-linux-amd64.tar.gz -C /usr/local/ --transform="s/linux-amd64/helm-v3.14.4/g"
 	$ ln -sf /usr/local/helm-v3.14.4 /usr/local/helm
-	$ sed -i '$a export PATH=/usr/local/helm/bin:$PATH' ~/.bashrc
+	$ sed -i '$a export PATH=/usr/local/helm:$PATH' ~/.bashrc
+	$ source ~/.bashrc
 	$ helm version
 
 ## 安装 k3s
@@ -144,74 +143,13 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	https://istio.io/latest/docs/setup/additional-setup/download-istio-release/
 	https://github.com/istio/istio/releases
 	
-	手动上传文件，下载较慢
-	istioctl安装，master节点即可
+	master节点即可（手动上传文件，下载较慢）
 	$ wget https://renlm.github.io/helm/istio-1.22.4-linux-amd64.tar.gz
-	$ tar -zxvf istio-1.22.4-linux-amd64.tar.gz
-	$ mv istio-1.22.4 /usr/local/
+	$ tar -zxvf istio-1.22.4-linux-amd64.tar.gz -C /usr/local/
 	$ ln -sf /usr/local/istio-1.22.4 /usr/local/istio
 	$ sed -i '$a export PATH=/usr/local/istio/bin:$PATH' ~/.bashrc
-	$ istioctl operator init
+	$ source ~/.bashrc
 	$ istioctl version
-	
-```
-开始安装
-https://istio.io/latest/docs/setup/additional-setup/config-profiles/
-https://istio.io/latest/docs/setup/install/operator/
-$ kubectl apply -f - <<EOF
-apiVersion: v1
-kind: List
-items:
-- apiVersion: networking.k8s.io/v1
-  kind: IngressClass
-  spec:
-    controller: istio.io/ingress-controller
-  metadata:
-    name: istio
-    annotations:
-      ingressclass.kubernetes.io/is-default-class: "true"
----
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-metadata:
-  namespace: istio-system
-  name: default-istiocontrolplane
-spec:
-  profile: default
-  components:
-    ingressGateways:
-    - name: istio-ingressgateway
-      enabled: true
-      k8s:
-        service:
-          type: LoadBalancer
-          ports:
-          - port: 15021
-            targetPort: 15021
-            protocol: TCP
-            name: status-port
-          - port: 80
-            targetPort: 8080
-            protocol: TCP
-            name: http2
-          - port: 443
-            targetPort: 8443
-            protocol: TCP
-            name: https
-          - port: 6379
-            targetPort: 6379
-            protocol: TCP
-            name: redis
-          - port: 3306
-            targetPort: 3306
-            protocol: TCP
-            name: mysql
-          - port: 5672
-            targetPort: 5672
-            protocol: TCP
-            name: amqp
-EOF
-```
 
 	查看部署情况（可根据描述信息定位问题）
 	$ kubectl get iop --all-namespaces
