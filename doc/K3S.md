@@ -137,24 +137,6 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	
 	查看镜像
 	$ ctr image ls
-	
-## 安装 istio
-	配置环境变量KUBECONFIG
-	https://istio.io/latest/docs/setup/additional-setup/download-istio-release/
-	https://github.com/istio/istio/releases
-	
-	master节点即可（手动上传文件，下载较慢）
-	$ wget https://renlm.github.io/helm/istio-1.22.4-linux-amd64.tar.gz
-	$ tar -zxvf istio-1.22.4-linux-amd64.tar.gz -C /usr/local/
-	$ ln -sf /usr/local/istio-1.22.4 /usr/local/istio
-	$ sed -i '$a export PATH=/usr/local/istio/bin:$PATH' ~/.bashrc
-	$ source ~/.bashrc
-	$ istioctl version
-
-	查看部署情况（可根据描述信息定位问题）
-	$ kubectl get iop --all-namespaces
-	$ kubectl describe iop default-istiocontrolplane -n istio-system
-	$ kubectl get services -n istio-system
 
 ## 安装 cert-manager
 	配置环境变量KUBECONFIG
@@ -172,3 +154,26 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	查看  
 	$ helm -n cert-manager ls -a
 	$ kubectl get pods --namespace cert-manager
+	
+## 安装 istio
+	配置环境变量KUBECONFIG
+	https://istio.io/latest/docs/setup/additional-setup/download-istio-release/
+	https://github.com/istio/istio/releases
+	
+	master节点即可（手动上传文件，下载较慢）
+	$ wget https://renlm.github.io/helm/istio-1.22.4-linux-amd64.tar.gz
+	$ tar -zxvf istio-1.22.4-linux-amd64.tar.gz -C /usr/local/
+	$ ln -sf /usr/local/istio-1.22.4 /usr/local/istio
+	$ sed -i '$a export PATH=/usr/local/istio/bin:$PATH' ~/.bashrc
+	$ source ~/.bashrc
+	$ istioctl version
+	
+	安装istio组件
+	$ istioctl install --set profile=minimal
+	$ kubectl create namespace istio-ingress
+	$ istioctl install -f https://renlm.github.io/yaml/install.istio.yaml
+
+	查看部署情况（可根据描述信息定位问题）
+	$ kubectl get iop --all-namespaces
+	$ kubectl describe iop default-istiocontrolplane -n istio-system
+	$ kubectl get services -n istio-system

@@ -1,48 +1,93 @@
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  meshConfig:
-    enableTracing: true
-    defaultConfig:
-      tracing: {}
-    extensionProviders:
-    - name: otel-tracing
-      opentelemetry:
-        port: 4317
-        service: otel-collector.observability.svc.cluster.local
-  components:
-    ingressGateways:
-    - name: istio-ingressgateway
-      k8s:
-        service:
-          ports:
-          - name: status-port
-            port: 15021
-            targetPort: 15021
-          - name: http2
-            nodePort: 31380
-            port: 80
-            targetPort: 8080
-          - name: https
-            nodePort: 31390
-            port: 443
-            targetPort: 8443
-          - name: tcp
-            nodePort: 31400
-            port: 31400
-            targetPort: 31400
-          - name: tls
-            port: 15443
-            targetPort: 15443
-          - name: redis
-            nodePort: 31379
-            port: 6379
-            targetPort: 6379
-          - name: mysql
-            nodePort: 31306
-            port: 3306
-            targetPort: 3306
-          - name: amqp
-            nodePort: 31672
-            port: 5672
-            targetPort: 5672
+# https://istio.io/latest/zh/docs/setup/additional-setup/gateway/
+apiVersion: v1
+kind: List
+items:
+- apiVersion: networking.k8s.io/v1
+  kind: IngressClass
+  spec:
+    controller: istio.io/ingress-controller
+  metadata:
+    name: istio
+    annotations:
+      ingressclass.kubernetes.io/is-default-class: "true"
+- apiVersion: install.istio.io/v1alpha1
+  kind: IstioOperator
+  metadata:
+    name: ingress
+  spec:
+    profile: empty
+    components:
+      ingressGateways:
+      - name: istio-ingressgateway
+        namespace: istio-ingress
+        enabled: true
+        label:
+          istio: ingressgateway
+    values:
+      gateways:
+        istio-ingressgateway:
+          injectionTemplate: gateway
+- apiVersion: networking.istio.io/v1beta1
+  kind: Gateway
+  metadata:
+    name: gateway
+    namespace: istio-system
+  spec:
+    selector:
+      istio: ingressgateway
+    servers:
+    - port:
+        number: 80
+        protocol: HTTP
+        name: http
+      hosts:
+      - renlm.cn
+      - www.renlm.cn
+      - rancher.renlm.cn
+      - jenkins.renlm.cn
+      - rabbitmq.renlm.cn
+      - mygraph.renlm.cn
+    - port:
+        number: 443
+        protocol: HTTPS
+        name: tls
+      hosts:
+      - kubernetes.renlm.cn
+      tls:
+        mode: PASSTHROUGH
+    - port:
+        number: 443
+        protocol: HTTPS
+        name: https
+      hosts:
+      - renlm.cn
+      - www.renlm.cn
+      - rancher.renlm.cn
+      - jenkins.renlm.cn
+      - rabbitmq.renlm.cn
+      - mygraph.renlm.cn
+      tls:
+        mode: SIMPLE
+        credentialName: istio-system.renlm.cn
+        minProtocolVersion: TLSV1_2
+- apiVersion: networking.istio.io/v1beta1
+  kind: VirtualService
+  metadata:
+    name: rancher
+    namespace: istio-system
+  spec:
+    hosts:
+    - rancher.renlm.cn
+    gateways:
+    - istio-system/gateway
+    tls:
+    - match:
+      - port: 443
+        sniHosts:
+        - rancher.renlm.cn
+      route:
+      - weight: 100
+        destination:
+          host: rancher.cattle-system.svc.cluster.local
+          port:
+            number: 443
