@@ -9,10 +9,12 @@
 	安装 rancher-stable/rancher v2.8.5
 	禁用ingress，使用istio网关进行代理
 	https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/installation-references/helm-chart-options
+	https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/installation-references/helm-chart-options#外部 TLS 终止
 	$ kubectl create namespace cattle-system
 	$ helm fetch rancher-stable/rancher --version=v2.8.5
 	$ helm install rancher ./rancher-2.8.5.tgz \
         --namespace cattle-system \
+        --set tls=external \
         --set ingress.enabled=false
 	
 	查看安装情况，完成后根据输出提示获取随机登录密码（admin）
