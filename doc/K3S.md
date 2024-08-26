@@ -176,7 +176,14 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	$ istioctl install -y -f install.iop.yaml
 	$ kubectl apply -f install.istio.yaml
 
-	查看部署情况（可根据描述信息定位问题）
-	$ kubectl get iop --all-namespaces
-	$ kubectl describe iop ingress -n istio-system
-	$ kubectl get services -n istio-system
+	查看部署情况
+	$ kubectl get svc -A
+	$ kubectl get pods -A
+	$ kubectl get Gateway -A
+	$ kubectl get VirtualService -A
+	
+	查看Let's Encrypt证书申请
+	$ kubectl describe ingress -A
+    $ kubectl describe challenges -A
+    $ kubectl describe certificate -n istio-system
+	$ kubectl get secret -n istio-system
