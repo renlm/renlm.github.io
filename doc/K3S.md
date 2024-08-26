@@ -187,3 +187,5 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     $ kubectl describe challenges -A
     $ kubectl describe certificate -n istio-system
 	$ kubectl get secret -n istio-system
+	失败后，配置DNS，删除secret自动重试
+	$ kubectl delete secret {tmpSecretName} -n istio-system
