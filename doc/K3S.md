@@ -187,4 +187,4 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	$ kubectl get secret -n cattle-system
 	
 	证书申请失败后，配置DNS，删除secret自动重试  
-	$ kubectl delete secret {tmpSecretName} -n istio-system
+	$ kubectl delete secret {tmpSecretName} -n cattle-system
