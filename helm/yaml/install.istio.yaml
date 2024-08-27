@@ -14,7 +14,6 @@ items:
   kind: ClusterIssuer
   metadata:
     name: letsencrypt-issuer
-  # Enable the HTTP-01 challenge provider
   spec:
     acme:
       # The ACME server URL
@@ -24,6 +23,7 @@ items:
       # Name of a secret used to store the ACME account private key
       privateKeySecretRef:
         name: letsencrypt-issuer
+      # Enable the HTTP-01 challenge provider
       solvers:
       # An empty 'selector' means that this solver matches all domains
       - selector: {}
