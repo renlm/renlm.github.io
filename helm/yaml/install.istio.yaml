@@ -1,5 +1,6 @@
 # https://istio.io/latest/zh/docs/setup/additional-setup/gateway/
 # https://istio.io/latest/zh/docs/tasks/traffic-management/ingress/kubernetes-ingress/
+# https://istio.io/latest/zh/docs/reference/config/networking/gateway/
 apiVersion: v1
 kind: List
 items:
@@ -13,7 +14,7 @@ items:
   kind: ClusterIssuer
   metadata:
     name: letsencrypt-issuer
-    namespace: istio-system
+  # Enable the HTTP-01 challenge provider
   spec:
     acme:
       # The ACME server URL
@@ -23,7 +24,6 @@ items:
       # Name of a secret used to store the ACME account private key
       privateKeySecretRef:
         name: letsencrypt-issuer
-      # Enable the HTTP-01 challenge provider
       solvers:
       # An empty 'selector' means that this solver matches all domains
       - selector: {}
@@ -35,9 +35,9 @@ items:
   kind: Certificate
   metadata:
     name: renlm.cn
-    namespace: istio-system
+    namespace: cattle-system
   spec:
-    secretName: renlm.cn
+    secretName: tls-rancher-ingress
     duration: 2160h
     renewBefore: 360h
     subject:
@@ -57,7 +57,7 @@ items:
   kind: Gateway
   metadata:
     name: gateway
-    namespace: istio-system
+    namespace: cattle-system
   spec:
     selector:
       istio: ingressgateway
@@ -69,10 +69,13 @@ items:
       hosts:
       - renlm.cn
       - www.renlm.cn
+      - kubernetes.renlm.cn
       - rancher.renlm.cn
       - jenkins.renlm.cn
       - rabbitmq.renlm.cn
       - mygraph.renlm.cn
+      tls:
+        httpsRedirect: true
     - port:
         number: 443
         protocol: HTTPS
@@ -80,31 +83,40 @@ items:
       hosts:
       - renlm.cn
       - www.renlm.cn
-      - rancher.renlm.cn
       - jenkins.renlm.cn
       - rabbitmq.renlm.cn
       - mygraph.renlm.cn
       tls:
         mode: SIMPLE
-        credentialName: renlm.cn
+        credentialName: tls-rancher-ingress
         minProtocolVersion: TLSV1_2
+    - port:
+        number: 443
+        protocol: HTTPS
+        name: tls
+      hosts:
+      - kubernetes.renlm.cn
+      - rancher.renlm.cn
+      tls:
+        mode: PASSTHROUGH
 - apiVersion: networking.istio.io/v1beta1
   kind: VirtualService
   metadata:
     name: rancher
-    namespace: istio-system
+    namespace: cattle-system
   spec:
     hosts:
     - rancher.renlm.cn
     gateways:
-    - gateway
-    http:
+    - cattle-system/gateway
+    tls:
     - match:
-      - port: 80
       - port: 443
+        sniHosts:
+        - rancher.renlm.cn
       route:
       - weight: 100
         destination:
           host: rancher.cattle-system.svc.cluster.local
           port:
-            number: 80
+            number: 443
