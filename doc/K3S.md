@@ -181,7 +181,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	$ kubectl get Gateway -A
 	$ kubectl get VirtualService -A
 	
-	查看 Let's Encrypt 证书申请  
+	查看 Let‘s Encrypt 证书申请  
     $ kubectl describe challenges -A
     $ kubectl describe certificate -n cattle-system
 	$ kubectl get secret -n cattle-system
