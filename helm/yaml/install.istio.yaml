@@ -16,20 +16,14 @@ items:
     name: letsencrypt-issuer
   spec:
     acme:
-      # The ACME server URL
       server: https://acme-v02.api.letsencrypt.org/directory
-      # Email address used for ACME registration
       email: renlm@21cn.com
-      # Name of a secret used to store the ACME account private key
       privateKeySecretRef:
         name: letsencrypt-issuer
       solvers:
-      # An empty 'selector' means that this solver matches all domains
       - selector: {}
-        # Enable the HTTP-01 challenge provider
         http01:
           ingress:
-            # istio | nginx | traefik
             class: istio
 - apiVersion: cert-manager.io/v1
   kind: Certificate
@@ -88,48 +82,39 @@ items:
         mode: SIMPLE
         credentialName: tls-istio-gateway
         minProtocolVersion: TLSV1_2
-- apiVersion: networking.istio.io/v1
-  kind: ServiceEntry
-  metadata:
-    name: rancher-svc
-    namespace: cattle-system
-  spec:
-    location: MESH_INTERNAL
-    resolution: STATIC
-    hosts:
-    - rancher.renlm.cn
-    ports:
-    - number: 443
-      name: https
-      protocol: HTTPS
-    workloadSelector:
-      labels:
-        app: rancher
 - apiVersion: networking.istio.io/v1beta1
   kind: VirtualService
   metadata:
     name: rancher
-    namespace: cattle-system
+    namespace: istio-system
   spec:
     hosts:
     - rancher.renlm.cn
     gateways:
-    - istio-system/gateway
-    tls:
+    - gateway
+    http:
     - match:
-      - sniHosts:
-        - rancher.renlm.cn
+      - port: 80
+      - port: 443
       route:
-      - destination:
-          host: rancher-svc
+      - weight: 100
+        destination:
+          host: rancher.cattle-system.svc.cluster.local
+          port:
+            number: 443
 - apiVersion: networking.istio.io/v1
   kind: DestinationRule
   metadata:
-    name: rancher
-    namespace: cattle-system
+    name: rancher-tls
+    namespace: istio-system
   spec:
-    host: rancher-svc
+    host: rancher.cattle-system.svc.cluster.local
     trafficPolicy:
-      tls:
-        mode: MUTUAL
-        credentialName: serving-cert
+      loadBalancer:
+        simple: ROUND_ROBIN
+      portLevelSettings:
+      - port:
+          number: 443
+        tls:
+          mode: SIMPLE
+          insecureSkipVerify: true
