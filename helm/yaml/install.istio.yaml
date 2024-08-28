@@ -110,11 +110,6 @@ items:
   spec:
     host: rancher.cattle-system.svc.cluster.local
     trafficPolicy:
-      loadBalancer:
-        simple: ROUND_ROBIN
-      portLevelSettings:
-      - port:
-          number: 443
-        tls:
-          mode: SIMPLE
-          insecureSkipVerify: true
+      tls:
+        mode: SIMPLE
+        insecureSkipVerify: true
