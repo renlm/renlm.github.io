@@ -20,6 +20,10 @@
 	$ kubectl -n cattle-system get deploy rancher
 	$ kubectl -n cattle-system rollout status deploy/rancher
 	
+	查看资源占用率
+	$ kubectl top nodes
+	$ kubectl top pods -A
+	
 	重置密码（admin）
 	$ kubectl get pods -n cattle-system -o wide
 	$ kubectl -n cattle-system exec -it [POD_NAME] -- reset-password
