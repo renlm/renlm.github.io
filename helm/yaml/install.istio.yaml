@@ -86,12 +86,12 @@ items:
   kind: VirtualService
   metadata:
     name: rancher
-    namespace: istio-system
+    namespace: cattle-system
   spec:
     hosts:
     - rancher.renlm.cn
     gateways:
-    - gateway
+    - istio-system/gateway
     http:
     - match:
       - port: 80
@@ -106,10 +106,10 @@ items:
   kind: DestinationRule
   metadata:
     name: rancher-tls
-    namespace: istio-system
+    namespace: cattle-system
   spec:
     host: rancher.cattle-system.svc.cluster.local
     trafficPolicy:
       tls:
         mode: SIMPLE
-        insecureSkipVerify: true
+        credentialName: tls-rancher
