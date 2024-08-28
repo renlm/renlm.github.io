@@ -10,6 +10,7 @@
 	禁用ingress，使用istio网关进行代理和加密
 	https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/installation-references/helm-chart-options
 	$ kubectl create namespace cattle-system
+	$ kubectl label namespace cattle-system istio-injection=enabled
 	$ helm fetch rancher-stable/rancher --version=v2.8.5
 	$ helm install rancher ./rancher-2.8.5.tgz \
         --namespace cattle-system \
