@@ -182,9 +182,13 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	$ kubectl get VirtualService -A
 	
 	查看 Let‘s Encrypt 证书申请  
-    $ kubectl describe challenges -A
-    $ kubectl describe certificate -n cattle-system
-	$ kubectl get secret -n cattle-system
+    $ kubectl describe challenges -n istio-system
+    $ kubectl describe certificate -n istio-system
+	$ kubectl get secret -n istio-system
 	
 	证书申请失败后，配置DNS，删除secret自动重试  
-	$ kubectl delete secret {tmpSecretName} -n cattle-system
+	$ kubectl delete secret {tmpSecretName} -n istio-system
+	
+	修改 IstioOperator 配置后重启
+	$ kubectl get deploy -A
+	$ kubectl rollout restart deploy/istio-ingressgateway -n istio-ingress
