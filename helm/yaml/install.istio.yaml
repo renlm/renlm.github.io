@@ -88,23 +88,48 @@ items:
         mode: SIMPLE
         credentialName: tls-istio-gateway
         minProtocolVersion: TLSV1_2
+- apiVersion: networking.istio.io/v1
+  kind: ServiceEntry
+  metadata:
+    name: rancher-svc
+    namespace: cattle-system
+  spec:
+    location: MESH_INTERNAL
+    resolution: STATIC
+    hosts:
+    - rancher.renlm.cn
+    ports:
+    - number: 443
+      name: https
+      protocol: HTTPS
+    workloadSelector:
+      labels:
+        app: rancher
 - apiVersion: networking.istio.io/v1beta1
   kind: VirtualService
   metadata:
     name: rancher
-    namespace: istio-system
+    namespace: cattle-system
   spec:
     hosts:
     - rancher.renlm.cn
     gateways:
-    - gateway
-    http:
+    - istio-system/gateway
+    tls:
     - match:
-      - port: 80
-      - port: 443
+      - sniHosts:
+        - rancher.renlm.cn
       route:
-      - weight: 100
-        destination:
-          host: rancher.cattle-system.svc.cluster.local
-          port:
-            number: 80
+      - destination:
+          host: rancher-svc
+- apiVersion: networking.istio.io/v1
+  kind: DestinationRule
+  metadata:
+    name: rancher
+    namespace: cattle-system
+  spec:
+    host: rancher-svc
+    trafficPolicy:
+      tls:
+        mode: MUTUAL
+        credentialName: serving-cert
