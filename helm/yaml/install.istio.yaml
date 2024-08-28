@@ -23,10 +23,10 @@ items:
       # Name of a secret used to store the ACME account private key
       privateKeySecretRef:
         name: letsencrypt-issuer
-      # Enable the HTTP-01 challenge provider
       solvers:
       # An empty 'selector' means that this solver matches all domains
       - selector: {}
+        # Enable the HTTP-01 challenge provider
         http01:
           ingress:
             # istio | nginx | traefik
@@ -34,10 +34,10 @@ items:
 - apiVersion: cert-manager.io/v1
   kind: Certificate
   metadata:
-    name: renlm.cn
-    namespace: cattle-system
+    name: istio-gateway
+    namespace: istio-system
   spec:
-    secretName: tls-rancher-ingress
+    secretName: tls-istio-gateway
     duration: 2160h
     renewBefore: 360h
     subject:
@@ -57,7 +57,7 @@ items:
   kind: Gateway
   metadata:
     name: gateway
-    namespace: cattle-system
+    namespace: istio-system
   spec:
     selector:
       istio: ingressgateway
@@ -69,13 +69,10 @@ items:
       hosts:
       - renlm.cn
       - www.renlm.cn
-      - kubernetes.renlm.cn
       - rancher.renlm.cn
       - jenkins.renlm.cn
       - rabbitmq.renlm.cn
       - mygraph.renlm.cn
-      tls:
-        httpsRedirect: true
     - port:
         number: 443
         protocol: HTTPS
@@ -83,40 +80,31 @@ items:
       hosts:
       - renlm.cn
       - www.renlm.cn
+      - rancher.renlm.cn
       - jenkins.renlm.cn
       - rabbitmq.renlm.cn
       - mygraph.renlm.cn
       tls:
         mode: SIMPLE
-        credentialName: tls-rancher-ingress
+        credentialName: tls-istio-gateway
         minProtocolVersion: TLSV1_2
-    - port:
-        number: 443
-        protocol: HTTPS
-        name: tls
-      hosts:
-      - kubernetes.renlm.cn
-      - rancher.renlm.cn
-      tls:
-        mode: PASSTHROUGH
 - apiVersion: networking.istio.io/v1beta1
   kind: VirtualService
   metadata:
     name: rancher
-    namespace: cattle-system
+    namespace: istio-system
   spec:
     hosts:
     - rancher.renlm.cn
     gateways:
-    - cattle-system/gateway
-    tls:
+    - gateway
+    http:
     - match:
+      - port: 80
       - port: 443
-        sniHosts:
-        - rancher.renlm.cn
       route:
       - weight: 100
         destination:
           host: rancher.cattle-system.svc.cluster.local
           port:
-            number: 443
+            number: 80
