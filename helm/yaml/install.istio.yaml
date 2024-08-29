@@ -56,7 +56,7 @@ items:
       name: letsencrypt-issuer
       kind: ClusterIssuer
 # https://istio.io/latest/zh/docs/reference/config/networking/gateway/
-- apiVersion: networking.istio.io/v1beta1
+- apiVersion: networking.istio.io/v1
   kind: Gateway
   metadata:
     name: gateway
@@ -92,7 +92,7 @@ items:
         credentialName: tls-istio-gateway
         minProtocolVersion: TLSV1_2
 # https://istio.io/latest/zh/docs/reference/config/networking/virtual-service/
-- apiVersion: networking.istio.io/v1beta1
+- apiVersion: networking.istio.io/v1
   kind: VirtualService
   metadata:
     name: rancher

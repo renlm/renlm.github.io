@@ -33,6 +33,20 @@
 	卸载
 	$ helm ls -A
 	$ helm uninstall rancher -n cattle-system
+	
+```
+验证服务访问
+$ kubectl get svc -A
+$ curl -s -I -HHost:rancher.renlm.cn "http://{CLUSTER-IP}/dashboard/"
+HTTP/1.1 302 Found
+content-type: text/html; charset=utf-8
+location: https://rancher.renlm.cn/dashboard/
+date: Thu, 29 Aug 2024 07:54:01 GMT
+x-envoy-upstream-service-time: 2
+server: istio-envoy
+x-envoy-decorator-operation: rancher.cattle-system.svc.cluster.local:80/*
+transfer-encoding: chunked
+```
 
 ## MTU 设置（可选）
 	使用 rancher 创建的集群
