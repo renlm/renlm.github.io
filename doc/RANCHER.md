@@ -30,9 +30,10 @@
 	$ kubectl get pods -n cattle-system -o wide
 	$ kubectl -n cattle-system exec -it [POD_NAME] -- reset-password
 	
-	外部 TLS 终止，numTrustedProxies 大于0时，将开启X-Forwarded-Proto、X-Forwarded-Port、X-Forwarded-For
+	外部 TLS 终止，numTrustedProxies 大于0时，Envoy将开启X-Forwarded-Proto、X-Forwarded-Port、X-Forwarded-For
 	Rancher服务的 80 端口默认会进行 302 重定向，当X-Forwarded-Proto为https时停止
 	https://istio.io/latest/zh/docs/reference/config/istio.mesh.v1alpha1/#Topology
+	https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#config-http-conn-man-headers-x-forwarded-for
 	$ curl -i -HHost:rancher.renlm.cn -HX-Forwarded-Proto:https "http://{CLUSTER-IP}/dashboard/"
 	
 	卸载
