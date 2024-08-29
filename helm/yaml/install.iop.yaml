@@ -1,5 +1,4 @@
 # https://istio.io/latest/zh/docs/setup/additional-setup/gateway/
-# https://istio.io/latest/zh/docs/tasks/traffic-management/ingress/kubernetes-ingress/
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:

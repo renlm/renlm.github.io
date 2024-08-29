@@ -1,6 +1,4 @@
-# https://istio.io/latest/zh/docs/setup/additional-setup/gateway/
 # https://istio.io/latest/zh/docs/tasks/traffic-management/ingress/kubernetes-ingress/
-# https://istio.io/latest/zh/docs/reference/config/networking/gateway/
 apiVersion: v1
 kind: List
 items:
@@ -8,6 +6,8 @@ items:
   kind: IngressClass
   metadata:
     name: istio
+    annotations:
+      ingressclass.kubernetes.io/is-default-class: true
   spec:
     controller: istio.io/ingress-controller
 - apiVersion: cert-manager.io/v1
@@ -16,14 +16,20 @@ items:
     name: letsencrypt-issuer
   spec:
     acme:
+      # The ACME server URL
       server: https://acme-v02.api.letsencrypt.org/directory
+      # Email address used for ACME registration
       email: renlm@21cn.com
+      # Name of a secret used to store the ACME account private key
       privateKeySecretRef:
         name: letsencrypt-issuer
       solvers:
+      # An empty 'selector' means that this solver matches all domains
       - selector: {}
+        # Enable the HTTP-01 challenge provider
         http01:
           ingress:
+            # istio | nginx | traefik
             class: istio
 - apiVersion: cert-manager.io/v1
   kind: Certificate
@@ -47,6 +53,7 @@ items:
     issuerRef:
       name: letsencrypt-issuer
       kind: ClusterIssuer
+# https://istio.io/latest/zh/docs/reference/config/networking/gateway/
 - apiVersion: networking.istio.io/v1beta1
   kind: Gateway
   metadata:
@@ -82,34 +89,23 @@ items:
         mode: SIMPLE
         credentialName: tls-istio-gateway
         minProtocolVersion: TLSV1_2
+# https://istio.io/latest/zh/docs/reference/config/networking/virtual-service/
 - apiVersion: networking.istio.io/v1beta1
   kind: VirtualService
   metadata:
     name: rancher
-    namespace: cattle-system
+    namespace: istio-system
   spec:
     hosts:
     - rancher.renlm.cn
     gateways:
-    - istio-system/gateway
+    - gateway
     http:
     - match:
       - port: 80
       - port: 443
       route:
-      - weight: 100
-        destination:
+      - destination:
           host: rancher.cattle-system.svc.cluster.local
           port:
-            number: 443
-- apiVersion: networking.istio.io/v1
-  kind: DestinationRule
-  metadata:
-    name: rancher-tls
-    namespace: cattle-system
-  spec:
-    host: rancher.cattle-system.svc.cluster.local
-    trafficPolicy:
-      tls:
-        mode: SIMPLE
-        credentialName: tls-rancher
+            number: 80
