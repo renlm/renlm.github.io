@@ -15,7 +15,7 @@
 	$ helm install rancher ./rancher-2.8.5.tgz \
         --namespace cattle-system \
         --set hostname=rancher.renlm.cn \
-        --set tls=external \
+        --set ingress.enabled=false \
         --set replicas=1
 	
 	查看安装情况，完成后根据输出提示获取随机登录密码（admin）
@@ -30,23 +30,14 @@
 	$ kubectl get pods -n cattle-system -o wide
 	$ kubectl -n cattle-system exec -it [POD_NAME] -- reset-password
 	
+	外部 TLS 终止，numTrustedProxies 大于0时，将开启X-Forwarded-Proto、X-Forwarded-Port、X-Forwarded-For
+	Rancher服务的 80 端口默认会进行 302 重定向，当X-Forwarded-Proto为https时停止
+	https://istio.io/latest/zh/docs/reference/config/istio.mesh.v1alpha1/#Topology
+	$ curl -i -HHost:rancher.renlm.cn -HX-Forwarded-Proto:https "http://{CLUSTER-IP}/dashboard/"
+	
 	卸载
 	$ helm ls -A
 	$ helm uninstall rancher -n cattle-system
-	
-```
-验证服务访问
-$ kubectl get svc -A
-$ curl -s -I -HHost:rancher.renlm.cn "http://{CLUSTER-IP}/dashboard/"
-HTTP/1.1 302 Found
-content-type: text/html; charset=utf-8
-location: https://rancher.renlm.cn/dashboard/
-date: Thu, 29 Aug 2024 07:54:01 GMT
-x-envoy-upstream-service-time: 2
-server: istio-envoy
-x-envoy-decorator-operation: rancher.cattle-system.svc.cluster.local:80/*
-transfer-encoding: chunked
-```
 
 ## MTU 设置（可选）
 	使用 rancher 创建的集群
