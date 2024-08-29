@@ -106,8 +106,6 @@ items:
     - match:
       - port: 80
       - port: 443
-      rewrite:
-        authority: rancher.renlm.cn
       route:
       - destination:
           host: rancher.cattle-system.svc.cluster.local
