@@ -18,6 +18,13 @@
         --set ingress.enabled=false \
         --set replicas=1
 	
+	在外部的 L7 负载均衡器上终止 Rancher 的 SSL/TLS
+	Istio numTrustedProxies 大于0时，Envoy 将开启 X-Forwarded-Proto、X-Forwarded-Port、X-Forwarded-For
+	Rancher 服务的 80 端口默认会进行 302 重定向，当 X-Forwarded-Proto 为 https 时停止
+	https://istio.io/latest/zh/docs/reference/config/istio.mesh.v1alpha1/#Topology
+	https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#config-http-conn-man-headers-x-forwarded-for
+	$ curl -i -HHost:rancher.renlm.cn -HX-Forwarded-Proto:https "http://{CLUSTER-IP}/dashboard/"
+	
 	查看安装情况，完成后根据输出提示获取随机登录密码（admin）
 	$ kubectl -n cattle-system get deploy rancher
 	$ kubectl -n cattle-system rollout status deploy/rancher
@@ -29,12 +36,6 @@
 	重置密码（admin）
 	$ kubectl get pods -n cattle-system -o wide
 	$ kubectl -n cattle-system exec -it [POD_NAME] -- reset-password
-	
-	外部 TLS 终止，numTrustedProxies 大于0时，Envoy将开启X-Forwarded-Proto、X-Forwarded-Port、X-Forwarded-For
-	Rancher服务的 80 端口默认会进行 302 重定向，当X-Forwarded-Proto为https时停止
-	https://istio.io/latest/zh/docs/reference/config/istio.mesh.v1alpha1/#Topology
-	https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#config-http-conn-man-headers-x-forwarded-for
-	$ curl -i -HHost:rancher.renlm.cn -HX-Forwarded-Proto:https "http://{CLUSTER-IP}/dashboard/"
 	
 	卸载
 	$ helm ls -A
