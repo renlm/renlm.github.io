@@ -113,3 +113,14 @@ items:
           host: rancher.cattle-system.svc.cluster.local
           port:
             number: 80
+# https://istio.io/latest/zh/docs/reference/config/networking/destination-rule/
+- apiVersion: networking.istio.io/v1
+  kind: DestinationRule
+  metadata:
+    name: rancher-mtls
+    namespace: istio-system
+  spec:
+    host: rancher.cattle-system.svc.cluster.local
+    trafficPolicy:
+      tls:
+        mode: ISTIO_MUTUAL
