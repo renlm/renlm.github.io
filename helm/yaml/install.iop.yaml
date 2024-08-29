@@ -5,6 +5,10 @@ metadata:
   name: ingress
 spec:
   profile: empty
+  meshConfig:
+    defaultConfig:
+      gatewayTopology:
+        numTrustedProxies: 3
   components:
     ingressGateways:
     - name: istio-ingressgateway
