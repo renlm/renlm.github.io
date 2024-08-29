@@ -15,7 +15,7 @@
 	$ helm install rancher ./rancher-2.8.5.tgz \
         --namespace cattle-system \
         --set hostname=rancher.renlm.cn \
-        --set ingress.tls.source=secret \
+        --set tls=external \
         --set replicas=1
 	
 	查看安装情况，完成后根据输出提示获取随机登录密码（admin）
