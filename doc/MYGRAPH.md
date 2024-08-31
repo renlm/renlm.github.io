@@ -12,7 +12,7 @@
 	
 	服务通用密码  
 	$ kubectl -n renlm create secret generic mygraph --from-literal=defaultPassword=PWD
-    $ kubectl -n renlm get secret mygraph --output="jsonpath={.data.defaultPassword}" | base64 -d
+    $ echo $(kubectl -n renlm get secret mygraph --output="jsonpath={.data.defaultPassword}" | base64 -d)
 	  	
 ## 部署服务
 	$ helm upgrade --install mygraph mygraph \
