@@ -6,11 +6,14 @@
 ## 创建 Secret
 	$ kubectl create namespace renlm
 	$ kubectl label namespace renlm istio-injection=enabled
-	阿里云镜像服务个人版
+	服务密码  	
+	$ kubectl -n renlm create secret generic mygraph \
+        --from-literal=defaultPassword=PWD@20xxKplstdm^8uttm$
+	阿里云镜像服务
 	$ kubectl -n renlm create secret docker-registry aliyuncs \
-	  	--docker-server=registry.cn-hangzhou.aliyuncs.com \
-	  	--docker-username=USER \
-	  	--docker-password=PWD
+        --docker-server=registry.cn-hangzhou.aliyuncs.com \
+        --docker-username=renlm@21cn.com \
+        --docker-password=PWD@20xxKplstdm^8uttm$
 	  	
 ## 部署服务
 	$ helm upgrade --install mygraph mygraph \
