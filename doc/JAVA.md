@@ -1,6 +1,7 @@
 # JAVA 开发
 
 ## OpenJDK
+免费开源  
 <a href="https://jdk.java.net/" target="_blank">https://<span></span>jdk.java.net/</a>  
 
 ## Eclipse
