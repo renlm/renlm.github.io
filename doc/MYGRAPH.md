@@ -23,27 +23,48 @@ env: prod
 initDb: true
 gateway: istio-system/gateway
 redis:
+  appVersion: 7.4.0
   enabled: true
+  image:
+    repository: redis
+    pullPolicy: IfNotPresent
+    tag: 7.4.0
 mysql:
+  appVersion: 8.0.31
   enabled: true
+  mini: true
+  image:
+    repository: mysql
+    pullPolicy: IfNotPresent
+    tag: 8.0.31
   nfs:
     enabled: true
     storage: 20Gi
     path: /nfs_share/mysql
     server: 192.168.16.3
 rabbitmq:
+  appVersion: 3.13.2
   enabled: true
   gateway: istio-system/gateway
   host: rabbitmq.renlm.cn
+  image:
+    repository: rabbitmq
+    pullPolicy: IfNotPresent
+    tag: 3.13.2-management
   nfs:
     enabled: true
     storage: 5Gi
     path: /nfs_share/rabbitmq
     server: 192.168.16.3
 jenkins:
+  appVersion: 2.452.1
   enabled: false
   gateway: istio-system/gateway
   host: jenkins.renlm.cn
+  image:
+    repository: jenkins/jenkins
+    pullPolicy: IfNotPresent
+    tag: lts-jdk17
   nfs:
     enabled: true
     storage: 20Gi
