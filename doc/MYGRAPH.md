@@ -24,4 +24,8 @@
 	$ helm upgrade --install mygraph mygraph \
         --repo https://renlm.github.io/helm/repo \
         --namespace renlm --create-namespace \
-        --version 1.0.1
+        --version 1.0.1 \
+        --set mysql.enabled=true \
+        --set rabbitmq.enabled=true \
+        --set redis.enabled=true \
+        --set jenkins.enabled=false
