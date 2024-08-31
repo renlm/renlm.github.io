@@ -51,26 +51,26 @@ jenkins:
 EOF
 
 配置文件（MySQL）
-$ cat <<EOF | tee .MySQL
+$ cat <<EOF | tee .MySQL.env
 {
-  "MYSQL_DATABASE": "mygraph"
-  "MYSQL_USER": "mygraph"
-  "MYSQL_PASSWORD": "$DEFAULT_PASSWORD"
+  "MYSQL_DATABASE": "mygraph",
+  "MYSQL_USER": "mygraph",
+  "MYSQL_PASSWORD": "$DEFAULT_PASSWORD",
   "MYSQL_ROOT_PASSWORD": "$DEFAULT_PASSWORD"
 }
 EOF
 
 配置文件（RabbitMQ）
-$ cat <<EOF | tee .RabbitMQ
+$ cat <<EOF | tee .RabbitMQ.env
 {
-  "RABBITMQ_DEFAULT_VHOST": "/mygraph"
-  "RABBITMQ_DEFAULT_USER": "mygraph"
+  "RABBITMQ_DEFAULT_VHOST": "/mygraph",
+  "RABBITMQ_DEFAULT_USER": "mygraph",
   "RABBITMQ_DEFAULT_PASS": "$DEFAULT_PASSWORD"
 }
 EOF
 
 配置文件（Redis）
-$ cat <<EOF | tee .Redis
+$ cat <<EOF | tee .Redis.conf
 requirepass $DEFAULT_PASSWORD
 protected-mode no
 port 6379
@@ -78,14 +78,27 @@ databases 16
 dir /var/lib/redis
 EOF
 ```
-	Secret
+	yaml、json工具（手动上传文件，下载较慢）
+	https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+	$ apt-get update
+	$ apt-get install -y jq
+	$ mv yq_linux_amd64 /usr/bin/yq
+	$ yq eval -o json .values.yaml |tee .values.json
+	
+	创建 Secret
+	$ kubectl get secret mygraph -n renlm
+	$ kubectl delete secret mygraph -n renlm
 	$ kubectl -n renlm create secret generic mygraph --from-literal=host=mygraph.renlm.cn \
         --from-file=.values.yaml=.values.json \
-        --from-file=.values.yaml=.MySQL \
-        --from-file=.values.yaml=.RabbitMQ \
-        --from-file=.values.yaml=.Redis
-    $ echo $(kubectl -n renlm get secret mygraph --output="jsonpath={.data.defaultPassword}" | base64 -d)
-    $ echo $(kubectl -n renlm get secret mygraph --output="jsonpath={.data.values\.yaml}" | base64 -d)
+        --from-file=.MySQL.env=.MySQL.env \
+        --from-file=.RabbitMQ.env=.RabbitMQ.env \
+        --from-file=.Redis.conf=.Redis.conf
+        
+    查看 Secret
+    $ kubectl -n renlm get secret mygraph --output="jsonpath={.data.\.values\.yaml}" | base64 -d | jq
+    $ kubectl -n renlm get secret mygraph --output="jsonpath={.data.\.MySQL\.env}" | base64 -d | jq
+    $ kubectl -n renlm get secret mygraph --output="jsonpath={.data.\.RabbitMQ\.env}" | base64 -d | jq
+    $ kubectl -n renlm get secret mygraph --output="jsonpath={.data.\.Redis\.conf}" | base64 -d
 	  	
 ## 部署服务
 	$ helm upgrade --install mygraph mygraph \
