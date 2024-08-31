@@ -11,16 +11,79 @@
 	$ kubectl label namespace renlm istio-injection=enabled
 	
 ```
-密码 与 values.yaml
+密码
 $ export DEFAULT_PASSWORD=PWD@20xxKplstdm^8uttm$
-$ cat <<EOF | tee values.yaml
+
+配置文件（values.yaml）
+$ cat <<EOF | tee .values.yaml
+appVersion: v1.0.1
+host: mygraph.renlm.cn
+env: prod
+initDb: true
+gateway: istio-system/gateway
+redis:
+  enabled: true
+mysql:
+  enabled: true
+  nfs:
+    enabled: true
+    storage: 20Gi
+    path: /nfs_share/mysql
+    server: 192.168.16.3
+rabbitmq:
+  enabled: true
+  gateway: istio-system/gateway
+  host: rabbitmq.renlm.cn
+  nfs:
+    enabled: true
+    storage: 5Gi
+    path: /nfs_share/rabbitmq
+    server: 192.168.16.3
+jenkins:
+  enabled: false
+  gateway: istio-system/gateway
+  host: jenkins.renlm.cn
+  nfs:
+    enabled: true
+    storage: 20Gi
+    path: /nfs_share/jenkins
+    server: 192.168.16.3
+EOF
+
+配置文件（MySQL）
+$ cat <<EOF | tee .MySQL
 {
-  "defaultPassword": "$DEFAULT_PASSWORD"
+  "MYSQL_DATABASE": "mygraph"
+  "MYSQL_USER": "mygraph"
+  "MYSQL_PASSWORD": "$DEFAULT_PASSWORD"
+  "MYSQL_ROOT_PASSWORD": "$DEFAULT_PASSWORD"
 }
+EOF
+
+配置文件（RabbitMQ）
+$ cat <<EOF | tee .RabbitMQ
+{
+  "RABBITMQ_DEFAULT_VHOST": "/mygraph"
+  "RABBITMQ_DEFAULT_USER": "mygraph"
+  "RABBITMQ_DEFAULT_PASS": "$DEFAULT_PASSWORD"
+}
+EOF
+
+配置文件（Redis）
+$ cat <<EOF | tee .Redis
+requirepass $DEFAULT_PASSWORD
+protected-mode no
+port 6379
+databases 16
+dir /var/lib/redis
 EOF
 ```
 	Secret
-	$ kubectl -n renlm create secret generic mygraph --from-literal=defaultPassword=$DEFAULT_PASSWORD --from-file=values.yaml=values.yaml
+	$ kubectl -n renlm create secret generic mygraph --from-literal=host=mygraph.renlm.cn \
+        --from-file=.values.yaml=.values.json \
+        --from-file=.values.yaml=.MySQL \
+        --from-file=.values.yaml=.RabbitMQ \
+        --from-file=.values.yaml=.Redis
     $ echo $(kubectl -n renlm get secret mygraph --output="jsonpath={.data.defaultPassword}" | base64 -d)
     $ echo $(kubectl -n renlm get secret mygraph --output="jsonpath={.data.values\.yaml}" | base64 -d)
 	  	
