@@ -11,14 +11,8 @@
 	$ kubectl label namespace renlm istio-injection=enabled
 	
 	服务通用密码  
-	$ kubectl -n renlm create secret generic mygraph \
-        --from-literal=defaultPassword=PWD
-        
-	阿里云镜像服务  
-	$ kubectl -n renlm create secret docker-registry aliyuncs \
-        --docker-server=registry.cn-hangzhou.aliyuncs.com \
-        --docker-username=renlm@21cn.com \
-        --docker-password=PWD
+	$ kubectl -n renlm create secret generic mygraph --from-literal=defaultPassword=PWD
+    $ kubectl -n renlm get secret mygraph --output="jsonpath={.data.defaultPassword}" | base64 -d
 	  	
 ## 部署服务
 	$ helm upgrade --install mygraph mygraph \
