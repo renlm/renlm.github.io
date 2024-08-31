@@ -10,11 +10,9 @@
 	https://kubernetes.p2hp.com/docs/concepts/configuration/secret.html
 	$ kubectl create namespace renlm
 	$ kubectl label namespace renlm istio-injection=enabled
+	$ export DEFAULT_PASSWORD=PWD@20xxKplstdm^8uttm$
 	
 ```
-密码
-$ export DEFAULT_PASSWORD=PWD@20xxKplstdm^8uttm$
-
 配置文件（values.yaml）
 $ cat <<EOF | tee values.yaml
 appVersion: v1
@@ -95,17 +93,20 @@ EOF
 	
 	创建 Secret
 	$ kubectl get secret -n renlm
+	
 	$ kubectl delete secret mygraph -n renlm
-	$ kubectl delete secret mysql-env -n renlm
-	$ kubectl delete secret rabbitmq-env -n renlm
 	$ kubectl -n renlm create secret generic mygraph \
         --from-file=values.yaml=values.json \
         --from-file=redis.conf=redis.conf
+    
+	$ kubectl delete secret mysql-env -n renlm
 	$ kubectl -n renlm create secret generic mysql-env \
         --from-literal=MYSQL_DATABASE=mygraph \
         --from-literal=MYSQL_USER=mygraph \
         --from-literal=MYSQL_PASSWORD=$DEFAULT_PASSWORD \
         --from-literal=MYSQL_ROOT_PASSWORD=$DEFAULT_PASSWORD
+        
+	$ kubectl delete secret rabbitmq-env -n renlm
 	$ kubectl -n renlm create secret generic rabbitmq-env \
         --from-literal=RABBITMQ_DEFAULT_VHOST=/mygraph \
         --from-literal=RABBITMQ_DEFAULT_USER=mygraph \
