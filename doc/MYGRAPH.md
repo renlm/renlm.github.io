@@ -22,6 +22,11 @@ host: mygraph.renlm.cn
 env: prod
 initDb: true
 gateway: istio-system/gateway
+imagePullSecrets: []
+image:
+  repository: registry.cn-hangzhou.aliyuncs.com/rlm/mygraph
+  pullPolicy: Always
+  tag: latest
 redis:
   appVersion: 7.4.0
   enabled: true
