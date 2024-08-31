@@ -8,7 +8,7 @@ spec:
   meshConfig:
     defaultConfig:
       gatewayTopology:
-        numTrustedProxies: 3
+        numTrustedProxies: 5
   components:
     ingressGateways:
     - name: istio-ingressgateway
