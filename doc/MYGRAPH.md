@@ -7,6 +7,7 @@
 <a href="https://renlm.github.io/doc/NFS.html" target="_blank">https://<span></span>renlm.github.io/doc/NFS.html</a>  
 
 ## 创建 Secret
+	https://kubernetes.p2hp.com/docs/concepts/configuration/secret.html
 	$ kubectl create namespace renlm
 	$ kubectl label namespace renlm istio-injection=enabled
 	
@@ -16,7 +17,7 @@ $ export DEFAULT_PASSWORD=PWD@20xxKplstdm^8uttm$
 
 配置文件（values.yaml）
 $ cat <<EOF | tee .values.yaml
-appVersion: v1.0.1
+appVersion: v1
 host: mygraph.renlm.cn
 env: prod
 initDb: true
@@ -88,7 +89,7 @@ EOF
 	创建 Secret
 	$ kubectl get secret mygraph -n renlm
 	$ kubectl delete secret mygraph -n renlm
-	$ kubectl -n renlm create secret generic mygraph --from-literal=host=mygraph.renlm.cn \
+	$ kubectl -n renlm create secret generic mygraph \
         --from-file=.values.yaml=.values.json \
         --from-file=.MySQL.env=.MySQL.env \
         --from-file=.RabbitMQ.env=.RabbitMQ.env \
@@ -101,20 +102,9 @@ EOF
     $ kubectl -n renlm get secret mygraph --output="jsonpath={.data.\.Redis\.conf}" | base64 -d
 	  	
 ## 部署服务
+	https://helm.sh/zh/docs/helm/helm_install/
 	$ helm upgrade --install mygraph mygraph \
         --repo https://renlm.github.io/helm/repo \
         --namespace renlm --create-namespace \
         --version 1.0.1 \
-        --set host=mygraph.renlm.cn \
-        --set env=prod \
-        --set initDb=true \
-        --set defaultPassword=PWD \
-        --set redis.enabled=true \
-        --set mysql.enabled=true \
-        --set mysql.nfs.server=192.168.16.3 \
-        --set rabbitmq.enabled=true \
-        --set rabbitmq.host=rabbitmq.renlm.cn \
-        --set rabbitmq.nfs.server=192.168.16.3 \
-        --set jenkins.enabled=true \
-        --set jenkins.host=jenkins.renlm.cn \
-        --set jenkins.nfs.server=192.168.16.3
+        -f .values.yaml
