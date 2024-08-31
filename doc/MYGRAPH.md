@@ -10,9 +10,19 @@
 	$ kubectl create namespace renlm
 	$ kubectl label namespace renlm istio-injection=enabled
 	
-	服务通用密码  
-	$ kubectl -n renlm create secret generic mygraph --from-literal=defaultPassword=PWD
+```
+	密码 与 values.yaml
+	$ export DEFAULT_PASSWORD=PWD@20xxKplstdm^8uttm$
+	$ cat <<EOF | tee values.yaml
+{
+  "defaultPassword": "$DEFAULT_PASSWORD"
+}
+EOF
+```
+	Secret
+	$ kubectl -n renlm create secret generic mygraph --from-literal=defaultPassword=$DEFAULT_PASSWORD --from-file=values.yaml=values.yaml
     $ echo $(kubectl -n renlm get secret mygraph --output="jsonpath={.data.defaultPassword}" | base64 -d)
+    $ echo $(kubectl -n renlm get secret mygraph --output="jsonpath={.data.values\.yaml}" | base64 -d)
 	  	
 ## 部署服务
 	$ helm upgrade --install mygraph mygraph \
