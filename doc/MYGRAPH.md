@@ -29,8 +29,11 @@
         --set initDb=true \
         --set host=mygraph.renlm.cn \
         --set mysql.enabled=true \
+        --set mysql.nfs.server=192.168.16.3 \
         --set rabbitmq.enabled=true \
         --set rabbitmq.host=rabbitmq.renlm.cn \
+        --set rabbitmq.nfs.server=192.168.16.3 \
         --set redis.enabled=true \
         --set jenkins.enabled=true \
+        --set jenkins.nfs.server=192.168.16.3 \
         --set jenkins.host=jenkins.renlm.cn
