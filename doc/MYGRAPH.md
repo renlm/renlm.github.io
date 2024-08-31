@@ -16,12 +16,12 @@
 $ export DEFAULT_PASSWORD=PWD@20xxKplstdm^8uttm$
 
 配置文件（values.yaml）
-$ cat <<EOF | tee .values.yaml
+$ cat <<EOF | tee values.yaml
 appVersion: v1
+gateway: istio-system/gateway
 host: mygraph.renlm.cn
 env: prod
 initDb: true
-gateway: istio-system/gateway
 imagePullSecrets: []
 image:
   repository: registry.cn-hangzhou.aliyuncs.com/rlm/mygraph
@@ -49,9 +49,9 @@ mysql:
     server: 192.168.16.3
 rabbitmq:
   appVersion: 3.13.2
-  enabled: true
   gateway: istio-system/gateway
   host: rabbitmq.renlm.cn
+  enabled: true
   image:
     repository: rabbitmq
     pullPolicy: IfNotPresent
@@ -63,9 +63,9 @@ rabbitmq:
     server: 192.168.16.3
 jenkins:
   appVersion: 2.452.1
-  enabled: false
   gateway: istio-system/gateway
   host: jenkins.renlm.cn
+  enabled: false
   image:
     repository: jenkins/jenkins
     pullPolicy: IfNotPresent
@@ -77,27 +77,8 @@ jenkins:
     server: 192.168.16.3
 EOF
 
-配置文件（MySQL）
-$ cat <<EOF | tee .MySQL.env
-{
-  "MYSQL_DATABASE": "mygraph",
-  "MYSQL_USER": "mygraph",
-  "MYSQL_PASSWORD": "$DEFAULT_PASSWORD",
-  "MYSQL_ROOT_PASSWORD": "$DEFAULT_PASSWORD"
-}
-EOF
-
-配置文件（RabbitMQ）
-$ cat <<EOF | tee .RabbitMQ.env
-{
-  "RABBITMQ_DEFAULT_VHOST": "/mygraph",
-  "RABBITMQ_DEFAULT_USER": "mygraph",
-  "RABBITMQ_DEFAULT_PASS": "$DEFAULT_PASSWORD"
-}
-EOF
-
 配置文件（Redis）
-$ cat <<EOF | tee .Redis.conf
+$ cat <<EOF | tee redis.conf
 requirepass $DEFAULT_PASSWORD
 protected-mode no
 port 6379
@@ -110,22 +91,31 @@ EOF
 	$ apt-get update
 	$ apt-get install -y jq
 	$ mv yq_linux_amd64 /usr/bin/yq
-	$ yq eval -o json .values.yaml |tee .values.json
+	$ yq eval -o json values.yaml |tee values.json
 	
 	创建 Secret
-	$ kubectl get secret mygraph -n renlm
+	$ kubectl get secret -n renlm
 	$ kubectl delete secret mygraph -n renlm
+	$ kubectl delete secret mysql-env -n renlm
+	$ kubectl delete secret rabbitmq-env -n renlm
 	$ kubectl -n renlm create secret generic mygraph \
-        --from-file=.values.yaml=.values.json \
-        --from-file=.MySQL.env=.MySQL.env \
-        --from-file=.RabbitMQ.env=.RabbitMQ.env \
-        --from-file=.Redis.conf=.Redis.conf
+        --from-file=values.yaml=values.yaml \
+        --from-file=redis.conf=redis.conf
+	$ kubectl -n renlm create secret generic mysql-env \
+        --from-literal=MYSQL_DATABASE=mygraph \
+        --from-literal=MYSQL_USER=mygraph \
+        --from-literal=MYSQL_PASSWORD=$DEFAULT_PASSWORD \
+        --from-literal=MYSQL_ROOT_PASSWORD=$DEFAULT_PASSWORD
+	$ kubectl -n renlm create secret generic rabbitmq-env \
+        --from-file=RABBITMQ_DEFAULT_VHOST=/mygraph \
+        --from-file=RABBITMQ_DEFAULT_USER=mygraph \
+        --from-file=RABBITMQ_DEFAULT_PASS=$DEFAULT_PASSWORD
         
     查看 Secret
-    $ kubectl -n renlm get secret mygraph --output="jsonpath={.data.\.values\.yaml}" | base64 -d | jq
-    $ kubectl -n renlm get secret mygraph --output="jsonpath={.data.\.MySQL\.env}" | base64 -d | jq
-    $ kubectl -n renlm get secret mygraph --output="jsonpath={.data.\.RabbitMQ\.env}" | base64 -d | jq
-    $ kubectl -n renlm get secret mygraph --output="jsonpath={.data.\.Redis\.conf}" | base64 -d
+    $ kubectl -n renlm get secret mygraph --output="jsonpath={.data.values\.yaml}" | base64 -d | jq
+    $ kubectl -n renlm get secret mygraph --output="jsonpath={.data.redis\.conf}" | base64 -d
+    $ kubectl -n renlm get secret mysql-env --output="jsonpath={.data.MYSQL_PASSWORD}" | base64 -d
+    $ kubectl -n renlm get secret rabbitmq-env --output="jsonpath={.data.RABBITMQ_DEFAULT_PASS}" | base64 -d
 	  	
 ## 部署服务
 	https://helm.sh/zh/docs/helm/helm_install/
