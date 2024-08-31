@@ -6,6 +6,10 @@
 ## NFS 配置  
 <a href="https://renlm.github.io/doc/NFS.html" target="_blank">https://<span></span>renlm.github.io/doc/NFS.html</a>  
 
+## 安装 DOCKER 
+Jenkins 构建镜像需要 
+<a href="https://renlm.github.io/doc/DOCKER.html" target="_blank">https://<span></span>renlm.github.io/doc/DOCKER.html</a>  
+
 ## 创建 Secret
 	https://kubernetes.p2hp.com/docs/concepts/configuration/secret.html
 	$ kubectl create namespace renlm
