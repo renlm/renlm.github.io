@@ -18,8 +18,6 @@ $ cat <<EOF | tee values.yaml
 appVersion: v1
 gateway: istio-system/gateway
 host: mygraph.renlm.cn
-env: prod
-initDb: true
 imagePullSecrets: []
 image:
   repository: registry.cn-hangzhou.aliyuncs.com/rlm/mygraph
@@ -27,14 +25,12 @@ image:
   tag: latest
 redis:
   appVersion: 7.4.0
-  enabled: true
   image:
     repository: redis
     pullPolicy: IfNotPresent
     tag: 7.4.0
 mysql:
   appVersion: 8.0.31
-  enabled: true
   mini: true
   image:
     repository: mysql
@@ -49,7 +45,6 @@ rabbitmq:
   appVersion: 3.13.2
   gateway: istio-system/gateway
   host: rabbitmq.renlm.cn
-  enabled: true
   image:
     repository: rabbitmq
     pullPolicy: IfNotPresent
@@ -63,7 +58,6 @@ jenkins:
   appVersion: 2.452.1
   gateway: istio-system/gateway
   host: jenkins.renlm.cn
-  enabled: false
   image:
     repository: jenkins/jenkins
     pullPolicy: IfNotPresent
@@ -128,4 +122,10 @@ EOF
         --repo https://renlm.github.io/helm/repo \
         --namespace renlm --create-namespace \
         --version 1.0.1 \
-        -f .values.yaml
+        -f .values.yaml \
+        --set env=prod \
+        --set initDb=true \
+        --set redis.enabled=true \
+        --set mysql.enabled=true \
+        --set rabbitmq.enabled=true \
+        --set jenkins.enabled=true
