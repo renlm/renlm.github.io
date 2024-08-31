@@ -113,6 +113,7 @@ EOF
     查看 Secret
     $ kubectl -n renlm get secret mygraph --output="jsonpath={.data.values\.yaml}" | base64 -d | jq
     $ kubectl -n renlm get secret mygraph --output="jsonpath={.data.redis\.conf}" | base64 -d
+    $ echo $(kubectl -n renlm get secret redis-env --output="jsonpath={.data.REQUIREPASS}" | base64 -d)
     $ echo $(kubectl -n renlm get secret mysql-env --output="jsonpath={.data.MYSQL_PASSWORD}" | base64 -d)
     $ echo $(kubectl -n renlm get secret rabbitmq-env --output="jsonpath={.data.RABBITMQ_DEFAULT_PASS}" | base64 -d)
 	  	
