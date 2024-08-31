@@ -25,7 +25,12 @@
         --repo https://renlm.github.io/helm/repo \
         --namespace renlm --create-namespace \
         --version 1.0.1 \
+        --set env=prod \
+        --set initDb=true \
+        --set host=mygraph.renlm.cn \
         --set mysql.enabled=true \
         --set rabbitmq.enabled=true \
+        --set rabbitmq.host=rabbitmq.renlm.cn \
         --set redis.enabled=true \
-        --set jenkins.enabled=false
+        --set jenkins.enabled=true \
+        --set jenkins.host=jenkins.renlm.cn
