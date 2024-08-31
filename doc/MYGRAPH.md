@@ -25,9 +25,10 @@
         --repo https://renlm.github.io/helm/repo \
         --namespace renlm --create-namespace \
         --version 1.0.1 \
+        --set host=mygraph.renlm.cn \
         --set env=prod \
         --set initDb=true \
-        --set host=mygraph.renlm.cn \
+        --set defaultPassword=PWD \
         --set redis.enabled=true \
         --set mysql.enabled=true \
         --set mysql.nfs.server=192.168.16.3 \
