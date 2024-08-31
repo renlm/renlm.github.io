@@ -11,9 +11,9 @@
 	$ kubectl label namespace renlm istio-injection=enabled
 	
 ```
-	密码 与 values.yaml
-	$ export DEFAULT_PASSWORD=PWD@20xxKplstdm^8uttm$
-	$ cat <<EOF | tee values.yaml
+密码 与 values.yaml
+$ export DEFAULT_PASSWORD=PWD@20xxKplstdm^8uttm$
+$ cat <<EOF | tee values.yaml
 {
   "defaultPassword": "$DEFAULT_PASSWORD"
 }
