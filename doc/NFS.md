@@ -4,7 +4,6 @@
     IP: 192.168.16.3
 	$ apt-get update
 	$ apt-get -y install nfs-kernel-server
-	$ apt-get -y install nfs-common
     
     新建共享磁盘目录
     $ mkdir /nfs_share
@@ -14,7 +13,6 @@
 共享节点授权 
 $ vi /etc/exports
 /nfs_share 192.168.0.3(insecure,rw,async,no_root_squash,no_subtree_check)
-/nfs_share 192.168.0.7(insecure,rw,async,no_root_squash,no_subtree_check)
 
 参数说明：
 	insecure         允许从这台机器过来的非授权访问
@@ -30,7 +28,7 @@ $ vi /etc/exports
     查看本机挂载磁盘信息
     $ showmount -e localhost
         Export list for localhost:
-		/nfs_share 192.168.0.7,192.168.0.3
+		/nfs_share 192.168.0.3
  
     启动
     $ /etc/init.d/nfs-kernel-server start

@@ -7,7 +7,7 @@
 ```
 	镜像加速
 	$ mkdir -p /etc/docker
-	$ tee /etc/docker/daemon.json <<-'EOF'
+	$ cat <<EOF | tee /etc/docker/daemon.json
 {
   "registry-mirrors": [ 
     "https://docker-io.renlm.cn"
