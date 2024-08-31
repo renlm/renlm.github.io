@@ -99,7 +99,7 @@ EOF
 	$ kubectl delete secret mysql-env -n renlm
 	$ kubectl delete secret rabbitmq-env -n renlm
 	$ kubectl -n renlm create secret generic mygraph \
-        --from-file=values.yaml=values.yaml \
+        --from-file=values.yaml=values.json \
         --from-file=redis.conf=redis.conf
 	$ kubectl -n renlm create secret generic mysql-env \
         --from-literal=MYSQL_DATABASE=mygraph \
