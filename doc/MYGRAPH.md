@@ -98,6 +98,10 @@ EOF
 	$ kubectl -n renlm create secret generic mygraph \
         --from-file=values.yaml=values.json \
         --from-file=redis.conf=redis.conf
+        
+    $ kubectl delete secret redis-env -n renlm
+	$ kubectl -n renlm create secret generic redis-env \
+        --from-literal=REQUIREPASS=$DEFAULT_PASSWORD
     
 	$ kubectl delete secret mysql-env -n renlm
 	$ kubectl -n renlm create secret generic mysql-env \
