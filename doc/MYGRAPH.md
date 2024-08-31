@@ -107,9 +107,9 @@ EOF
         --from-literal=MYSQL_PASSWORD=$DEFAULT_PASSWORD \
         --from-literal=MYSQL_ROOT_PASSWORD=$DEFAULT_PASSWORD
 	$ kubectl -n renlm create secret generic rabbitmq-env \
-        --from-file=RABBITMQ_DEFAULT_VHOST=/mygraph \
-        --from-file=RABBITMQ_DEFAULT_USER=mygraph \
-        --from-file=RABBITMQ_DEFAULT_PASS=$DEFAULT_PASSWORD
+        --from-literal=RABBITMQ_DEFAULT_VHOST=/mygraph \
+        --from-literal=RABBITMQ_DEFAULT_USER=mygraph \
+        --from-literal=RABBITMQ_DEFAULT_PASS=$DEFAULT_PASSWORD
         
     查看 Secret
     $ kubectl -n renlm get secret mygraph --output="jsonpath={.data.values\.yaml}" | base64 -d | jq
