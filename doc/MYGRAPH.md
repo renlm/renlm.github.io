@@ -20,7 +20,7 @@ Jenkins 构建镜像需要
 配置文件（values.yaml）
 $ cat <<EOF | tee values.yaml
 appVersion: v1
-gateway: istio-system/gateway
+gateway: istio-ingress/gateway
 host: mygraph.renlm.cn
 imagePullSecrets: []
 image:
@@ -29,7 +29,7 @@ image:
   tag: latest
 redis:
   appVersion: 7.4.0
-  gateway: istio-system/gateway
+  gateway: istio-ingress/gateway
   host: redis.renlm.cn
   image:
     repository: redis
@@ -37,7 +37,7 @@ redis:
     tag: 7.4.0
 mysql:
   appVersion: 8.0.31
-  gateway: istio-system/gateway
+  gateway: istio-ingress/gateway
   host: mysql.renlm.cn
   mini: true
   image:
@@ -51,7 +51,7 @@ mysql:
     server: 192.168.16.3
 rabbitmq:
   appVersion: 3.13.2
-  gateway: istio-system/gateway
+  gateway: istio-ingress/gateway
   host: rabbitmq.renlm.cn
   image:
     repository: rabbitmq
@@ -64,7 +64,7 @@ rabbitmq:
     server: 192.168.16.3
 jenkins:
   appVersion: 2.452.1
-  gateway: istio-system/gateway
+  gateway: istio-ingress/gateway
   host: jenkins.renlm.cn
   image:
     repository: jenkins/jenkins

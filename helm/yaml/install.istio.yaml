@@ -37,7 +37,7 @@ items:
   kind: Certificate
   metadata:
     name: istio-gateway
-    namespace: istio-system
+    namespace: istio-ingress
   spec:
     secretName: tls-istio-gateway
     duration: 2160h
@@ -62,7 +62,7 @@ items:
   kind: EnvoyFilter
   metadata:
     name: ingressgw-pp
-    namespace: istio-system
+    namespace: istio-ingress
   spec:
     configPatches:
     - applyTo: CLUSTER
@@ -79,13 +79,13 @@ items:
                 name: "envoy.transport_sockets.raw_buffer"
     workloadSelector:
       labels:
-        istio: ingressgatewayn
+        istio: ingressgateway
 # https://istio.io/latest/zh/docs/reference/config/networking/gateway/
 - apiVersion: networking.istio.io/v1
   kind: Gateway
   metadata:
     name: gateway
-    namespace: istio-system
+    namespace: istio-ingress
   spec:
     selector:
       istio: ingressgateway
@@ -139,7 +139,7 @@ items:
   kind: VirtualService
   metadata:
     name: rancher
-    namespace: istio-system
+    namespace: istio-ingress
   spec:
     hosts:
     - rancher.renlm.cn
