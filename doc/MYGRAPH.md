@@ -180,3 +180,8 @@ mysql>ALTER USER 'dev'@'%' IDENTIFIED WITH mysql_native_password BY 'PWD@20xxKpl
 	No ECDSA host key is known for github.com and you have requested strict checking.
 	Host key verification failed
 	Dashboard>系统管理>全局安全配置>Git Host Key Verification Configuration
+
+	新建任务mygraph
+	参数化构建过程（ProjectId：项目ID，AppName：应用名称 [mygraph]，部署环境：Profile [prod]）
+	流水线定义，选择SCM，完成后保存
+	Build with Parameters
