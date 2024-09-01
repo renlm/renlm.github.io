@@ -2,7 +2,7 @@
 
 ## 安装与使用
 	$ apt update
-	$ apt install -y docker docker-buildx docker-compose
+	$ apt install -y docker.io docker-buildx docker-compose
 
 ```
 镜像加速
