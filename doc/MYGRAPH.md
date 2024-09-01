@@ -87,6 +87,7 @@ EOF
 	$ apt-get update
 	$ apt-get install -y jq
 	$ mv yq_linux_amd64 /usr/bin/yq
+	$ chmod +x /usr/bin/yq
 	$ yq eval -o json values.yaml |tee values.json
 	
 	创建 Secret
