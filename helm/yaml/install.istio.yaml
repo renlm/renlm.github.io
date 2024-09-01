@@ -57,29 +57,6 @@ items:
     issuerRef:
       name: letsencrypt-issuer
       kind: ClusterIssuer
-# https://istio.io/latest/zh/docs/reference/config/networking/envoy-filter/
-- apiVersion: networking.istio.io/v1alpha3
-  kind: EnvoyFilter
-  metadata:
-    name: ingressgw-pp
-    namespace: istio-ingress
-  spec:
-    configPatches:
-    - applyTo: CLUSTER
-      patch:
-        operation: MERGE
-        value:
-          transport_socket:
-            name: envoy.transport_sockets.upstream_proxy_protocol
-            typed_config:
-              "@type": type.googleapis.com/envoy.extensions.transport_sockets.proxy_protocol.v3.ProxyProtocolUpstreamTransport
-              config:
-                version: V1
-              transport_socket:
-                name: "envoy.transport_sockets.raw_buffer"
-    workloadSelector:
-      labels:
-        istio: ingressgateway
 # https://istio.io/latest/zh/docs/reference/config/networking/gateway/
 - apiVersion: networking.istio.io/v1
   kind: Gateway
