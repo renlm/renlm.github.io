@@ -12,7 +12,7 @@
 ```
 共享节点授权 
 $ vi /etc/exports
-/nfs_share 192.168.0.3(insecure,rw,async,no_root_squash,no_subtree_check)
+/nfs_share 192.168.0.0/16(insecure,rw,async,no_root_squash,no_subtree_check)
 
 参数说明：
 	insecure         允许从这台机器过来的非授权访问
@@ -38,6 +38,8 @@ $ vi /etc/exports
     $ /etc/init.d/nfs-kernel-server stop
     查看状态
     $ /etc/init.d/nfs-kernel-server status
+    查看挂载请求日志
+    $ tail -f -n 100 /var/log/syslog
     
     创建挂载目录
     $ mkdir -p /nfs_share/{mysql,postgres,jenkins,rabbitmq}
