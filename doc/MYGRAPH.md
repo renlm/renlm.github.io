@@ -159,9 +159,9 @@ mysql>USE dev;
 mysql>ALTER USER 'dev'@'%' IDENTIFIED WITH mysql_native_password BY 'PWD@20xxKplstdm^8uttm$';
 ```
 
-## 集成Jenkins流水线
-	Jenkins中安装Docker Pipeline插件
+## Jenkins
 	Jenkins中全局工具配置添加Maven插件
+	Jenkins中安装Docker Pipeline插件
 	Jenkins中安装插件Redeploy Rancher2.x Workload Plugin
 	https://plugins.jenkins.io/redeploy-rancher2-workload/
 	https://www.jenkins.io/doc/pipeline/steps/redeploy-rancher2-workload/#rancherredeploy-redeploy-rancher2-x-workload
