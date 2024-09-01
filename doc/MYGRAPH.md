@@ -29,12 +29,16 @@ image:
   tag: latest
 redis:
   appVersion: 7.4.0
+  gateway: istio-system/gateway
+  host: redis.renlm.cn
   image:
     repository: redis
     pullPolicy: IfNotPresent
     tag: 7.4.0
 mysql:
   appVersion: 8.0.31
+  gateway: istio-system/gateway
+  host: mysql.renlm.cn
   mini: true
   image:
     repository: mysql
