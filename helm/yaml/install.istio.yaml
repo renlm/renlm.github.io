@@ -50,6 +50,8 @@ items:
     - www.renlm.cn
     - rancher.renlm.cn
     - jenkins.renlm.cn
+    - redis.renlm.cn
+    - mysql.renlm.cn
     - rabbitmq.renlm.cn
     - mygraph.renlm.cn
     issuerRef:
@@ -91,6 +93,24 @@ items:
         mode: SIMPLE
         credentialName: tls-istio-gateway
         minProtocolVersion: TLSV1_2
+    - port:
+        number: 31379
+        protocol: TCP
+        name: redis
+      hosts:
+      - redis.renlm.cn
+    - port:
+        number: 31306
+        protocol: TCP
+        name: mysql
+      hosts:
+      - mysql.renlm.cn
+    - port:
+        number: 31672
+        protocol: TCP
+        name: amqp
+      hosts:
+      - rabbitmq.renlm.cn
 # https://istio.io/latest/zh/docs/reference/config/networking/virtual-service/
 - apiVersion: networking.istio.io/v1
   kind: VirtualService
