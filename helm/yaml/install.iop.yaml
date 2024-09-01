@@ -16,6 +16,33 @@ spec:
       enabled: true
       label:
         istio: ingressgateway
+      k8s:
+        service:
+          ports:
+          - port: 15021
+            targetPort: 15021
+            name: status-port
+            protocol: TCP
+          - port: 80
+            targetPort: 8080
+            name: http2
+            protocol: TCP
+          - port: 443
+            targetPort: 8443
+            name: https
+            protocol: TCP
+          - port: 31379
+            targetPort: 6379
+            name: redis
+            protocol: TCP
+          - port: 31306
+            targetPort: 3306
+            name: mysql
+            protocol: TCP
+          - port: 31672
+            targetPort: 5672
+            name: amqp
+            protocol: TCP
   values:
     gateways:
       istio-ingressgateway:
