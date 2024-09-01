@@ -158,3 +158,25 @@ mysql>USE dev;
 # 修改密码：
 mysql>ALTER USER 'dev'@'%' IDENTIFIED WITH mysql_native_password BY 'PWD@20xxKplstdm^8uttm$';
 ```
+
+## 集成Jenkins流水线
+	Rancher中查看workload
+	Rancher中创建Rancher API 密钥
+	集群中新建项目，将服务部署的命名空间移动到项目中
+	浏览器打开链接，搜索deployments，https://rancher.renlm.cn/v3/projects
+	
+	Jenkins中代码仓库连接报错，更改配置项
+	No ECDSA host key is known for github.com and you have requested strict checking.
+	Host key verification failed
+	Dashboard>系统管理>全局安全配置>Git Host Key Verification Configuration
+	
+	Jenkins中安装Docker Pipeline插件
+	Jenkins中全局工具配置添加Maven插件
+	Jenkins中安装插件Redeploy Rancher2.x Workload Plugin
+	https://plugins.jenkins.io/redeploy-rancher2-workload/
+	https://www.jenkins.io/doc/pipeline/steps/redeploy-rancher2-workload/#rancherredeploy-redeploy-rancher2-x-workload
+	
+	添加Gitee访问的全局凭据：Gitee
+	添加私有镜像库的全局凭据：Aliyuncs
+	添加Rancher API访问的全局凭据：Rancher，类型选择Rancher2.x API Keys
+	Dashboard>系统管理>凭据>系统>全局凭据 (unrestricted)
