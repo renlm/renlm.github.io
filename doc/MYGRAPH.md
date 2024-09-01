@@ -182,7 +182,7 @@ mysql>ALTER USER 'dev'@'%' IDENTIFIED WITH mysql_native_password BY 'PWD@20xxKpl
 	Dashboard>系统管理>全局安全配置>Git Host Key Verification Configuration
 	
 	Jenkins中全局工具配置添加Maven插件
-	构建过程中安装Maven失败或者卡住，进入nfs共享目录下tools/hudson.tasks.Maven_MavenInstallation，删除插件目录后再次构建（例：maven-3.8.6）
+	构建过程中安装Maven失败或者卡住，进入nfs共享目录下{/var/jenkins_home/}tools/hudson.tasks.Maven_MavenInstallation，删除插件目录后再次构建（例：maven-3.8.6）
 
 	新建任务mygraph
 	参数化构建过程（ProjectId：项目ID，AppName：应用名称 [mygraph]，部署环境：Profile [prod]）
