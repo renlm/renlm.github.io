@@ -134,7 +134,7 @@ EOF
         --repo https://renlm.github.io/helm/repo \
         --namespace renlm --create-namespace \
         --version 1.0.1 \
-        -f .values.yaml \
+        -f values.yaml \
         --set env=prod \
         --set initDb=true \
         --set redis.enabled=true \
