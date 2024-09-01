@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 set -o noglob
+TYPE=${TYPE:-'k3s'}
 SERVER=${SERVER:-'kubernetes'}
 CLUSTER=${CLUSTER:-'local'}
 NAMESPACE=${NAMESPACE:-'default'}
@@ -37,7 +38,7 @@ else
 	IMPERSONATE_USER=${IMPERSONATE_USER:-'admin'}
 fi
 
-# RKE2集群master
+# 集群master
 cd ~/
 rm -fr ~/.kube/${USER} 
 mkdir -p ~/.kube/${USER} 
@@ -263,7 +264,7 @@ kubectl get secret "${USER}-sa-token" -n ${NAMESPACE} --output="jsonpath={.data.
 kubectl create secret tls ${USER}-key.kubeconfig.pem --cert ${USER}.crt --key ${USER}-key.pem -n kube-system
 
 # 导出凭证
-kubectl get secret rke2-serving -n kube-system --output="jsonpath={.data.tls\.crt}" |  \
+kubectl get secret ${TYPE}-serving -n kube-system --output="jsonpath={.data.tls\.crt}" |  \
   base64 -d |  \
   tac |  \
   sed -n '1,/\(.*\)-----BEGIN CERTIFICATE-----.*/p' |  \

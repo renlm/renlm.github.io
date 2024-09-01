@@ -15,21 +15,14 @@
 	$ apt-get update
 	$ apt-get install -y openssl golang-cfssl jq
 	
-```	
-# 环境变量
-sed -i '/^export[[:space:]]KUBECONFIG.*var.*lib.*rancher.*rke2/d' ~/.bashrc
-sed -i '/^export[[:space:]]PATH.*var.*lib.*rancher.*rke2/d' ~/.bashrc
-sed -i '$a export KUBECONFIG=/var/lib/rancher/rke2/server/cred/api-server.kubeconfig' ~/.bashrc
-sed -i '$a export PATH=$PATH:/var/lib/rancher/rke2/bin' ~/.bashrc
-source ~/.bashrc
-```
-	
 ```
 # 运维团队
+# TYPE：k3s、rke2
 # 集群角色：cluster-admin
 # 命令动作：new、export
 curl -sfL https://renlm.github.io/script/sh/KubeConfig.sh | \
   SERVER=https://kubernetes.renlm.cn \
+  TYPE=k3s \
   CLUSTER=pubyun \
   NAMESPACE=renlm \
   CONTEXT=test \
@@ -40,10 +33,12 @@ curl -sfL https://renlm.github.io/script/sh/KubeConfig.sh | \
 
 ```
 # 开发团队
+# TYPE：k3s、rke2
 # 集群角色：admin
 # 命令动作：new、export
 curl -sfL https://renlm.github.io/script/sh/KubeConfig.sh | \
   SERVER=https://kubernetes.renlm.cn \
+  TYPE=k3s \
   CLUSTER=pubyun \
   NAMESPACE=renlm \
   CONTEXT=test \
