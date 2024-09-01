@@ -5,9 +5,9 @@
 	$ apt install -y docker docker-buildx docker-compose
 
 ```
-	镜像加速
-	$ mkdir -p /etc/docker
-	$ cat <<EOF | tee /etc/docker/daemon.json
+镜像加速
+$ mkdir -p /etc/docker
+$ cat <<EOF | tee /etc/docker/daemon.json
 {
   "registry-mirrors": [ 
     "https://docker-io.renlm.cn"
