@@ -3,7 +3,7 @@ entries:
   mygraph:
   - apiVersion: v2
     appVersion: v1.0.1
-    created: "2024-09-01T19:29:23.602916356+08:00"
+    created: "2024-09-01T19:31:26.446839352+08:00"
     dependencies:
     - condition: redis.enabled
       name: redis
@@ -28,6 +28,6 @@ entries:
     - 文档管理
     name: mygraph
     urls:
-    - https://renlm.github.io/helm/mygraph-1.0.1.tgz
+    - https://renlm.github.io/helm/repo/mygraph-1.0.1.tgz
     version: 1.0.1
-generated: "2024-09-01T19:29:23.600770069+08:00"
+generated: "2024-09-01T19:31:26.441512768+08:00"
