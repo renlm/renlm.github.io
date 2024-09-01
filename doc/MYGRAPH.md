@@ -135,3 +135,20 @@ EOF
         --set mysql.enabled=true \
         --set rabbitmq.enabled=true \
         --set jenkins.enabled=true
+
+## MySQL
+```
+bash-4.4# mysql -uroot -p
+# 新建用户
+mysql>CREATE USER 'dev'@'%' IDENTIFIED WITH mysql_native_password BY 'PWD';
+# 新建数据库
+mysql>CREATE DATABASE dev;
+# 授权
+mysql>GRANT ALL PRIVILEGES ON dev.* to 'dev'@'%';
+mysql>GRANT SELECT ON performance_schema.* to 'dev'@'%';
+mysql>FLUSH PRIVILEGES;
+# 切换数据库
+mysql>USE dev;
+# 修改密码：
+mysql>ALTER USER 'dev'@'%' IDENTIFIED WITH mysql_native_password BY 'PWD@20xxKplstdm^8uttm$';
+```
