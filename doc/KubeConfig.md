@@ -8,7 +8,7 @@
 	# Rancher 集群管理 > {找到指定集群} > 轮换证书 > 轮换单个服务证书 > 选择api-server
 	
 ## KubeConfig
-	登录机器
+	登录机器（master）
 	https://kubernetes.io/zh-cn/docs/tasks/tls/managing-tls-in-a-cluster/
 	https://kubernetes.io/zh-cn/docs/reference/access-authn-authz/certificate-signing-requests/
 	https://kubernetes.io/zh-cn/docs/reference/kubernetes-api/authorization-resources/role-binding-v1/
@@ -55,6 +55,7 @@ curl -sfL https://renlm.github.io/script/sh/KubeConfig.sh | \
 	
 ```	
 # 测试与提权（运维团队）
+# Nocalhost 不支持提权配置，在 ClusterRoleBinding 中搜索 devops-cluster-admin，可手动将 devops 用户加入到 ClusterRole/cluster-admin 中
 export DEVOPS_HOME=~/.kube/devops
 export DEVOPS_KCFG=$DEVOPS_HOME/devops.kubeconfig
 openssl x509 -noout -text -in $DEVOPS_HOME/devops.crt
@@ -64,6 +65,7 @@ kubectl --kubeconfig $DEVOPS_KCFG auth can-i create pods -A --as devops-cluster-
 
 ```	
 # 测试与提权（开发团队）
+# Nocalhost 不支持提权配置，在 RoleBinding 中搜索 dev-admin，可手动将 dev 用户加入到 ClusterRole/admin 中
 export DEV_HOME=~/.kube/dev
 export DEV_KCFG=$DEV_HOME/dev.kubeconfig
 openssl x509 -noout -text -in $DEV_HOME/dev.crt
