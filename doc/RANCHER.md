@@ -20,6 +20,7 @@
 	
 	在外部的 L7 负载均衡器上终止 Rancher 的 SSL/TLS
 	Istio numTrustedProxies 大于0时，Envoy 将开启 X-Forwarded-Proto、X-Forwarded-Port、X-Forwarded-For
+	同时，istio-ingressgateway 中 k8s.service.externalTrafficPolicy 设置为 Local，可保留客户端访问来源IP
 	Rancher 服务的 80 端口默认会进行 302 重定向，当 X-Forwarded-Proto 为 https 时停止
 	https://istio.io/latest/zh/docs/reference/config/istio.mesh.v1alpha1/#Topology
 	https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#config-http-conn-man-headers-x-forwarded-for
