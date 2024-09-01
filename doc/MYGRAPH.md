@@ -86,8 +86,10 @@ databases 16
 dir /var/lib/redis
 EOF
 ```
-	yaml、json工具（手动上传文件，下载较慢）
+
+	master节点即可（手动上传文件，下载较慢）
 	https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+	$ wget https://renlm.github.io/helm/yq_linux_amd64
 	$ apt-get update
 	$ apt-get install -y jq
 	$ mv yq_linux_amd64 /usr/bin/yq
