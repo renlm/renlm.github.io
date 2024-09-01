@@ -18,6 +18,7 @@ spec:
         istio: ingressgateway
       k8s:
         service:
+          externalTrafficPolicy: Local
           ports:
           - port: 15021
             targetPort: 15021
