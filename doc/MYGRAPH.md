@@ -152,7 +152,7 @@ EOF
 ```
 bash-4.4# mysql -uroot -p
 # 新建用户
-mysql>CREATE USER 'dev'@'%' IDENTIFIED WITH mysql_native_password BY 'PWD';
+mysql>CREATE USER 'dev'@'%' IDENTIFIED WITH mysql_native_password BY '@A1b2c3';
 # 新建数据库
 mysql>CREATE DATABASE dev;
 # 授权
@@ -162,7 +162,7 @@ mysql>FLUSH PRIVILEGES;
 # 切换数据库
 mysql>USE dev;
 # 修改密码：
-mysql>ALTER USER 'dev'@'%' IDENTIFIED WITH mysql_native_password BY 'PWD@20xxKplstdm^8uttm$';
+mysql>ALTER USER 'dev'@'%' IDENTIFIED WITH mysql_native_password BY '@A3b2c1';
 ```
 
 ## Jenkins
