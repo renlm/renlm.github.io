@@ -8,6 +8,12 @@
 <a href="https://git-scm.com/book/zh" target="_blank">https://<span></span>git-scm.com/book/zh</a>  
 <a href="https://git-scm.com/download/win" target="_blank">https://<span></span>git-scm.com/download/win</a>  
 
+```
+$ git config --global --list
+$ git config --global user.name "renlm"
+$ git config --global user.email "renlm@21cn.com"
+```
+
 ## Eclipse
 Java集成开发工具，免费开源  
 <a href="https://www.eclipse.org/downloads/" target="_blank">https://<span></span>www.eclipse.org/downloads/</a>  
