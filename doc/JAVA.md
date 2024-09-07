@@ -36,3 +36,7 @@ Lombok插件安装
 ## SwitchHosts
 一个管理、切换多个 hosts 方案的工具，免费开源  
 <a href="https://github.com/oldj/SwitchHosts/releases" target="_blank">https://<span></span>github.com/oldj/SwitchHosts/releases</a>  
+
+## Snipaste  
+截图工具  
+<a href="https://zh.snipaste.com" target="_blank">https://<span></span>zh.snipaste.com</a>  
