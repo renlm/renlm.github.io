@@ -37,6 +37,13 @@ Lombok插件安装
 代码编辑器，免费开源  
 <a href="https://code.visualstudio.com/" target="_blank">https://<span></span>code.visualstudio.com/</a>  
 
+```
+设置中文
+【Ctrl+Shift+P】
+输入 Configure Display Language
+选择 中文(简体)zh-cn
+```
+
 ## MobaXterm
 远程连接工具，免费开源  
 <a href="https://mobaxterm.mobatek.net/" target="_blank">https://<span></span>mobaxterm.mobatek.net/</a>  
@@ -45,13 +52,13 @@ Lombok插件安装
 数据库连接工具，免费开源  
 <a href="https://dbeaver.io/download/" target="_blank">https://<span></span>dbeaver.io/download/</a>  
 
-## CLCL
-剪贴板工具，编码利器  
-<a href="https://www.nakka.com/soft/index_eng.html" target="_blank">https://<span></span>www.nakka.com/soft/index_eng.html</a>  
-
 ## SwitchHosts
 一个管理、切换多个 hosts 方案的工具，免费开源  
 <a href="https://github.com/oldj/SwitchHosts/releases" target="_blank">https://<span></span>github.com/oldj/SwitchHosts/releases</a>  
+
+## CLCL
+剪贴板工具，编码利器  
+<a href="https://www.nakka.com/soft/index_eng.html" target="_blank">https://<span></span>www.nakka.com/soft/index_eng.html</a>  
 
 ## Snipaste  
 截图工具  
