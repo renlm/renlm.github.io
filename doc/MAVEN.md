@@ -13,7 +13,7 @@ Maven-中央仓库验证方式改变
 https://central.sonatype.org/publish/generate-token/
 ```
 
-## GPG
+## GPG 签名
 ### 生成主密钥
 ```shell
 $ gpg --full-gen-key
