@@ -9,7 +9,7 @@
 
 ```
 Maven-中央仓库验证方式改变
-由之前的明文验证改为密文验证，参考如下：
+由之前的明文验证改为密文验证
 https://central.sonatype.org/publish/generate-token/
 ```
 
@@ -24,6 +24,7 @@ $ gpg --full-gen-key
 
 ### 创建子密钥[S]
 ```shell
+$ gpg -k --keyid-format LONG
 $ gpg --edit-key 7460D27124ED3A54
 gpg> addKey
 gpg> save
