@@ -63,3 +63,19 @@ Lombok插件安装
 ## Snipaste  
 截图工具  
 <a href="https://zh.snipaste.com" target="_blank">https://<span></span>zh.snipaste.com</a>  
+
+## Node.js
+<a href="https://nodejs.org" target="_blank">https://<span></span>nodejs.org</a>  
+
+```
+PowerShell 执行策略
+$ Get-ExecutionPolicy -List
+$ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+启用yarn 
+https://yarnpkg.com/getting-started/install
+$ corepack enable
+$ yarn config set registry https://registry.npmmirror.com
+$ yarn set version stable
+$ yarn install
+```
