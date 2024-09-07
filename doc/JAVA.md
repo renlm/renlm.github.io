@@ -4,18 +4,15 @@
 免费开源  
 <a href="https://jdk.java.net/" target="_blank">https://<span></span>jdk.java.net/</a>  
 
+## Git
+<a href="https://git-scm.com/book/zh" target="_blank">https://<span></span>git-scm.com/book/zh</a>  
+<a href="https://git-scm.com/download/win" target="_blank">https://<span></span>git-scm.com/download/win</a>  
+
 ## Eclipse
 Java集成开发工具，免费开源  
 <a href="https://www.eclipse.org/downloads/" target="_blank">https://<span></span>www.eclipse.org/downloads/</a>  
 Lombok插件安装  
 <a href="https://projectlombok.org/setup/eclipse" target="_blank">https://<span></span>projectlombok.org/setup/eclipse</a>  
-
-## Maven
-<a href="https://maven.apache.org/download.cgi" target="_blank">https://<span></span>maven.apache.org/download.cgi</a>  
-
-## Git
-<a href="https://git-scm.com/book/zh" target="_blank">https://<span></span>git-scm.com/book/zh</a>  
-<a href="https://git-scm.com/download/win" target="_blank">https://<span></span>git-scm.com/download/win</a>  
 
 ## Visual Studio Code
 代码编辑器，免费开源  
