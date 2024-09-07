@@ -24,12 +24,11 @@ $ gpg --full-gen-key
 
 ### 创建子密钥[S]
 ```
+创建两个签名子秘钥[S]，一个2年有效期，一个无限期
 $ gpg -k --keyid-format LONG
 $ gpg --edit-key 7460D27124ED3A54
 gpg> addKey
 gpg> save
-
-创建两个签名子秘钥[S]，一个2年有效期，一个无限期
 
 列出公钥：
     $ gpg -k --keyid-format LONG
