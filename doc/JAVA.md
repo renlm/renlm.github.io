@@ -38,6 +38,17 @@ Lombok插件安装
 <a href="https://code.visualstudio.com/" target="_blank">https://<span></span>code.visualstudio.com/</a>  
 
 ```
+可选插件：
+	GitLens
+    Git Graph
+    Nocalhost
+    C/C++ Extension Pack
+    rust-analyzer
+    Vue - Official
+    Chinese (Simplified) (简体中文) Language Pack for Visual Studio Code
+```
+
+```
 设置中文
 【Ctrl+Shift+P】
 输入 Configure Display Language
