@@ -38,7 +38,7 @@ Lombok插件安装
 <a href="https://code.visualstudio.com/" target="_blank">https://<span></span>code.visualstudio.com/</a>  
 
 ```
-可选插件：
+可选插件
 	GitLens
     Git Graph
     Nocalhost
