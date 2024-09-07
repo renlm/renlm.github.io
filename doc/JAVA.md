@@ -7,11 +7,24 @@
 ## Git
 <a href="https://git-scm.com/book/zh" target="_blank">https://<span></span>git-scm.com/book/zh</a>  
 <a href="https://git-scm.com/download/win" target="_blank">https://<span></span>git-scm.com/download/win</a>  
+<a href="https://tortoisegit.org/download" target="_blank">https://<span></span>tortoisegit.org/download</a>  
 
 ```
 $ git config --global --list
 $ git config --global user.name "renlm"
 $ git config --global user.email "renlm@21cn.com"
+```
+
+```
+解决图标状态不显示
+    win+R  
+        regedit
+    打开注册表后
+        HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\ShellIconOverlayIdentifiers
+        所有Tortoise前面加空格，排到最前边
+    打开任务管理器
+        Ctrl+Alt+Delete
+        重启资源管理器
 ```
 
 ## Eclipse
