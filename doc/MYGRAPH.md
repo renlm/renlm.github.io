@@ -1,20 +1,26 @@
 # MYGRAPH
 
-## 安装 K3S | RKE2
-<a href="https://renlm.github.io/doc/K3S.html" target="_blank">https://<span></span>renlm.github.io/doc/K3S.html</a>  
-
 ## NFS 配置  
 <a href="https://renlm.github.io/doc/NFS.html" target="_blank">https://<span></span>renlm.github.io/doc/NFS.html</a>  
 
 ## 安装 DOCKER  
-Jenkins 构建镜像需要  
 <a href="https://renlm.github.io/doc/DOCKER.html" target="_blank">https://<span></span>renlm.github.io/doc/DOCKER.html</a>  
+
+## 安装 K3S  
+<a href="https://renlm.github.io/doc/K3S.html" target="_blank">https://<span></span>renlm.github.io/doc/K3S.html</a>  
+
+## 安装 RANCHER  
+<a href="https://renlm.github.io/doc/RANCHER.html" target="_blank">https://<span></span>renlm.github.io/doc/RANCHER.html</a>  
+
+## KubeConfig  
+<a href="https://renlm.github.io/doc/KubeConfig.html" target="_blank">https://<span></span>renlm.github.io/doc/KubeConfig.html</a>  
 
 ## 创建 Secret
 	https://kubernetes.p2hp.com/docs/concepts/configuration/secret.html
 	$ kubectl create namespace renlm
 	$ kubectl label namespace renlm istio-injection=enabled
-	$ export DEFAULT_PASSWORD=PWD@20xxKplstdm^8uttm$
+	$ export DEFAULT_PASSWORD=@A1b2c3
+	$ export NFS_SERVER=192.168.16.3
 	
 ```
 配置文件（values.yaml）
@@ -46,9 +52,9 @@ mysql:
     tag: 8.0.31
   nfs:
     enabled: true
-    storage: 20Gi
+    storage: 25Gi
     path: /nfs_share/mysql
-    server: 192.168.16.3
+    server: ${NFS_SERVER}
 rabbitmq:
   appVersion: 3.13.2
   gateway: istio-ingress/gateway
@@ -61,7 +67,7 @@ rabbitmq:
     enabled: true
     storage: 5Gi
     path: /nfs_share/rabbitmq
-    server: 192.168.16.3
+    server: ${NFS_SERVER}
 jenkins:
   appVersion: 2.452.1
   gateway: istio-ingress/gateway
@@ -74,7 +80,7 @@ jenkins:
     enabled: true
     storage: 20Gi
     path: /nfs_share/jenkins
-    server: 192.168.16.3
+    server: ${NFS_SERVER}
 EOF
 
 配置文件（Redis）
