@@ -71,9 +71,9 @@ EOF
 	https://github.com/helm/helm/releases/
 	
 	master节点即可（手动上传文件，下载较慢）
-	$ wget https://renlm.github.io/helm/helm-v3.14.4-linux-amd64.tar.gz
-	$ tar -zxvf helm-v3.14.4-linux-amd64.tar.gz -C /usr/local/ --transform="s/linux-amd64/helm-v3.14.4/g"
-	$ ln -sf /usr/local/helm-v3.14.4 /usr/local/helm
+	$ wget https://renlm.github.io/helm/helm-v3.15.4-linux-amd64.tar.gz
+	$ tar -zxvf helm-v3.15.4-linux-amd64.tar.gz -C /usr/local/ --transform="s/linux-amd64/helm-v3.15.4/g"
+	$ ln -sf /usr/local/helm-v3.15.4 /usr/local/helm
 	$ sed -i '$a export PATH=/usr/local/helm:$PATH' ~/.bashrc
 	$ source ~/.bashrc
 	$ helm version
@@ -96,7 +96,7 @@ EOF
 # 禁用traefik，安装istio替代
 $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     INSTALL_K3S_MIRROR=cn \
-    INSTALL_K3S_VERSION=v1.28.13+k3s1 \
+    INSTALL_K3S_VERSION=v1.30.4+k3s1 \
     K3S_TOKEN=SECRET \
     sh -s - server \
     --disable=traefik \
@@ -109,7 +109,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 # master从节点
 $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     INSTALL_K3S_MIRROR=cn \
-    INSTALL_K3S_VERSION=v1.28.13+k3s1 \
+    INSTALL_K3S_VERSION=v1.30.4+k3s1 \
     K3S_TOKEN=SECRET \
     sh -s - server \
     --server https://k3s.master:6443
@@ -119,7 +119,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 # agent节点
 $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     INSTALL_K3S_MIRROR=cn \
-    INSTALL_K3S_VERSION=v1.28.13+k3s1 \
+    INSTALL_K3S_VERSION=v1.30.4+k3s1 \
     K3S_TOKEN=SECRET \
     sh -s - agent \
     --server https://k3s.master:6443
