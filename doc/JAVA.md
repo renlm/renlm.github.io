@@ -14,6 +14,10 @@ Lombok插件安装
 代码编辑器，免费开源  
 <a href="https://code.visualstudio.com/" target="_blank">https://<span></span>code.visualstudio.com/</a>  
 
+## Git
+<a href="https://git-scm.com/book/zh/v2" target="_blank">https://<span></span>git-scm.com/book/zh/v2</a>  
+<a href="https://git-scm.com/download/win" target="_blank">https://<span></span>git-scm.com/download/win</a>  
+
 ## MobaXterm
 远程连接工具，免费开源  
 <a href="https://mobaxterm.mobatek.net/" target="_blank">https://<span></span>mobaxterm.mobatek.net/</a>  
