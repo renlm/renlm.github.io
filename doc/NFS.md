@@ -28,7 +28,7 @@ $ vi /etc/exports
     查看本机挂载磁盘信息
     $ showmount -e localhost
         Export list for localhost:
-		/nfs_share 192.168.0.3
+		/nfs_share 192.168.0.0/16
  
     启动
     $ /etc/init.d/nfs-kernel-server start
