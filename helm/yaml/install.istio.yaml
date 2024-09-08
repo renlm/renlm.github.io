@@ -53,6 +53,7 @@ items:
     - redis.renlm.cn
     - mysql.renlm.cn
     - postgres.renlm.cn
+    - elasticsearch.renlm.cn
     - rabbitmq.renlm.cn
     - mygraph.renlm.cn
     issuerRef:
@@ -79,6 +80,7 @@ items:
       - gitea.renlm.cn
       - habor.renlm.cn
       - jenkins.renlm.cn
+      - elasticsearch.renlm.cn
       - rabbitmq.renlm.cn
       - mygraph.renlm.cn
     - port:
@@ -92,6 +94,7 @@ items:
       - gitea.renlm.cn
       - habor.renlm.cn
       - jenkins.renlm.cn
+      - elasticsearch.renlm.cn
       - rabbitmq.renlm.cn
       - mygraph.renlm.cn
       tls:
