@@ -6,8 +6,6 @@ items:
   kind: IngressClass
   metadata:
     name: istio
-    annotations:
-      ingressclass.kubernetes.io/is-default-class: "true"
   spec:
     controller: istio.io/ingress-controller
 # https://cert-manager.io/docs/configuration/acme/http01/
@@ -49,9 +47,12 @@ items:
     - renlm.cn
     - www.renlm.cn
     - rancher.renlm.cn
+    - gitea.renlm.cn
+    - habor.renlm.cn
     - jenkins.renlm.cn
     - redis.renlm.cn
     - mysql.renlm.cn
+    - postgres.renlm.cn
     - rabbitmq.renlm.cn
     - mygraph.renlm.cn
     issuerRef:
@@ -75,6 +76,8 @@ items:
       - renlm.cn
       - www.renlm.cn
       - rancher.renlm.cn
+      - gitea.renlm.cn
+      - habor.renlm.cn
       - jenkins.renlm.cn
       - rabbitmq.renlm.cn
       - mygraph.renlm.cn
@@ -86,6 +89,8 @@ items:
       - renlm.cn
       - www.renlm.cn
       - rancher.renlm.cn
+      - gitea.renlm.cn
+      - habor.renlm.cn
       - jenkins.renlm.cn
       - rabbitmq.renlm.cn
       - mygraph.renlm.cn
