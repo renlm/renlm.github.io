@@ -137,7 +137,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	$ kubectl version --output=json
 	
 	查看镜像
-	$ ctr image ls
+	$ k3s ctr image ls
 
 ## 安装 cert-manager
 	配置环境变量KUBECONFIG
