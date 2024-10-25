@@ -19,6 +19,14 @@ $ cat <<EOF | tee /etc/docker/daemon.json
 EOF
 ```
 
+```
+添加构建日志限制
+$ vi /etc/systemd/system/multi-user.target.wants/docker.service
+[Service]
+Environment="BUILDKIT_STEP_LOG_MAX_SIZE=1073741824"
+Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
+```
+
 	启动服务
 	$ systemctl daemon-reload
 	$ systemctl enable docker
