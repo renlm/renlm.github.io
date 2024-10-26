@@ -145,7 +145,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	$ wget https://charts.jetstack.io/index.yaml -O charts.jetstack.io-index.yaml
 	$ sed -i 's@//github.com@//github.renlm.cn@g' charts.jetstack.io-index.yaml
 	$ helm repo remove jetstack
-	$ helm repo add jetstack charts.jetstack.io-index.yaml
+	$ helm repo add jetstack https://renlm.github.io/helm/charts.jetstack.io-index.yaml
 	
 	安装
 	$ helm install \
