@@ -41,6 +41,13 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
 	$ apt-get update
 	$ apt-get install -y certbot python3-certbot-nginx
 	$ certbot --nginx
+	
+```	
+测试并配置证书自动更新
+$ certbot renew --dry-run
+$ vi /etc/cron.d/certbot
+0 0,12 * * * root /usr/bin/certbot renew --quiet
+```
 
 	下载并安装
 	$ wget https://github.renlm.cn/goharbor/harbor/releases/download/v2.11.1/harbor-offline-installer-v2.11.1.tgz
