@@ -35,3 +35,25 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
 	清理缓存
 	$ docker system df
 	$ docker system prune
+	
+## Harbor
+	# 1. 下载Harbor安装包
+	wget https://github.renlm.cn/goharbor/harbor/releases/download/v2.11.1/harbor-offline-installer-v2.11.1.tgz
+	 
+	# 2. 解压安装包
+	tar xvf harbor-offline-installer-v2.11.1.tgz
+	 
+	# 3. 进入解压后的目录
+	cd harbor
+	 
+	# 4. 修改配置文件harbor.yml，根据需要配置
+	cp harbor.yml.tmpl harbor.yml
+	# 使用编辑器打开harbor.yml，比如使用nano：
+	nano harbor.yml
+	# 修改例如hostname，port，admin密码等配置
+	 
+	# 5. 安装Harbor
+	./install.sh
+	 
+	# 安装完成后，Harbor将启动并运行
+	
