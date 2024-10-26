@@ -149,12 +149,12 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	$ helm repo add jetstack https://github-io.renlm.cn/helm/repo/charts.jetstack.io
 	
 	安装
+	$ kubectl apply -f https://github.renlm.cn/cert-manager/cert-manager/releases/download/v1.16.1/cert-manager.crds.yaml
 	$ helm install \
 	    cert-manager jetstack/cert-manager \
 	    --namespace cert-manager \
 	    --create-namespace \
-	    --version v1.16.1 \
-	    --set crds.enabled=true
+	    --version v1.16.1
 	
 	查看  
 	$ helm -n cert-manager ls -a
