@@ -79,7 +79,7 @@ EOF
 	$ helm version
 
 ## 安装 k3s
-	https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-9-1/
+	https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-9-2/
 	https://docs.rancher.cn/docs/k3s/installation/ha/_index/
 	https://github.com/k3s-io/k3s/releases/
 	
@@ -149,7 +149,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	    cert-manager jetstack/cert-manager \
 	    --namespace cert-manager \
 	    --create-namespace \
-	    --version v1.15.3 \
+	    --version v1.16.1 \
 	    --set crds.enabled=true
 	
 	查看  
@@ -162,9 +162,9 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	https://github.com/istio/istio/releases
 	
 	master节点即可（手动上传文件，下载较慢）
-	$ wget https://renlm.github.io/helm/istio-1.22.4-linux-amd64.tar.gz
-	$ tar -zxvf istio-1.22.4-linux-amd64.tar.gz -C /usr/local/
-	$ ln -sf /usr/local/istio-1.22.4 /usr/local/istio
+	$ wget https://renlm.github.io/helm/istio-1.23.2-linux-amd64.tar.gz
+	$ tar -zxvf istio-1.23.2-linux-amd64.tar.gz -C /usr/local/
+	$ ln -sf /usr/local/istio-1.23.2 /usr/local/istio
 	$ sed -i '$a export PATH=/usr/local/istio/bin:$PATH' ~/.bashrc
 	$ source ~/.bashrc
 	$ istioctl version

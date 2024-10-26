@@ -6,12 +6,12 @@
 	$ helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
 	$ helm search repo rancher
 	
-	安装 rancher-stable/rancher v2.9.1
+	安装 rancher-stable/rancher v2.9.2
 	禁用ingress，使用istio网关进行代理和加密
 	https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/installation-references/helm-chart-options
 	$ kubectl create namespace cattle-system
-	$ helm fetch rancher-stable/rancher --version=v2.9.1
-	$ helm install rancher ./rancher-2.9.1.tgz \
+	$ helm fetch rancher-stable/rancher --version=v2.9.2
+	$ helm install rancher ./rancher-2.9.2.tgz \
         --namespace cattle-system \
         --set hostname=rancher.renlm.cn \
         --set ingress.enabled=false \
