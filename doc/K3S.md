@@ -155,6 +155,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	查看  
 	$ helm -n cert-manager ls -a
 	$ kubectl get pods --namespace cert-manager
+	$ helm -n cert-manager delete cert-manager
 	
 ## 安装 istio
 	配置环境变量KUBECONFIG
