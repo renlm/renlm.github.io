@@ -142,25 +142,9 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 ## 安装 cert-manager
 	配置环境变量KUBECONFIG
 	https://cert-manager.io/docs/installation/helm/
-	$ wget https://charts.jetstack.io/index.yaml -O index.yaml
-	$ sed -i 's@//github.com@//github.renlm.cn@g' index.yaml
-	$ sed -i 's@- charts/@- https://charts.jetstack.io/charts/@g' index.yaml
-	$ helm repo remove jetstack
-	$ helm repo add jetstack https://github-io.renlm.cn/helm/repo/charts.jetstack.io
-	
-	安装
-	$ wget https://github.renlm.cn/cert-manager/cert-manager/releases/download/v1.16.1/cert-manager.crds.yaml
-	$ kubectl apply -f cert-manager.crds.yaml
-	$ helm install \
-	    cert-manager jetstack/cert-manager \
-	    --namespace cert-manager \
-	    --create-namespace \
-	    --version v1.16.1
-	
-	查看  
-	$ helm -n cert-manager ls -a
+	$ wget https://github.renlm.cn/cert-manager/cert-manager/releases/download/v1.16.1/cert-manager.yaml
+	$ kubectl apply -f cert-manager.yaml
 	$ kubectl get pods --namespace cert-manager
-	$ helm -n cert-manager delete cert-manager
 	
 ## 安装 istio
 	配置环境变量KUBECONFIG
