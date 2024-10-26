@@ -142,10 +142,10 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 ## 安装 cert-manager
 	配置环境变量KUBECONFIG
 	https://cert-manager.io/docs/installation/helm/
-	$ wget https://charts.jetstack.io/index.yaml -O charts.jetstack.io-index.yaml
-	$ sed -i 's@//github.com@//github.renlm.cn@g' charts.jetstack.io-index.yaml
+	$ wget https://charts.jetstack.io/index.yaml -O index.yaml
+	$ sed -i 's@//github.com@//github.renlm.cn@g' index.yaml
 	$ helm repo remove jetstack
-	$ helm repo add jetstack https://renlm.github.io/helm/charts.jetstack.io-index.yaml
+	$ helm repo add jetstack https://github-io.renlm.cn/helm/repo/charts.jetstack.io
 	
 	安装
 	$ helm install \
