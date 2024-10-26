@@ -57,7 +57,9 @@ $ cat <<EOF | tee /etc/rancher/k3s/registries.yaml
 mirrors:
   docker.io:
     endpoint:
-    - https://docker-io.renlm.cn
+      - "https://harbor.renlm.cn:8443"
+    rewrite:
+      "^rancher/(.*)": "docker.io/rancher/$1"
   gcr.io:
     endpoint:
     - https://gcr-io.renlm.cn
@@ -67,6 +69,11 @@ mirrors:
   quay.io:
     endpoint:
     - https://quay-io.renlm.cn
+configs:
+  "harbor.renlm.cn:8443":
+    auth:
+      username: harbor
+      password: 123654
 EOF
 ```
 	
