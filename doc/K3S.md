@@ -149,7 +149,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	    cert-manager jetstack/cert-manager \
 	    --namespace cert-manager \
 	    --create-namespace \
-	    --version v1.16.1 \
+	    --version v1.15.3 \
 	    --set crds.enabled=true
 	
 	查看  
