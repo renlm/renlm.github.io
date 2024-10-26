@@ -50,7 +50,7 @@ $ vi /etc/cron.d/certbot
 ```
 
 	下载并安装
-	$ wget https://github.renlm.cn/goharbor/harbor/releases/download/v2.11.1/harbor-offline-installer-v2.11.1.tgz
+	$ wget https://github.com/goharbor/harbor/releases/download/v2.11.1/harbor-offline-installer-v2.11.1.tgz
 	$ tar xvf harbor-offline-installer-v2.11.1.tgz
 	$ cd harbor
 	$ cp harbor.yml.tmpl harbor.yml
