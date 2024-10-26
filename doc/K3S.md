@@ -96,7 +96,7 @@ EOF
 # 禁用traefik，安装istio替代
 $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     INSTALL_K3S_MIRROR=cn \
-    INSTALL_K3S_VERSION=v1.30.6+k3s1 \
+    INSTALL_K3S_VERSION=v1.30.5+k3s1 \
     K3S_TOKEN=SECRET \
     sh -s - server \
     --disable=traefik \
@@ -109,7 +109,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 # master从节点
 $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     INSTALL_K3S_MIRROR=cn \
-    INSTALL_K3S_VERSION=v1.30.6+k3s1 \
+    INSTALL_K3S_VERSION=v1.30.5+k3s1 \
     K3S_TOKEN=SECRET \
     sh -s - server \
     --disable=traefik \
@@ -120,7 +120,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 # agent节点
 $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     INSTALL_K3S_MIRROR=cn \
-    INSTALL_K3S_VERSION=v1.30.6+k3s1 \
+    INSTALL_K3S_VERSION=v1.30.5+k3s1 \
     K3S_TOKEN=SECRET \
     sh -s - agent \
     --server https://k3s.master:6443
