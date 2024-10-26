@@ -45,8 +45,13 @@ $ systemctl daemon-reload
 
 ## 私有镜像仓库配置
 ```
-https://docs.k3s.io/zh/installation/private-registry
+下载离线镜像包
+https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/other-installation-methods/air-gapped-helm-cli-install/install-kubernetes
+$ wget https://github.com/k3s-io/k3s/releases/download/v1.30.5+k3s1/k3s-airgap-images-amd64.tar
+$ mkdir -p /var/lib/rancher/k3s/agent/images/
+$ cp ./k3s-airgap-images-amd64.tar /var/lib/rancher/k3s/agent/images/
 需要在每个节点添加
+https://docs.k3s.io/zh/installation/private-registry
 $ mkdir -p /etc/rancher/k3s
 $ cat <<EOF | tee /etc/rancher/k3s/registries.yaml
 mirrors:
