@@ -13,7 +13,6 @@
 	$ helm fetch rancher-stable/rancher --version=v2.9.2
 	$ helm install rancher ./rancher-2.9.2.tgz \
         --namespace cattle-system \
-        --set systemDefaultRegistry=docker-io.renlm.cn \
         --set hostname=rancher.renlm.cn \
         --set ingress.enabled=false \
         --set replicas=1
