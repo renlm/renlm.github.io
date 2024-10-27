@@ -68,7 +68,7 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
         && ./install.sh
 	
 	配置证书
-	$ ln -sf ConfigRepo/nginx/conf.d /etc/nginx/conf.d/
+	$ ln -sf /root/ConfigRepo/nginx/conf.d /etc/nginx/
 	$ nginx -v
 	$ nginx -t
 	$ nginx -s reload
