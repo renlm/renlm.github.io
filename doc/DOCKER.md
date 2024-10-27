@@ -44,6 +44,7 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
 	$ systemctl status nginx
 	
 	开发组件
+	$ git clone git@gitee.com:renlm/ConfigRepo.git
 	$ docker network create share
 	$ docker network ls
 	$ cd /root/ConfigRepo/docker
@@ -66,7 +67,6 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
         && ./install.sh
 	
 	配置证书
-	$ git clone git@gitee.com:renlm/ConfigRepo.git
 	$ ln -sf ConfigRepo/nginx/conf.d /etc/nginx/conf.d/
 	$ nginx -v
 	$ nginx -t
