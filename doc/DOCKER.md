@@ -37,10 +37,18 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
 	$ docker system prune
 	
 ## Harbor
-	证书管理
+	安装nginx、certbot
 	$ apt-get update
-	$ apt-get install -y certbot python3-certbot-nginx
-	$ certbot --nginx
+	$ apt-get install -y nginx certbot python3-certbot-nginx
+	$ systemctl enable nginx
+	$ systemctl restart nginx
+	$ systemctl status nginx
+	
+	上传配置到/etc/nginx/conf.d/
+	$ nginx -v
+	$ nginx -t
+	$ nginx -s reload
+	$ certbot --nginx --no-bootstrap
 	
 ```	
 测试并配置证书自动更新
@@ -49,10 +57,10 @@ $ vi /etc/cron.d/certbot
 0 0,12 * * * root /usr/bin/certbot renew --quiet
 ```
 
-	下载并安装
+	安装harbor
 	$ wget https://github.com/goharbor/harbor/releases/download/v2.11.1/harbor-offline-installer-v2.11.1.tgz
 	$ tar xvf harbor-offline-installer-v2.11.1.tgz
 	$ cd harbor
 	$ cp harbor.yml.tmpl harbor.yml
 	$ nano harbor.yml
-	./install.sh
+	$ ./install.sh
