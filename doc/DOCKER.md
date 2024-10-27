@@ -43,17 +43,6 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
 	$ systemctl restart nginx
 	$ systemctl status nginx
 	
-	配置证书
-	$ git clone git@gitee.com:renlm/ConfigRepo.git
-	$ ln -sf ConfigRepo/nginx/conf.d /etc/nginx/conf.d/
-	$ nginx -v
-	$ nginx -t
-	$ nginx -s reload
-	$ certbot --nginx --no-bootstrap
-	自动更新
-	$ certbot renew --dry-run
-	$ sed -i '$a 0 0,12 * * * root /usr/bin/certbot renew --quiet' /etc/cron.d/certbot
-	
 	开发组件
 	$ docker network create share
 	$ docker network ls
@@ -75,3 +64,14 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
         && sed -i 's/private_key:/# private_key:/g' harbor.yml \
         && sed -i 's/harbor_admin_password: Harbor12345/harbor_admin_password: 123654/g' harbor.yml \
         && ./install.sh
+	
+	配置证书
+	$ git clone git@gitee.com:renlm/ConfigRepo.git
+	$ ln -sf ConfigRepo/nginx/conf.d /etc/nginx/conf.d/
+	$ nginx -v
+	$ nginx -t
+	$ nginx -s reload
+	$ certbot --nginx --no-bootstrap
+	自动更新
+	$ certbot renew --dry-run
+	$ sed -i '$a 0 0,12 * * * root /usr/bin/certbot renew --quiet' /etc/cron.d/certbot
