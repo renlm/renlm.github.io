@@ -37,7 +37,7 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
 	$ docker system prune
 	
 ## 私有环境
-	安装nginx、certbot
+	安装 nginx、certbot
 	$ apt-get update
 	$ apt-get install -y nginx certbot python3-certbot-nginx
 	$ systemctl enable nginx
@@ -59,7 +59,7 @@ $ vi /etc/cron.d/certbot
 0 0,12 * * * root /usr/bin/certbot renew --quiet
 ```
 
-	安装harbor
+	安装 harbor
 	$ wget https://github.com/goharbor/harbor/releases/download/v2.11.1/harbor-offline-installer-v2.11.1.tgz
 	$ tar xvf harbor-offline-installer-v2.11.1.tgz
 	$ cd harbor
@@ -67,7 +67,7 @@ $ vi /etc/cron.d/certbot
 	$ nano harbor.yml
 	$ ./install.sh
 	
-	安装jenkins
+	安装 jenkins
 	$ docker run -it --rm -p 50000:50000 \
           -v /root/.m2:/root/.m2 \
           -v /usr/bin/docker:/usr/bin/docker \
