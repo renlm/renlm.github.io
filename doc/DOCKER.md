@@ -36,7 +36,7 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
 	$ docker system df
 	$ docker system prune
 	
-## Harbor
+## 私有环境
 	安装nginx、certbot
 	$ apt-get update
 	$ apt-get install -y nginx certbot python3-certbot-nginx
@@ -44,7 +44,9 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
 	$ systemctl restart nginx
 	$ systemctl status nginx
 	
-	上传配置到/etc/nginx/conf.d/
+	配置证书
+	$ git clone git@gitee.com:renlm/ConfigRepo.git
+	$ ln -sf ConfigRepo/nginx/conf.d /etc/nginx/conf.d/
 	$ nginx -v
 	$ nginx -t
 	$ nginx -s reload
@@ -64,3 +66,12 @@ $ vi /etc/cron.d/certbot
 	$ cp harbor.yml.tmpl harbor.yml
 	$ nano harbor.yml
 	$ ./install.sh
+	
+	安装jenkins
+	$ docker run -it --rm -p 50000:50000 \
+          -v /root/.m2:/root/.m2 \
+          -v /usr/bin/docker:/usr/bin/docker \
+          -v /etc/docker/daemon.json:/etc/docker/daemon.json \
+          -v /var/run/docker.sock:/var/run/docker.sock \
+          -v /var/jenkins_home:/var/jenkins_home \
+          -d lts-jdk21
