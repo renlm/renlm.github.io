@@ -76,5 +76,7 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
 	$ nginx -s reload
 	$ certbot --nginx
 	自动更新
+	$ certbot certificates
 	$ certbot renew --dry-run
 	$ sed -i '$a 0 0,12 * * * root /usr/bin/certbot renew --quiet' /etc/cron.d/certbot
+	$ tail -f -n 100 /var/log/letsencrypt/letsencrypt.log
