@@ -44,6 +44,7 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
 	$ systemctl status nginx
 	
 	开发组件
+	$ ssh-keygen -m PEM -t rsa -b 2048 -C "renlm@21cn.com" -N ""
 	$ git clone git@gitee.com:renlm/ConfigRepo.git
 	$ docker network create share
 	$ docker network ls
