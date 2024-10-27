@@ -6,7 +6,6 @@
 
 ```
 镜像加速
-$ mkdir -p /etc/docker
 $ cat <<EOF | tee /etc/docker/daemon.json
 {
   "registry-mirrors": [ 
@@ -53,8 +52,7 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
 	$ certbot --nginx --no-bootstrap
 	自动更新
 	$ certbot renew --dry-run
-	$ vi /etc/cron.d/certbot
-	0 0,12 * * * root /usr/bin/certbot renew --quiet
+	$ sed -i '$a 0 0,12 * * * root /usr/bin/certbot renew --quiet' /etc/cron.d/certbot
 
 	安装 harbor
 	$ wget https://github.com/goharbor/harbor/releases/download/v2.11.1/harbor-offline-installer-v2.11.1.tgz
