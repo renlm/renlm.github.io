@@ -52,8 +52,8 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
 	$ docker network create share
 	$ docker network ls
 	$ cd /root/ConfigRepo/docker
-	$ docker-compose up -d
 	$ docker-compose down
+	$ docker-compose up -d
 	$ docker-compose restart
 	$ docker logs -f --tail=100 jenkins
 
