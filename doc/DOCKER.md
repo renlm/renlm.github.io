@@ -26,6 +26,10 @@ Environment="BUILDKIT_STEP_LOG_MAX_SIZE=1073741824"
 Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
 ```
 
+    为docker-compose开启BuildKit
+    $ sed -i '$a export COMPOSE_DOCKER_CLI_BUILD=1' ~/.bashrc
+	$ source ~/.bashrc
+
 	启动服务
 	$ systemctl daemon-reload
 	$ systemctl enable docker
