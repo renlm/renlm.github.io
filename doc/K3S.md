@@ -45,21 +45,21 @@ $ systemctl daemon-reload
 
 ## 私有镜像仓库配置
 ```
-下载离线镜像包
+离线镜像包（备选）
 https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/other-installation-methods/air-gapped-helm-cli-install/install-kubernetes
 $ wget https://github.com/k3s-io/k3s/releases/download/v1.30.5+k3s1/k3s-airgap-images-amd64.tar
 $ mkdir -p /var/lib/rancher/k3s/agent/images/
 $ cp ./k3s-airgap-images-amd64.tar /var/lib/rancher/k3s/agent/images/
-需要在每个节点添加
+配置镜像代理（首选）
 https://docs.k3s.io/zh/installation/private-registry
 $ mkdir -p /etc/rancher/k3s
 $ cat <<EOF | tee /etc/rancher/k3s/registries.yaml
 mirrors:
   docker.io:
     endpoint:
-      - "https://harbor.renlm.cn:8443"
+    - https://harbor.renlm.cn
     rewrite:
-      "^rancher/(.*)": "docker.io/rancher/$1"
+      "^docker.io/(.*)": "docker.io/$1"
   gcr.io:
     endpoint:
     - https://gcr-io.renlm.cn
@@ -70,9 +70,9 @@ mirrors:
     endpoint:
     - https://quay-io.renlm.cn
 configs:
-  "harbor.renlm.cn:8443":
+  "harbor.renlm.cn":
     auth:
-      username: harbor
+      username: admin
       password: 123654
 EOF
 ```
