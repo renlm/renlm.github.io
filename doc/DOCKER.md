@@ -37,7 +37,6 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
 	
 ## 私有环境
 	安装 nginx、certbot
-	$ apt-get update
 	$ apt-get install -y nginx certbot python3-certbot-nginx
 	$ systemctl enable nginx
 	$ systemctl restart nginx
