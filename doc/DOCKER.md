@@ -64,11 +64,7 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
 	$ nano harbor.yml
 	$ ./install.sh
 	
-	安装 jenkins
-	$ docker run -it --rm -p 50000:50000 \
-          -v /root/.m2:/root/.m2 \
-          -v /usr/bin/docker:/usr/bin/docker \
-          -v /etc/docker/daemon.json:/etc/docker/daemon.json \
-          -v /var/run/docker.sock:/var/run/docker.sock \
-          -v /var/jenkins_home:/var/jenkins_home \
-          -d jenkins
+	开发组件
+	$ cd /root/ConfigRepo/docker
+	$ docker-compose up -d
+	$ docker-compose stats
