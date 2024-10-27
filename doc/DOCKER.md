@@ -57,7 +57,7 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
 	$ cd /root/harbor \
         && cp harbor.yml.tmpl harbor.yml \
         && sed -i 's/reg.mydomain.com/harbor.renlm.cn/g' harbor.yml \
-        && sed -i 's/port: 80/port: 8080/g' harbor.yml \
+        && sed -i 's/port: 80/port: 8443/g' harbor.yml \
         && sed -i 's/https:/# https:/g' harbor.yml \
         && sed -i 's/port: 443/# port: 443/g' harbor.yml \
         && sed -i 's/certificate:/# certificate:/g' harbor.yml \
