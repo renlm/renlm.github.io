@@ -51,13 +51,10 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
 	$ nginx -t
 	$ nginx -s reload
 	$ certbot --nginx --no-bootstrap
-	
-```	
-测试并配置证书自动更新
-$ certbot renew --dry-run
-$ vi /etc/cron.d/certbot
-0 0,12 * * * root /usr/bin/certbot renew --quiet
-```
+	自动更新
+	$ certbot renew --dry-run
+	$ vi /etc/cron.d/certbot
+	0 0,12 * * * root /usr/bin/certbot renew --quiet
 
 	安装 harbor
 	$ wget https://github.com/goharbor/harbor/releases/download/v2.11.1/harbor-offline-installer-v2.11.1.tgz
