@@ -53,6 +53,13 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
 	自动更新
 	$ certbot renew --dry-run
 	$ sed -i '$a 0 0,12 * * * root /usr/bin/certbot renew --quiet' /etc/cron.d/certbot
+	
+	开发组件
+	$ docker network create share
+	$ docker network ls
+	$ cd /root/ConfigRepo/docker
+	$ docker-compose up -d
+	$ docker-compose stats
 
 	安装 harbor
 	$ wget https://github.com/goharbor/harbor/releases/download/v2.11.1/harbor-offline-installer-v2.11.1.tgz
@@ -61,8 +68,3 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
 	$ cp harbor.yml.tmpl harbor.yml
 	$ nano harbor.yml
 	$ ./install.sh
-	
-	开发组件
-	$ cd /root/ConfigRepo/docker
-	$ docker-compose up -d
-	$ docker-compose stats
