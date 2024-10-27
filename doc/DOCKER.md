@@ -72,7 +72,7 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
 	$ nginx -v
 	$ nginx -t
 	$ nginx -s reload
-	$ certbot --nginx --no-bootstrap
+	$ certbot --nginx
 	自动更新
 	$ certbot renew --dry-run
 	$ sed -i '$a 0 0,12 * * * root /usr/bin/certbot renew --quiet' /etc/cron.d/certbot
