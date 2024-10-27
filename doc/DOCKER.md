@@ -62,9 +62,16 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
 	$ docker-compose stats
 
 	安装 harbor
+	$ cd /root
 	$ wget https://github.com/goharbor/harbor/releases/download/v2.11.1/harbor-offline-installer-v2.11.1.tgz
 	$ tar xvf harbor-offline-installer-v2.11.1.tgz
 	$ cd harbor
 	$ cp harbor.yml.tmpl harbor.yml
-	$ nano harbor.yml
-	$ ./install.sh
+	$ sed -i 's/reg.mydomain.com/harbor.renlm.cn/g' harbor.yml \
+        && sed -i 's/port: 80/port: 8080/g' harbor.yml \
+        && sed -i 's/https:/#https:/g' harbor.yml \
+        && sed -i 's/port: 443/#port: 443/g' harbor.yml \
+        && sed -i 's/certificate:/#certificate:/g' harbor.yml \
+        && sed -i 's/private_key:/#private_key:/g' harbor.yml \
+        && sed -i 's/harbor_admin_password: Harbor12345/harbor_admin_password: 123654/g' harbor.yml \
+        && ./install.sh
