@@ -74,4 +74,4 @@ $ vi /etc/cron.d/certbot
           -v /etc/docker/daemon.json:/etc/docker/daemon.json \
           -v /var/run/docker.sock:/var/run/docker.sock \
           -v /var/jenkins_home:/var/jenkins_home \
-          -d lts-jdk21
+          -d jenkins
