@@ -69,6 +69,7 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
         && ./install.sh
 	
 	配置证书
+	$ rm -fr /etc/nginx/conf.d
 	$ ln -sf /root/ConfigRepo/nginx/conf.d /etc/nginx/
 	$ nginx -v
 	$ nginx -t
@@ -79,3 +80,8 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
 	$ certbot renew --dry-run
 	$ sed -i '$a 0 0,12 * * * root /usr/bin/certbot renew --quiet' /etc/cron.d/certbot
 	$ tail -f -n 100 /var/log/letsencrypt/letsencrypt.log
+	
+	命令行登录harbor失败，添加hosts记录
+	Client.Timeout exceeded while awaiting headers
+	$ vi /etc/hosts
+	127.0.1.1 harbor.renlm.cn
