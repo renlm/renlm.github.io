@@ -65,9 +65,9 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
 	$ cd /root
 	$ wget https://github.com/goharbor/harbor/releases/download/v2.11.1/harbor-offline-installer-v2.11.1.tgz
 	$ tar xvf harbor-offline-installer-v2.11.1.tgz
-	$ cd harbor
-	$ cp harbor.yml.tmpl harbor.yml
-	$ sed -i 's/reg.mydomain.com/harbor.renlm.cn/g' harbor.yml \
+	$ cd harbor \
+        && cp harbor.yml.tmpl harbor.yml \
+        && sed -i 's/reg.mydomain.com/harbor.renlm.cn/g' harbor.yml \
         && sed -i 's/port: 80/port: 8080/g' harbor.yml \
         && sed -i 's/https:/# https:/g' harbor.yml \
         && sed -i 's/port: 443/# port: 443/g' harbor.yml \
