@@ -47,7 +47,7 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
 	$ git clone git@gitee.com:renlm/ConfigRepo.git
 	$ docker network create share
 	$ docker network ls
-	$ cd /root/ConfigRepo/docker
+	$ cd /root/ConfigRepo/docker/MicroService
 	$ docker-compose down
 	$ docker-compose up -d
 	$ docker-compose restart
@@ -71,7 +71,7 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
 	
 	配置证书
 	$ rm -fr /etc/nginx/conf.d
-	$ ln -sf /root/ConfigRepo/nginx/conf.d /etc/nginx/
+	$ ln -sf /root/ConfigRepo/nginx/MicroService.conf.d /etc/nginx/
 	$ nginx -v
 	$ nginx -t
 	$ nginx -s reload
