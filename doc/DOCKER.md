@@ -70,8 +70,13 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
         && ./install.sh
 	
 	配置证书
-	$ rm -fr /etc/nginx/conf.d
-	$ ln -sf /root/ConfigRepo/nginx/MicroService.conf.d /etc/nginx/
+	$ ln -sf /root/ConfigRepo/nginx/conf.d/rabbitmq.renlm.cn.conf /etc/nginx/conf.d/rabbitmq.renlm.cn.conf
+	$ ln -sf /root/ConfigRepo/nginx/conf.d/config.renlm.cn.conf /etc/nginx/conf.d/config.renlm.cn.conf
+	$ ln -sf /root/ConfigRepo/nginx/conf.d/eureka.renlm.cn.conf /etc/nginx/conf.d/eureka.renlm.cn.conf
+	$ ln -sf /root/ConfigRepo/nginx/conf.d/gateway.renlm.cn.conf /etc/nginx/conf.d/gateway.renlm.cn.conf
+	$ ln -sf /root/ConfigRepo/nginx/conf.d/jenkins.renlm.cn.conf /etc/nginx/conf.d/jenkins.renlm.cn.conf
+	$ ln -sf /root/ConfigRepo/nginx/conf.d/harbor.renlm.cn.conf /etc/nginx/conf.d/harbor.renlm.cn.conf
+	$ ln -sf /root/ConfigRepo/nginx/conf.d/elasticsearch.renlm.cn.conf /etc/nginx/conf.d/elasticsearch.renlm.cn.conf
 	$ nginx -v
 	$ nginx -t
 	$ nginx -s reload
