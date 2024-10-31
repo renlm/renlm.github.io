@@ -51,7 +51,7 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
 	$ docker-compose down
 	$ docker-compose up -d
 	$ docker-compose restart
-	$ docker logs -f --tail=100 jenkins
+	$ docker logs -f --tail=100 postgres
 
 	安装 harbor
 	$ cd /root
@@ -70,9 +70,9 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
         && ./install.sh
 	
 	配置证书
-	$ docker-compose -f /root/ConfigRepo/docker/docker-compose.yml up redis
-	$ docker-compose -f /root/ConfigRepo/docker/docker-compose.yml up rabbitmq
-	$ docker-compose -f /root/ConfigRepo/docker/docker-compose.yml up postgres
+	$ docker-compose -f /root/ConfigRepo/docker/docker-compose.yml up -d redis
+	$ docker-compose -f /root/ConfigRepo/docker/docker-compose.yml up -d rabbitmq
+	$ docker-compose -f /root/ConfigRepo/docker/docker-compose.yml up -d postgres
 	$ cd /root/ConfigRepo/docker
 	$ docker-compose up -d
 	$ ln -sf /root/ConfigRepo/nginx/conf.d/rabbitmq.renlm.cn.conf /etc/nginx/conf.d/rabbitmq.renlm.cn.conf
