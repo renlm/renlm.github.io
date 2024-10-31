@@ -47,7 +47,7 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
 	$ git clone git@gitee.com:renlm/ConfigRepo.git
 	$ docker network create share
 	$ docker network ls
-	$ cd /root/ConfigRepo/docker/MicroService
+	$ cd /root/ConfigRepo/docker
 	$ docker-compose down
 	$ docker-compose up -d
 	$ docker-compose restart
@@ -70,6 +70,11 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
         && ./install.sh
 	
 	配置证书
+	$ docker-compose -f /root/ConfigRepo/docker/docker-compose.yml up redis
+	$ docker-compose -f /root/ConfigRepo/docker/docker-compose.yml up rabbitmq
+	$ docker-compose -f /root/ConfigRepo/docker/docker-compose.yml up postgres
+	$ cd /root/ConfigRepo/docker
+	$ docker-compose up -d
 	$ ln -sf /root/ConfigRepo/nginx/conf.d/rabbitmq.renlm.cn.conf /etc/nginx/conf.d/rabbitmq.renlm.cn.conf
 	$ ln -sf /root/ConfigRepo/nginx/conf.d/config.renlm.cn.conf /etc/nginx/conf.d/config.renlm.cn.conf
 	$ ln -sf /root/ConfigRepo/nginx/conf.d/eureka.renlm.cn.conf /etc/nginx/conf.d/eureka.renlm.cn.conf
