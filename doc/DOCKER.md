@@ -43,15 +43,26 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
 	$ systemctl status nginx
 	
 	开发组件
-	$ ssh-keygen -m PEM -t rsa -b 2048 -C "renlm@21cn.com" -N ""
+	$ ssh-keygen -m PEM -t rsa -b 2048 -C "renlm@21cn.com"
 	$ git clone git@gitee.com:renlm/ConfigRepo.git
 	$ docker network create share
 	$ docker network ls
-	$ cd /root/ConfigRepo/docker
+	配置证书
+	$ docker-compose -f /root/ConfigRepo/docker/docker-compose.yml up -d config-server
+	$ ln -sf /root/ConfigRepo/nginx/conf.d/rabbitmq.renlm.cn.conf /etc/nginx/conf.d/rabbitmq.renlm.cn.conf
+	$ ln -sf /root/ConfigRepo/nginx/conf.d/config.renlm.cn.conf /etc/nginx/conf.d/config.renlm.cn.conf
+	$ ln -sf /root/ConfigRepo/nginx/conf.d/eureka.renlm.cn.conf /etc/nginx/conf.d/eureka.renlm.cn.conf
+	$ ln -sf /root/ConfigRepo/nginx/conf.d/gateway.renlm.cn.conf /etc/nginx/conf.d/gateway.renlm.cn.conf
 	$ docker-compose down
 	$ docker-compose up -d
-	$ docker-compose restart
-	$ docker logs -f --tail=100 postgres
+	$ nginx -v
+	$ nginx -t
+	$ nginx -s reload
+	默认已开启定时续期
+	$ certbot --nginx
+	$ certbot certificates
+	$ certbot renew --dry-run
+	$ tail -f -n 100 /var/log/letsencrypt/letsencrypt.log
 
 	安装 harbor
 	$ cd /root
@@ -68,26 +79,3 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
         && sed -i 's@# external_url: # https://harbor.renlm.cn:8433@external_url: https://harbor.renlm.cn@g' harbor.yml \
         && sed -i 's/harbor_admin_password: Harbor12345/harbor_admin_password: 123654/g' harbor.yml \
         && ./install.sh
-	
-	配置证书
-	$ docker-compose -f /root/ConfigRepo/docker/docker-compose.yml up -d redis
-	$ docker-compose -f /root/ConfigRepo/docker/docker-compose.yml up -d rabbitmq
-	$ docker-compose -f /root/ConfigRepo/docker/docker-compose.yml up -d postgres
-	$ cd /root/ConfigRepo/docker
-	$ docker-compose up -d
-	$ ln -sf /root/ConfigRepo/nginx/conf.d/rabbitmq.renlm.cn.conf /etc/nginx/conf.d/rabbitmq.renlm.cn.conf
-	$ ln -sf /root/ConfigRepo/nginx/conf.d/config.renlm.cn.conf /etc/nginx/conf.d/config.renlm.cn.conf
-	$ ln -sf /root/ConfigRepo/nginx/conf.d/eureka.renlm.cn.conf /etc/nginx/conf.d/eureka.renlm.cn.conf
-	$ ln -sf /root/ConfigRepo/nginx/conf.d/gateway.renlm.cn.conf /etc/nginx/conf.d/gateway.renlm.cn.conf
-	$ ln -sf /root/ConfigRepo/nginx/conf.d/jenkins.renlm.cn.conf /etc/nginx/conf.d/jenkins.renlm.cn.conf
-	$ ln -sf /root/ConfigRepo/nginx/conf.d/harbor.renlm.cn.conf /etc/nginx/conf.d/harbor.renlm.cn.conf
-	$ ln -sf /root/ConfigRepo/nginx/conf.d/elasticsearch.renlm.cn.conf /etc/nginx/conf.d/elasticsearch.renlm.cn.conf
-	$ nginx -v
-	$ nginx -t
-	$ nginx -s reload
-	$ certbot --nginx
-	自动更新
-	$ certbot certificates
-	$ certbot renew --dry-run
-	$ sed -i '$a 0 0,12 * * * root /usr/bin/certbot renew --quiet' /etc/cron.d/certbot
-	$ tail -f -n 100 /var/log/letsencrypt/letsencrypt.log
