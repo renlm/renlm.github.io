@@ -80,3 +80,29 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
         && sed -i 's@# external_url: # https://harbor.renlm.cn:8433@external_url: https://harbor.renlm.cn@g' harbor.yml \
         && sed -i 's/harbor_admin_password: Harbor12345/harbor_admin_password: 123654/g' harbor.yml \
         && ./install.sh
+
+```
+Harbor 开机自启
+$ chmod 755 /lib/systemd/system/harbor.service
+$ systemctl daemon-reload
+$ systemctl enable harbor
+$ systemctl restart harbor
+$ systemctl status harbor
+$ cat <<EOF | tee /lib/systemd/system/harbor.service
+[Unit]
+Description=Harbor
+After=docker.service systemd-networkd.service systemd-resolved.service
+Requires=docker.service
+Documentation=http://github.com/vmware/harbor
+
+[Service]
+Type=simple
+Restart=on-failure
+RestartSec=5
+ExecStart=/usr/bin/docker-compose -f /root/harbor/docker-compose.yml up
+ExecStop=/usr/bin/docker-compose -f /root/harbor/docker-compose.yml down
+
+[Install]
+WantedBy=multi-user.target
+EOF
+```
