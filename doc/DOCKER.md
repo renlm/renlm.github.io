@@ -48,8 +48,13 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
 	$ docker network create share
 	$ docker network ls
 	配置证书
-	$ docker-compose -f /root/ConfigRepo/docker/docker-compose.yml up -d config-server
-	$ ln -sf /root/ConfigRepo/nginx/conf.d/rabbitmq.renlm.cn.conf /etc/nginx/conf.d/rabbitmq.renlm.cn.conf
+	$ docker login --username=renlm@21cn.com registry.cn-hangzhou.aliyuncs.com
+	$ docker-compose -f /root/ConfigRepo/docker/docker-compose.yml up -d
+	$ docker-compose -f /root/ConfigRepo/docker/other/mysql/docker-compose.yml up -d
+	$ docker-compose -f /root/ConfigRepo/docker/other/zookeeper/docker-compose.yml up -d
+	$ docker-compose -f /root/ConfigRepo/docker/other/elasticsearch/docker-compose.yml up -d
+	$ docker-compose -f /root/ConfigRepo/docker/other/jenkins/docker-compose.yml up -d
+	$ rm -fr /etc/nginx/conf.d && ln -sf /root/ConfigRepo/nginx/conf.d /etc/nginx/conf.d
 	$ ln -sf /root/ConfigRepo/nginx/modules-enabled/zookeeper.conf /etc/nginx/modules-enabled/zookeeper.conf
 	$ nginx -v
 	$ nginx -t
