@@ -50,7 +50,7 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
 	配置证书
 	$ docker-compose -f /root/ConfigRepo/docker/docker-compose.yml up -d config-server
 	$ ln -sf /root/ConfigRepo/nginx/conf.d/rabbitmq.renlm.cn.conf /etc/nginx/conf.d/rabbitmq.renlm.cn.conf
-	$ ln -sf /root/ConfigRepo/nginx/modules-enabled/mysql.conf /etc/nginx/modules-enabled/mysql.conf
+	$ ln -sf /root/ConfigRepo/nginx/modules-enabled/zookeeper.conf /etc/nginx/modules-enabled/zookeeper.conf
 	$ nginx -v
 	$ nginx -t
 	$ nginx -s reload
