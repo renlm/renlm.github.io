@@ -65,9 +65,9 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
 	$ certbot renew --dry-run
 	$ tail -f -n 100 /var/log/letsencrypt/letsencrypt.log
 
-	安装 harbor
+	安装 Harbor
 	$ cd /root
-	$ wget https://github.com/goharbor/harbor/releases/download/v2.11.1/harbor-offline-installer-v2.11.1.tgz
+	$ wget https://github.renlm.cn/goharbor/harbor/releases/download/v2.11.1/harbor-offline-installer-v2.11.1.tgz
 	$ tar xvf harbor-offline-installer-v2.11.1.tgz
 	$ cd /root/harbor \
         && cp harbor.yml.tmpl harbor.yml \
