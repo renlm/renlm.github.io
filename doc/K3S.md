@@ -53,13 +53,13 @@ $ cp ./k3s-airgap-images-amd64.tar /var/lib/rancher/k3s/agent/images/
 配置镜像代理（首选）
 https://docs.k3s.io/zh/installation/private-registry
 $ mkdir -p /etc/rancher/k3s
-$ cat <<EOF | tee /etc/rancher/k3s/registries.yaml
+$ cat <<-'EOF' | tee /etc/rancher/k3s/registries.yaml
 mirrors:
   docker.io:
     endpoint:
     - https://harbor.renlm.cn
     rewrite:
-      "^docker.io/(.*)": "docker.io/$1"
+      "(.*)": "docker.io/$1"
   gcr.io:
     endpoint:
     - https://gcr-io.renlm.cn
@@ -72,7 +72,7 @@ mirrors:
 configs:
   "harbor.renlm.cn":
     auth:
-      username: admin
+      username: harbor
       password: 123654
 EOF
 ```
