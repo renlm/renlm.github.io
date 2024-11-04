@@ -118,7 +118,7 @@ https://github.com/containerd/cri/blob/master/docs/registry.md
 ...
       [plugins."io.containerd.grpc.v1.cri".registry.configs]
         [plugins."io.containerd.grpc.v1.cri".registry.configs."harbor.renlm.cn".auth]
-          username = "admin"
+          username = "harbor"
           password = "123654"
       [plugins."io.containerd.grpc.v1.cri".registry.mirrors]
         [plugins."io.containerd.grpc.v1.cri".registry.mirrors."docker.io"]
