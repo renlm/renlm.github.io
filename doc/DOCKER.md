@@ -114,6 +114,8 @@ EOF
 	$ vi /etc/containerd/config.toml
 	$ systemctl daemon-reload && systemctl restart containerd
 ```
+https://github.com/containerd/cri/blob/master/docs/registry.md
+...
       [plugins."io.containerd.grpc.v1.cri".registry.configs]
         [plugins."io.containerd.grpc.v1.cri".registry.configs."harbor.renlm.cn".auth]
           username = "admin"
@@ -129,4 +131,5 @@ EOF
           endpoint = ["https://quay-io.renlm.cn/v2"]
         [plugins."io.containerd.grpc.v1.cri".registry.mirrors."harbor.renlm.cn"]
           endpoint = ["https://harbor.renlm.cn/v2"]
+...
 ```
