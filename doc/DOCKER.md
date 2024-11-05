@@ -108,39 +108,17 @@ EOF
 ```
 
 ## Containerd
-	$ containerd config default > /etc/containerd/config.toml
-	$ mkdir -p /etc/containerd/certs.d/{registry.k8s.io,docker.io,gcr.io,ghcr.io,quay.io}
-	$ cd /etc/containerd/certs.d
+	$ mkdir -p /etc/containerd/certs.d/{registry.k8s.io,docker.io,gcr.io,ghcr.io,quay.io} && cd /etc/containerd/certs.d
 	$ wget https://github-io.renlm.cn/download/containerd/registry-certs.d/registry.k8s.io/hosts.toml -O registry.k8s.io/hosts.toml
 	$ wget https://github-io.renlm.cn/download/containerd/registry-certs.d/docker.io/hosts.toml -O docker.io/hosts.toml
 	$ wget https://github-io.renlm.cn/download/containerd/registry-certs.d/gcr.io/hosts.toml -O gcr.io/hosts.toml
 	$ wget https://github-io.renlm.cn/download/containerd/registry-certs.d/ghcr.io/hosts.toml -O ghcr.io/hosts.toml
 	$ wget https://github-io.renlm.cn/download/containerd/registry-certs.d/quay.io/hosts.toml -O quay.io/hosts.toml
-	$ vi /etc/containerd/config.toml
-	
+
 ```
-根据 containerd 版本配置
 https://github.com/containerd/containerd/blob/main/docs/cri/registry.md
-$ containerd --version
-
-...
-In containerd 2.x
-
-    [plugins."io.containerd.cri.v1.images".registry]
-      config_path = "/etc/containerd/certs.d"
-
-...
-In containerd 1.x
-
-    [plugins."io.containerd.grpc.v1.cri".registry]
-      config_path = "/etc/containerd/certs.d"
-
-...
-
-```
-
-```
 $ service containerd restart
+$ ctr image pull --hosts-dir /etc/containerd/certs.d docker.io/nginx:latest
 $ tree /etc/containerd/certs.d
 /etc/containerd/certs.d
 ├── docker.io
