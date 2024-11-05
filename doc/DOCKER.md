@@ -110,9 +110,10 @@ EOF
 ## Containerd
 	$ mkdir -vp /etc/containerd
 	$ containerd config default > /etc/containerd/config.toml
+	$ sed -i 's/registry.k8s.io/registry-k8s-io.renlm.cn/g' /etc/containerd/config.toml
 	添加镜像代理并重启
 	$ vi /etc/containerd/config.toml
-	$ systemctl daemon-reload && systemctl restart containerd
+	$ service containerd restart
 
 ```
 https://github.com/containerd/cri/blob/master/docs/registry.md
@@ -127,16 +128,18 @@ https://github.com/containerd/cri/blob/master/docs/registry.md
 ...
 
       [plugins."io.containerd.grpc.v1.cri".registry.mirrors]
+        [plugins."io.containerd.grpc.v1.cri".registry.mirrors."registry.k8s.io"]
+          endpoint = ["https://registry-k8s-io.renlm.cn"]
         [plugins."io.containerd.grpc.v1.cri".registry.mirrors."docker.io"]
-          endpoint = ["https://docker-io.renlm.cn/v2"]
+          endpoint = ["https://docker-io.renlm.cn"]
         [plugins."io.containerd.grpc.v1.cri".registry.mirrors."gcr.io"]
-          endpoint = ["https://gcr-io.renlm.cn/v2"]
+          endpoint = ["https://gcr-io.renlm.cn"]
         [plugins."io.containerd.grpc.v1.cri".registry.mirrors."ghcr.io"]
-          endpoint = ["https://ghcr-io.renlm.cn/v2"]
+          endpoint = ["https://ghcr-io.renlm.cn"]
         [plugins."io.containerd.grpc.v1.cri".registry.mirrors."quay.io"]
-          endpoint = ["https://quay-io.renlm.cn/v2"]
+          endpoint = ["https://quay-io.renlm.cn"]
         [plugins."io.containerd.grpc.v1.cri".registry.mirrors."harbor.renlm.cn"]
-          endpoint = ["https://harbor.renlm.cn/v2"]
+          endpoint = ["https://harbor.renlm.cn"]
 
 ...
 
