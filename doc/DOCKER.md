@@ -108,7 +108,8 @@ EOF
 ```
 
 ## Containerd
-	$ mkdir -p /etc/containerd/certs.d/{registry.k8s.io,docker.io,gcr.io,ghcr.io,quay.io} && cd /etc/containerd/certs.d
+	$ mkdir -p /etc/containerd/certs.d/{registry.k8s.io,docker.io,gcr.io,ghcr.io,quay.io}
+	$ cd /etc/containerd/certs.d
 	$ wget https://github-io.renlm.cn/download/containerd/registry-certs.d/registry.k8s.io/hosts.toml -O registry.k8s.io/hosts.toml
 	$ wget https://github-io.renlm.cn/download/containerd/registry-certs.d/docker.io/hosts.toml -O docker.io/hosts.toml
 	$ wget https://github-io.renlm.cn/download/containerd/registry-certs.d/gcr.io/hosts.toml -O gcr.io/hosts.toml
@@ -117,8 +118,9 @@ EOF
 
 ```
 https://github.com/containerd/containerd/blob/main/docs/cri/registry.md
-$ service containerd restart
 $ ctr image pull --hosts-dir /etc/containerd/certs.d docker.io/nginx:latest
+$ ctr image pull --hosts-dir /etc/containerd/certs.d registry.k8s.io/pause:3.8
+$ ctr image pull --hosts-dir /etc/containerd/certs.d ghcr.io/graalvm/jdk-community:23.0.1
 $ tree /etc/containerd/certs.d
 /etc/containerd/certs.d
 ├── docker.io
