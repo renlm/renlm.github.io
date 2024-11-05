@@ -1,0 +1,4 @@
+server = "https://docker.io"
+
+[host."https://docker-io.renlm.cn"]
+  capabilities = ["pull"]
