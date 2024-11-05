@@ -2,7 +2,7 @@
 
 ## 安装与使用
 	$ apt update
-	$ apt install -y docker.io docker-buildx docker-compose
+	$ apt install -y tree docker.io docker-buildx docker-compose
 
 ```
 镜像加速
@@ -108,39 +108,46 @@ EOF
 ```
 
 ## Containerd
-	$ mkdir -vp /etc/containerd
+	$ mkdir -p /etc/containerd/certs.d/{registry.k8s.io,docker.io,gcr.io,ghcr.io,quay.io}
 	$ containerd config default > /etc/containerd/config.toml
 	$ sed -i 's/registry.k8s.io/registry-k8s-io.renlm.cn/g' /etc/containerd/config.toml
-	添加镜像代理并重启
 	$ vi /etc/containerd/config.toml
-	$ service containerd restart
+	
+```
+根据 containerd 版本配置
+https://github.com/containerd/containerd/blob/main/docs/cri/registry.md
+$ containerd --version
+
+...
+In containerd 2.x
+
+    [plugins."io.containerd.cri.v1.images".registry]
+      config_path = "/etc/containerd/certs.d"
+
+...
+In containerd 1.x
+
+    [plugins."io.containerd.grpc.v1.cri".registry]
+      config_path = "/etc/containerd/certs.d"
+
+...
 
 ```
-https://github.com/containerd/cri/blob/master/docs/registry.md
 
-...
+```
+docker.io
+$ cat <<EOF | tee /etc/containerd/certs.d/docker.io/hosts.toml
+server = "https://docker.io"
 
-      [plugins."io.containerd.grpc.v1.cri".registry.configs]
-        [plugins."io.containerd.grpc.v1.cri".registry.configs."harbor.renlm.cn".auth]
-          username = "harbor"
-          password = "123654"
+[host."https://docker-io.renlm.cn"]
+  capabilities = ["pull", "resolve"]
+EOF
+```
 
-...
-
-      [plugins."io.containerd.grpc.v1.cri".registry.mirrors]
-        [plugins."io.containerd.grpc.v1.cri".registry.mirrors."registry.k8s.io"]
-          endpoint = ["https://registry-k8s-io.renlm.cn"]
-        [plugins."io.containerd.grpc.v1.cri".registry.mirrors."docker.io"]
-          endpoint = ["https://docker-io.renlm.cn"]
-        [plugins."io.containerd.grpc.v1.cri".registry.mirrors."gcr.io"]
-          endpoint = ["https://gcr-io.renlm.cn"]
-        [plugins."io.containerd.grpc.v1.cri".registry.mirrors."ghcr.io"]
-          endpoint = ["https://ghcr-io.renlm.cn"]
-        [plugins."io.containerd.grpc.v1.cri".registry.mirrors."quay.io"]
-          endpoint = ["https://quay-io.renlm.cn"]
-        [plugins."io.containerd.grpc.v1.cri".registry.mirrors."harbor.renlm.cn"]
-          endpoint = ["https://harbor.renlm.cn"]
-
-...
-
+```
+$ service containerd restart
+$ tree /etc/containerd/certs.d
+/etc/containerd/certs.d
+└── docker.io
+    └── hosts.toml
 ```
