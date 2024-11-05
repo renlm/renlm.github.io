@@ -140,7 +140,7 @@ $ cat <<EOF | tee /etc/containerd/certs.d/docker.io/hosts.toml
 server = "https://docker.io"
 
 [host."https://docker-io.renlm.cn"]
-  capabilities = ["pull", "resolve"]
+  capabilities = ["pull"]
 EOF
 ```
 
