@@ -110,12 +110,12 @@ EOF
 ## Containerd
 	$ containerd config default > /etc/containerd/config.toml
 	$ mkdir -p /etc/containerd/certs.d/{registry.k8s.io,docker.io,registry-1.docker.io,gcr.io,ghcr.io,quay.io}
-	$ wget https://github-io.renlm.cn/download/containerd/registry-certs.d/registry.k8s.io/hosts.toml -P /etc/containerd/certs.d/registry.k8s.io
-	$ wget https://github-io.renlm.cn/download/containerd/registry-certs.d/docker.io/hosts.toml -P /etc/containerd/certs.d/docker.io
-	$ wget https://github-io.renlm.cn/download/containerd/registry-certs.d/registry-1.docker.io/hosts.toml -P /etc/containerd/certs.d/registry-1.docker.io
-	$ wget https://github-io.renlm.cn/download/containerd/registry-certs.d/gcr.io/hosts.toml -P /etc/containerd/certs.d/gcr.io
-	$ wget https://github-io.renlm.cn/download/containerd/registry-certs.d/ghcr.io/hosts.toml -P /etc/containerd/certs.d/ghcr.io
-	$ wget https://github-io.renlm.cn/download/containerd/registry-certs.d/quay.io/hosts.toml -P /etc/containerd/certs.d/quay.io
+	$ cd /etc/containerd/certs.d
+	$ wget https://github-io.renlm.cn/download/containerd/registry-certs.d/registry.k8s.io/hosts.toml -O registry.k8s.io/hosts.toml
+	$ wget https://github-io.renlm.cn/download/containerd/registry-certs.d/docker.io/hosts.toml -P docker.io/hosts.toml
+	$ wget https://github-io.renlm.cn/download/containerd/registry-certs.d/gcr.io/hosts.toml -O gcr.io/hosts.toml
+	$ wget https://github-io.renlm.cn/download/containerd/registry-certs.d/ghcr.io/hosts.toml -O ghcr.io/hosts.toml
+	$ wget https://github-io.renlm.cn/download/containerd/registry-certs.d/quay.io/hosts.toml -O quay.io/hosts.toml
 	$ vi /etc/containerd/config.toml
 	
 ```
@@ -143,6 +143,14 @@ In containerd 1.x
 $ service containerd restart
 $ tree /etc/containerd/certs.d
 /etc/containerd/certs.d
-└── docker.io
+├── docker.io
+│   └── hosts.toml
+├── gcr.io
+│   └── hosts.toml
+├── ghcr.io
+│   └── hosts.toml
+├── quay.io
+│   └── hosts.toml
+└── registry.k8s.io
     └── hosts.toml
 ```
