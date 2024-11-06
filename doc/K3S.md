@@ -73,7 +73,7 @@ mirrors:
     endpoint:
     - https://registry-k8s-io.renlm.cn
 configs:
-  "harbor.renlm.cn":
+  harbor.renlm.cn:
     auth:
       username: harbor
       password: 123654
@@ -94,7 +94,7 @@ EOF
 	$ helm version
 
 ## 安装 k3s
-	https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-9-2/
+	https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-9-3/
 	https://docs.rancher.cn/docs/k3s/installation/ha/_index/
 	https://github.com/k3s-io/k3s/releases/
 	
