@@ -39,6 +39,8 @@ items:
       organizations:
       - renlm.cn
     dnsNames:
+    - renlm.cn
+    - www.renlm.cn
     - rancher.renlm.cn
     issuerRef:
       name: letsencrypt-issuer
