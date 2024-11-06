@@ -114,6 +114,17 @@ EOF
 	$ wget https://github.renlm.cn/kubernetes-sigs/cri-tools/releases/download/$VERSION/crictl-$VERSION-linux-amd64.tar.gz
 	$ tar zxvf crictl-$VERSION-linux-amd64.tar.gz -C /usr/local/bin
 	$ rm -f crictl-$VERSION-linux-amd64.tar.gz
+
+```
+https://github.com/kubernetes-sigs/cri-tools/blob/master/docs/crictl.md
+$ cat <<EOF | tee /etc/crictl.yaml
+runtime-endpoint: unix:///run/containerd/containerd.sock
+image-endpoint: unix:///run/containerd/containerd.sock
+timeout: 2
+debug: true
+pull-image-on-create: false
+EOF
+```
 	
 	镜像代理
 	$ mkdir -p /etc/containerd/certs.d/{docker.io,gcr.io,ghcr.io,quay.io,registry.k8s.io}
