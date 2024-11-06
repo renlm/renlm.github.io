@@ -2,7 +2,7 @@
 
 ## 安装 rancher
 	配置网关（外部 Nginx 负载均衡）
-	$ wget https://renlm.github.io/helm/istio.rancher.yaml
+	$ wget https://github-io.renlm.cn/helm/istio.rancher.yaml
 	$ kubectl apply -f istio.rancher.yaml
 
 	添加 Helm Chart 仓库
