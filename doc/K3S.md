@@ -167,7 +167,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	https://github.com/istio/istio/releases
 	
 	master节点即可（手动上传文件，下载较慢）
-	$ wget https://renlm.github.io/helm/istio-1.23.2-linux-amd64.tar.gz
+	$ wget https://renlm.github.io/download/istio-1.23.2-linux-amd64.tar.gz
 	$ tar -zxvf istio-1.23.2-linux-amd64.tar.gz -C /usr/local/
 	$ ln -sf /usr/local/istio-1.23.2 /usr/local/istio
 	$ sed -i '$a export PATH=/usr/local/istio/bin:$PATH' ~/.bashrc
@@ -177,8 +177,8 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	安装istio组件
 	$ istioctl install -y --set profile=minimal
 	$ kubectl create namespace istio-ingress
-	$ wget https://renlm.github.io/helm/yaml/install.iop.yaml
-	$ istioctl install -y -f install.iop.yaml
+	$ wget https://renlm.github.io/helm/istio.yaml
+	$ istioctl install -y -f istio.yaml
 	
 	修改 IstioOperator 配置后重启
 	$ kubectl get deploy -A
