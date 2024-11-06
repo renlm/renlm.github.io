@@ -47,7 +47,7 @@ $ systemctl daemon-reload
 ```
 离线镜像包（备选）
 https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/other-installation-methods/air-gapped-helm-cli-install/install-kubernetes
-$ wget https://github.com/k3s-io/k3s/releases/download/v1.30.5+k3s1/k3s-airgap-images-amd64.tar
+$ wget https://github.com/k3s-io/k3s/releases/download/v1.30.6+k3s1/k3s-airgap-images-amd64.tar
 $ mkdir -p /var/lib/rancher/k3s/agent/images/
 $ cp ./k3s-airgap-images-amd64.tar /var/lib/rancher/k3s/agent/images/
 配置镜像代理（首选）
@@ -86,7 +86,7 @@ EOF
 	https://github.com/helm/helm/releases/
 	
 	master节点即可（手动上传文件，下载较慢）
-	$ wget https://renlm.github.io/helm/helm-v3.16.2-linux-amd64.tar.gz
+	$ wget https://renlm.github.io/download/helm-v3.16.2-linux-amd64.tar.gz
 	$ tar -zxvf helm-v3.16.2-linux-amd64.tar.gz -C /usr/local/ --transform="s/linux-amd64/helm-v3.16.2/g"
 	$ ln -sf /usr/local/helm-v3.16.2 /usr/local/helm
 	$ sed -i '$a export PATH=/usr/local/helm:$PATH' ~/.bashrc
@@ -111,7 +111,7 @@ EOF
 # 禁用traefik，安装istio替代
 $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     INSTALL_K3S_MIRROR=cn \
-    INSTALL_K3S_VERSION=v1.30.5+k3s1 \
+    INSTALL_K3S_VERSION=v1.30.6+k3s1 \
     K3S_TOKEN=SECRET \
     sh -s - server \
     --disable=traefik \
@@ -124,7 +124,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 # master从节点
 $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     INSTALL_K3S_MIRROR=cn \
-    INSTALL_K3S_VERSION=v1.30.5+k3s1 \
+    INSTALL_K3S_VERSION=v1.30.6+k3s1 \
     K3S_TOKEN=SECRET \
     sh -s - server \
     --disable=traefik \
@@ -135,7 +135,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 # agent节点
 $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     INSTALL_K3S_MIRROR=cn \
-    INSTALL_K3S_VERSION=v1.30.5+k3s1 \
+    INSTALL_K3S_VERSION=v1.30.6+k3s1 \
     K3S_TOKEN=SECRET \
     sh -s - agent \
     --server https://k3s.master:6443
@@ -178,22 +178,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	$ istioctl install -y --set profile=minimal
 	$ kubectl create namespace istio-ingress
 	$ wget https://renlm.github.io/helm/yaml/install.iop.yaml
-	$ wget https://renlm.github.io/helm/yaml/install.istio.yaml
 	$ istioctl install -y -f install.iop.yaml
-	$ kubectl apply -f install.istio.yaml
-
-	查看资源部署情况  
-	$ kubectl get svc -A
-	$ kubectl get Gateway -A
-	$ kubectl get VirtualService -A
-	
-	查看 Let‘s Encrypt 证书申请  
-    $ kubectl describe challenges -n istio-ingress
-    $ kubectl describe certificate -n istio-ingress
-	$ kubectl get secret -n istio-ingress
-	
-	证书申请失败后，配置DNS，删除secret自动重试  
-	$ kubectl delete secret {tmpSecretName} -n istio-ingress
 	
 	修改 IstioOperator 配置后重启
 	$ kubectl get deploy -A
