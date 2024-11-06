@@ -167,9 +167,9 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	https://github.com/istio/istio/releases
 	
 	master节点即可（手动上传文件，下载较慢）
-	$ wget https://renlm.github.io/download/istio-1.23.2-linux-amd64.tar.gz
-	$ tar -zxvf istio-1.23.2-linux-amd64.tar.gz -C /usr/local/
-	$ ln -sf /usr/local/istio-1.23.2 /usr/local/istio
+	$ wget https://renlm.github.io/download/istio-1.23.3-linux-amd64.tar.gz
+	$ tar -zxvf istio-1.23.3-linux-amd64.tar.gz -C /usr/local/
+	$ ln -sf /usr/local/istio-1.23.3 /usr/local/istio
 	$ sed -i '$a export PATH=/usr/local/istio/bin:$PATH' ~/.bashrc
 	$ source ~/.bashrc
 	$ istioctl version
