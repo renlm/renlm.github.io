@@ -177,8 +177,8 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	安装istio组件
 	$ istioctl install -y --set profile=minimal
 	$ kubectl create namespace istio-ingress
-	$ wget https://renlm.github.io/helm/istio.yaml
-	$ istioctl install -y -f istio.yaml
+	$ wget https://renlm.github.io/helm/istio.install.yaml
+	$ istioctl install -y -f istio.install.yaml
 	
 	修改 IstioOperator 配置后重启
 	$ kubectl get deploy -A

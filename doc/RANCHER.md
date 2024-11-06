@@ -1,6 +1,10 @@
 # RANCHER（Ubuntu）
 
 ## 安装 rancher
+	配置网关（外部 Nginx 负载均衡）
+	$ wget https://renlm.github.io/helm/istio.rancher.yaml
+	$ kubectl apply -f istio.rancher.yaml
+
 	添加 Helm Chart 仓库
 	https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/install-upgrade-on-a-kubernetes-cluster
 	$ helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
