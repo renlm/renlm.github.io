@@ -4,6 +4,7 @@
 	配置网关（外部 Nginx 负载均衡）
 	$ wget https://github-io.renlm.cn/helm/istio.rancher.yaml
 	$ kubectl apply -f istio.rancher.yaml
+	$ kubectl describe certificate -n istio-ingress
 
 	添加 Helm Chart 仓库
 	https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/install-upgrade-on-a-kubernetes-cluster
