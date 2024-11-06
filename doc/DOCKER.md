@@ -2,7 +2,7 @@
 
 ## 安装与使用
 	$ apt update
-	$ apt install -y docker.io docker-buildx docker-compose
+	$ apt install -y tree docker.io docker-buildx docker-compose
 
 ```
 镜像加速
@@ -108,36 +108,73 @@ WantedBy=multi-user.target
 EOF
 ```
 
-## Containerd
-	$ mkdir -vp /etc/containerd
-	$ containerd config default > /etc/containerd/config.toml
-	添加镜像代理并重启
-	$ vi /etc/containerd/config.toml
-	$ systemctl daemon-reload && systemctl restart containerd
+## Containerd（可选）
+	安装crictl
+	https://github.com/kubernetes-sigs/cri-tools
+	$ VERSION="v1.31.1"
+	$ wget https://github.renlm.cn/kubernetes-sigs/cri-tools/releases/download/$VERSION/crictl-$VERSION-linux-amd64.tar.gz
+	$ tar zxvf crictl-$VERSION-linux-amd64.tar.gz -C /usr/local/bin
+	$ rm -f crictl-$VERSION-linux-amd64.tar.gz
 
 ```
-https://github.com/containerd/cri/blob/master/docs/registry.md
+https://github.com/kubernetes-sigs/cri-tools/blob/master/docs/crictl.md
+$ cat <<EOF | tee /etc/crictl.yaml
+runtime-endpoint: unix:///run/containerd/containerd.sock
+image-endpoint: unix:///run/containerd/containerd.sock
+timeout: 2
+debug: true
+pull-image-on-create: false
+EOF
+```
+	
+	镜像代理
+	$ mkdir -p /etc/containerd/certs.d/{docker.io,gcr.io,ghcr.io,quay.io,registry.k8s.io}
+	$ cd /etc/containerd/certs.d
+	$ wget https://github-io.renlm.cn/download/containerd/registry-certs.d/docker.io/hosts.toml -O docker.io/hosts.toml
+	$ wget https://github-io.renlm.cn/download/containerd/registry-certs.d/gcr.io/hosts.toml -O gcr.io/hosts.toml
+	$ wget https://github-io.renlm.cn/download/containerd/registry-certs.d/ghcr.io/hosts.toml -O ghcr.io/hosts.toml
+	$ wget https://github-io.renlm.cn/download/containerd/registry-certs.d/quay.io/hosts.toml -O quay.io/hosts.toml
+	$ wget https://github-io.renlm.cn/download/containerd/registry-certs.d/registry.k8s.io/hosts.toml -O registry.k8s.io/hosts.toml
 
+```
+$ ctr image pull --hosts-dir /etc/containerd/certs.d docker.io/nginx:latest
+$ ctr image pull --hosts-dir /etc/containerd/certs.d gcr.io/kubebuilder/kube-rbac-proxy:v0.13.1
+$ ctr image pull --hosts-dir /etc/containerd/certs.d ghcr.io/graalvm/jdk-community:23.0.1
+$ ctr image pull --hosts-dir /etc/containerd/certs.d quay.io/jetstack/cert-manager-webhook:v1.16.1
+$ ctr image pull --hosts-dir /etc/containerd/certs.d registry.k8s.io/pause:3.8
+$ tree /etc/containerd/certs.d
+/etc/containerd/certs.d
+├── docker.io
+│   └── hosts.toml
+├── gcr.io
+│   └── hosts.toml
+├── ghcr.io
+│   └── hosts.toml
+├── quay.io
+│   └── hosts.toml
+└── registry.k8s.io
+    └── hosts.toml
+```
+
+```
+修改配置并重启
+https://github.com/containerd/containerd/blob/main/docs/cri/registry.md
+$ containerd --version
+$ containerd config default > /etc/containerd/config.toml
+$ vi /etc/containerd/config.toml
+$ service containerd restart
+$ crictl image ls
+$ crictl pull docker.io/nginx:latest
+$ crictl pull gcr.io/kubebuilder/kube-rbac-proxy:v0.13.1
+$ crictl pull ghcr.io/graalvm/jdk-community:23.0.1
+$ crictl pull quay.io/jetstack/cert-manager-webhook:v1.16.1
+$ crictl pull registry.k8s.io/pause:3.8
+
+In containerd 1.x
 ...
 
-      [plugins."io.containerd.grpc.v1.cri".registry.configs]
-        [plugins."io.containerd.grpc.v1.cri".registry.configs."harbor.renlm.cn".auth]
-          username = "harbor"
-          password = "123654"
-
-...
-
-      [plugins."io.containerd.grpc.v1.cri".registry.mirrors]
-        [plugins."io.containerd.grpc.v1.cri".registry.mirrors."docker.io"]
-          endpoint = ["https://docker-io.renlm.cn/v2"]
-        [plugins."io.containerd.grpc.v1.cri".registry.mirrors."gcr.io"]
-          endpoint = ["https://gcr-io.renlm.cn/v2"]
-        [plugins."io.containerd.grpc.v1.cri".registry.mirrors."ghcr.io"]
-          endpoint = ["https://ghcr-io.renlm.cn/v2"]
-        [plugins."io.containerd.grpc.v1.cri".registry.mirrors."quay.io"]
-          endpoint = ["https://quay-io.renlm.cn/v2"]
-        [plugins."io.containerd.grpc.v1.cri".registry.mirrors."harbor.renlm.cn"]
-          endpoint = ["https://harbor.renlm.cn/v2"]
+    [plugins."io.containerd.grpc.v1.cri".registry]
+      config_path = "/etc/containerd/certs.d"
 
 ...
 
