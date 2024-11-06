@@ -177,11 +177,4 @@ In containerd 1.x
 
 ...
 
-      [plugins."io.containerd.grpc.v1.cri".registry.configs]
-        [plugins."io.containerd.grpc.v1.cri".registry.configs."harbor.renlm.cn".auth]
-          username = "harbor"
-          password = "123654"
-
-...
-
 ```
