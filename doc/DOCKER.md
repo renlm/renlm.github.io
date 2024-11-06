@@ -150,6 +150,12 @@ https://github.com/containerd/containerd/blob/main/docs/cri/registry.md
 $ containerd --version
 $ containerd config default > /etc/containerd/config.toml
 $ vi /etc/containerd/config.toml
+$ service containerd restart
+$ crictl pull docker.io/nginx:latest
+$ crictl pull gcr.io/kubebuilder/kube-rbac-proxy:v0.13.1
+$ crictl pull ghcr.io/graalvm/jdk-community:23.0.1
+$ crictl pull quay.io/jetstack/cert-manager-webhook:v1.16.1
+$ crictl pull registry.k8s.io/pause:3.8
 
 ...
 
