@@ -169,13 +169,9 @@ $ crictl pull ghcr.io/graalvm/jdk-community:23.0.1
 $ crictl pull quay.io/jetstack/cert-manager-webhook:v1.16.1
 $ crictl pull registry.k8s.io/pause:3.8
 
+In containerd 1.x
 ...
 
-In containerd 2.x
-    [plugins."io.containerd.cri.v1.images".registry]
-      config_path = "/etc/containerd/certs.d"
-
-In containerd 1.x
     [plugins."io.containerd.grpc.v1.cri".registry]
       config_path = "/etc/containerd/certs.d"
 
