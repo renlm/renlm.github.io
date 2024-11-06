@@ -120,7 +120,9 @@ EOF
 https://github.com/containerd/containerd/blob/main/docs/cri/registry.md
 $ ctr image pull --hosts-dir /etc/containerd/certs.d registry.k8s.io/pause:3.8
 $ ctr image pull --hosts-dir /etc/containerd/certs.d docker.io/nginx:latest
+$ ctr image pull --hosts-dir /etc/containerd/certs.d gcr.io/kubebuilder/kube-rbac-proxy:v0.13.1
 $ ctr image pull --hosts-dir /etc/containerd/certs.d ghcr.io/graalvm/jdk-community:23.0.1
+$ ctr image pull --hosts-dir /etc/containerd/certs.d quay.io/jetstack/cert-manager-webhook:v1.16.1
 $ tree /etc/containerd/certs.d
 /etc/containerd/certs.d
 ├── docker.io
