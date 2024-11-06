@@ -18,6 +18,14 @@ items:
         name: http
       hosts:
       - rancher.renlm.cn
+    - port:
+        number: 443
+        protocol: HTTPS
+        name: tls
+      hosts:
+      - kubernetes.renlm.cn
+      tls:
+        mode: PASSTHROUGH
 - apiVersion: networking.istio.io/v1
   kind: VirtualService
   metadata:
@@ -36,3 +44,23 @@ items:
           host: rancher.cattle-system.svc.cluster.local
           port:
             number: 80
+- apiVersion: networking.istio.io/v1
+  kind: VirtualService
+  metadata:
+    name: kubernetes
+    namespace: istio-ingress
+  spec:
+    hosts:
+    - kubernetes.renlm.cn
+    gateways:
+    - gateway
+    tls:
+    - match:
+      - port: 443
+        sniHosts:
+        - kubernetes.renlm.cn
+      route:
+      - destination:
+          host: kubernetes.default.svc.cluster.local
+          port:
+            number: 443
