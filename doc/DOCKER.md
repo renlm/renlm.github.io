@@ -107,7 +107,15 @@ WantedBy=multi-user.target
 EOF
 ```
 
-## Containerd
+## Containerd（可选）
+	安装crictl
+	https://github.com/kubernetes-sigs/cri-tools
+	$ VERSION="v1.31.1"
+	$ wget https://github.renlm.cn/kubernetes-sigs/cri-tools/releases/download/$VERSION/crictl-$VERSION-linux-amd64.tar.gz
+	$ tar zxvf crictl-$VERSION-linux-amd64.tar.gz -C /usr/local/bin
+	$ rm -f crictl-$VERSION-linux-amd64.tar.gz
+	
+	镜像代理
 	$ mkdir -p /etc/containerd/certs.d/{docker.io,gcr.io,ghcr.io,quay.io,registry.k8s.io}
 	$ cd /etc/containerd/certs.d
 	$ wget https://github-io.renlm.cn/download/containerd/registry-certs.d/docker.io/hosts.toml -O docker.io/hosts.toml
@@ -117,7 +125,6 @@ EOF
 	$ wget https://github-io.renlm.cn/download/containerd/registry-certs.d/registry.k8s.io/hosts.toml -O registry.k8s.io/hosts.toml
 
 ```
-https://github.com/containerd/containerd/blob/main/docs/cri/registry.md
 $ ctr image pull --hosts-dir /etc/containerd/certs.d docker.io/nginx:latest
 $ ctr image pull --hosts-dir /etc/containerd/certs.d gcr.io/kubebuilder/kube-rbac-proxy:v0.13.1
 $ ctr image pull --hosts-dir /etc/containerd/certs.d ghcr.io/graalvm/jdk-community:23.0.1
@@ -135,4 +142,32 @@ $ tree /etc/containerd/certs.d
 │   └── hosts.toml
 └── registry.k8s.io
     └── hosts.toml
+```
+
+```
+修改配置并重启
+https://github.com/containerd/containerd/blob/main/docs/cri/registry.md
+$ containerd --version
+$ containerd config default > /etc/containerd/config.toml
+$ vi /etc/containerd/config.toml
+
+...
+
+In containerd 2.x
+    [plugins."io.containerd.cri.v1.images".registry]
+      config_path = "/etc/containerd/certs.d"
+
+In containerd 1.x
+    [plugins."io.containerd.grpc.v1.cri".registry]
+      config_path = "/etc/containerd/certs.d"
+
+...
+
+      [plugins."io.containerd.grpc.v1.cri".registry.configs]
+        [plugins."io.containerd.grpc.v1.cri".registry.configs."harbor.renlm.cn".auth]
+          username = "harbor"
+          password = "123654"
+
+...
+
 ```
