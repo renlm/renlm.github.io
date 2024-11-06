@@ -1,4 +1,5 @@
-# https://istio.io/latest/zh/docs/tasks/traffic-management/ingress/kubernetes-ingress/
+# https://istio.io/latest/zh/docs/reference/config/networking/gateway/
+# https://istio.io/latest/zh/docs/reference/config/networking/virtual-service/
 apiVersion: v1
 kind: List
 items:
