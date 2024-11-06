@@ -54,6 +54,7 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
 	$ docker-compose -f /root/ConfigRepo/docker/other/zookeeper/docker-compose.yml up -d
 	$ docker-compose -f /root/ConfigRepo/docker/other/elasticsearch/docker-compose.yml up -d
 	$ docker-compose -f /root/ConfigRepo/docker/other/jenkins/docker-compose.yml up -d
+	$ docker-compose -f /root/ConfigRepo/docker/volumes/mygraph/docker-compose.yml up -d
 	$ rm -fr /etc/nginx/conf.d && ln -sf /root/ConfigRepo/nginx/conf.d /etc/nginx/conf.d
 	$ ln -sf /root/ConfigRepo/nginx/modules-enabled/zookeeper.conf /etc/nginx/modules-enabled/zookeeper.conf
 	$ nginx -v
