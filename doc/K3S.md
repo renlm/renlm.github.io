@@ -69,6 +69,9 @@ mirrors:
   quay.io:
     endpoint:
     - https://quay-io.renlm.cn
+  registry.k8s.io:
+    endpoint:
+    - https://registry-k8s-io.renlm.cn
 configs:
   "harbor.renlm.cn":
     auth:
