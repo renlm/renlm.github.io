@@ -4,7 +4,7 @@
 <a href="https://go.dev/dl/" target="_blank">https://<span></span>go.dev/dl/</a>  
 <a href="https://dl.google.com/go/go1.23.3.windows-amd64.zip" target="_blank">https://<span></span>dl.google.com/go/go1.23.3.windows-amd64.zip</a>  
 	
-	GOROOT：安装根目录的路径
+	GOROOT：环境变量（安装根目录的路径）
 	$ go env -w GOPATH=C:\GO\PATH
 	$ go env -w GOBIN=C:\GO\BIN
 	$ go version
