@@ -12,9 +12,12 @@
 	$ go env -w GO111MODULE=on
 	$ go env -w GOPROXY=https://goproxy.cn,direct
 	$ go env -w GOSUMDB=goproxy.cn/sumdb/sum.golang.org
+	$ go env -w GOPATH=C:\GO\PATH
 	
 ## VSCode
-	安装插件（GO、CodeRunner）
+	安装插件
+		GO
+		CodeRunner
 
 ```
 go mod download    下载依赖的module到本地cache（默认为$GOPATH/pkg/mod目录）
