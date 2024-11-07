@@ -4,15 +4,14 @@
 <a href="https://go.dev/dl/" target="_blank">https://<span></span>go.dev/dl/</a>  
 <a href="https://dl.google.com/go/go1.23.3.windows-amd64.zip" target="_blank">https://<span></span>dl.google.com/go/go1.23.3.windows-amd64.zip</a>  
 	
-	GOROOT：Go 语言安装根目录的路径，也就是 GO 语言的安装路径
-	GOBIN：GO 程序生成的可执行文件（executable file）的路径
-	GOPATH：若干工作区目录的路径，是我们自己定义的工作空间
+	GOROOT：安装根目录的路径
+	$ go env -w GOPATH=C:\GO\PATH
+	$ go env -w GOBIN=C:\GO\BIN
 	$ go version
 	$ go env
 	$ go env -w GO111MODULE=on
 	$ go env -w GOPROXY=https://goproxy.cn,direct
 	$ go env -w GOSUMDB=goproxy.cn/sumdb/sum.golang.org
-	$ go env -w GOPATH=C:\GO\PATH
 	
 ## VSCode
 	安装插件
