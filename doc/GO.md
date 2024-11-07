@@ -11,3 +11,8 @@
 	$ go env
 	$ go env -w GO111MODULE=on
 	$ go env -w GOPROXY=https://goproxy.cn,direct
+	
+## VSCode
+	新建目录hello
+	$ cd hello
+	$ go mod init hello
