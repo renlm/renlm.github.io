@@ -14,5 +14,5 @@
 	
 ## VSCode
 	新建目录hello
-	$ cd hello
+	打开目录并安装插件（GO、CodeRunner）
 	$ go mod init hello
