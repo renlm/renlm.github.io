@@ -39,8 +39,6 @@ items:
       organizations:
       - renlm.cn
     dnsNames:
-    - renlm.cn
-    - www.renlm.cn
     - rancher.renlm.cn
     issuerRef:
       name: letsencrypt-issuer
@@ -59,16 +57,12 @@ items:
         protocol: HTTP
         name: http
       hosts:
-      - renlm.cn
-      - www.renlm.cn
       - rancher.renlm.cn
     - port:
         number: 443
         protocol: HTTPS
         name: https
       hosts:
-      - renlm.cn
-      - www.renlm.cn
       - rancher.renlm.cn
       tls:
         mode: SIMPLE
