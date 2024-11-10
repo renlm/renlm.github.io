@@ -5,6 +5,9 @@
 	$ wget https://github-io.renlm.cn/helm/istio.rancher.yaml
 	$ kubectl apply -f istio.rancher.yaml
 	$ kubectl describe certificate -n istio-ingress
+	$ kubectl get secret -n istio-ingress
+	证书申请失败后，配置DNS，删除secret自动重试
+	$ kubectl delete secret {tmpSecretName} -n istio-ingress
 
 	添加 Helm Chart 仓库
 	https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/install-upgrade-on-a-kubernetes-cluster
