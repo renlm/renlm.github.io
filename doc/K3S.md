@@ -60,15 +60,17 @@ mirrors:
     - https://harbor.renlm.cn
     rewrite:
       "(.*)": "docker.io/$1"
+  quay.io:
+    endpoint:
+    - https://harbor.renlm.cn
+    rewrite:
+      "(.*)": "quay.io/$1"
   gcr.io:
     endpoint:
     - https://gcr-io.renlm.cn
   ghcr.io:
     endpoint:
     - https://ghcr-io.renlm.cn
-  quay.io:
-    endpoint:
-    - https://quay-io.renlm.cn
   registry.k8s.io:
     endpoint:
     - https://registry-k8s-io.renlm.cn
