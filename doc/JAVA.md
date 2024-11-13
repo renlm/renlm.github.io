@@ -56,13 +56,12 @@ Lombok插件安装
 ```
 
 ```
-查询 Git Bash 命令位置，打开配置终端设置
-添加自定义终端配置 [ Windows Git Bash ] 并设为默认
-$ where bash
+打开配置终端设置，bash命令位于Git安装目录bin中
+添加自定义 [ Windows Git Bash ] 并设为默认
 {
     "terminal.integrated.profiles.windows": {
         "Windows Git Bash": {
-            "path": "E:\\Git\\usr\\bin\\bash.exe"
+            "path": "C:\\Git\\bin\\bash.exe"
         }
     },
     "terminal.integrated.defaultProfile.windows": "Windows Git Bash"
