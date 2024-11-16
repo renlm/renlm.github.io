@@ -173,8 +173,13 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	$ kubectl create namespace istio-ingress
 	$ wget https://github-io.renlm.cn/helm/istio.install.yaml
 	$ istioctl install -y -f istio.install.yaml
+	
+	可视化
 	$ kubectl apply -f $ISTIO_PATH/samples/addons/prometheus.yaml
 	$ kubectl apply -f $ISTIO_PATH/samples/addons/kiali.yaml
+	$ kubectl apply -f $ISTIO_PATH/samples/addons/grafana.yaml
+	https://opentelemetry.io/docs/kubernetes/operator/
+	$ kubectl apply -f https://github.renlm.cn/open-telemetry/opentelemetry-operator/releases/latest/download/opentelemetry-operator.yaml
 	
 	修改 IstioOperator 配置后重启
 	$ kubectl get deploy -A
