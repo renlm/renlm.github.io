@@ -169,8 +169,9 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	$ istioctl version
 	
 	安装istio组件
-	$ istioctl install -y --set profile=minimal
+	$ kubectl create namespace istio-system
 	$ kubectl create namespace istio-ingress
+	$ istioctl install -y --set profile=minimal
 	$ wget https://github-io.renlm.cn/helm/istio.install.yaml
 	$ istioctl install -y -f istio.install.yaml
 	
