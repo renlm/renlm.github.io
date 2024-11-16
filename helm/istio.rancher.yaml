@@ -43,6 +43,7 @@ items:
     - www.renlm.cn
     - rancher.renlm.cn
     - grafana.renlm.cn
+    - amqp.renlm.cn
     issuerRef:
       name: letsencrypt-issuer
       kind: ClusterIssuer
@@ -64,6 +65,7 @@ items:
       - www.renlm.cn
       - rancher.renlm.cn
       - grafana.renlm.cn
+      - amqp.renlm.cn
     - port:
         number: 443
         protocol: HTTPS
@@ -73,6 +75,7 @@ items:
       - www.renlm.cn
       - rancher.renlm.cn
       - grafana.renlm.cn
+      - amqp.renlm.cn
       tls:
         mode: SIMPLE
         credentialName: tls-istio-gateway
