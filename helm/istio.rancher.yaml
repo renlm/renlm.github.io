@@ -85,6 +85,24 @@ items:
       - kubernetes.renlm.cn
       tls:
         mode: PASSTHROUGH
+    - port:
+        number: 6379
+        protocol: TCP
+        name: redis
+      hosts:
+      - redis.io
+    - port:
+        number: 5432
+        protocol: TCP
+        name: postgres
+      hosts:
+      - postgres.io
+    - port:
+        number: 5672
+        protocol: TCP
+        name: amqp
+      hosts:
+      - amqp.io
 - apiVersion: networking.istio.io/v1
   kind: VirtualService
   metadata:
