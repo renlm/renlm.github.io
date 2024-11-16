@@ -189,5 +189,6 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 ```
 Grafana禁用匿名登录并持久化存储
 修改环境变量：GF_AUTH_ANONYMOUS_ENABLED=false
-挂载ConfigMap：/etc/grafana/custom.ini
+修改环境变量：GF_DATABASE_URL=postgres://grafana:pwd@postgres:5432/grafana
+修改环境变量：GF_DATABASE_SSL_MODE=disable
 ```
