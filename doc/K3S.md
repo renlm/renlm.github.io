@@ -177,8 +177,8 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	
 	可视化
 	$ kubectl apply -f $ISTIO_PATH/samples/addons/prometheus.yaml
-	$ kubectl apply -f $ISTIO_PATH/samples/addons/kiali.yaml
 	$ kubectl apply -f $ISTIO_PATH/samples/addons/grafana.yaml
+	$ kubectl apply -f $ISTIO_PATH/samples/addons/kiali.yaml
 	https://opentelemetry.io/docs/kubernetes/operator/
 	$ kubectl apply -f https://github.renlm.cn/open-telemetry/opentelemetry-operator/releases/latest/download/opentelemetry-operator.yaml
 	
