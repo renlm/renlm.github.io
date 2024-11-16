@@ -163,7 +163,8 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	$ wget https://github-io.renlm.cn/download/istio-1.23.3-linux-amd64.tar.gz
 	$ tar -zxvf istio-1.23.3-linux-amd64.tar.gz -C /usr/local/
 	$ ln -sf /usr/local/istio-1.23.3 /usr/local/istio
-	$ sed -i '$a export PATH=/usr/local/istio/bin:$PATH' ~/.bashrc
+	$ sed -i '$a export ISTIO_PATH=/usr/local/istio' ~/.bashrc
+	$ sed -i '$a export PATH=$ISTIO_PATH/bin:$PATH' ~/.bashrc
 	$ source ~/.bashrc
 	$ istioctl version
 	
@@ -172,6 +173,8 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	$ kubectl create namespace istio-ingress
 	$ wget https://github-io.renlm.cn/helm/istio.install.yaml
 	$ istioctl install -y -f istio.install.yaml
+	$ kubectl apply -f $ISTIO_PATH/samples/addons/prometheus.yaml
+	$ kubectl apply -f $ISTIO_PATH/samples/addons/kiali.yaml
 	
 	修改 IstioOperator 配置后重启
 	$ kubectl get deploy -A
