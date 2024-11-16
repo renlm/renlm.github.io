@@ -22,7 +22,7 @@ spec:
           ports:
           - port: 15021
             targetPort: 15021
-            name: status-port
+            name: tcp-status
             protocol: TCP
           - port: 80
             targetPort: 8080
@@ -34,15 +34,15 @@ spec:
             protocol: TCP
           - port: 6379
             targetPort: 6379
-            name: redis
+            name: tcp-redis
             protocol: TCP
           - port: 5432
             targetPort: 5432
-            name: postgres
+            name: tcp-postgres
             protocol: TCP
           - port: 5672
             targetPort: 5672
-            name: amqp
+            name: tcp-amqp
             protocol: TCP
   values:
     gateways:
