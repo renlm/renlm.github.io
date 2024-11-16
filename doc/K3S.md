@@ -185,3 +185,17 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	修改 IstioOperator 配置后重启
 	$ kubectl get deploy -A
 	$ kubectl rollout restart deploy/istio-ingressgateway -n istio-ingress
+
+```
+Grafana禁用匿名登录并持久化存储
+修改环境变量GF_AUTH_ANONYMOUS_ENABLED=false
+编辑grafana.ini（ConfigMap），参考：/usr/share/grafana/conf/sample.ini
+新增数据库信息
+[database]
+type = postgres
+host = postgres.dev:5432
+name = local
+user = local
+password = pwd
+ssl_mode = disable
+```
