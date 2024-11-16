@@ -46,7 +46,7 @@ items:
 - apiVersion: networking.istio.io/v1
   kind: Gateway
   metadata:
-    name: gateway
+    name: istio-gateway
     namespace: istio-ingress
   spec:
     selector:
@@ -85,13 +85,14 @@ items:
     hosts:
     - rancher.renlm.cn
     gateways:
-    - gateway
+    - istio-gateway
     http:
     - match:
       - port: 80
       - port: 443
       route:
-      - destination:
+      - weight: 100
+        destination:
           host: rancher.cattle-system.svc.cluster.local
           port:
             number: 80
@@ -104,14 +105,15 @@ items:
     hosts:
     - kubernetes.renlm.cn
     gateways:
-    - gateway
+    - istio-gateway
     tls:
     - match:
       - port: 443
         sniHosts:
         - kubernetes.renlm.cn
       route:
-      - destination:
+      - weight: 100
+        destination:
           host: kubernetes.default.svc.cluster.local
           port:
             number: 443
