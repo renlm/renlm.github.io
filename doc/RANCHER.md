@@ -49,6 +49,20 @@
 	$ helm ls -A
 	$ helm uninstall rancher -n cattle-system
 
+## Grafana 设置
+
+```
+禁用匿名登录并持久化存储
+修改工作负载环境变量：
+GF_AUTH_ANONYMOUS_ENABLED=false
+GF_DATABASE_TYPE=postgres
+GF_DATABASE_HOST=postgres.dev:5432
+GF_DATABASE_NAME=grafana
+GF_DATABASE_USER=grafana
+GF_DATABASE_PASSWORD=pwd
+GF_DATABASE_SSL_MODE=disable
+```
+
 ## MTU 设置（可选）
 	使用 rancher 创建的集群
 	为保障通信，集群节点规格不一致时，需要统一MTU
