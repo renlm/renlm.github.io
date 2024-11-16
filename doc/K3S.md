@@ -79,7 +79,7 @@ EOF
 	https://github.com/helm/helm/releases/
 	
 	master节点即可（手动上传文件，下载较慢）
-	$ wget https://renlm.github.io/download/helm-v3.16.2-linux-amd64.tar.gz
+	$ wget https://github-io.renlm.cn/download/helm-v3.16.2-linux-amd64.tar.gz
 	$ tar -zxvf helm-v3.16.2-linux-amd64.tar.gz -C /usr/local/ --transform="s/linux-amd64/helm-v3.16.2/g"
 	$ ln -sf /usr/local/helm-v3.16.2 /usr/local/helm
 	$ sed -i '$a export PATH=/usr/local/helm:$PATH' ~/.bashrc
@@ -169,7 +169,6 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	$ istioctl version
 	
 	安装istio组件
-	$ kubectl create namespace istio-system
 	$ kubectl create namespace istio-ingress
 	$ istioctl install -y --set profile=minimal
 	$ wget https://github-io.renlm.cn/helm/istio.install.yaml
