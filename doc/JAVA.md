@@ -55,6 +55,19 @@ Lombok插件安装
 选择 中文(简体)zh-cn
 ```
 
+```
+打开配置终端设置，bash命令位于Git安装目录bin中
+添加自定义 [ Windows Git Bash ] 并设为默认
+{
+    "terminal.integrated.profiles.windows": {
+        "Windows Git Bash": {
+            "path": "C:\\Git\\bin\\bash.exe"
+        }
+    },
+    "terminal.integrated.defaultProfile.windows": "Windows Git Bash"
+}
+```
+
 ## MobaXterm
 远程连接工具，免费开源  
 <a href="https://mobaxterm.mobatek.net/" target="_blank">https://<span></span>mobaxterm.mobatek.net/</a>  
