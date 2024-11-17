@@ -6,16 +6,9 @@ metadata:
 spec:
   profile: empty
   meshConfig:
-    enableTracing: true
     defaultConfig:
-      tracing: {}
       gatewayTopology:
         numTrustedProxies: 5
-    extensionProviders:
-    - name: otel-tracing
-      opentelemetry:
-        port: 4317
-        service: otel-collector.observability.svc.cluster.local
   components:
     ingressGateways:
     - name: istio-ingressgateway
