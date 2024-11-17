@@ -48,12 +48,15 @@
 	卸载
 	$ helm ls -A
 	$ helm uninstall rancher -n cattle-system
+	
+## Prometheus 访问
+	主页链接添加代理访问地址
+	https://rancher.renlm.cn/api/v1/namespaces/istio-system/services/http:prometheus:9090/proxy
 
 ## Grafana 设置
-	监控面板
-	https://grafana.com/grafana/dashboards/10001-jaeger/
 
 ```
+https://grafana.com/grafana/dashboards
 禁用匿名登录并持久化存储
 修改工作负载环境变量：
 GF_AUTH_ANONYMOUS_ENABLED=false
