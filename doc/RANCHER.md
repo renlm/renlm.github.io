@@ -50,6 +50,7 @@
 	$ helm uninstall rancher -n cattle-system
 
 ## Grafana 设置
+	监控面板
 	https://grafana.com/grafana/dashboards/10001-jaeger/
 
 ```
