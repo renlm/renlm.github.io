@@ -50,6 +50,7 @@
 	$ helm uninstall rancher -n cattle-system
 
 ## Grafana 设置
+	https://grafana.com/grafana/dashboards/10001-jaeger/
 
 ```
 禁用匿名登录并持久化存储
