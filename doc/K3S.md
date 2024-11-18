@@ -184,6 +184,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	$ istioctl kube-inject -f $ISTIO_PATH/samples/addons/grafana.yaml | kubectl apply -f -
 	
 	https://opentelemetry.io/docs/kubernetes/operator/
+	$ kubectl create namespace observability
 	$ kubectl apply -f https://github.renlm.cn/open-telemetry/opentelemetry-operator/releases/latest/download/opentelemetry-operator.yaml
 	
 	修改 IstioOperator 配置后重启
