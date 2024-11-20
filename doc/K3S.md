@@ -141,7 +141,12 @@ $ wget https://github.renlm.cn/k3s-io/k3s/releases/download/v1.30.6+k3s1/k3s -O 
 $ chmod +x /usr/local/bin/k3s
 $ k3s --help
 $ k3s --version
-$ k3s kubectl get nodes
+
+设置命令别名
+$ sed -i '$a alias kubectl="k3s kubectl"' ~/.bashrc
+$ sed -i '$a alias ctr="k3s ctr"' ~/.bashrc
+$ sed -i '$a alias crictl="k3s crictl"' ~/.bashrc
+$ source ~/.bashrc
 
 # master主节点
 $ k3s server --token SECRET --disable=traefik --tls-san k3s.master --tls-san kubernetes.renlm.cn --cluster-init &
