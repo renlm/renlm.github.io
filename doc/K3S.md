@@ -99,7 +99,7 @@ EOF
 	$ sed -i '$a alias crictl="k3s crictl"' ~/.bashrc
 	$ source ~/.bashrc
 	
-	设置主节点host(192.168.16.3)
+	设置主节点host
 	安装的每个节点机器执行
 	$ sed -i '$a 192.168.16.3 k3s.master' /etc/hosts
 	
