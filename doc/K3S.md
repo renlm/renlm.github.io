@@ -43,14 +43,8 @@ EOF
 $ systemctl daemon-reload
 ```
 
-## 私有镜像仓库配置
+## 配置镜像代理
 ```
-离线镜像包（备选）
-https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/other-installation-methods/air-gapped-helm-cli-install/install-kubernetes
-$ wget https://github.com/k3s-io/k3s/releases/download/v1.30.6+k3s1/k3s-airgap-images-amd64.tar
-$ mkdir -p /var/lib/rancher/k3s/agent/images/
-$ cp ./k3s-airgap-images-amd64.tar /var/lib/rancher/k3s/agent/images/
-配置镜像代理（首选）
 https://docs.k3s.io/zh/installation/private-registry
 $ mkdir -p /etc/rancher/k3s
 $ cat <<-'EOF' | tee /etc/rancher/k3s/registries.yaml
@@ -87,97 +81,49 @@ EOF
 	$ helm version
 
 ## 安装 k3s
+	https://github.com/k3s-io/k3s/
 	https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-9-3/
-	https://docs.rancher.cn/docs/k3s/installation/ha/_index/
-	https://github.com/k3s-io/k3s/releases/
+	$ wget https://github.renlm.cn/k3s-io/k3s/releases/download/v1.30.6+k3s1/k3s -O /usr/local/bin/k3s
+	$ chmod +x /usr/local/bin/k3s
+	$ k3s --help
+	$ k3s --version
 	
-	restorecon
-	$ apt-get update
-	$ apt-get install -y policycoreutils
+	离线镜像包
+	$ wget https://github.renlm.cn/k3s-io/k3s/releases/download/v1.30.6+k3s1/k3s-airgap-images-amd64.tar
+	$ mkdir -p /var/lib/rancher/k3s/agent/images/
+	$ cp ./k3s-airgap-images-amd64.tar /var/lib/rancher/k3s/agent/images/
+	
+	设置命令别名
+	$ sed -i '$a alias kubectl="k3s kubectl"' ~/.bashrc
+	$ sed -i '$a alias ctr="k3s ctr"' ~/.bashrc
+	$ sed -i '$a alias crictl="k3s crictl"' ~/.bashrc
+	$ source ~/.bashrc
 	
 	设置主节点host(192.168.16.3)
 	安装的每个节点机器执行
 	$ sed -i '$a 192.168.16.3 k3s.master' /etc/hosts
-		
-```	
-# master主节点
-# 禁用traefik，安装istio替代
-$ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
-    INSTALL_K3S_MIRROR=cn \
-    INSTALL_K3S_VERSION=v1.30.6+k3s1 \
-    K3S_TOKEN=SECRET \
-    sh -s - server \
-    --disable=traefik \
-    --tls-san k3s.master \
-    --tls-san kubernetes.renlm.cn \
-    --cluster-init
-```
-
-```	
-# master从节点
-$ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
-    INSTALL_K3S_MIRROR=cn \
-    INSTALL_K3S_VERSION=v1.30.6+k3s1 \
-    K3S_TOKEN=SECRET \
-    sh -s - server \
-    --disable=traefik \
-    --server https://k3s.master:6443
-```
-
-```	
-# agent节点
-$ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
-    INSTALL_K3S_MIRROR=cn \
-    INSTALL_K3S_VERSION=v1.30.6+k3s1 \
-    K3S_TOKEN=SECRET \
-    sh -s - agent \
-    --server https://k3s.master:6443
-```
-
-```
-安装方式二：
-https://github.com/k3s-io/k3s/
-$ wget https://github.renlm.cn/k3s-io/k3s/releases/download/v1.30.6+k3s1/k3s -O /usr/local/bin/k3s
-$ chmod +x /usr/local/bin/k3s
-$ k3s --help
-$ k3s --version
-
-设置命令别名
-$ sed -i '$a alias kubectl="k3s kubectl"' ~/.bashrc
-$ sed -i '$a alias ctr="k3s ctr"' ~/.bashrc
-$ sed -i '$a alias crictl="k3s crictl"' ~/.bashrc
-$ source ~/.bashrc
-
-# master主节点
-$ k3s server --token SECRET --disable=traefik --tls-san k3s.master --tls-san kubernetes.renlm.cn --cluster-init > k3s.log 2>&1
-# master从节点
-$ k3s server --token SECRET --disable=traefik --server https://k3s.master:6443 > k3s.log 2>&1
-# agent节点
-$ k3s agent --token SECRET --server https://k3s.master:6443 > k3s.log 2>&1
-```
-
-	环境变量KUBECONFIG（master）
-	https://docs.ranchermanager.rancher.io/zh/how-to-guides/new-user-guides/kubernetes-cluster-setup/k3s-for-rancher
-	$ cp /etc/rancher/k3s/k3s.yaml /etc/rancher/k3s/KUBECONFIG.yaml
-	$ sed -i '$a export KUBECONFIG=/etc/rancher/k3s/KUBECONFIG.yaml' ~/.bashrc
-	$ source ~/.bashrc
 	
+	master主节点
+	$ k3s server --token SECRET --disable=traefik --tls-san k3s.master --tls-san kubernetes.renlm.cn --cluster-init > k3s.log 2>&1
+	master从节点
+	$ k3s server --token SECRET --disable=traefik --server https://k3s.master:6443 > k3s.log 2>&1
+	agent节点
+	$ k3s agent --token SECRET --server https://k3s.master:6443 > k3s.log 2>&1
+
 	验证k3s（master）
 	$ kubectl get nodes
 	$ kubectl version --output=json
 	
 	查看镜像
-	$ k3s ctr image ls
+	$ ctr image ls
 
 ## 安装 cert-manager
-	配置环境变量KUBECONFIG
 	https://cert-manager.io/docs/installation/helm/
 	$ wget https://github.renlm.cn/cert-manager/cert-manager/releases/download/v1.16.1/cert-manager.yaml
 	$ kubectl apply -f cert-manager.yaml
 	$ kubectl get pods --namespace cert-manager
 	
 ## 安装 istio
-	配置环境变量KUBECONFIG
 	https://istio.io/latest/docs/setup/additional-setup/download-istio-release/
 	https://github.com/istio/istio/releases
 	
