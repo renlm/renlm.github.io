@@ -83,25 +83,22 @@ EOF
 ## 安装 k3s
 	https://github.com/k3s-io/k3s/
 	https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-9-3/
-	$ wget https://github.renlm.cn/k3s-io/k3s/releases/download/v1.30.6+k3s1/k3s -O /usr/local/bin/k3s
-	$ chmod +x /usr/local/bin/k3s
-	$ k3s --help
-	$ k3s --version
+	$ wget https://github.renlm.cn/k3s-io/k3s/releases/download/v1.30.6+k3s1/k3s -O /usr/local/bin/k3s \
+        && chmod +x /usr/local/bin/k3s \
+        && k3s --version
 	
 	离线镜像包
-	$ wget https://github.renlm.cn/k3s-io/k3s/releases/download/v1.30.6+k3s1/k3s-airgap-images-amd64.tar
-	$ mkdir -p /var/lib/rancher/k3s/agent/images/
-	$ cp ./k3s-airgap-images-amd64.tar /var/lib/rancher/k3s/agent/images/
-	
-	设置命令别名
-	$ sed -i '$a alias kubectl="k3s kubectl"' ~/.bashrc
-	$ sed -i '$a alias ctr="k3s ctr"' ~/.bashrc
-	$ sed -i '$a alias crictl="k3s crictl"' ~/.bashrc
-	$ source ~/.bashrc
+	$ wget https://github.renlm.cn/k3s-io/k3s/releases/download/v1.30.6+k3s1/k3s-airgap-images-amd64.tar \
+        && mkdir -p /var/lib/rancher/k3s/agent/images/ \
+        && cp ./k3s-airgap-images-amd64.tar /var/lib/rancher/k3s/agent/images/
 	
 	设置主节点host
-	安装的每个节点机器执行
-	$ sed -i '$a 192.168.16.3 k3s.master' /etc/hosts
+	设置命令别名
+	$ sed -i '$a 192.168.16.3 k3s.master' /etc/hosts \
+        && sed -i '$a alias kubectl="k3s kubectl"' ~/.bashrc \
+        && sed -i '$a alias ctr="k3s ctr"' ~/.bashrc \
+        && sed -i '$a alias crictl="k3s crictl"' ~/.bashrc \
+        && source ~/.bashrc
 	
 	master主节点
 	$ k3s server --token SECRET --disable=traefik --tls-san k3s.master --tls-san kubernetes.renlm.cn --cluster-init > k3s.log 2>&1 &
