@@ -134,6 +134,23 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     --server https://k3s.master:6443
 ```
 
+```
+安装方式二：
+https://github.com/k3s-io/k3s/
+$ wget https://github.renlm.cn/k3s-io/k3s/releases/download/v1.30.6+k3s1/k3s -O /usr/local/bin/k3s
+$ chmod +x /usr/local/bin/k3s
+$ k3s --help
+$ k3s --version
+$ k3s kubectl get nodes
+
+# master主节点
+$ k3s server --token SECRET --disable=traefik --tls-san k3s.master --tls-san kubernetes.renlm.cn --cluster-init &
+# master从节点
+$ k3s server --token SECRET --disable=traefik --server https://k3s.master:6443
+# agent节点
+$ k3s agent --token SECRET --server https://k3s.master:6443
+```
+
 	环境变量KUBECONFIG（master）
 	https://docs.ranchermanager.rancher.io/zh/how-to-guides/new-user-guides/kubernetes-cluster-setup/k3s-for-rancher
 	$ cp /etc/rancher/k3s/k3s.yaml /etc/rancher/k3s/KUBECONFIG.yaml
