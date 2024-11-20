@@ -104,11 +104,11 @@ EOF
 	$ sed -i '$a 192.168.16.3 k3s.master' /etc/hosts
 	
 	master主节点
-	$ k3s server --token SECRET --disable=traefik --tls-san k3s.master --tls-san kubernetes.renlm.cn --cluster-init > k3s.log 2>&1
+	$ k3s server --token SECRET --disable=traefik --tls-san k3s.master --tls-san kubernetes.renlm.cn --cluster-init > k3s.log 2>&1 &
 	master从节点
-	$ k3s server --token SECRET --disable=traefik --server https://k3s.master:6443 > k3s.log 2>&1
+	$ k3s server --token SECRET --disable=traefik --server https://k3s.master:6443 > k3s.log 2>&1 &
 	agent节点
-	$ k3s agent --token SECRET --server https://k3s.master:6443 > k3s.log 2>&1
+	$ k3s agent --token SECRET --server https://k3s.master:6443 > k3s.log 2>&1 &
 
 	验证k3s（master）
 	$ kubectl get nodes
