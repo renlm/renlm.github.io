@@ -7,14 +7,9 @@
 	$ kubectl describe certificate -n istio-ingress
 	
 	证书申请失败，删除certificate手动重试
-	$ kubectl get certificate -n istio-ingress
+	$ kubectl describe challenges --all-namespaces
 	$ kubectl delete certificate istio-gateway -n istio-ingress
 	$ kubectl apply -f istio.rancher.yaml
-	
-	证书申请失败后，配置DNS，删除secret自动重试
-	$ kubectl describe challenges --all-namespaces
-	$ kubectl get secret -n istio-ingress
-	$ kubectl delete secret {tmpSecretName} -n istio-ingress
 
 	添加 Helm Chart 仓库
 	https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/install-upgrade-on-a-kubernetes-cluster
