@@ -2,11 +2,12 @@
 
 ## 安装 rancher
 	配置网关（外部 Nginx 负载均衡）
-	$ wget https://github-io.renlm.cn/helm/istio.rancher.yaml \
-      && kubectl apply -f istio.rancher.yaml \
-      && kubectl describe certificate -n istio-ingress \
-      && kubectl get secret -n istio-ingress
+	$ wget https://github-io.renlm.cn/helm/istio.rancher.yaml
+	$ kubectl apply -f istio.rancher.yaml
+	$ kubectl describe certificate -n istio-ingress
+	
 	证书申请失败后，配置DNS，删除secret自动重试
+	$ kubectl get secret -n istio-ingress
 	$ kubectl delete secret {tmpSecretName} -n istio-ingress
 
 	添加 Helm Chart 仓库
