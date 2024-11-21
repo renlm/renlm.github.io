@@ -128,13 +128,6 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     --server https://k3s.master:6443
 ```
 
-	验证k3s（master）
-	$ cp /etc/rancher/k3s/k3s.yaml /etc/rancher/k3s/KUBECONFIG.yaml \
-        && sed -i '$a export KUBECONFIG=/etc/rancher/k3s/KUBECONFIG.yaml' ~/.bashrc \
-        && source ~/.bashrc \
-        && kubectl get nodes \
-        && kubectl version --output=json
-
 ## 安装 k3s（方式二）
 	https://github.com/k3s-io/k3s/
 	https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-9-3/
@@ -162,12 +155,14 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	agent节点
 	$ k3s agent --token SECRET --server https://k3s.master:6443 > k3s.log 2>&1 &
 
-	验证k3s（master）
-	$ kubectl get nodes
-	$ kubectl version --output=json
-	
-	查看镜像
-	$ ctr image ls
+## 验证 k3s
+	Master节点
+	$ cp /etc/rancher/k3s/k3s.yaml /etc/rancher/k3s/KUBECONFIG.yaml \
+        && sed -i '$a export KUBECONFIG=/etc/rancher/k3s/KUBECONFIG.yaml' ~/.bashrc \
+        && source ~/.bashrc \
+        && kubectl get nodes \
+        && kubectl version --output=json \
+        && k3s ctr image ls
 
 ## 安装 cert-manager
 	https://cert-manager.io/docs/installation/helm/
