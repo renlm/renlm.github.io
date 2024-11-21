@@ -46,8 +46,8 @@ $ systemctl daemon-reload
 ## 配置镜像代理
 ```
 https://docs.k3s.io/zh/installation/private-registry
-$ mkdir -p /etc/rancher/k3s
-$ cat <<-'EOF' | tee /etc/rancher/k3s/registries.yaml
+$ mkdir -p /etc/rancher/k3s \
+  && cat <<-'EOF' | tee /etc/rancher/k3s/registries.yaml
 mirrors:
   docker.io:
     endpoint:
@@ -72,15 +72,71 @@ EOF
 	https://helm.sh/docs/topics/version_skew/
 	https://github.com/helm/helm/releases/
 	
-	master节点即可（手动上传文件，下载较慢）
-	$ wget https://github-io.renlm.cn/download/helm-v3.16.2-linux-amd64.tar.gz
-	$ tar -zxvf helm-v3.16.2-linux-amd64.tar.gz -C /usr/local/ --transform="s/linux-amd64/helm-v3.16.2/g"
-	$ ln -sf /usr/local/helm-v3.16.2 /usr/local/helm
-	$ sed -i '$a export PATH=/usr/local/helm:$PATH' ~/.bashrc
-	$ source ~/.bashrc
-	$ helm version
+	master节点即可
+	$ wget https://github-io.renlm.cn/download/helm-v3.16.2-linux-amd64.tar.gz \
+        && tar -zxvf helm-v3.16.2-linux-amd64.tar.gz -C /usr/local/ --transform="s/linux-amd64/helm-v3.16.2/g" \
+        && ln -sf /usr/local/helm-v3.16.2 /usr/local/helm \
+        && sed -i '$a export PATH=/usr/local/helm:$PATH' ~/.bashrc \
+        && source ~/.bashrc \
+        && helm version
+	
+## 安装 k3s（方式一）
+	https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-9-3/
+	https://docs.rancher.cn/docs/k3s/installation/ha/_index/
+	https://github.com/k3s-io/k3s/releases/
+	
+	restorecon
+	$ apt-get update
+	$ apt-get install -y policycoreutils
+	
+	设置主节点host(192.168.16.3)
+	安装的每个节点机器执行
+	$ sed -i '$a 192.168.16.3 k3s.master' /etc/hosts
+		
+```	
+# master主节点
+# 禁用traefik，安装istio替代
+$ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
+    INSTALL_K3S_MIRROR=cn \
+    INSTALL_K3S_VERSION=v1.30.6+k3s1 \
+    K3S_TOKEN=SECRET \
+    sh -s - server \
+    --disable=traefik \
+    --tls-san k3s.master \
+    --tls-san kubernetes.renlm.cn \
+    --cluster-init
+```
 
-## 安装 k3s
+```	
+# master从节点
+$ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
+    INSTALL_K3S_MIRROR=cn \
+    INSTALL_K3S_VERSION=v1.30.6+k3s1 \
+    K3S_TOKEN=SECRET \
+    sh -s - server \
+    --disable=traefik \
+    --server https://k3s.master:6443
+```
+
+```	
+# agent节点
+$ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
+    INSTALL_K3S_MIRROR=cn \
+    INSTALL_K3S_VERSION=v1.30.6+k3s1 \
+    K3S_TOKEN=SECRET \
+    sh -s - agent \
+    --server https://k3s.master:6443
+```
+
+	验证k3s（master）
+	https://docs.ranchermanager.rancher.io/zh/how-to-guides/new-user-guides/kubernetes-cluster-setup/k3s-for-rancher
+	$ cp /etc/rancher/k3s/k3s.yaml /etc/rancher/k3s/KUBECONFIG.yaml \
+        && sed -i '$a export KUBECONFIG=/etc/rancher/k3s/KUBECONFIG.yaml' ~/.bashrc \
+        && source ~/.bashrc \
+        && kubectl get nodes \
+        && kubectl version --output=json
+
+## 安装 k3s（方式二）
 	https://github.com/k3s-io/k3s/
 	https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-9-3/
 	$ wget https://github.renlm.cn/k3s-io/k3s/releases/download/v1.30.6+k3s1/k3s -O /usr/local/bin/k3s \
@@ -116,28 +172,28 @@ EOF
 
 ## 安装 cert-manager
 	https://cert-manager.io/docs/installation/helm/
-	$ wget https://github.renlm.cn/cert-manager/cert-manager/releases/download/v1.16.1/cert-manager.yaml
-	$ kubectl apply -f cert-manager.yaml
-	$ kubectl get pods --namespace cert-manager
+	$ wget https://github.renlm.cn/cert-manager/cert-manager/releases/download/v1.16.1/cert-manager.yaml \
+        && kubectl apply -f cert-manager.yaml \
+        && kubectl get pods --namespace cert-manager
 	
 ## 安装 istio
 	https://istio.io/latest/docs/setup/additional-setup/download-istio-release/
 	https://github.com/istio/istio/releases
 	
-	master节点即可（手动上传文件，下载较慢）
-	$ wget https://github-io.renlm.cn/download/istio-1.23.3-linux-amd64.tar.gz
-	$ tar -zxvf istio-1.23.3-linux-amd64.tar.gz -C /usr/local/
-	$ ln -sf /usr/local/istio-1.23.3 /usr/local/istio
-	$ sed -i '$a export ISTIO_PATH=/usr/local/istio' ~/.bashrc
-	$ sed -i '$a export PATH=$ISTIO_PATH/bin:$PATH' ~/.bashrc
-	$ source ~/.bashrc
-	$ istioctl version
+	master节点即可
+	$ wget https://github-io.renlm.cn/download/istio-1.23.3-linux-amd64.tar.gz \
+        && tar -zxvf istio-1.23.3-linux-amd64.tar.gz -C /usr/local/ \
+        && ln -sf /usr/local/istio-1.23.3 /usr/local/istio \
+        && sed -i '$a export ISTIO_PATH=/usr/local/istio' ~/.bashrc \
+        && sed -i '$a export PATH=$ISTIO_PATH/bin:$PATH' ~/.bashrc \
+        && source ~/.bashrc \
+        && istioctl version
 	
 	安装istio组件
-	$ kubectl create namespace istio-ingress
-	$ istioctl install -y --set profile=minimal
-	$ wget https://github-io.renlm.cn/helm/istio.install.yaml
-	$ istioctl install -y -f istio.install.yaml
+	$ kubectl create namespace istio-ingress \
+        && istioctl install -y --set profile=minimal \
+        && wget https://github-io.renlm.cn/helm/istio.install.yaml \
+        && istioctl install -y -f istio.install.yaml
 	
 	可视化
 	$ kubectl apply -f $ISTIO_PATH/samples/addons/prometheus.yaml
@@ -149,11 +205,11 @@ EOF
 	$ istioctl kube-inject -f $ISTIO_PATH/samples/addons/grafana.yaml | kubectl apply -f -
 	
 	https://opentelemetry.io/docs/kubernetes/operator/
-	$ kubectl create namespace observability
-	$ wget https://github.renlm.cn/open-telemetry/opentelemetry-operator/releases/latest/download/opentelemetry-operator.yaml
-	$ sed -i '/- --enable-nginx-instrumentation=true/a\        - --enable-multi-instrumentation=true' opentelemetry-operator.yaml
-	$ sed -i '/- --enable-nginx-instrumentation=true/a\        - --enable-go-instrumentation=true' opentelemetry-operator.yaml
-	$ kubectl apply -f opentelemetry-operator.yaml
+	$ kubectl create namespace observability \
+        && wget https://github.renlm.cn/open-telemetry/opentelemetry-operator/releases/latest/download/opentelemetry-operator.yaml \
+        && sed -i '/- --enable-nginx-instrumentation=true/a\        - --enable-multi-instrumentation=true' opentelemetry-operator.yaml \
+        && sed -i '/- --enable-nginx-instrumentation=true/a\        - --enable-go-instrumentation=true' opentelemetry-operator.yaml \
+        && kubectl apply -f opentelemetry-operator.yaml
 	
 	修改 IstioOperator 配置后重启
 	$ kubectl get deploy -A
