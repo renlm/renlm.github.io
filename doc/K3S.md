@@ -44,6 +44,10 @@ $ systemctl daemon-reload
 ```
 
 ## 配置镜像代理
+	设置主节点host
+	安装的每个节点机器都执行
+	$ sed -i '$a 192.168.16.3 k3s.master' /etc/hosts
+	
 ```
 https://docs.k3s.io/zh/installation/private-registry
 $ mkdir -p /etc/rancher/k3s \
@@ -72,9 +76,6 @@ EOF
 	https://helm.sh/docs/topics/version_skew/
 	https://github.com/helm/helm/releases/
 	
-	设置主节点host（所有节点）
-	$ sed -i '$a 192.168.16.3 k3s.master' /etc/hosts
-	
 	master节点即可
 	$ wget https://github-io.renlm.cn/download/helm-v3.16.2-linux-amd64.tar.gz \
         && tar -zxvf helm-v3.16.2-linux-amd64.tar.gz -C /usr/local/ --transform="s/linux-amd64/helm-v3.16.2/g" \
@@ -91,10 +92,6 @@ EOF
 	restorecon
 	$ apt-get update
 	$ apt-get install -y policycoreutils
-	
-	设置主节点host(192.168.16.3)
-	安装的每个节点机器执行
-	$ sed -i '$a 192.168.16.3 k3s.master' /etc/hosts
 		
 ```	
 # master主节点
@@ -159,8 +156,8 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
         && sed -i '$a alias crictl="k3s crictl"' ~/.bashrc \
         && source ~/.bashrc \
         && kubectl get nodes \
-        && kubectl version --output=json \
-        && ctr -n k8s.io c ls
+        && ctr -n k8s.io c ls \
+        && kubectl version --output=json
 
 ## 安装 cert-manager
 	https://cert-manager.io/docs/installation/helm/
