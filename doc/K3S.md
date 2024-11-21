@@ -129,8 +129,11 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 ```
 
 	验证k3s（master）
-	$ kubectl get nodes
-	$ kubectl version --output=json
+	$ cp /etc/rancher/k3s/k3s.yaml /etc/rancher/k3s/KUBECONFIG.yaml \
+        && sed -i '$a export KUBECONFIG=/etc/rancher/k3s/KUBECONFIG.yaml' ~/.bashrc \
+        && source ~/.bashrc \
+        && kubectl get nodes \
+        && kubectl version --output=json
 
 ## 安装 k3s（方式二）
 	https://github.com/k3s-io/k3s/
