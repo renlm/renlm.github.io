@@ -180,6 +180,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	
 	安装istio组件
 	$ kubectl create namespace istio-ingress \
+        && kubectl label namespace istio-ingress istio-injection=enabled \
         && istioctl install -y --set profile=minimal \
         && wget https://github-io.renlm.cn/helm/istio.install.yaml \
         && istioctl install -y -f istio.install.yaml
