@@ -180,7 +180,6 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	
 	安装istio组件
 	$ kubectl create namespace istio-ingress \
-        && kubectl label namespace istio-ingress istio-injection=enabled \
         && istioctl install -y --set profile=minimal \
         && wget https://github-io.renlm.cn/helm/istio.install.yaml \
         && istioctl install -y -f istio.install.yaml
@@ -190,14 +189,14 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	$ sed -i '/sidecar.istio.io/d' $ISTIO_PATH/samples/addons/prometheus.yaml
 	$ sed -i '/sidecar.istio.io/d' $ISTIO_PATH/samples/addons/loki.yaml
 	$ sed -i '/sidecar.istio.io/d' $ISTIO_PATH/samples/addons/grafana.yaml
-	$ sed -i '/sidecar.istio.io/d' $ISTIO_PATH/samples/addons/kiali.yaml
 	$ istioctl kube-inject -f $ISTIO_PATH/samples/addons/prometheus.yaml | kubectl apply -f -
 	$ istioctl kube-inject -f $ISTIO_PATH/samples/addons/loki.yaml | kubectl apply -f -
 	$ istioctl kube-inject -f $ISTIO_PATH/samples/addons/grafana.yaml | kubectl apply -f -
-	$ istioctl kube-inject -f $ISTIO_PATH/samples/addons/kiali.yaml | kubectl apply -f -
+	$ kubectl apply -f $ISTIO_PATH/samples/addons/kiali.yaml
 	
 	https://opentelemetry.io/docs/kubernetes/operator/
 	$ kubectl create namespace observability \
+        && kubectl label namespace observability istio-injection=enabled \
         && wget https://github.renlm.cn/open-telemetry/opentelemetry-operator/releases/latest/download/opentelemetry-operator.yaml \
         && sed -i '/- --enable-nginx-instrumentation=true/a\        - --enable-multi-instrumentation=true' opentelemetry-operator.yaml \
         && sed -i '/- --enable-nginx-instrumentation=true/a\        - --enable-go-instrumentation=true' opentelemetry-operator.yaml \
