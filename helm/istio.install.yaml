@@ -6,8 +6,10 @@ metadata:
 spec:
   profile: empty
   meshConfig:
+    rootNamespace: istio-system
     accessLogFile: /dev/stdout
     defaultConfig:
+      discoveryAddress: istiod.istio-system.svc:15012
       gatewayTopology:
         numTrustedProxies: 5
     extensionProviders:
