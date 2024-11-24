@@ -51,6 +51,12 @@
 	$ helm ls -A
 	$ helm uninstall rancher -n cattle-system
 	
+## 开发环境
+	创建namespace并开启istio自动注入，安装fleet仓库local
+	https://gitee.com/renlm/ConfigRepo.git
+	$ kubectl create namespace io \
+        && kubectl label namespace io istio-injection=enabled
+	
 ## Prometheus 访问
 	主页链接添加代理访问地址
 	https://rancher.renlm.cn/api/v1/namespaces/istio-system/services/http:prometheus:9090/proxy
