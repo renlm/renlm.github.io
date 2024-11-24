@@ -57,11 +57,12 @@
 	$ kubectl create namespace io \
         && kubectl label namespace io istio-injection=enabled
 	
-## Prometheus 访问
+## Prometheus
+	挂载/etc/localtime
 	主页链接添加代理访问地址
 	https://rancher.renlm.cn/api/v1/namespaces/istio-system/services/http:prometheus:9090/proxy
 
-## Grafana 设置
+## Grafana
 	https://grafana.com/grafana/dashboards/15282-k8s-rke-cluster-monitoring/
 	https://grafana.com/grafana/dashboards/14055-loki-stack-monitoring-promtail-loki/
 	https://grafana.com/grafana/dashboards/9628-postgresql-database/
