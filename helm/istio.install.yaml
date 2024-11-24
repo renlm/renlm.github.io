@@ -1,5 +1,6 @@
 # https://istio.io/latest/zh/docs/setup/additional-setup/gateway/
 # https://istio.io/latest/zh/docs/tasks/observability/logs/otel-provider/
+# https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
@@ -18,8 +19,8 @@ spec:
         port: 4317
     defaultProviders:
       accessLogging:
-      - otel
       - envoy
+      - otel
   components:
     ingressGateways:
     - name: istio-ingressgateway
