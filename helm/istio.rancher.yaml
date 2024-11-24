@@ -30,7 +30,7 @@ items:
   kind: Certificate
   metadata:
     name: istio-gateway
-    namespace: istio-ingress
+    namespace: istio-system
   spec:
     secretName: tls-istio-gateway
     duration: 2160h
@@ -51,7 +51,7 @@ items:
   kind: Gateway
   metadata:
     name: istio-gateway
-    namespace: istio-ingress
+    namespace: istio-system
   spec:
     selector:
       istio: ingressgateway
@@ -110,7 +110,7 @@ items:
   kind: VirtualService
   metadata:
     name: rancher
-    namespace: istio-ingress
+    namespace: istio-system
   spec:
     hosts:
     - rancher.renlm.cn
@@ -130,7 +130,7 @@ items:
   kind: VirtualService
   metadata:
     name: kubernetes
-    namespace: istio-ingress
+    namespace: istio-system
   spec:
     hosts:
     - kubernetes.renlm.cn

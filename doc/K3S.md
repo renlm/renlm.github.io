@@ -179,8 +179,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
         && istioctl version
 	
 	安装istio组件
-	$ kubectl create namespace istio-ingress \
-        && istioctl install -y --set profile=minimal \
+	$ istioctl install -y --set profile=minimal \
         && wget https://github-io.renlm.cn/helm/istio.install.yaml \
         && istioctl install -y -f istio.install.yaml
 	
@@ -204,4 +203,4 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	
 	修改 IstioOperator 配置后重启
 	$ kubectl get deploy -A
-	$ kubectl rollout restart deploy/istio-ingressgateway -n istio-ingress
+	$ kubectl rollout restart deploy/istio-ingressgateway -n istio-system
