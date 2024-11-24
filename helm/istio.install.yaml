@@ -6,9 +6,19 @@ metadata:
 spec:
   profile: empty
   meshConfig:
+    accessLogFile: /dev/stdout
     defaultConfig:
       gatewayTopology:
         numTrustedProxies: 5
+    extensionProviders:
+    - name: otel
+      envoyOtelAls:
+        service: otel-collector.observability.svc.cluster.local
+        port: 4317
+    defaultProviders:
+      accessLogging:
+      - envoy
+      - otel
   components:
     ingressGateways:
     - name: istio-ingressgateway
