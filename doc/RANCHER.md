@@ -59,7 +59,7 @@
     
     安装promtail
     $ helm repo add grafana https://renlm.cn/grafana.github.io/helm-charts
-    $ helm upgrade --install promtail grafana/promtail --namespace istio-system --set config.clients[0].url=http://loki:3100/api/v1/push
+    $ helm upgrade --install promtail grafana/promtail --namespace istio-system --set config.clients[0].url=http://loki:3100/loki/api/v1/push
 	
 ## Prometheus
 	挂载/etc/localtime
