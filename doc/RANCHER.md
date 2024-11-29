@@ -67,7 +67,7 @@
 	https://rancher.renlm.cn/api/v1/namespaces/istio-system/services/http:prometheus:9090/proxy
 
 ## Grafana
-	https://grafana.com/grafana/dashboards/14055-loki-stack-monitoring-promtail-loki/
+	https://grafana.com/grafana/dashboards/15141-kubernetes-service-logs/
 	https://grafana.com/grafana/dashboards/9628-postgresql-database/
 	https://grafana.com/grafana/dashboards/10991-rabbitmq-overview/
 
