@@ -35,14 +35,6 @@ Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
 	$ docker system df
 	$ docker system prune
 	
-## 静态资源服务
-	$ mkdir -p /nginx/grafana.github.io/helm-charts \
-        && cd /nginx/grafana.github.io/helm-charts \
-        && wget https://grafana-github-io.renlm.cn/helm-charts/index.yaml -O index.yaml \
-        && sed -i 's@https://github.com@https://github.renlm.cn@g' index.yaml \
-        && sed -i 's@https://grafana.github.io@https://grafana-github-io.renlm.cn@g' index.yaml \
-        && docker run -d --name nginx -p 8000:80 -v /nginx/grafana.github.io:/usr/share/nginx/html/grafana.github.io nginx
-	
 ## 私有环境
 	安装 nginx、certbot
 	$ apt-get install -y nginx certbot python3-certbot-nginx

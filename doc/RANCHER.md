@@ -52,10 +52,14 @@
 	$ helm uninstall rancher -n cattle-system
 	
 ## 开发环境
-	创建namespace并开启istio自动注入，安装fleet仓库local
+	创建namespace并开启istio自动注入，安装fleet仓库micro
 	https://gitee.com/renlm/ConfigRepo.git
-	$ kubectl create namespace io \
-        && kubectl label namespace io istio-injection=enabled
+	$ kubectl create namespace io
+    $ kubectl label namespace io istio-injection=enabled
+    
+    安装promtail
+    $ helm repo add grafana https://renlm.cn/grafana.github.io/helm-charts
+    $ helm upgrade --install promtail grafana/promtail --namespace istio-system
 	
 ## Prometheus
 	挂载/etc/localtime
