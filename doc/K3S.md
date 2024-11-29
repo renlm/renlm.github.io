@@ -187,8 +187,9 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	https://istio.io/latest/zh/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection
 	$ kubectl apply -f $ISTIO_PATH/samples/addons/prometheus.yaml
 	$ kubectl apply -f $ISTIO_PATH/samples/addons/loki.yaml
-	$ kubectl apply -f $ISTIO_PATH/samples/addons/grafana.yaml
 	$ kubectl apply -f $ISTIO_PATH/samples/addons/kiali.yaml
+	$ sed -i '/sidecar.istio.io/d' $ISTIO_PATH/samples/addons/grafana.yaml
+	$ istioctl kube-inject -f $ISTIO_PATH/samples/addons/grafana.yaml | kubectl apply -f -
 	
 	https://opentelemetry.io/docs/kubernetes/operator/
 	$ kubectl create namespace observability \
