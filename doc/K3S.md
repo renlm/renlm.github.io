@@ -55,6 +55,7 @@ $ mkdir -p /etc/rancher/k3s \
 mirrors:
   docker.io:
     endpoint:
+    - https://docker.1ms.run
     - https://docker-io.renlm.cn
   quay.io:
     endpoint:
