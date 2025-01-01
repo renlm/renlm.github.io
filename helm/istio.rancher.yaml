@@ -44,6 +44,12 @@ items:
     - rancher.renlm.cn
     - grafana.renlm.cn
     - amqp.renlm.cn
+    - rabbitmq.renlm.cn
+    - prometheus.renlm.cn
+    - clickhouse.renlm.cn
+    - otel.renlm.cn
+    - gw.renlm.cn
+    - mygraph.renlm.cn
     issuerRef:
       name: letsencrypt-issuer
       kind: ClusterIssuer
@@ -66,6 +72,12 @@ items:
       - rancher.renlm.cn
       - grafana.renlm.cn
       - amqp.renlm.cn
+      - rabbitmq.renlm.cn
+      - prometheus.renlm.cn
+      - clickhouse.renlm.cn
+      - otel.renlm.cn
+      - gw.renlm.cn
+      - mygraph.renlm.cn
     - port:
         number: 443
         protocol: HTTPS
@@ -76,6 +88,12 @@ items:
       - rancher.renlm.cn
       - grafana.renlm.cn
       - amqp.renlm.cn
+      - rabbitmq.renlm.cn
+      - prometheus.renlm.cn
+      - clickhouse.renlm.cn
+      - otel.renlm.cn
+      - gw.renlm.cn
+      - mygraph.renlm.cn
       tls:
         mode: SIMPLE
         credentialName: tls-istio-gateway
