@@ -38,6 +38,10 @@ spec:
             targetPort: 6379
             name: tcp-redis
             protocol: TCP
+          - port: 3306
+            targetPort: 3306
+            name: tcp-mysql
+            protocol: TCP
           - port: 5432
             targetPort: 5432
             name: tcp-postgres
@@ -45,6 +49,10 @@ spec:
           - port: 5672
             targetPort: 5672
             name: tcp-amqp
+            protocol: TCP
+          - port: 8123
+            targetPort: 8123
+            name: tcp-clickhouse
             protocol: TCP
   values:
     gateways:
