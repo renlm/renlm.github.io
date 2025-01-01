@@ -20,7 +20,7 @@ spec:
         istio: ingressgateway
       k8s:
         service:
-          externalTrafficPolicy: Local
+          externalTrafficPolicy: Cluster
           ports:
           - port: 15021
             targetPort: 15021
