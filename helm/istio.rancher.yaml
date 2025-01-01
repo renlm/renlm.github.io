@@ -122,6 +122,18 @@ items:
       hosts:
       - postgres.io
     - port:
+        number: 3306
+        protocol: TCP
+        name: mysql
+      hosts:
+      - mysql.io
+    - port:
+        number: 8123
+        protocol: TCP
+        name: clickhouse
+      hosts:
+      - clickhouse.io
+    - port:
         number: 5672
         protocol: TCP
         name: amqp
