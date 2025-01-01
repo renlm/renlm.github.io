@@ -43,6 +43,7 @@ items:
     - www.renlm.cn
     - rancher.renlm.cn
     - grafana.renlm.cn
+    - jenkins.renlm.cn
     - amqp.renlm.cn
     - rabbitmq.renlm.cn
     - prometheus.renlm.cn
@@ -71,6 +72,7 @@ items:
       - www.renlm.cn
       - rancher.renlm.cn
       - grafana.renlm.cn
+      - jenkins.renlm.cn
       - amqp.renlm.cn
       - rabbitmq.renlm.cn
       - prometheus.renlm.cn
@@ -87,6 +89,7 @@ items:
       - www.renlm.cn
       - rancher.renlm.cn
       - grafana.renlm.cn
+      - jenkins.renlm.cn
       - amqp.renlm.cn
       - rabbitmq.renlm.cn
       - prometheus.renlm.cn
