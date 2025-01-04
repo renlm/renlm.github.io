@@ -48,7 +48,8 @@ items:
     - prometheus.renlm.cn
     - clickhouse.renlm.cn
     - otel.renlm.cn
-    - gw.renlm.cn
+    - istio.renlm.cn
+    - gateway.renlm.cn
     - mygraph.renlm.cn
     issuerRef:
       name: letsencrypt-issuer
@@ -76,7 +77,8 @@ items:
       - prometheus.renlm.cn
       - clickhouse.renlm.cn
       - otel.renlm.cn
-      - gw.renlm.cn
+      - istio.renlm.cn
+      - gateway.renlm.cn
       - mygraph.renlm.cn
     - port:
         number: 443
@@ -92,7 +94,8 @@ items:
       - prometheus.renlm.cn
       - clickhouse.renlm.cn
       - otel.renlm.cn
-      - gw.renlm.cn
+      - istio.renlm.cn
+      - gateway.renlm.cn
       - mygraph.renlm.cn
       tls:
         mode: SIMPLE
