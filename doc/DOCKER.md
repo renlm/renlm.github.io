@@ -9,6 +9,7 @@
 $ cat <<EOF | tee /etc/docker/daemon.json
 {
   "registry-mirrors": [ 
+    "https://docker.1ms.run",
     "https://docker-io.renlm.cn"
   ],
   "log-driver": "json-file",
