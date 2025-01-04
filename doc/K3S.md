@@ -162,7 +162,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 
 ## 安装 cert-manager
 	https://cert-manager.io/docs/installation/helm/
-	$ wget https://github.renlm.cn/cert-manager/cert-manager/releases/download/v1.16.1/cert-manager.yaml \
+	$ wget https://github.renlm.cn/cert-manager/cert-manager/releases/download/v1.16.2/cert-manager.yaml \
         && kubectl apply -f cert-manager.yaml \
         && kubectl get pods --namespace cert-manager
 	
