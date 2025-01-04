@@ -53,9 +53,9 @@
 	
 ## 开发环境
 	创建namespace并开启istio自动注入，安装fleet仓库micro
-	https://gitee.com/renlm/ConfigRepo.git
-	$ kubectl create namespace io
-    $ kubectl label namespace io istio-injection=enabled
+	https://gitee.com/renlm/MicroServer.git
+	$ kubectl create namespace mylb
+    $ kubectl label namespace mylb istio-injection=enabled
     
     安装promtail
     $ helm repo add grafana https://renlm.cn/grafana.github.io/helm-charts
@@ -65,24 +65,6 @@
 	挂载/etc/localtime
 	主页链接添加代理访问地址
 	https://rancher.renlm.cn/api/v1/namespaces/istio-system/services/http:prometheus:9090/proxy
-
-## Grafana
-	https://grafana.com/grafana/dashboards/15141-kubernetes-service-logs/
-	https://grafana.com/grafana/dashboards/9628-postgresql-database/
-	https://grafana.com/grafana/dashboards/10991-rabbitmq-overview/
-
-```
-https://grafana.com/grafana/dashboards
-禁用匿名登录并持久化存储
-修改工作负载环境变量：
-GF_AUTH_ANONYMOUS_ENABLED=false
-GF_DATABASE_TYPE=postgres
-GF_DATABASE_HOST=postgres.io:5432
-GF_DATABASE_NAME=grafana
-GF_DATABASE_USER=grafana
-GF_DATABASE_PASSWORD=pwd
-GF_DATABASE_SSL_MODE=disable
-```
 
 ## MTU 设置（可选）
 	使用 rancher 创建的集群

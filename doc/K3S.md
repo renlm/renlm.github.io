@@ -78,15 +78,15 @@ EOF
 	https://github.com/helm/helm/releases/
 	
 	master节点即可
-	$ wget https://github-io.renlm.cn/download/helm-v3.16.2-linux-amd64.tar.gz \
-        && tar -zxvf helm-v3.16.2-linux-amd64.tar.gz -C /usr/local/ --transform="s/linux-amd64/helm-v3.16.2/g" \
-        && ln -sf /usr/local/helm-v3.16.2 /usr/local/helm \
+	$ wget https://github-io.renlm.cn/download/helm-v3.16.4-linux-amd64.tar.gz \
+        && tar -zxvf helm-v3.16.4-linux-amd64.tar.gz -C /usr/local/ --transform="s/linux-amd64/helm-v3.16.4/g" \
+        && ln -sf /usr/local/helm-v3.16.4 /usr/local/helm \
         && sed -i '$a export PATH=/usr/local/helm:$PATH' ~/.bashrc \
         && source ~/.bashrc \
         && helm version
 	
 ## 安装 k3s（方式一）
-	https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-9-3/
+	https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-10-1/
 	https://docs.rancher.cn/docs/k3s/installation/ha/_index/
 	https://github.com/k3s-io/k3s/releases/
 	
@@ -99,7 +99,7 @@ EOF
 # 禁用traefik，安装istio替代
 $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     INSTALL_K3S_MIRROR=cn \
-    INSTALL_K3S_VERSION=v1.30.6+k3s1 \
+    INSTALL_K3S_VERSION=v1.31.4+k3s1 \
     K3S_TOKEN=SECRET \
     sh -s - server \
     --disable=traefik \
@@ -112,7 +112,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 # master从节点
 $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     INSTALL_K3S_MIRROR=cn \
-    INSTALL_K3S_VERSION=v1.30.6+k3s1 \
+    INSTALL_K3S_VERSION=v1.31.4+k3s1 \
     K3S_TOKEN=SECRET \
     sh -s - server \
     --disable=traefik \
@@ -123,7 +123,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 # agent节点
 $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
     INSTALL_K3S_MIRROR=cn \
-    INSTALL_K3S_VERSION=v1.30.6+k3s1 \
+    INSTALL_K3S_VERSION=v1.31.4+k3s1 \
     K3S_TOKEN=SECRET \
     sh -s - agent \
     --server https://k3s.master:6443
@@ -131,13 +131,13 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 
 ## 安装 k3s（方式二）
 	https://github.com/k3s-io/k3s/
-	https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-9-3/
-	$ wget https://github.renlm.cn/k3s-io/k3s/releases/download/v1.30.6+k3s1/k3s -O /usr/local/bin/k3s \
+	https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-10-1/
+	$ wget https://github.renlm.cn/k3s-io/k3s/releases/download/v1.31.4+k3s1/k3s -O /usr/local/bin/k3s \
         && chmod +x /usr/local/bin/k3s \
         && k3s --version
 	
 	离线镜像包
-	$ wget https://github.renlm.cn/k3s-io/k3s/releases/download/v1.30.6+k3s1/k3s-airgap-images-amd64.tar \
+	$ wget https://github.renlm.cn/k3s-io/k3s/releases/download/v1.31.4+k3s1/k3s-airgap-images-amd64.tar \
         && mkdir -p /var/lib/rancher/k3s/agent/images/ \
         && cp ./k3s-airgap-images-amd64.tar /var/lib/rancher/k3s/agent/images/
 	
@@ -171,9 +171,9 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	https://github.com/istio/istio/releases
 	
 	master节点即可
-	$ wget https://github-io.renlm.cn/download/istio-1.23.3-linux-amd64.tar.gz \
-        && tar -zxvf istio-1.23.3-linux-amd64.tar.gz -C /usr/local/ \
-        && ln -sf /usr/local/istio-1.23.3 /usr/local/istio \
+	$ wget https://github-io.renlm.cn/download/istio-1.24.2-linux-amd64.tar.gz \
+        && tar -zxvf istio-1.24.2-linux-amd64.tar.gz -C /usr/local/ \
+        && ln -sf /usr/local/istio-1.24.2 /usr/local/istio \
         && sed -i '$a export ISTIO_PATH=/usr/local/istio' ~/.bashrc \
         && sed -i '$a export PATH=$ISTIO_PATH/bin:$PATH' ~/.bashrc \
         && source ~/.bashrc \
@@ -189,8 +189,6 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	$ kubectl apply -f $ISTIO_PATH/samples/addons/prometheus.yaml
 	$ kubectl apply -f $ISTIO_PATH/samples/addons/loki.yaml
 	$ kubectl apply -f $ISTIO_PATH/samples/addons/kiali.yaml
-	$ sed -i '/sidecar.istio.io/d' $ISTIO_PATH/samples/addons/grafana.yaml
-	$ istioctl kube-inject -f $ISTIO_PATH/samples/addons/grafana.yaml | kubectl apply -f -
 	
 	https://opentelemetry.io/docs/kubernetes/operator/
 	$ kubectl create namespace observability \
