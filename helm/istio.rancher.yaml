@@ -136,9 +136,9 @@ items:
     - port:
         number: 5672
         protocol: TCP
-        name: amqp
+        name: rabbitmq
       hosts:
-      - amqp.io
+      - rabbitmq.renlm.cn
 - apiVersion: networking.istio.io/v1
   kind: VirtualService
   metadata:
