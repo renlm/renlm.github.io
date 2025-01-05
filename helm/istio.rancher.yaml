@@ -129,7 +129,7 @@ items:
         protocol: TCP
         name: clickhouse
       hosts:
-      - clickhouse.io
+      - clickhouse.renlm.cn
     - port:
         number: 5672
         protocol: TCP
