@@ -3,13 +3,13 @@ entries:
   core-service:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2025-01-06T22:34:26.330093551+08:00"
+    created: "2025-01-07T01:58:34.001926357+08:00"
     dependencies:
     - name: templates
       repository: file://../../templates
       version: 0.0.1
     description: A Helm chart for core-service
-    digest: f2fc0e478ba021d9fd39e2cfc12a7702d72a7ad169e0bfffa982760730f43f03
+    digest: f7a439be2ecf032491abc0841a3ed2c6471be58d24cc67ca1b48dab963bbb233
     name: core-service
     type: application
     urls:
@@ -18,16 +18,16 @@ entries:
   core-web:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2025-01-06T22:34:26.331370615+08:00"
+    created: "2025-01-07T01:58:34.002751086+08:00"
     dependencies:
     - name: templates
       repository: file://../../templates
       version: 0.0.1
     description: A Helm chart for core-web
-    digest: 70cb5b63b37dc17f1a59d8913708f5d812f36df4b06a8e92d946b661df1443c0
+    digest: f85ae45529e82e49ee81657b7fc4458cc78ea8f1d0e9d99be67e78408d80308f
     name: core-web
     type: application
     urls:
     - https://github-io.renlm.cn/helm/repo/core-web-0.0.1.tgz
     version: 0.0.1
-generated: "2025-01-06T22:34:26.329065096+08:00"
+generated: "2025-01-07T01:58:34.000057138+08:00"
