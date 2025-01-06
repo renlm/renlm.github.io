@@ -1,33 +1,33 @@
 apiVersion: v1
 entries:
-  mygraph:
+  core-service:
   - apiVersion: v2
-    appVersion: v1.0.1
-    created: "2024-09-01T19:31:26.446839352+08:00"
+    appVersion: 1.0.1
+    created: "2025-01-06T22:34:26.330093551+08:00"
     dependencies:
-    - condition: redis.enabled
-      name: redis
-      repository: file://./charts/redis
-    - condition: mysql.enabled
-      name: mysql
-      repository: file://./charts/mysql
-    - condition: rabbitmq.enabled
-      name: rabbitmq
-      repository: file://./charts/rabbitmq
-    - condition: jenkins.enabled
-      name: jenkins
-      repository: file://./charts/jenkins
-    description: MyGraph 管理后台，集成经典RABC权限管理、Oauth2认证服务、在线画图、ER模型设计与在线文档管理，是一个高度集成的后台模板。
-    digest: dc7e1c842f601c633b626be29246f67f6a9f1ce69b701e78e6aa1c3a67b1a5b1
-    icon: https://renlm.github.io/favicon.ico
-    keywords:
-    - RABC权限管理
-    - Oauth2认证
-    - 在线画图
-    - ER模型设计
-    - 文档管理
-    name: mygraph
+    - name: templates
+      repository: file://../../templates
+      version: 0.0.1
+    description: A Helm chart for core-service
+    digest: f2fc0e478ba021d9fd39e2cfc12a7702d72a7ad169e0bfffa982760730f43f03
+    name: core-service
+    type: application
     urls:
-    - https://renlm.github.io/helm/repo/mygraph-1.0.1.tgz
-    version: 1.0.1
-generated: "2024-09-01T19:31:26.441512768+08:00"
+    - https://github-io.renlm.cn/helm/repo/core-service-0.0.1.tgz
+    version: 0.0.1
+  core-web:
+  - apiVersion: v2
+    appVersion: 1.0.1
+    created: "2025-01-06T22:34:26.331370615+08:00"
+    dependencies:
+    - name: templates
+      repository: file://../../templates
+      version: 0.0.1
+    description: A Helm chart for core-web
+    digest: 70cb5b63b37dc17f1a59d8913708f5d812f36df4b06a8e92d946b661df1443c0
+    name: core-web
+    type: application
+    urls:
+    - https://github-io.renlm.cn/helm/repo/core-web-0.0.1.tgz
+    version: 0.0.1
+generated: "2025-01-06T22:34:26.329065096+08:00"
