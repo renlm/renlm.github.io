@@ -118,5 +118,9 @@ $ yarn install
 	$ systemctl restart ssh
 	$ systemctl enable ssh
 	
+	Failed to connect to https://changelogs.ubuntu.com/meta-release. Check your Internet connection or proxy settings
+	$ rm /var/lib/ubuntu-release-upgrader/release-upgrade-available
+	$ /usr/lib/ubuntu-release-upgrader/release-upgrade-motd
+	
 	![连接方式](../imgs/VirtualBox/Network.png "连接方式")
 	![端口转发](../imgs/VirtualBox/PortForward.png "端口转发")
