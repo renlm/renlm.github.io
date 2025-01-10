@@ -107,5 +107,16 @@ $ yarn install
 ```
 
 ## VirtualBox
-[https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads)  
-[https://mirrors.tuna.tsinghua.edu.cn/ubuntu-releases](https://mirrors.tuna.tsinghua.edu.cn/ubuntu-releases)  
+<a href="https://www.virtualbox.org/wiki/Downloads" target="_blank">https://<span></span>www.virtualbox.org/wiki/Downloads</a>  
+<a href="https://mirrors.tuna.tsinghua.edu.cn/ubuntu-releases" target="_blank">https://<span></span>mirrors.tuna.tsinghua.edu.cn/ubuntu-releases</a>  
+	
+	开机时Shift并鼠标点中启动页
+	进入Advanced options for ubuntu，选择recovery mode
+	进入Recovery Menu，选择Drop to root shell prompt
+	进入命令行：passwd root，重置密码
+	$ echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+	$ systemctl restart ssh
+	$ systemctl enable ssh
+	
+	![连接方式](../imgs/VirtualBox/Network.png "连接方式")
+	![端口转发](../imgs/VirtualBox/PortForward.png "端口转发")
