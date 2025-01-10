@@ -113,7 +113,7 @@ $ yarn install
 	开机时Shift并鼠标点中启动页
 	进入Advanced options for ubuntu，选择recovery mode
 	进入Recovery Menu，选择Drop to root shell prompt
-	进入命令行：passwd root，重置密码
+	命令行重置密码：passwd root
 	$ echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 	$ systemctl restart ssh
 	$ systemctl enable ssh
