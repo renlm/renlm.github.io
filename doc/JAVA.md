@@ -129,6 +129,7 @@ VirtualBox Extension Pack（扩展）
 https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/
 $ sed -i 's/security.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list.d/ubuntu.sources
 $ apt-get update
+$ apt-get upgrade
 ```
 
 ```
