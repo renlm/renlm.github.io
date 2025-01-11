@@ -114,6 +114,8 @@ $ yarn install
 	进入Advanced options for ubuntu，选择recovery mode
 	进入Recovery Menu，选择Drop to root shell prompt
 	命令行重置密码：passwd root
+	$ apt-get update
+	$ apt-get install -y openssh-server
 	$ echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 	$ systemctl restart ssh
 	$ systemctl enable ssh
@@ -121,9 +123,5 @@ $ yarn install
 	https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/
 	$ sed -i 's/security.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list.d/ubuntu.sources
 	$ apt-get update
-	
-	Failed to connect to https://changelogs.ubuntu.com/meta-release. Check your Internet connection or proxy settings
-	$ rm /var/lib/ubuntu-release-upgrader/release-upgrade-available
-	$ /usr/lib/ubuntu-release-upgrader/release-upgrade-motd
 	
 ![端口转发](../imgs/VirtualBox/PortForward.png "端口转发")
