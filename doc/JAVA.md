@@ -138,4 +138,14 @@ $ rm /var/lib/ubuntu-release-upgrader/release-upgrade-available
 $ /usr/lib/ubuntu-release-upgrader/release-upgrade-motd
 ```
 
+```
+https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+$ curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+$ install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+$ sed -i '$a export KUBECONFIG=/etc/kubernetes/KUBECONFIG.yaml' ~/.bashrc
+$ source ~/.bashrc
+$ kubectl get nodes
+$ kubectl version --output=json
+```
+
 ![端口转发](../imgs/VirtualBox/PortForward.png "端口转发")
