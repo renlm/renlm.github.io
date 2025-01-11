@@ -109,7 +109,12 @@ $ yarn install
 ## VirtualBox
 <a href="https://www.virtualbox.org/wiki/Downloads" target="_blank">https://<span></span>www.virtualbox.org/wiki/Downloads</a>  
 <a href="https://mirrors.tuna.tsinghua.edu.cn/ubuntu-releases" target="_blank">https://<span></span>mirrors.tuna.tsinghua.edu.cn/ubuntu-releases</a>  
-	
+
+```	
+VirtualBox Platform Packages（安装包）
+VirtualBox Extension Pack（扩展）
+```	
+
 	开机时Shift并鼠标点中启动页
 	进入Advanced options for ubuntu，选择recovery mode
 	进入Recovery Menu，选择Drop to root shell prompt
@@ -119,9 +124,11 @@ $ yarn install
 	$ echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 	$ systemctl restart ssh
 	$ systemctl enable ssh
-	
-	https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/
-	$ sed -i 's/security.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list.d/ubuntu.sources
-	$ apt-get update
-	
+
+```		
+https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/
+$ sed -i 's/security.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list.d/ubuntu.sources
+$ apt-get update
+```	
+
 ![端口转发](../imgs/VirtualBox/PortForward.png "端口转发")
