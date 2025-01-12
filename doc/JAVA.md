@@ -118,12 +118,11 @@ VirtualBox Extension Pack（扩展）
 	开机时Shift并鼠标点中启动页
 	进入Advanced options for ubuntu，选择recovery mode
 	进入Recovery Menu，选择Drop to root shell prompt
-	命令行重置密码：passwd root
-	$ apt-get remove openssh-server openssh-client --purge 
-	$ apt-get autoremove 
-	$ apt-get autoclean 
+	$ passwd root
+	$ reboot
+	
 	$ apt-get update
-	$ apt-get install openssh-server openssh-client
+	$ apt-get install openssh-server
 	$ echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 	$ systemctl restart ssh
 	$ systemctl enable ssh
