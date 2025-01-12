@@ -115,11 +115,13 @@ VirtualBox Platform Packages（安装包）
 VirtualBox Extension Pack（扩展）
 ```
 
-	开机时Shift并鼠标点中启动页
-	进入Advanced options for ubuntu，选择recovery mode
-	进入Recovery Menu，选择Drop to root shell prompt
-	$ passwd root
-	$ reboot
+```
+开机时Shift并鼠标点中启动页
+进入Advanced options for ubuntu，选择recovery mode
+进入Recovery Menu，选择Drop to root shell prompt
+$ passwd root
+$ reboot
+```
 	
 	$ apt-get update
 	$ apt-get install openssh-server
