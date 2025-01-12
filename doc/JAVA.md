@@ -144,7 +144,7 @@ $ /usr/lib/ubuntu-release-upgrader/release-upgrade-motd
 ```
 https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
 https://github.com/kubernetes/kubectl
-$ curl -LO https://dl.k8s.io/release/v1.26.3/bin/linux/arm64/kubectl
+$ curl -LO https://dl.k8s.io/release/v1.26.3/bin/linux/amd64/kubectl
 $ install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 $ sed -i '$a export KUBECONFIG=/etc/kubernetes/KUBECONFIG.yaml' ~/.bashrc
 $ source ~/.bashrc
