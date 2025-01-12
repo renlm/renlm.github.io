@@ -122,24 +122,14 @@ VirtualBox Extension Pack（扩展）
 $ passwd root
 $ reboot
 ```
-	
-	$ apt-get update
-	$ apt-get install openssh-server
-	$ echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-	$ systemctl restart ssh
-	$ systemctl enable ssh
 
 ```
-https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/
-$ sed -i 's/security.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list.d/ubuntu.sources
 $ apt-get update
 $ apt-get upgrade
-```
-
-```
-Failed to connect to https://changelogs.ubuntu.com/meta-release. Check your Internet connection or proxy settings
-$ rm /var/lib/ubuntu-release-upgrader/release-upgrade-available
-$ /usr/lib/ubuntu-release-upgrader/release-upgrade-motd
+$ apt-get install openssh-server
+$ echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+$ systemctl restart ssh
+$ systemctl enable ssh
 ```
 
 ```
