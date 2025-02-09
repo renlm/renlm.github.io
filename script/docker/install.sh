@@ -47,7 +47,7 @@ if [ -s /usr/bin/docker ]; then
       if [ -n `docker info | grep '^WARNING: No swap limit support'` ]; then
         echo "Edit GRUB_CMDLINE_LINUX and reboot."
         cp /etc/default/grub /etc/default/grub.bak
-        sed -i 's/GRUB_CMDLINE_LINUX="\(.*\)"/GRUB_CMDLINE_LINUX="net.ifnames=0 cgroup_enable=memory swapaccount=1 biosdevname=0 \1"/g' /etc/default/grub
+        sed -i 's/GRUB_CMDLINE_LINUX="\(.*\)"/GRUB_CMDLINE_LINUX="cgroup_enable=memory swapaccount=1 \1"/g' /etc/default/grub
         update-grub
         reboot
       fi
