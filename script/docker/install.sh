@@ -4,7 +4,7 @@ set -e
 set -o noglob
 
 # 参数
-DATA_ROOT="${@:-'/home/docker'}"
+DATA_ROOT=${@:-'/home/docker'}
 REGISTRY_MIRRORS=${REGISTRY_MIRRORS:-'https://docker.1ms.run'}
 
 # 操作系统

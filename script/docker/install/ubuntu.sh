@@ -3,12 +3,15 @@ set -e
 set -o noglob
 
 # 参数
-DATA_ROOT="${@}"
-REGISTRY_MIRRORS="${REGISTRY_MIRRORS}"
+DATA_ROOT=${@}
+REGISTRY_MIRRORS=${REGISTRY_MIRRORS}
 
 # 软件源
 if [ -s /etc/apt/sources.list.d/debian.sources ]; then
 	sed -i 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list.d/debian.sources
+elif [ -s /etc/apt/sources.list ]; then
+	sed -i 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list
+	sed -i 's|security.debian.org/debian-security|mirrors.aliyun.com/debian-security|g' /etc/apt/sources.list
 fi
 
 # 安装
