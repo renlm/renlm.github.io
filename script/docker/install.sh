@@ -3,7 +3,7 @@
 set -e
 set -o noglob
 
-# 环境变量（参数传递）
+# 动态变量（参数传递）
 DATA_ROOT=${@:-'/home/docker'}
 REGISTRY_MIRRORS=${REGISTRY_MIRRORS:-'https://docker.1ms.run'}
 
