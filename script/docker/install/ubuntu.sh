@@ -33,5 +33,4 @@ EOF
 
 # 重启
 systemctl daemon-reload
-systemctl enable docker
 systemctl restart docker
