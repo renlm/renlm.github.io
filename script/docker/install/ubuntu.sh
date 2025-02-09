@@ -16,7 +16,8 @@ fi
 
 # 安装
 apt-get update
-apt-get install -y docker.io docker-buildx docker-compose
+apt-get install -y docker.io docker-buildx docker-compose-v2
+ln -sf /usr/libexec/docker/cli-plugins/docker-compose /usr/bin/docker-compose
 
 # 配置
 cat <<EOF | tee /etc/docker/daemon.json
