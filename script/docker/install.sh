@@ -28,3 +28,13 @@ elif [ "$OS_ID" = "rhel" ]; then
 else
 	echo "Does not support automatic installation of Docker."
 fi
+
+# 修改构建日志限制
+if [ -s /etc/systemd/system/multi-user.target.wants/docker.service ]; then
+	if ! grep -q '^Environment="BUILDKIT_STEP_LOG_MAX_SIZE=' /etc/systemd/system/multi-user.target.wants/docker.service; then
+		sed -i '/[Service]/a\Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"' /etc/systemd/system/multi-user.target.wants/docker.service
+		sed -i '/[Service]/a\Environment="BUILDKIT_STEP_LOG_MAX_SIZE=1073741824"' /etc/systemd/system/multi-user.target.wants/docker.service
+		systemctl daemon-reload
+		systemctl restart docker
+	fi
+fi
