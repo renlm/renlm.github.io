@@ -15,8 +15,8 @@ elif [ -s /etc/apt/sources.list ]; then
 fi
 
 # 安装
-apt update
-apt install -y docker.io docker-buildx docker-compose
+apt-get update
+apt-get install -y docker.io docker-buildx docker-compose
 
 # 配置
 cat <<EOF | tee /etc/docker/daemon.json
