@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 set -o noglob
@@ -13,7 +13,7 @@ echo "The system is $system."
  
 # 安装脚本
 if [ "$system" = "Ubuntu" ]; then
-	curl -sfL https://github-io.renlm.cn/script/docker/install/ubuntu.sh | REGISTRY_MIRRORS=$REGISTRY_MIRRORS sh -s - $DATA_ROOT
+	curl -sfL https://github-io.renlm.cn/script/docker/install/ubuntu.sh | REGISTRY_MIRRORS=$REGISTRY_MIRRORS bash -s $DATA_ROOT
 else
 	echo "Does not support automatic installation of Docker."
 fi
