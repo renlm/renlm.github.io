@@ -19,10 +19,7 @@ yum-config-manager --add-repo https://mirrors.aliyun.com/docker-ce/linux/centos/
 # 安装
 # https://docs.docker.com/engine/install/rhel/
 yum install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-if [ ! grep -q 'alias docker-compose="docker compose"' ~/.bashrc ]; then
-	sed -i '$a alias docker-compose="docker compose"' ~/.bashrc
-	source ~/.bashrc
-fi
+ln -sf /usr/libexec/docker/cli-plugins/docker-compose /usr/bin/docker-compose
 
 # 配置
 cat <<EOF | tee /etc/docker/daemon.json
