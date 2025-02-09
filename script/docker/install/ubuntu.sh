@@ -9,7 +9,7 @@ apt install -y docker.io docker-buildx docker-compose
 # 配置
 cat <<EOF | tee /etc/docker/daemon.json
 {
-  "data-root": "/home/docker",
+  "data-root": "$DATA_ROOT",
   "features": { "buildkit" : true },
   "exec-opts": [ "native.cgroupdriver=systemd" ],
   "registry-mirrors": [ "$REGISTRY_MIRRORS" ],

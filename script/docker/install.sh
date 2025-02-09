@@ -3,13 +3,17 @@
 set -e
 set -o noglob
 
-REGISTRY_MIRRORS=${REGISTRY_MIRRORS:-'https://docker-io.renlm.cn'}
+# 环境变量（参数传递）
+DATA_ROOT=${@:-'/home/docker'}
+REGISTRY_MIRRORS=${REGISTRY_MIRRORS:-'https://docker.1ms.run'}
 
+# 获取操作系统
 system=`lsb_release -a 2> /dev/null | grep "Distributor ID:" | cut -d ":" -f2`
 echo "The system is $system."
  
+# 根据操作系统执行不同的脚本
 if [ "$system" == "Ubuntu" ]; then
-	curl -sfL https://github-io.renlm.cn/script/docker/install/ubuntu.sh | REGISTRY_MIRRORS=$REGISTRY_MIRRORS sh -s - 
+	curl -sfL https://github-io.renlm.cn/script/docker/install/ubuntu.sh | REGISTRY_MIRRORS=$REGISTRY_MIRRORS sh -s - $DATA_ROOT
 else
 	echo "Does not support automatic installation of Docker."
 fi
