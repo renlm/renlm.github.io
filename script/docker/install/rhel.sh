@@ -2,7 +2,7 @@
 set -e
 set -o noglob
 
-# 参数
+# 脚本参数
 DATA_ROOT=${@}
 REGISTRY_MIRRORS=${REGISTRY_MIRRORS}
 
