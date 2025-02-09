@@ -6,6 +6,11 @@ set -o noglob
 DATA_ROOT="${@}"
 REGISTRY_MIRRORS="${REGISTRY_MIRRORS}"
 
+# 软件源
+if [ -s /etc/apt/sources.list.d/debian.sources ]; then
+	sed -i 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list.d/debian.sources
+fi
+
 # 安装
 apt update
 apt install -y docker.io docker-buildx docker-compose
