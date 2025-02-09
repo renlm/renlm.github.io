@@ -8,10 +8,9 @@ DATA_ROOT=${@:-'/home/docker'}
 REGISTRY_MIRRORS=${REGISTRY_MIRRORS:-'https://docker.1ms.run'}
 
 # 内核参数
-if [ ! grep -q '^fs.inotify.max_user_instances' '/etc/sysctl.conf' ]; then
+if [ grep -q '^fs.inotify.max_user_instances' /etc/sysctl.conf ]; then
+else
 	sed -i '$a fs.inotify.max_user_instances = 8192' /etc/sysctl.conf
-fi
-if [ -s /etc/sysctl.conf ]; then
 	sysctl -p
 fi
 
