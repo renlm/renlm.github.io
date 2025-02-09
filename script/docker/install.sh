@@ -48,6 +48,7 @@ if [ -s /usr/bin/docker ]; then
         cp /etc/default/grub /etc/default/grub.bak
         sed -i 's/GRUB_CMDLINE_LINUX="\(.*\)"/GRUB_CMDLINE_LINUX="net.ifnames=0 cgroup_enable=memory swapaccount=1 biosdevname=0 \1"/g' /etc/default/grub
         update-grub
+        echo "reboot . . ."
         reboot
       fi
     fi
