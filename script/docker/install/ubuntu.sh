@@ -2,6 +2,10 @@
 set -e
 set -o noglob
 
+# 参数
+DATA_ROOT="${@}"
+REGISTRY_MIRRORS="${REGISTRY_MIRRORS}"
+
 # 安装
 apt update
 apt install -y docker.io docker-buildx docker-compose
