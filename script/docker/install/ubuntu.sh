@@ -12,7 +12,7 @@ cat <<EOF | tee /etc/docker/daemon.json
   "data-root": "/home/docker",
   "features": { "buildkit" : true },
   "exec-opts": [ "native.cgroupdriver=systemd" ],
-  "registry-mirrors": [ "https://docker-io.renlm.cn" ],
+  "registry-mirrors": [ "$REGISTRY_MIRRORS" ],
   "log-driver": "json-file",
   "log-opts": { "max-size": "100m", "max-file": "3" }
 }
