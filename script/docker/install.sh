@@ -29,22 +29,22 @@ else
   echo "Does not support automatic installation of Docker."
 fi
 
-# 修改构建日志限制
+# 已安装
 if [ -s /etc/systemd/system/multi-user.target.wants/docker.service ]; then
+  # 修改构建日志限制
   if ! grep -q '^Environment="BUILDKIT_STEP_LOG_MAX_SIZE=' /etc/systemd/system/multi-user.target.wants/docker.service; then
     sed -i '/\[Service\]/a\Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"' /etc/systemd/system/multi-user.target.wants/docker.service
     sed -i '/\[Service\]/a\Environment="BUILDKIT_STEP_LOG_MAX_SIZE=1073741824"' /etc/systemd/system/multi-user.target.wants/docker.service
     systemctl daemon-reload
     systemctl restart docker
   fi
-fi
-
-# WARNING: No swap limit support
-if [ -s /etc/default/grub ]; then
-  if docker info | grep -q '^WARNING: No swap limit support'; then
-    cp /etc/default/grub /etc/default/grub.bak
-    sed -i 's/GRUB_CMDLINE_LINUX="\(.*\)"/GRUB_CMDLINE_LINUX="net.ifnames=0 cgroup_enable=memory swapaccount=1 biosdevname=0 \1"/g' /etc/default/grub
-    update-grub
-    reboot
+  # WARNING: No swap limit support
+  if [ -s /etc/default/grub ]; then
+    if [ -n `docker info | grep '^WARNING: No swap limit support'` ]; then
+      cp /etc/default/grub /etc/default/grub.bak
+      sed -i 's/GRUB_CMDLINE_LINUX="\(.*\)"/GRUB_CMDLINE_LINUX="net.ifnames=0 cgroup_enable=memory swapaccount=1 biosdevname=0 \1"/g' /etc/default/grub
+      update-grub
+      reboot
+    fi
   fi
 fi
