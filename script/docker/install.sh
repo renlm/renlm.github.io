@@ -8,7 +8,7 @@ DATA_ROOT=${@:-'/home/docker'}
 REGISTRY_MIRRORS=${REGISTRY_MIRRORS:-'https://docker.1ms.run'}
 
 # 获取操作系统
-system=`lsb_release -a 2> /dev/null | grep "Distributor ID:" | cut -d ":" -f2`
+system=`lsb_release -i | cut -f 2`
 echo "The system is $system."
  
 # 根据操作系统执行不同的脚本
