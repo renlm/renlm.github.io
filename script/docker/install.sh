@@ -12,14 +12,6 @@ if [ ! grep -q '^fs.inotify.max_user_instances' /etc/sysctl.conf ]; then
 	sed -i '$a fs.inotify.max_user_instances = 8192' /etc/sysctl.conf
 	sysctl -p
 fi
-if [ ! grep -q '^fs.file-max' /etc/sysctl.conf ]; then
-	sed -i '$a fs.file-max = 655350' /etc/sysctl.conf
-	sysctl -p
-fi
-if [ ! grep -q '^fs.nr_open' /etc/sysctl.conf ]; then
-	sed -i '$a fs.nr_open = 600000' /etc/sysctl.conf
-	sysctl -p
-fi
 
 # 操作系统
 OS_ID=`cat /etc/os-release | grep ^ID= | cut -d = -f 2 | tr -d '"'`
