@@ -44,7 +44,8 @@ if [ -s /usr/bin/docker ]; then
     fi
     # WARNING: No swap limit support
     if [ -s /etc/default/grub ]; then
-      if [ -n `docker info | grep '^WARNING: No swap limit support'` ]; then
+      NO_SWAP_LIMIT_WARNING=`docker info | grep '^WARNING: No swap limit support'`
+      if [ "$NO_SWAP_LIMIT_WARNING" = "WARNING: No swap limit support" ]; then
         echo "Edit GRUB_CMDLINE_LINUX and reboot."
         cp /etc/default/grub /etc/default/grub.bak
         sed -i 's/GRUB_CMDLINE_LINUX="\(.*\)"/GRUB_CMDLINE_LINUX="cgroup_enable=memory swapaccount=1 \1"/g' /etc/default/grub
