@@ -41,7 +41,7 @@ fi
 
 # WARNING: No swap limit support
 if [ -s /etc/default/grub ]; then
-  if ! docker info | grep -q '^WARNING: No swap limit support'; then
+  if docker info | grep -q '^WARNING: No swap limit support'; then
     cp /etc/default/grub /etc/default/grub.bak
     sed -i 's/GRUB_CMDLINE_LINUX="\(.*\)"/GRUB_CMDLINE_LINUX="net.ifnames=0 cgroup_enable=memory swapaccount=1 biosdevname=0 \1"/g' /etc/default/grub
     update-grub
