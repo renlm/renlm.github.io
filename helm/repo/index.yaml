@@ -13,7 +13,7 @@ entries:
     name: core-service
     type: application
     urls:
-    - https://github-io.renlm.cn/helm/repo/core-service-0.0.1.tgz
+    - https://github.renlm.cn/helm/repo/core-service-0.0.1.tgz
     version: 0.0.1
   core-web:
   - apiVersion: v2
@@ -28,6 +28,6 @@ entries:
     name: core-web
     type: application
     urls:
-    - https://github-io.renlm.cn/helm/repo/core-web-0.0.1.tgz
+    - https://github.renlm.cn/helm/repo/core-web-0.0.1.tgz
     version: 0.0.1
 generated: "2025-01-07T09:37:17.70071628+08:00"

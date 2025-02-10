@@ -78,7 +78,7 @@ EOF
 	https://github.com/helm/helm/releases/
 	
 	master节点即可
-	$ wget https://github-io.renlm.cn/download/helm-v3.16.4-linux-amd64.tar.gz \
+	$ wget https://github.renlm.cn/download/helm-v3.16.4-linux-amd64.tar.gz \
         && tar -zxvf helm-v3.16.4-linux-amd64.tar.gz -C /usr/local/ --transform="s/linux-amd64/helm-v3.16.4/g" \
         && ln -sf /usr/local/helm-v3.16.4 /usr/local/helm \
         && sed -i '$a export PATH=/usr/local/helm:$PATH' ~/.bashrc \
@@ -171,7 +171,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	https://github.com/istio/istio/releases
 	
 	master节点即可
-	$ wget https://github-io.renlm.cn/download/istio-1.24.2-linux-amd64.tar.gz \
+	$ wget https://github.renlm.cn/download/istio-1.24.2-linux-amd64.tar.gz \
         && tar -zxvf istio-1.24.2-linux-amd64.tar.gz -C /usr/local/ \
         && ln -sf /usr/local/istio-1.24.2 /usr/local/istio \
         && sed -i '$a export ISTIO_PATH=/usr/local/istio' ~/.bashrc \
@@ -181,7 +181,7 @@ $ curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | \
 	
 	安装istio组件
 	$ istioctl install -y --set profile=minimal \
-        && wget https://github-io.renlm.cn/helm/istio.install.yaml \
+        && wget https://github.renlm.cn/helm/istio.install.yaml \
         && istioctl install -y -f istio.install.yaml
 	
 	可视化

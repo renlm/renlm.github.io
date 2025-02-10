@@ -132,11 +132,11 @@ EOF
 	镜像代理
 	$ mkdir -p /etc/containerd/certs.d/{docker.io,gcr.io,ghcr.io,quay.io,registry.k8s.io}
 	$ cd /etc/containerd/certs.d
-	$ wget https://github-io.renlm.cn/download/containerd/registry-certs.d/docker.io/hosts.toml -O docker.io/hosts.toml
-	$ wget https://github-io.renlm.cn/download/containerd/registry-certs.d/gcr.io/hosts.toml -O gcr.io/hosts.toml
-	$ wget https://github-io.renlm.cn/download/containerd/registry-certs.d/ghcr.io/hosts.toml -O ghcr.io/hosts.toml
-	$ wget https://github-io.renlm.cn/download/containerd/registry-certs.d/quay.io/hosts.toml -O quay.io/hosts.toml
-	$ wget https://github-io.renlm.cn/download/containerd/registry-certs.d/registry.k8s.io/hosts.toml -O registry.k8s.io/hosts.toml
+	$ wget https://github.renlm.cn/download/containerd/registry-certs.d/docker.io/hosts.toml -O docker.io/hosts.toml
+	$ wget https://github.renlm.cn/download/containerd/registry-certs.d/gcr.io/hosts.toml -O gcr.io/hosts.toml
+	$ wget https://github.renlm.cn/download/containerd/registry-certs.d/ghcr.io/hosts.toml -O ghcr.io/hosts.toml
+	$ wget https://github.renlm.cn/download/containerd/registry-certs.d/quay.io/hosts.toml -O quay.io/hosts.toml
+	$ wget https://github.renlm.cn/download/containerd/registry-certs.d/registry.k8s.io/hosts.toml -O registry.k8s.io/hosts.toml
 
 ```
 $ ctr image pull --hosts-dir /etc/containerd/certs.d docker.io/nginx:latest
