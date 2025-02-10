@@ -1,4 +1,4 @@
 server = "https://quay.io"
 
-[host."https://quay.io.renlm.site"]
+[host."https://quay.renlm.site"]
   capabilities = ["pull", "resolve"]

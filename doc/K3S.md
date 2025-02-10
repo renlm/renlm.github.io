@@ -58,16 +58,16 @@ mirrors:
     - https://docker.renlm.cn
   gcr.io:
     endpoint:
-    - https://gcr.io.renlm.site
+    - https://gcr.renlm.site
   ghcr.io:
     endpoint:
-    - https://ghcr.io.renlm.site
+    - https://ghcr.renlm.site
   quay.io:
     endpoint:
-    - https://quay.io.renlm.site
+    - https://quay.renlm.site
   registry.k8s.io:
     endpoint:
-    - https://registry.k8s.io.renlm.site
+    - https://k8s.renlm.site
 EOF
 ```
 	
