@@ -1,4 +1,4 @@
 server = "https://gcr.io"
 
-[host."https://gcr-io.renlm.cn"]
+[host."https://gcr.io.renlm.site"]
   capabilities = ["pull", "resolve"]

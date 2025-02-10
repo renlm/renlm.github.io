@@ -1,4 +1,4 @@
 server = "https://registry.k8s.io"
 
-[host."https://registry-k8s-io.renlm.cn"]
+[host."https://registry.k8s.io.renlm.site"]
   capabilities = ["pull", "resolve"]
