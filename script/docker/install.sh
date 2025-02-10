@@ -5,7 +5,7 @@ set -o noglob
 
 # 脚本参数
 DATA_ROOT=${@:-'/home/docker'}
-REGISTRY_MIRRORS=${REGISTRY_MIRRORS:-'https://docker.1ms.run'}
+REGISTRY_MIRRORS=${REGISTRY_MIRRORS:-'https://docker.renlm.cn'}
 
 # 内核参数
 if ! grep -q '^fs.inotify.max_user_instances' /etc/sysctl.conf; then
