@@ -1,36 +1,12 @@
 # Docker（Ubuntu）
 
-## 安装与使用
-	$ apt update
-	$ apt install -y tree docker.io docker-buildx docker-compose
-
-```
-镜像加速
-$ cat <<EOF | tee /etc/docker/daemon.json
-{
-  "registry-mirrors": [ 
-    "https://docker.1ms.run",
-    "https://docker-io.renlm.cn"
-  ],
-  "log-driver": "json-file",
-  "log-opts": { "max-size": "500m", "max-file": "3" },
-  "features": { "buildkit" : true }
-}
-EOF
-```
-
-```
-添加构建日志限制
-$ vi /etc/systemd/system/multi-user.target.wants/docker.service
-[Service]
-Environment="BUILDKIT_STEP_LOG_MAX_SIZE=1073741824"
-Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"
-```
-
-	启动服务
-	$ systemctl daemon-reload
-	$ systemctl enable docker
-	$ systemctl restart docker
+## 安装
+	已适配系统：ubuntu、rhel
+	公共镜像源：https://docker.renlm.cn
+	Docker 工作目录：/home/docker
+	$ curl -sfL https://github.renlm.cn/script/docker/install.sh | \
+        REGISTRY_MIRRORS=https://docker.renlm.cn \
+        bash -s /home/docker
 	
 	清理缓存
 	$ docker system df
