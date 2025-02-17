@@ -42,6 +42,24 @@ if [ -s /usr/bin/docker ]; then
       systemctl daemon-reload
       systemctl restart docker
     fi
+    # WARNING: bridge-nf-call-iptables is disabled
+    if [ -s /etc/sysctl.conf ]; then
+      BRIDGE_NF_CALL_IPTABLES_WARNING=`systemctl status docker.service | grep -c 'WARNING: bridge-nf-call-iptables is disabled'`
+      if [ $BRIDGE_NF_CALL_IPTABLES_WARNING -gt 0 ]; then
+        sed -i '$a net.bridge.bridge-nf-call-iptables = 1' /etc/sysctl.conf
+        systemctl daemon-reload
+        systemctl restart docker
+      fi
+    fi
+    # WARNING: bridge-nf-call-ip6tables is disabled
+    if [ -s /etc/sysctl.conf ]; then
+      BRIDGE_NF_CALL_IP6TABLES_WARNING=`systemctl status docker.service | grep -c 'WARNING: bridge-nf-call-ip6tables is disabled'`
+      if [ $BRIDGE_NF_CALL_IP6TABLES_WARNING -gt 0 ]; then
+        sed -i '$a net.bridge.bridge-nf-call-ip6tables = 1' /etc/sysctl.conf
+        systemctl daemon-reload
+        systemctl restart docker
+      fi
+    fi
     # WARNING: No swap limit support
     if [ -s /etc/default/grub ]; then
       NO_SWAP_LIMIT_WARNING=`systemctl status docker.service | grep -c 'WARNING: No swap limit support'`
