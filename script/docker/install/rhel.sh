@@ -9,10 +9,13 @@ REGISTRY_MIRRORS=${REGISTRY_MIRRORS}
 # 镜像源
 # https://developer.aliyun.com/mirror/docker-ce
 OS_MAIN_VERSION=`cat /etc/os-release | grep ^VERSION_ID= | cut -d = -f 2 | tr -d '"' | cut -d . -f 1`
-yum-config-manager --add-repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo \
-  && wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-${OS_MAIN_VERSION}.repo \
-  && sed -i 's/\$releasever/'${OS_MAIN_VERSION}'/g' /etc/yum.repos.d/docker-ce.repo \
+wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-${OS_MAIN_VERSION}.repo \
   && sed -i 's/\$releasever/'${OS_MAIN_VERSION}'/g' /etc/yum.repos.d/CentOS-Base.repo \
+  && yum clean all \
+  && yum makecache
+yum install -y yum-utils \
+  && yum-config-manager --add-repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo \
+  && sed -i 's/\$releasever/'${OS_MAIN_VERSION}'/g' /etc/yum.repos.d/docker-ce.repo \
   && yum clean all \
   && yum makecache
   
