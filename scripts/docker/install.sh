@@ -53,6 +53,13 @@ if [ -s /usr/bin/docker ]; then
         sed -i '$a net.bridge.bridge-nf-call-ip6tables = 1' /etc/sysctl.conf
       fi
     fi
+    # Failed to built-in GetDriver graph btrfs /home/docker
+    if ! grep -q 'storage-driver' /etc/docker/daemon.json; then
+      GRAPH_BTRFS_WARNING=$(systemctl status docker.service | grep -c 'Failed to built-in GetDriver graph btrfs '$DATA_ROOT'' || true)
+      if [ $GRAPH_BTRFS_WARNING -gt 0 ]; then
+        sed -i '/registry-mirrors/a\  "storage-driver": "vfs",' /etc/docker/daemon.json
+      fi
+    fi
     # Restart
     if [ -s /etc/sysctl.conf ]; then
       sysctl -p
