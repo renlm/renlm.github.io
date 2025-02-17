@@ -7,6 +7,9 @@ DATA_ROOT=${@}
 REGISTRY_MIRRORS=${REGISTRY_MIRRORS}
 
 # 镜像源
+# http://mirrors.aliyun.com/repo/
+# https://mirrors.huaweicloud.com/repository/conf/
+# https://mirrors.cloud.tencent.com/repo/
 # https://developer.aliyun.com/mirror/docker-ce
 OS_MAIN_VERSION=`cat /etc/os-release | grep ^VERSION_ID= | cut -d = -f 2 | tr -d '"' | cut -d . -f 1`
 rm -fr /etc/yum.repos.d/* \
