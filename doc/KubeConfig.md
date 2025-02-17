@@ -20,7 +20,7 @@
 # TYPE：k3s、rke2
 # 集群角色：cluster-admin
 # 命令动作：new、export
-curl -sfL https://renlm.github.io/script/sh/KubeConfig.sh | \
+curl -sfL https://renlm.github.io/script/kubernetes/KubeConfig.sh | \
   SERVER=https://kubernetes.renlm.cn \
   TYPE=k3s \
   CLUSTER=pubyun \
@@ -36,7 +36,7 @@ curl -sfL https://renlm.github.io/script/sh/KubeConfig.sh | \
 # TYPE：k3s、rke2
 # 集群角色：admin
 # 命令动作：new、export
-curl -sfL https://renlm.github.io/script/sh/KubeConfig.sh | \
+curl -sfL https://renlm.github.io/script/kubernetes/KubeConfig.sh | \
   SERVER=https://kubernetes.renlm.cn \
   TYPE=k3s \
   CLUSTER=pubyun \
