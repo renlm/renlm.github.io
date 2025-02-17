@@ -11,9 +11,6 @@ REGISTRY_MIRRORS=${REGISTRY_MIRRORS:-'https://docker.renlm.cn'}
 if ! grep -q '^fs.inotify.max_user_instances' /etc/sysctl.conf; then
   sed -i '$a fs.inotify.max_user_instances = 8192' /etc/sysctl.conf
 fi
-if [ -s /etc/sysctl.conf ]; then
-  sysctl -p
-fi
 
 # 操作系统
 OS_ID=`cat /etc/os-release | grep ^ID= | cut -d = -f 2 | tr -d '"'`
@@ -39,17 +36,12 @@ if [ -s /usr/bin/docker ]; then
     if ! grep -q '^Environment="BUILDKIT_STEP_LOG_MAX_SIZE=' /etc/systemd/system/multi-user.target.wants/docker.service; then
       sed -i '/\[Service\]/a\Environment="BUILDKIT_STEP_LOG_MAX_SPEED=10240000"' /etc/systemd/system/multi-user.target.wants/docker.service
       sed -i '/\[Service\]/a\Environment="BUILDKIT_STEP_LOG_MAX_SIZE=1073741824"' /etc/systemd/system/multi-user.target.wants/docker.service
-      systemctl daemon-reload
-      systemctl restart docker
     fi
     # WARNING: bridge-nf-call-iptables is disabled
     if [ -s /etc/sysctl.conf ]; then
       BRIDGE_NF_CALL_IPTABLES_WARNING=`systemctl status docker.service | grep -c 'WARNING: bridge-nf-call-iptables is disabled'`
       if [ $BRIDGE_NF_CALL_IPTABLES_WARNING -gt 0 ]; then
         sed -i '$a net.bridge.bridge-nf-call-iptables = 1' /etc/sysctl.conf
-        sysctl -p
-        systemctl daemon-reload
-        systemctl restart docker
       fi
     fi
     # WARNING: bridge-nf-call-ip6tables is disabled
@@ -57,10 +49,13 @@ if [ -s /usr/bin/docker ]; then
       BRIDGE_NF_CALL_IP6TABLES_WARNING=`systemctl status docker.service | grep -c 'WARNING: bridge-nf-call-ip6tables is disabled'`
       if [ $BRIDGE_NF_CALL_IP6TABLES_WARNING -gt 0 ]; then
         sed -i '$a net.bridge.bridge-nf-call-ip6tables = 1' /etc/sysctl.conf
-        sysctl -p
-        systemctl daemon-reload
-        systemctl restart docker
       fi
+    fi
+    # 重启
+    if [ -s /etc/sysctl.conf ]; then
+      sysctl -p
+      systemctl daemon-reload
+      systemctl restart docker
     fi
     # WARNING: No swap limit support
     if [ -s /etc/default/grub ]; then
