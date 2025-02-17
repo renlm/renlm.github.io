@@ -56,8 +56,9 @@ if [ -s /usr/bin/docker ]; then
     # Failed to built-in GetDriver graph btrfs /home/docker
     if ! grep -q 'storage-driver' /etc/docker/daemon.json; then
       GRAPH_BTRFS_WARNING=$(systemctl status docker.service | grep -c 'Failed to built-in GetDriver graph btrfs '$DATA_ROOT'' || true)
+      STORAGE_DRIVER=$(systemctl status docker.service | grep -Eo 'storage-driver=\S+' | cut -d = -f 2)
       if [ $GRAPH_BTRFS_WARNING -gt 0 ]; then
-        sed -i '/registry-mirrors/a\  "storage-driver": "vfs",' /etc/docker/daemon.json
+        sed -i '/registry-mirrors/a\  "storage-driver": "'${STORAGE_DRIVER}'",' /etc/docker/daemon.json
       fi
     fi
     # Restart
