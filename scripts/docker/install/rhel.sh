@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-set -o noglob
+set +o noglob
 
 # 脚本参数
 DATA_ROOT=${@}
