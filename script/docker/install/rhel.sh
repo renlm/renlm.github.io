@@ -13,8 +13,8 @@ wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-${OS_MAIN
   && wget -O /etc/yum.repos.d/docker-ce.repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo \
   && sed -i 's/\$releasever/'${OS_MAIN_VERSION}'/g' /etc/yum.repos.d/epel.repo \
   && sed -i 's/\$releasever/'${OS_MAIN_VERSION}'/g' /etc/yum.repos.d/docker-ce.repo \
-  && rm -rf /var/cache/yum \
-  && yum clean all \
+  && rm -fr /etc/yum.repos.d/* \
+  && rm -rf /var/cache/yum/* \
   && yum makecache
   
 # 安装
