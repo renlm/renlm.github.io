@@ -38,14 +38,14 @@ if [ -s /usr/bin/docker ]; then
       sed -i '/\[Service\]/a\Environment="BUILDKIT_STEP_LOG_MAX_SIZE=1073741824"' /etc/systemd/system/multi-user.target.wants/docker.service
     fi
     # WARNING: bridge-nf-call-iptables is disabled
-    if [ -s /etc/sysctl.conf ]; then
+    if ! grep -q '^net.bridge.bridge-nf-call-iptables' /etc/sysctl.conf; then
       BRIDGE_NF_CALL_IPTABLES_WARNING=`systemctl status docker.service | grep -c 'WARNING: bridge-nf-call-iptables is disabled'`
       if [ $BRIDGE_NF_CALL_IPTABLES_WARNING -gt 0 ]; then
         sed -i '$a net.bridge.bridge-nf-call-iptables = 1' /etc/sysctl.conf
       fi
     fi
     # WARNING: bridge-nf-call-ip6tables is disabled
-    if [ -s /etc/sysctl.conf ]; then
+    if ! grep -q '^net.bridge.bridge-nf-call-ip6tables' /etc/sysctl.conf; then
       BRIDGE_NF_CALL_IP6TABLES_WARNING=`systemctl status docker.service | grep -c 'WARNING: bridge-nf-call-ip6tables is disabled'`
       if [ $BRIDGE_NF_CALL_IP6TABLES_WARNING -gt 0 ]; then
         sed -i '$a net.bridge.bridge-nf-call-ip6tables = 1' /etc/sysctl.conf
