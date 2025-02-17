@@ -4,9 +4,8 @@ set -o noglob
 
 # 脚本参数
 DATA_ROOT=${@}
-REGISTRY_MIRRORS=${REGISTRY_MIRRORS}
-# 系统镜像源（aliyun、huaweicloud、tencent）
 OS_MIRRORS=${OS_MIRRORS}
+REGISTRY_MIRRORS=${REGISTRY_MIRRORS}
 
 # 软件源
 if [ "$OS_MIRRORS" = "aliyun" ]; then
