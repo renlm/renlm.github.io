@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -e
 set -o noglob
 
 # 脚本参数
