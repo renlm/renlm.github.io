@@ -6,6 +6,8 @@ set -o noglob
 # 脚本参数
 DATA_ROOT=${@:-'/home/docker'}
 REGISTRY_MIRRORS=${REGISTRY_MIRRORS:-'https://docker.renlm.cn'}
+# 系统镜像源（aliyun、huaweicloud、tencent）
+OS_MIRRORS=${OS_MIRRORS:-'huaweicloud'}
 
 # 内核参数
 if ! grep -q '^fs.inotify.max_user_instances' /etc/sysctl.conf; then

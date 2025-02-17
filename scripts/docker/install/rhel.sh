@@ -5,6 +5,8 @@ set +o noglob
 # 脚本参数
 DATA_ROOT=${@}
 REGISTRY_MIRRORS=${REGISTRY_MIRRORS}
+# 系统镜像源（aliyun、huaweicloud、tencent）
+OS_MIRRORS=${OS_MIRRORS}
 
 # 镜像源
 # http://mirrors.aliyun.com/repo/
@@ -12,13 +14,32 @@ REGISTRY_MIRRORS=${REGISTRY_MIRRORS}
 # https://mirrors.cloud.tencent.com/repo/
 # https://developer.aliyun.com/mirror/docker-ce
 OS_MAIN_VERSION=`cat /etc/os-release | grep ^VERSION_ID= | cut -d = -f 2 | tr -d '"' | cut -d . -f 1`
-rm -fr /etc/yum.repos.d/* \
-  && wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-${OS_MAIN_VERSION}.repo \
-  && wget -O /etc/yum.repos.d/docker-ce.repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo \
-  && sed -i 's/\$releasever/'${OS_MAIN_VERSION}'/g' /etc/yum.repos.d/CentOS-Base.repo \
-  && sed -i 's/\$releasever/'${OS_MAIN_VERSION}'/g' /etc/yum.repos.d/docker-ce.repo \
-  && rm -rf /var/cache/yum/* \
-  && yum makecache
+# 安装脚本
+if [ "$OS_MIRRORS" = "aliyun" ]; then
+  rm -fr /etc/yum.repos.d/* \
+    && wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-${OS_MAIN_VERSION}.repo \
+    && wget -O /etc/yum.repos.d/docker-ce.repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo \
+    && sed -i 's/\$releasever/'${OS_MAIN_VERSION}'/g' /etc/yum.repos.d/CentOS-Base.repo \
+    && sed -i 's/\$releasever/'${OS_MAIN_VERSION}'/g' /etc/yum.repos.d/docker-ce.repo \
+    && rm -rf /var/cache/yum/* \
+    && yum makecache
+elif [ "$OS_MIRRORS" = "huaweicloud" ]; then
+  rm -fr /etc/yum.repos.d/* \
+    && wget -O /etc/yum.repos.d/CentOS-Base.repo https://mirrors.huaweicloud.com/repository/conf/CentOS-${OS_MAIN_VERSION}-anon.repo \
+    && wget -O /etc/yum.repos.d/docker-ce.repo https://mirrors.huaweicloud.com/docker-ce/linux/centos/docker-ce.repo \
+    && sed -i 's/\$releasever/'${OS_MAIN_VERSION}'/g' /etc/yum.repos.d/CentOS-Base.repo \
+    && sed -i 's/\$releasever/'${OS_MAIN_VERSION}'/g' /etc/yum.repos.d/docker-ce.repo \
+    && rm -rf /var/cache/yum/* \
+    && yum makecache
+elif [ "$OS_MIRRORS" = "tencent" ]; then
+  rm -fr /etc/yum.repos.d/* \
+    && wget -O /etc/yum.repos.d/CentOS-Base.repo https://mirrors.cloud.tencent.com/repo/centos${OS_MAIN_VERSION}_base.repo \
+    && wget -O /etc/yum.repos.d/docker-ce.repo https://mirrors.tencent.com/docker-ce/linux/centos/docker-ce.repo \
+    && sed -i 's/\$releasever/'${OS_MAIN_VERSION}'/g' /etc/yum.repos.d/CentOS-Base.repo \
+    && sed -i 's/\$releasever/'${OS_MAIN_VERSION}'/g' /etc/yum.repos.d/docker-ce.repo \
+    && rm -rf /var/cache/yum/* \
+    && yum makecache
+fi
   
 # 安装
 # https://docs.docker.com/engine/install/rhel/
