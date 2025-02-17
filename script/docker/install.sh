@@ -51,7 +51,7 @@ if [ -s /usr/bin/docker ]; then
         sed -i '$a net.bridge.bridge-nf-call-ip6tables = 1' /etc/sysctl.conf
       fi
     fi
-    # 重启
+    # Restart
     if [ -s /etc/sysctl.conf ]; then
       sysctl -p
       systemctl daemon-reload
