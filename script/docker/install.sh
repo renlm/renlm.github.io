@@ -47,6 +47,7 @@ if [ -s /usr/bin/docker ]; then
       BRIDGE_NF_CALL_IPTABLES_WARNING=`systemctl status docker.service | grep -c 'WARNING: bridge-nf-call-iptables is disabled'`
       if [ $BRIDGE_NF_CALL_IPTABLES_WARNING -gt 0 ]; then
         sed -i '$a net.bridge.bridge-nf-call-iptables = 1' /etc/sysctl.conf
+        sysctl -p
         systemctl daemon-reload
         systemctl restart docker
       fi
@@ -56,6 +57,7 @@ if [ -s /usr/bin/docker ]; then
       BRIDGE_NF_CALL_IP6TABLES_WARNING=`systemctl status docker.service | grep -c 'WARNING: bridge-nf-call-ip6tables is disabled'`
       if [ $BRIDGE_NF_CALL_IP6TABLES_WARNING -gt 0 ]; then
         sed -i '$a net.bridge.bridge-nf-call-ip6tables = 1' /etc/sysctl.conf
+        sysctl -p
         systemctl daemon-reload
         systemctl restart docker
       fi
