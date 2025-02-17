@@ -39,14 +39,14 @@ if [ -s /usr/bin/docker ]; then
     fi
     # WARNING: bridge-nf-call-iptables is disabled
     if ! grep -q '^net.bridge.bridge-nf-call-iptables' /etc/sysctl.conf; then
-      BRIDGE_NF_CALL_IPTABLES_WARNING=`systemctl status docker.service | grep -c 'WARNING: bridge-nf-call-iptables is disabled'`
+      BRIDGE_NF_CALL_IPTABLES_WARNING=$(systemctl status docker.service | grep -c 'WARNING: bridge-nf-call-iptables is disabled' || true)
       if [ $BRIDGE_NF_CALL_IPTABLES_WARNING -gt 0 ]; then
         sed -i '$a net.bridge.bridge-nf-call-iptables = 1' /etc/sysctl.conf
       fi
     fi
     # WARNING: bridge-nf-call-ip6tables is disabled
     if ! grep -q '^net.bridge.bridge-nf-call-ip6tables' /etc/sysctl.conf; then
-      BRIDGE_NF_CALL_IP6TABLES_WARNING=`systemctl status docker.service | grep -c 'WARNING: bridge-nf-call-ip6tables is disabled'`
+      BRIDGE_NF_CALL_IP6TABLES_WARNING=$(systemctl status docker.service | grep -c 'WARNING: bridge-nf-call-ip6tables is disabled' || true)
       if [ $BRIDGE_NF_CALL_IP6TABLES_WARNING -gt 0 ]; then
         sed -i '$a net.bridge.bridge-nf-call-ip6tables = 1' /etc/sysctl.conf
       fi
@@ -59,7 +59,7 @@ if [ -s /usr/bin/docker ]; then
     fi
     # WARNING: No swap limit support
     if [ -s /etc/default/grub ]; then
-      NO_SWAP_LIMIT_WARNING=`systemctl status docker.service | grep -c 'WARNING: No swap limit support'`
+      NO_SWAP_LIMIT_WARNING=$(systemctl status docker.service | grep -c 'WARNING: No swap limit support' || true)
       if [ $NO_SWAP_LIMIT_WARNING -gt 0 ]; then
         echo "Edit GRUB_CMDLINE_LINUX and reboot."
         cp /etc/default/grub /etc/default/grub.bak
