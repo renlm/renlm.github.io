@@ -49,7 +49,7 @@ yum install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker
 ln -sf /usr/libexec/docker/cli-plugins/docker-compose /usr/bin/docker-compose
 
 # 配置
-cat <<EOF | tee /etc/docker/daemon.json
+cat <<EOF | tee /etc/docker/daemon.json > /dev/null
 {
   "data-root": "$DATA_ROOT",
   "features": { "buildkit" : true },

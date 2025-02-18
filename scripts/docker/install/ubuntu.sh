@@ -37,7 +37,7 @@ apt-get install -y docker.io docker-buildx docker-compose-v2
 ln -sf /usr/libexec/docker/cli-plugins/docker-compose /usr/bin/docker-compose
 
 # 配置
-cat <<EOF | tee /etc/docker/daemon.json
+cat <<EOF | tee /etc/docker/daemon.json > /dev/null
 {
   "data-root": "$DATA_ROOT",
   "features": { "buildkit" : true },

@@ -6,7 +6,7 @@ set -o noglob
 # 脚本参数
 DATA_ROOT=${@:-'/home/docker'}
 REGISTRY_MIRRORS=${REGISTRY_MIRRORS:-'https://docker.renlm.cn'}
-# 系统镜像源（aliyun、huaweicloud、tencent）
+# 系统镜像源（huaweicloud、tencent、aliyun）
 OS_MIRRORS=${OS_MIRRORS:-'huaweicloud'}
 
 # 内核参数
@@ -66,6 +66,7 @@ if [ -s /usr/bin/docker ]; then
       sysctl -p
       systemctl daemon-reload
       systemctl restart docker
+      cat /etc/docker/daemon.json
     fi
     # WARNING: No swap limit support
     if [ -s /etc/default/grub ]; then
