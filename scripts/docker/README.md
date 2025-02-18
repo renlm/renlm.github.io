@@ -9,3 +9,7 @@
         OS_MIRRORS=huaweicloud \
         REGISTRY_MIRRORS=https://docker.renlm.cn \
         bash -s /home/docker
+	
+	清理缓存
+	$ docker system df
+	$ docker system prune
