@@ -2,11 +2,11 @@
 
 ## 安装
 	已适配系统：ubuntu、rhel、centos
-	系统镜像源：huaweicloud、tencent、aliyun
+	系统镜像源：tencent、aliyun、huaweicloud
 	Docker 镜像源：https://docker.renlm.cn
 	Docker 工作目录：/home/docker
 	$ curl -sfL https://github.renlm.cn/scripts/docker/install.sh | \
-        OS_MIRRORS=huaweicloud \
+        OS_MIRRORS=tencent \
         REGISTRY_MIRRORS=https://docker.renlm.cn \
         bash -s /home/docker
 	
