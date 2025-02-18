@@ -8,14 +8,7 @@ OS_MIRRORS=${OS_MIRRORS}
 REGISTRY_MIRRORS=${REGISTRY_MIRRORS}
 
 # 软件源
-if [ "$OS_MIRRORS" = "huaweicloud" ]; then
-  if [ -s /etc/apt/sources.list.d/debian.sources ]; then
-    sed -i 's/deb.debian.org/mirrors.huaweicloud.com/g' /etc/apt/sources.list.d/debian.sources
-  elif [ -s /etc/apt/sources.list ]; then
-    sed -i 's/deb.debian.org/mirrors.huaweicloud.com/g' /etc/apt/sources.list
-    sed -i 's|security.debian.org/debian-security|mirrors.huaweicloud.com/debian-security|g' /etc/apt/sources.list
-  fi
-elif [ "$OS_MIRRORS" = "tencent" ]; then
+if [ "$OS_MIRRORS" = "tencent" ]; then
   if [ -s /etc/apt/sources.list.d/debian.sources ]; then
     sed -i 's/deb.debian.org/mirrors.cloud.tencent.com/g' /etc/apt/sources.list.d/debian.sources
   elif [ -s /etc/apt/sources.list ]; then
@@ -28,6 +21,13 @@ elif [ "$OS_MIRRORS" = "aliyun" ]; then
   elif [ -s /etc/apt/sources.list ]; then
     sed -i 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list
     sed -i 's|security.debian.org/debian-security|mirrors.aliyun.com/debian-security|g' /etc/apt/sources.list
+  fi
+elif [ "$OS_MIRRORS" = "huaweicloud" ]; then
+  if [ -s /etc/apt/sources.list.d/debian.sources ]; then
+    sed -i 's/deb.debian.org/mirrors.huaweicloud.com/g' /etc/apt/sources.list.d/debian.sources
+  elif [ -s /etc/apt/sources.list ]; then
+    sed -i 's/deb.debian.org/mirrors.huaweicloud.com/g' /etc/apt/sources.list
+    sed -i 's|security.debian.org/debian-security|mirrors.huaweicloud.com/debian-security|g' /etc/apt/sources.list
   fi
 fi
 
