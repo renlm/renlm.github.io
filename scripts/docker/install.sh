@@ -60,6 +60,11 @@ if [ -s /usr/bin/docker ]; then
         sed -i '/registry-mirrors/a\  "storage-driver": "'${STORAGE_DRIVER}'",' /etc/docker/daemon.json
       fi
     fi
+    # Create network
+    DOCKER_NETWORK_LS_SHARE=$(docker network ls | grep -c share || true)
+    if [ $DOCKER_NETWORK_LS_SHARE -eq 0 ]; then
+      docker network create share
+    fi
     # Restart
     if [ -s /etc/sysctl.conf ]; then
       sysctl -p
