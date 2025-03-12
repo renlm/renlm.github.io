@@ -16,11 +16,11 @@ OS_MAIN_VERSION=`cat /etc/os-release | grep ^VERSION_ID= | cut -d = -f 2 | tr -d
 # 安装脚本
 if [ "$OS_MIRRORS" = "tencent" ]; then
   rm -fr /etc/yum.repos.d/* \
-    && wget -O /etc/yum.repos.d/CentOS-Base.repo https://mirrors.cloud.tencent.com/repo/centos7_base.repo \
+    && wget -O /etc/yum.repos.d/CentOS-Base.repo https://mirrors.cloud.tencent.com/repo/centos${OS_MAIN_VERSION}_base.repo \
     && wget -O /etc/yum.repos.d/docker-ce.repo https://mirrors.tencent.com/docker-ce/linux/centos/docker-ce.repo \
-    && sed -i 's/\$releasever/7/g' /etc/yum.repos.d/CentOS-Base.repo \
+    && sed -i 's/\$releasever/'${OS_MAIN_VERSION}'/g' /etc/yum.repos.d/CentOS-Base.repo \
     && sed -i 's|download.docker.com|mirrors.cloud.tencent.com/docker-ce|g' /etc/yum.repos.d/docker-ce.repo \
-    && sed -i 's/\$releasever/7/g' /etc/yum.repos.d/docker-ce.repo \
+    && sed -i 's/\$releasever/'${OS_MAIN_VERSION}'/g' /etc/yum.repos.d/docker-ce.repo \
     && rm -rf /var/cache/yum/* \
     && yum makecache
 elif [ "$OS_MIRRORS" = "aliyun" ]; then
