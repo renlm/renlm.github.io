@@ -4,7 +4,7 @@ RUN cmake \
   -DHAVE_SSE41=0 \
   -DCMAKE_INSTALL_PREFIX=./release \
   -DHAVE_SSE42=0 \
-  -DCMAKE_TOOLCHAIN_FILE=cmake/linux/toolchain-aarch64.cmake \
+  -DCMAKE_TOOLCHAIN_FILE=cmake/linux/toolchain-x86_64.cmake \
   -DPARALLEL_COMPILE_JOBS=16 \
   -S . \
   -B build
