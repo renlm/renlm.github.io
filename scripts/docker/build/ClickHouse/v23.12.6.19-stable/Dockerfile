@@ -1,4 +1,5 @@
 FROM ubuntu:24.04
+
 RUN sed -i 's@//.*archive.ubuntu.com@//mirrors.aliyun.com@g' /etc/apt/sources.list.d/ubuntu.sources \
   && sed -i 's/security.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list.d/ubuntu.sources \
   && apt-get update \
@@ -9,3 +10,4 @@ RUN sed -i 's@//.*archive.ubuntu.com@//mirrors.aliyun.com@g' /etc/apt/sources.li
   && echo export CC=clang-19 >> ~/.bashrc \
   && echo export CXX=clang++-19 >> ~/.bashrc
   
+WORKDIR /ClickHouse
