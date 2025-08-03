@@ -11,7 +11,7 @@ RUN cmake \
 RUN cmake --install build
 
 #[必须] 基础镜像
-FROM ubuntu:24.04
+FROM --platform=linux/arm64 ubuntu:24.04
 #[可选] 工作目录
 WORKDIR /var/lib/clickhouse
 #[必须] 软件
