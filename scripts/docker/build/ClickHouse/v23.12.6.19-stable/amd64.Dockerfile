@@ -1,4 +1,4 @@
-FROM registry.cn-hangzhou.aliyuncs.com/jsfpx/clickhouse-xc:v23.12.6.19-stable
+FROM registry.cn-hangzhou.aliyuncs.com/jsfpx/clickhouse-env:v23.12.6.19-stable
 RUN cmake \
   -Bbuild-amd64 \
   -DHAVE_SSE41=0 \
