@@ -138,6 +138,6 @@ EOF
 {
   systemctl daemon-reload
   systemctl enable ${SYSTEM_NAME}
-  systemctl start ${SYSTEM_NAME}
+  systemctl restart ${SYSTEM_NAME}
 }
 fi
