@@ -38,9 +38,17 @@ else
 fi
 
 # 设置开机自启
-export SYSTEMD_TYPE=${SYSTEMD_TYPE:-"notify"}
-export K3S_SERVICE=/etc/systemd/system/k3s.service
-cat <<EOF | tee ${K3S_SERVICE}
+export K3S_SERVICE_FILE="/etc/systemd/system/k3s.service"
+if [ ! -f ${K3S_SERVICE_FILE} ]; then
+  export K3S_ENV_FILE="${K3S_SERVICE_FILE}.env"
+  echo -e "[ 开机自启 ] ${K3S_SERVICE_FILE}"
+  touch ${K3S_ENV_FILE}
+  touch ${K3S_SERVICE_FILE}
+  chmod 0600 ${K3S_ENV_FILE}
+  chmod 0755 ${K3S_SERVICE_FILE}
+  sh -c export | while read x v; do echo $v; done | grep -E '^(K3S|CONTAINERD)_' | tee ${K3S_ENV_FILE} >/dev/null
+  sh -c export | while read x v; do echo $v; done | grep -Ei '^(NO|HTTP|HTTPS)_PROXY' | tee -a ${K3S_ENV_FILE} >/dev/null
+  cat <<EOF | tee ${K3S_SERVICE_FILE} >/dev/null
 [Unit]
 Description=Lightweight Kubernetes
 Documentation=https://k3s.io
@@ -51,10 +59,10 @@ After=network-online.target
 WantedBy=multi-user.target
 
 [Service]
-Type=${SYSTEMD_TYPE}
+Type=notify
 EnvironmentFile=-/etc/default/%N
 EnvironmentFile=-/etc/sysconfig/%N
-EnvironmentFile=-${FILE_K3S_ENV}
+EnvironmentFile=-${K3S_ENV_FILE}
 KillMode=process
 Delegate=yes
 User=root
@@ -73,3 +81,4 @@ ExecStart=${K3S_BIN} \\
     ${CMD_K3S_EXEC}
 
 EOF
+fi
