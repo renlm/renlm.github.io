@@ -3,6 +3,8 @@ set -e
 set -o noglob
 
 ########################################################################
+# https://get.k3s.io
+# https://docs.k3s.io/zh/installation/configuration
 # https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-14-2/
 # https://helm.sh/docs/topics/version_skew/
 # https://github.com/k3s-io/k3s/releases
