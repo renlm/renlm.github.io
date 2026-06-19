@@ -161,6 +161,8 @@ if [ "${CMD_K3S}" = server ]; then
   sed -i '$a alias kubectl="k3s kubectl"' ~/.bashrc
   sed -i '$a alias ctr="k3s ctr"' ~/.bashrc
   sed -i '$a alias crictl="k3s crictl"' ~/.bashrc
+  echo -e "[ ${_GREEN_}sleep${_NC_} ] 5s"
+  sleep 5s
   . ~/.bashrc
   k3s kubectl get nodes
   k3s ctr -n k8s.io c ls
