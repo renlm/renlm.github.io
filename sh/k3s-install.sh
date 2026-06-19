@@ -17,7 +17,6 @@ DOWNLOADER_URL=${DOWNLOADER_URL:-"https://obs.renlm.cn"}
 # 颜色代码
 _RED_='\033[0;31m'    # 红色
 _GREEN_='\033[0;32m'  # 绿色
-_BLUE_='\033[0;34m'   # 蓝色
 _YELLOW_='\033[0;33m' # 黄色
 _NC_='\033[0m'        # 重置
 
@@ -33,12 +32,12 @@ download() {
 
   case $DOWNLOADER in
     curl)
-      echo -e "[ ${_BLUE_}下载${_NC_} ] curl -o $1 -sfL $2"
+      echo -e "[ ${_GREEN_}下载${_NC_} ] curl -o $1 -sfL $2"
       curl -o $1 -sfL $2
       status=$?
     ;;
     wget)
-      echo -e "[ ${_BLUE_}下载${_NC_} ] wget -qO $1 $2"
+      echo -e "[ ${_GREEN_}下载${_NC_} ] wget -qO $1 $2"
       wget -qO $1 $2
       status=$?
     ;;
@@ -106,7 +105,7 @@ create_service() {
   setup_env "$@"
   K3S_SERVICE_FILE="/etc/systemd/system/${SYSTEM_NAME}.service"
   K3S_ENV_FILE="${K3S_SERVICE_FILE}.env"
-  echo -e "[ ${_BLUE_}开机自启${_NC_} ] ${K3S_SERVICE_FILE}"
+  echo -e "[ ${_GREEN_}开机自启${_NC_} ] ${K3S_SERVICE_FILE}"
   touch ${K3S_ENV_FILE}
   touch ${K3S_SERVICE_FILE}
   chmod 0600 ${K3S_ENV_FILE}
@@ -150,13 +149,17 @@ EOF
   systemctl daemon-reload
   systemctl enable ${SYSTEM_NAME}
   systemctl restart ${SYSTEM_NAME}
+  echo -e "[ ${_GREEN_}启动成功${_NC_} ] ${SYSTEM_NAME}"
 }
 if [ "${CMD_K3S}" = server ]; then
   sed -i '$a export KUBECONFIG=/etc/rancher/k3s/k3s.yaml' /etc/profile
   sed -i '$a alias kubectl="k3s kubectl"' /etc/profile
   sed -i '$a alias ctr="k3s ctr"' /etc/profile
   sed -i '$a alias crictl="k3s crictl"' /etc/profile
-  . /etc/profile
+  export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+  alias kubectl="k3s kubectl"
+  alias ctr="k3s ctr"
+  alias crictl="k3s crictl"
   kubectl get nodes
   ctr -n k8s.io c ls
   kubectl version --output=json
@@ -181,7 +184,7 @@ if [ ! -f ${INSTALL_K3S_BIN} ]; then
   fi
   # 安装校验
   if [ -f ${INSTALL_K3S_BIN} ]; then
-    echo -e "[ ${_GREEN_}安装完成${_NC_} ] ${INSTALL_K3S_BIN}"
+    echo -e "[ ${_GREEN_}安装${_NC_} ] ${INSTALL_K3S_BIN}"
     chmod +x ${INSTALL_K3S_BIN}
     create_service
   else
