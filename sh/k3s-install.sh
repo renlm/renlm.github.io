@@ -135,4 +135,9 @@ ExecStart=${K3S_BIN} \\
     ${CMD_K3S_EXEC}
 
 EOF
+{
+  systemctl daemon-reload
+  systemctl enable ${SYSTEM_NAME}
+  systemctl start ${SYSTEM_NAME}
+}
 fi
