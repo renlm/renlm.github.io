@@ -18,27 +18,59 @@ _BLUE_='\033[0;34m'   # 蓝色
 _YELLOW_='\033[0;33m' # 黄色
 _NC_='\033[0m'        # 重置
 
+# --- download from url ---
+download() {
+  [ $# -eq 2 ] || fatal 'download needs exactly 2 arguments'
+
+  # Disable exit-on-error so we can do custom error messages on failure
+  set +e
+
+  # Default to a failure status
+  status=1
+
+  case $DOWNLOADER in
+    curl)
+      echo -e "${_BLUE_}[ 下载 ]${_NC_} curl -o $1 -sfL $2"
+      curl -o $1 -sfL $2
+      status=$?
+    ;;
+    wget)
+      echo -e "${_BLUE_}[ 下载 ]${_NC_} wget -qO $1 $2"
+      wget -qO $1 $2
+      status=$?
+    ;;
+    *)
+      # Enable exit-on-error for fatal to execute
+      set -e
+      fatal "Incorrect executable '$DOWNLOADER'"
+    ;;
+  esac
+
+  # Re-enable exit-on-error
+  set -e
+
+  # Abort if download command failed
+  [ $status -eq 0 ] || fatal 'Download failed'
+}
+
 # [ aarch64 | x86_64 ] 软件包下载
 # https://github.com/k3s-io/k3s/releases
 INSTALL_K3S_BIN=/usr/local/bin/k3s
 INSTALL_K3S_IMAGES=/var/lib/rancher/k3s/agent/images/k3s-airgap-images.tar
 INSTALL_K3S_VERSION=${INSTALL_K3S_VERSION:-"v1.33.12+k3s1"}
 DOWNLOAD_K3S_VERSION=$(echo ${INSTALL_K3S_VERSION} | sed "s/+/-/g")
-DOWNLOAD_URL=${DOWNLOAD_URL:-"https://obs.renlm.cn"}
+DOWNLOADER_URL=${DOWNLOADER_URL:-"https://obs.renlm.cn"}
+DOWNLOADER=curl
 if [ ! -f ${INSTALL_K3S_BIN} ]; then
   mkdir -p /usr/local/bin
   mkdir -p /var/lib/rancher/k3s/agent/images
   # 下载资源
   if uname -m | grep -q aarch64; then
-    echo -e "${_BLUE_}[ 下载 ]${_NC_} curl -o ${INSTALL_K3S_BIN} -sfL ${DOWNLOAD_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-arm64"
-    curl -o ${INSTALL_K3S_BIN} -sfL ${DOWNLOAD_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-arm64
-    echo -e "${_BLUE_}[ 下载 ]${_NC_} curl -o ${INSTALL_K3S_IMAGES} -sfL ${DOWNLOAD_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-arm64.tar"
-    curl -o ${INSTALL_K3S_IMAGES} -sfL ${DOWNLOAD_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-arm64.tar
+    download ${INSTALL_K3S_BIN} ${DOWNLOADER_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-arm64
+    download ${INSTALL_K3S_IMAGES} ${DOWNLOADER_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-arm64.tar
   else
-    echo -e "${_BLUE_}[ 下载 ]${_NC_} curl -o ${INSTALL_K3S_BIN} -sfL ${DOWNLOAD_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s"
-    curl -o ${INSTALL_K3S_BIN} -sfL ${DOWNLOAD_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s
-    echo -e "${_BLUE_}[ 下载 ]${_NC_} curl -o ${INSTALL_K3S_IMAGES} -sfL ${DOWNLOAD_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-amd64.tar"
-    curl -o ${INSTALL_K3S_IMAGES} -sfL ${DOWNLOAD_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-amd64.tar
+    download ${INSTALL_K3S_BIN} ${DOWNLOADER_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s
+    download ${INSTALL_K3S_IMAGES} ${DOWNLOADER_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-amd64.tar
   fi
   # 安装校验
   if [ -f ${INSTALL_K3S_BIN} ]; then
@@ -149,4 +181,14 @@ EOF
   systemctl enable ${SYSTEM_NAME}
   systemctl restart ${SYSTEM_NAME}
 }
+if [ "${CMD_K3S}" = server ]; then
+  sed -i '$a export KUBECONFIG=/etc/rancher/k3s/k3s.yaml' /etc/profile
+  sed -i '$a alias kubectl="k3s kubectl"' /etc/profile
+  sed -i '$a alias ctr="k3s ctr"' /etc/profile
+  sed -i '$a alias crictl="k3s crictl"' /etc/profile
+  source /etc/profile
+  kubectl get nodes
+  ctr -n k8s.io c ls
+  kubectl version --output=json
+fi
 }
