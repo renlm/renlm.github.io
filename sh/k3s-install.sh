@@ -173,7 +173,6 @@ if [ "${CMD_K3S}" = server ]; then
   sleep 5s
   helm version
   k3s kubectl get nodes
-  k3s ctr -n k8s.io c ls
   k3s kubectl version --output=json
 fi
 }
