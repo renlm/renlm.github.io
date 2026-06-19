@@ -169,7 +169,7 @@ if [ "${CMD_K3S}" = server ]; then
   sed -i '$a alias kubectl="k3s kubectl"' ~/.bashrc
   sed -i '$a alias ctr="k3s ctr"' ~/.bashrc
   sed -i '$a alias crictl="k3s crictl"' ~/.bashrc
-  echo -e "[ ${_GREEN_}sleep${_NC_} ] 5s"
+  echo -e "[ ${_GREEN_}SLEEPING${_NC_} ] 5s"
   sleep 5s
   helm version
   k3s kubectl get nodes
@@ -189,11 +189,11 @@ if [ ! -f ${INSTALL_HELM_BIN} ]; then
   mkdir -p /usr/local/bin
   if uname -m | grep -q aarch64; then
     download helm-${INSTALL_HELM_VERSION}-linux-arm64.tar.gz ${DOWNLOADER_URL}/helm/${INSTALL_HELM_VERSION}/helm-${INSTALL_HELM_VERSION}-linux-arm64.tar.gz
-    tar -zxvf helm-${INSTALL_HELM_VERSION}-linux-arm64.tar.gz -C /usr/local --transform="s/linux-arm64/helm-${INSTALL_HELM_VERSION}/g"
+    tar -zxf helm-${INSTALL_HELM_VERSION}-linux-arm64.tar.gz -C /usr/local --transform="s/linux-arm64/helm-${INSTALL_HELM_VERSION}/g"
   	rm -f helm-${INSTALL_HELM_VERSION}-linux-arm64.tar.gz
   else
     download helm-${INSTALL_HELM_VERSION}-linux-amd64.tar.gz ${DOWNLOADER_URL}/helm/${INSTALL_HELM_VERSION}/helm-${INSTALL_HELM_VERSION}-linux-amd64.tar.gz
-    tar -zxvf helm-${INSTALL_HELM_VERSION}-linux-amd64.tar.gz -C /usr/local --transform="s/linux-amd64/helm-${INSTALL_HELM_VERSION}/g"
+    tar -zxf helm-${INSTALL_HELM_VERSION}-linux-amd64.tar.gz -C /usr/local --transform="s/linux-amd64/helm-${INSTALL_HELM_VERSION}/g"
   	rm -f helm-${INSTALL_HELM_VERSION}-linux-amd64.tar.gz
   fi
 fi
