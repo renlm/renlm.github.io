@@ -12,28 +12,34 @@ _NC_='\033[0m'       # 重置
 K3S_BIN=/usr/local/bin/k3s
 K3S_AIRGAP_IMAGES=/var/lib/rancher/k3s/agent/images/k3s-airgap-images.tar
 INSTALL_K3S_VERSION=${INSTALL_K3S_VERSION:-"v1.33.12+k3s1"}
+VERSION_K3S=$(echo ${INSTALL_K3S_VERSION} | sed "s/+/-/g")
+DOWNLOAD_URL=${DOWNLOAD_URL:-"https://obs.renlm.cn"}
 if [ ! -f ${K3S_BIN} ]; then
   mkdir -p /usr/local/bin
   mkdir -p /var/lib/rancher/k3s/agent/images
   # 下载资源
   if uname -m | grep -q aarch64; then
-    wget -O ${K3S_BIN} https://obs.renlm.cn/k3s/${INSTALL_K3S_VERSION}/k3s-arm64
-    wget -O ${K3S_AIRGAP_IMAGES} https://obs.renlm.cn/k3s/${INSTALL_K3S_VERSION}/k3s-airgap-images-arm64.tar
+    echo -e "${_GREEN_}[ 下载 ]${_NC_} wget -SqO ${K3S_BIN} ${DOWNLOAD_URL}/k3s/${VERSION_K3S}/k3s-arm64"
+    wget -SqO ${K3S_BIN} ${DOWNLOAD_URL}/k3s/${VERSION_K3S}/k3s-arm64
+    echo -e "${_GREEN_}[ 下载 ]${_NC_} wget -SqO ${K3S_AIRGAP_IMAGES} ${DOWNLOAD_URL}/k3s/${VERSION_K3S}/k3s-airgap-images-arm64.tar"
+    wget -SqO ${K3S_AIRGAP_IMAGES} ${DOWNLOAD_URL}/k3s/${VERSION_K3S}/k3s-airgap-images-arm64.tar
   else
-    wget -O ${K3S_BIN} https://obs.renlm.cn/k3s/${INSTALL_K3S_VERSION}/k3s
-    wget -O ${K3S_AIRGAP_IMAGES} https://obs.renlm.cn/k3s/${INSTALL_K3S_VERSION}/k3s-airgap-images-amd64.tar
+    echo -e "${_GREEN_}[ 下载 ]${_NC_} wget -SqO ${K3S_BIN} ${DOWNLOAD_URL}/k3s/${VERSION_K3S}/k3s"
+    wget -SqO ${K3S_BIN} ${DOWNLOAD_URL}/k3s/${VERSION_K3S}/k3s
+    echo -e "${_GREEN_}[ 下载 ]${_NC_} wget -SqO ${K3S_AIRGAP_IMAGES} ${DOWNLOAD_URL}/k3s/${VERSION_K3S}/k3s-airgap-images-amd64.tar"
+    wget -SqO ${K3S_AIRGAP_IMAGES} ${DOWNLOAD_URL}/k3s/${VERSION_K3S}/k3s-airgap-images-amd64.tar
   fi
   # 安装校验
   if [ -f ${K3S_BIN} ]; then
-    echo -e "${_GREEN_}[ 安装完成 ] ${K3S_BIN} ${_NC_}"
+    echo -e "${_GREEN_}[ 安装完成 ]${_NC_} ${K3S_BIN}"
     chmod +x ${K3S_BIN}
     k3s --version
   else
-    echo -e "${_RED_}[ 安装失败 ] ${K3S_BIN} ${_NC_}"
+    echo -e "${_RED_}[ 安装失败 ]${_NC_} ${K3S_BIN}"
     exit 1
   fi
 else
-  echo -e "${_GREEN_}[ 已安装 ] ${K3S_BIN} ${_NC_}"
+  echo -e "${_GREEN_}[ 已安装 ]${_NC_} ${K3S_BIN}"
   exit 1
 fi
 
