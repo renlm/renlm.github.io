@@ -36,3 +36,40 @@ else
   echo -e "${_GREEN_}[ 已安装 ] ${K3S_BIN} ${_NC_}"
   exit 1
 fi
+
+# 设置开机自启
+export SYSTEMD_TYPE=${SYSTEMD_TYPE:-"notify"}
+export K3S_SERVICE=/etc/systemd/system/k3s.service
+cat <<EOF | tee ${K3S_SERVICE}
+[Unit]
+Description=Lightweight Kubernetes
+Documentation=https://k3s.io
+Wants=network-online.target
+After=network-online.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=${SYSTEMD_TYPE}
+EnvironmentFile=-/etc/default/%N
+EnvironmentFile=-/etc/sysconfig/%N
+EnvironmentFile=-${FILE_K3S_ENV}
+KillMode=process
+Delegate=yes
+User=root
+# Having non-zero Limit*s causes performance problems due to accounting overhead
+# in the kernel. We recommend using cgroups to do container-local accounting.
+LimitNOFILE=1048576
+LimitNPROC=infinity
+LimitCORE=infinity
+TasksMax=infinity
+TimeoutStartSec=0
+Restart=always
+RestartSec=5s
+ExecStartPre=-/sbin/modprobe br_netfilter
+ExecStartPre=-/sbin/modprobe overlay
+ExecStart=${K3S_BIN} \\
+    ${CMD_K3S_EXEC}
+
+EOF
