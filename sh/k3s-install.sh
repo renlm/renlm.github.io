@@ -152,14 +152,11 @@ EOF
   echo -e "[ ${_GREEN_}启动成功${_NC_} ] ${SYSTEM_NAME}"
 }
 if [ "${CMD_K3S}" = server ]; then
-  sed -i '$a export KUBECONFIG=/etc/rancher/k3s/k3s.yaml' /etc/profile
-  sed -i '$a alias kubectl="k3s kubectl"' /etc/profile
-  sed -i '$a alias ctr="k3s ctr"' /etc/profile
-  sed -i '$a alias crictl="k3s crictl"' /etc/profile
-  export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
-  alias kubectl="k3s kubectl"
-  alias ctr="k3s ctr"
-  alias crictl="k3s crictl"
+  sed -i '$a export KUBECONFIG=/etc/rancher/k3s/k3s.yaml' ~/.bashrc
+  sed -i '$a alias kubectl="k3s kubectl"' ~/.bashrc
+  sed -i '$a alias ctr="k3s ctr"' ~/.bashrc
+  sed -i '$a alias crictl="k3s crictl"' ~/.bashrc
+  source ~/.bashrc
   kubectl get nodes
   ctr -n k8s.io c ls
   kubectl version --output=json
