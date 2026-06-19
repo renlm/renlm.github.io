@@ -3,9 +3,11 @@ set -e
 set -o noglob
 
 # 颜色代码
-_RED_='\033[0;31m'   # 红色
-_GREEN_='\033[0;32m' # 绿色
-_NC_='\033[0m'       # 重置
+_RED_='\033[0;31m'    # 红色
+_GREEN_='\033[0;32m'  # 绿色
+_BLUE_='\033[0;34m'   # 蓝色
+_YELLOW_='\033[0;33m' # 黄色
+_NC_='\033[0m'        # 重置
 
 # [ aarch64 | x86_64 ] 软件包下载
 # https://github.com/k3s-io/k3s/releases
@@ -19,15 +21,15 @@ if [ ! -f ${K3S_BIN} ]; then
   mkdir -p /var/lib/rancher/k3s/agent/images
   # 下载资源
   if uname -m | grep -q aarch64; then
-    echo -e "${_GREEN_}[ 下载 ]${_NC_} wget -SqO ${K3S_BIN} ${DOWNLOAD_URL}/k3s/${VERSION_K3S}/k3s-arm64"
-    wget -SqO ${K3S_BIN} ${DOWNLOAD_URL}/k3s/${VERSION_K3S}/k3s-arm64
-    echo -e "${_GREEN_}[ 下载 ]${_NC_} wget -SqO ${K3S_AIRGAP_IMAGES} ${DOWNLOAD_URL}/k3s/${VERSION_K3S}/k3s-airgap-images-arm64.tar"
-    wget -SqO ${K3S_AIRGAP_IMAGES} ${DOWNLOAD_URL}/k3s/${VERSION_K3S}/k3s-airgap-images-arm64.tar
+    echo -e "${_BLUE_}[ 下载 ]${_NC_} curl -o ${K3S_BIN} -sfL ${DOWNLOAD_URL}/k3s/${VERSION_K3S}/k3s-arm64"
+    curl -o ${K3S_BIN} -sfL ${DOWNLOAD_URL}/k3s/${VERSION_K3S}/k3s-arm64
+    echo -e "${_BLUE_}[ 下载 ]${_NC_} curl -o ${K3S_AIRGAP_IMAGES} -sfL ${DOWNLOAD_URL}/k3s/${VERSION_K3S}/k3s-airgap-images-arm64.tar"
+    curl -o ${K3S_AIRGAP_IMAGES} -sfL ${DOWNLOAD_URL}/k3s/${VERSION_K3S}/k3s-airgap-images-arm64.tar
   else
-    echo -e "${_GREEN_}[ 下载 ]${_NC_} wget -SqO ${K3S_BIN} ${DOWNLOAD_URL}/k3s/${VERSION_K3S}/k3s"
-    wget -SqO ${K3S_BIN} ${DOWNLOAD_URL}/k3s/${VERSION_K3S}/k3s
-    echo -e "${_GREEN_}[ 下载 ]${_NC_} wget -SqO ${K3S_AIRGAP_IMAGES} ${DOWNLOAD_URL}/k3s/${VERSION_K3S}/k3s-airgap-images-amd64.tar"
-    wget -SqO ${K3S_AIRGAP_IMAGES} ${DOWNLOAD_URL}/k3s/${VERSION_K3S}/k3s-airgap-images-amd64.tar
+    echo -e "${_BLUE_}[ 下载 ]${_NC_} curl -o ${K3S_BIN} -sfL ${DOWNLOAD_URL}/k3s/${VERSION_K3S}/k3s"
+    curl -o ${K3S_BIN} -sfL ${DOWNLOAD_URL}/k3s/${VERSION_K3S}/k3s
+    echo -e "${_BLUE_}[ 下载 ]${_NC_} curl -o ${K3S_AIRGAP_IMAGES} -sfL ${DOWNLOAD_URL}/k3s/${VERSION_K3S}/k3s-airgap-images-amd64.tar"
+    curl -o ${K3S_AIRGAP_IMAGES} -sfL ${DOWNLOAD_URL}/k3s/${VERSION_K3S}/k3s-airgap-images-amd64.tar
   fi
   # 安装校验
   if [ -f ${K3S_BIN} ]; then
@@ -39,7 +41,7 @@ if [ ! -f ${K3S_BIN} ]; then
     exit 1
   fi
 else
-  echo -e "${_GREEN_}[ 已安装 ]${_NC_} ${K3S_BIN}"
+  echo -e "${_YELLOW_}[ 已安装 ]${_NC_} ${K3S_BIN}"
   exit 1
 fi
 
