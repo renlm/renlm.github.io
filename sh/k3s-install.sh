@@ -161,7 +161,7 @@ ExecStart=${INSTALL_K3S_BIN} \\
 EOF
 {
   systemctl daemon-reload
-  systemctl enable ${SYSTEM_NAME} >/dev/null
+  systemctl enable ${SYSTEM_NAME}
   systemctl restart ${SYSTEM_NAME}
   echo -e "[ ${_GREEN_}启动服务${_NC_} ] ${SYSTEM_NAME}"
 }
