@@ -17,13 +17,13 @@ if [ ! -f ${K3S_BIN} ]; then
   mkdir -p /var/lib/rancher/k3s/agent/images
   # 下载资源
   if uname -m | grep -q aarch64; then
-    wget -O ${K3S_BIN} https://obs.renlm.cn/k3s/${INSTALL_K3S_VERSION}/k3s
+    wget -O ${K3S_BIN} https://obs.renlm.cn/k3s/${INSTALL_K3S_VERSION}/k3s-arm64
     wget -O ${K3S_AIRGAP_IMAGES} https://obs.renlm.cn/k3s/${INSTALL_K3S_VERSION}/k3s-airgap-images-arm64.tar
   else
     wget -O ${K3S_BIN} https://obs.renlm.cn/k3s/${INSTALL_K3S_VERSION}/k3s
     wget -O ${K3S_AIRGAP_IMAGES} https://obs.renlm.cn/k3s/${INSTALL_K3S_VERSION}/k3s-airgap-images-amd64.tar
   fi
-  # 校验资源
+  # 安装校验
   if [ -f ${K3S_BIN} ]; then
     echo -e "${_GREEN_}[ 安装完成 ] ${K3S_BIN} ${_NC_}"
     chmod +x ${K3S_BIN}
