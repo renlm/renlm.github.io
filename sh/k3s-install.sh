@@ -163,7 +163,7 @@ EOF
   systemctl daemon-reload
   systemctl enable ${SYSTEM_NAME} >/dev/null
   systemctl restart ${SYSTEM_NAME}
-  echo -e "[ ${_GREEN_}启动成功${_NC_} ] ${SYSTEM_NAME}"
+  echo -e "[ ${_GREEN_}启动服务${_NC_} ] ${SYSTEM_NAME}"
 }
 if [ "${CMD_K3S}" = server ]; then
   ln -sf /usr/local/helm-${INSTALL_HELM_VERSION}/helm /usr/local/bin/helm
