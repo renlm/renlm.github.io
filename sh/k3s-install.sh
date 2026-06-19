@@ -2,6 +2,15 @@
 set -e
 set -o noglob
 
+############
+### master主节点
+# $ curl -sfL http://renlm.github.io/sh/k3s-install.sh | K3S_TOKEN=istio sh -s - server --disable=traefik --tls-san k3s.renlm.cn --cluster-init
+### master从节点
+# $ curl -sfL http://renlm.github.io/sh/k3s-install.sh | K3S_TOKEN=istio sh -s - server --disable=traefik --server https://k3s.renlm.cn:6443
+### agent节点
+# $ curl -sfL http://renlm.github.io/sh/k3s-install.sh | K3S_TOKEN=istio sh -s - agent --server https://k3s.renlm.cn:6443
+############
+
 # 颜色代码
 _RED_='\033[0;31m'    # 红色
 _GREEN_='\033[0;32m'  # 绿色
@@ -11,37 +20,37 @@ _NC_='\033[0m'        # 重置
 
 # [ aarch64 | x86_64 ] 软件包下载
 # https://github.com/k3s-io/k3s/releases
-K3S_BIN=/usr/local/bin/k3s
-K3S_AIRGAP_IMAGES=/var/lib/rancher/k3s/agent/images/k3s-airgap-images.tar
+INSTALL_K3S_BIN=/usr/local/bin/k3s
+INSTALL_K3S_IMAGES=/var/lib/rancher/k3s/agent/images/k3s-airgap-images.tar
 INSTALL_K3S_VERSION=${INSTALL_K3S_VERSION:-"v1.33.12+k3s1"}
-VERSION_K3S=$(echo ${INSTALL_K3S_VERSION} | sed "s/+/-/g")
+DOWNLOAD_K3S_VERSION=$(echo ${INSTALL_K3S_VERSION} | sed "s/+/-/g")
 DOWNLOAD_URL=${DOWNLOAD_URL:-"https://obs.renlm.cn"}
-if [ ! -f ${K3S_BIN} ]; then
+if [ ! -f ${INSTALL_K3S_BIN} ]; then
   mkdir -p /usr/local/bin
   mkdir -p /var/lib/rancher/k3s/agent/images
   # 下载资源
   if uname -m | grep -q aarch64; then
-    echo -e "${_BLUE_}[ 下载 ]${_NC_} curl -o ${K3S_BIN} -sfL ${DOWNLOAD_URL}/k3s/${VERSION_K3S}/k3s-arm64"
-    curl -o ${K3S_BIN} -sfL ${DOWNLOAD_URL}/k3s/${VERSION_K3S}/k3s-arm64
-    echo -e "${_BLUE_}[ 下载 ]${_NC_} curl -o ${K3S_AIRGAP_IMAGES} -sfL ${DOWNLOAD_URL}/k3s/${VERSION_K3S}/k3s-airgap-images-arm64.tar"
-    curl -o ${K3S_AIRGAP_IMAGES} -sfL ${DOWNLOAD_URL}/k3s/${VERSION_K3S}/k3s-airgap-images-arm64.tar
+    echo -e "${_BLUE_}[ 下载 ]${_NC_} curl -o ${INSTALL_K3S_BIN} -sfL ${DOWNLOAD_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-arm64"
+    curl -o ${INSTALL_K3S_BIN} -sfL ${DOWNLOAD_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-arm64
+    echo -e "${_BLUE_}[ 下载 ]${_NC_} curl -o ${INSTALL_K3S_IMAGES} -sfL ${DOWNLOAD_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-arm64.tar"
+    curl -o ${INSTALL_K3S_IMAGES} -sfL ${DOWNLOAD_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-arm64.tar
   else
-    echo -e "${_BLUE_}[ 下载 ]${_NC_} curl -o ${K3S_BIN} -sfL ${DOWNLOAD_URL}/k3s/${VERSION_K3S}/k3s"
-    curl -o ${K3S_BIN} -sfL ${DOWNLOAD_URL}/k3s/${VERSION_K3S}/k3s
-    echo -e "${_BLUE_}[ 下载 ]${_NC_} curl -o ${K3S_AIRGAP_IMAGES} -sfL ${DOWNLOAD_URL}/k3s/${VERSION_K3S}/k3s-airgap-images-amd64.tar"
-    curl -o ${K3S_AIRGAP_IMAGES} -sfL ${DOWNLOAD_URL}/k3s/${VERSION_K3S}/k3s-airgap-images-amd64.tar
+    echo -e "${_BLUE_}[ 下载 ]${_NC_} curl -o ${INSTALL_K3S_BIN} -sfL ${DOWNLOAD_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s"
+    curl -o ${INSTALL_K3S_BIN} -sfL ${DOWNLOAD_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s
+    echo -e "${_BLUE_}[ 下载 ]${_NC_} curl -o ${INSTALL_K3S_IMAGES} -sfL ${DOWNLOAD_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-amd64.tar"
+    curl -o ${INSTALL_K3S_IMAGES} -sfL ${DOWNLOAD_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-amd64.tar
   fi
   # 安装校验
-  if [ -f ${K3S_BIN} ]; then
-    echo -e "${_GREEN_}[ 安装完成 ]${_NC_} ${K3S_BIN}"
-    chmod +x ${K3S_BIN}
-    k3s --version
+  if [ -f ${INSTALL_K3S_BIN} ]; then
+    echo -e "${_GREEN_}[ 安装完成 ]${_NC_} ${INSTALL_K3S_BIN}"
+    chmod +x ${INSTALL_K3S_BIN}
+    create_service
   else
-    echo -e "${_RED_}[ 安装失败 ]${_NC_} ${K3S_BIN}"
+    echo -e "${_RED_}[ 安装失败 ]${_NC_} ${INSTALL_K3S_BIN}"
     exit 1
   fi
 else
-  echo -e "${_YELLOW_}[ 已安装 ]${_NC_} ${K3S_BIN}"
+  echo -e "${_YELLOW_}[ 已安装 ]${_NC_} ${INSTALL_K3S_BIN}"
   exit 1
 fi
 
@@ -91,9 +100,9 @@ setup_env() {
 }
 
 # 设置开机自启
-setup_env "$@"
-K3S_SERVICE_FILE="/etc/systemd/system/${SYSTEM_NAME}.service"
-if [ ! -f ${K3S_SERVICE_FILE} ]; then
+create_service() {
+  setup_env "$@"
+  K3S_SERVICE_FILE="/etc/systemd/system/${SYSTEM_NAME}.service"
   K3S_ENV_FILE="${K3S_SERVICE_FILE}.env"
   echo -e "[ 开机自启 ] ${K3S_SERVICE_FILE}"
   touch ${K3S_ENV_FILE}
@@ -131,7 +140,7 @@ Restart=always
 RestartSec=5s
 ExecStartPre=-/sbin/modprobe br_netfilter
 ExecStartPre=-/sbin/modprobe overlay
-ExecStart=${K3S_BIN} \\
+ExecStart=${INSTALL_K3S_BIN} \\
     ${CMD_K3S_EXEC}
 
 EOF
@@ -140,4 +149,4 @@ EOF
   systemctl enable ${SYSTEM_NAME}
   systemctl restart ${SYSTEM_NAME}
 }
-fi
+}
