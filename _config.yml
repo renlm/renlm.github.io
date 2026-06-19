@@ -1,0 +1,6 @@
+title: renlm.github.io
+description: https://renlm.github.io
+icon: /favicon.ico
+remote_theme: renlm/Jekyll-theme-md@master
+plugins:
+- jekyll-remote-theme
