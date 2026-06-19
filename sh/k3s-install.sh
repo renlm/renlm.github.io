@@ -2,14 +2,17 @@
 set -e
 set -o noglob
 
-############
-### master主节点
+########################################################################
+INSTALL_K3S_VERSION=${INSTALL_K3S_VERSION:-"v1.33.12+k3s1"}
+DOWNLOAD_K3S_VERSION=$(echo ${INSTALL_K3S_VERSION} | sed "s/+/-/g")
+DOWNLOADER_URL=${DOWNLOADER_URL:-"https://obs.renlm.cn"}
+###### master主节点
 # $ curl -sfL http://renlm.github.io/sh/k3s-install.sh | K3S_TOKEN=istio sh -s - server --disable=traefik --tls-san k3s.renlm.cn --cluster-init
-### master从节点
+###### master从节点
 # $ curl -sfL http://renlm.github.io/sh/k3s-install.sh | K3S_TOKEN=istio sh -s - server --disable=traefik --server https://k3s.renlm.cn:6443
-### agent节点
+###### agent节点
 # $ curl -sfL http://renlm.github.io/sh/k3s-install.sh | K3S_TOKEN=istio sh -s - agent --server https://k3s.renlm.cn:6443
-############
+########################################################################
 
 # 颜色代码
 _RED_='\033[0;31m'    # 红色
@@ -164,9 +167,6 @@ fi
 # https://github.com/k3s-io/k3s/releases
 INSTALL_K3S_BIN=/usr/local/bin/k3s
 INSTALL_K3S_IMAGES=/var/lib/rancher/k3s/agent/images/k3s-airgap-images.tar
-INSTALL_K3S_VERSION=${INSTALL_K3S_VERSION:-"v1.33.12+k3s1"}
-DOWNLOAD_K3S_VERSION=$(echo ${INSTALL_K3S_VERSION} | sed "s/+/-/g")
-DOWNLOADER_URL=${DOWNLOADER_URL:-"https://obs.renlm.cn"}
 DOWNLOADER=curl
 if [ ! -f ${INSTALL_K3S_BIN} ]; then
   mkdir -p /usr/local/bin
