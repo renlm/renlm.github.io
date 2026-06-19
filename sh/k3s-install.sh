@@ -6,11 +6,11 @@ set -o noglob
 INSTALL_K3S_VERSION=${INSTALL_K3S_VERSION:-"v1.33.12+k3s1"}
 DOWNLOAD_K3S_VERSION=$(echo ${INSTALL_K3S_VERSION} | sed "s/+/-/g")
 DOWNLOADER_URL=${DOWNLOADER_URL:-"https://obs.renlm.cn"}
-###### master主节点
+###### master 主节点
 # $ curl -sfL http://renlm.github.io/sh/k3s-install.sh | K3S_TOKEN=istio sh -s - server --disable=traefik --tls-san k3s.renlm.cn --cluster-init
-###### master从节点
+###### master 从节点
 # $ curl -sfL http://renlm.github.io/sh/k3s-install.sh | K3S_TOKEN=istio sh -s - server --disable=traefik --server https://k3s.renlm.cn:6443
-###### agent节点
+###### agent 节点
 # $ curl -sfL http://renlm.github.io/sh/k3s-install.sh | K3S_TOKEN=istio sh -s - agent --server https://k3s.renlm.cn:6443
 ########################################################################
 
