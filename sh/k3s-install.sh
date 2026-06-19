@@ -53,39 +53,6 @@ download() {
   [ $status -eq 0 ] || fatal 'Download failed'
 }
 
-# [ aarch64 | x86_64 ] 软件包下载
-# https://github.com/k3s-io/k3s/releases
-INSTALL_K3S_BIN=/usr/local/bin/k3s
-INSTALL_K3S_IMAGES=/var/lib/rancher/k3s/agent/images/k3s-airgap-images.tar
-INSTALL_K3S_VERSION=${INSTALL_K3S_VERSION:-"v1.33.12+k3s1"}
-DOWNLOAD_K3S_VERSION=$(echo ${INSTALL_K3S_VERSION} | sed "s/+/-/g")
-DOWNLOADER_URL=${DOWNLOADER_URL:-"https://obs.renlm.cn"}
-DOWNLOADER=curl
-if [ ! -f ${INSTALL_K3S_BIN} ]; then
-  mkdir -p /usr/local/bin
-  mkdir -p /var/lib/rancher/k3s/agent/images
-  # 下载资源
-  if uname -m | grep -q aarch64; then
-    download ${INSTALL_K3S_BIN} ${DOWNLOADER_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-arm64
-    download ${INSTALL_K3S_IMAGES} ${DOWNLOADER_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-arm64.tar
-  else
-    download ${INSTALL_K3S_BIN} ${DOWNLOADER_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s
-    download ${INSTALL_K3S_IMAGES} ${DOWNLOADER_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-amd64.tar
-  fi
-  # 安装校验
-  if [ -f ${INSTALL_K3S_BIN} ]; then
-    echo -e "${_GREEN_}[ 安装完成 ]${_NC_} ${INSTALL_K3S_BIN}"
-    chmod +x ${INSTALL_K3S_BIN}
-    create_service
-  else
-    echo -e "${_RED_}[ 安装失败 ]${_NC_} ${INSTALL_K3S_BIN}"
-    exit 1
-  fi
-else
-  echo -e "${_YELLOW_}[ 已安装 ]${_NC_} ${INSTALL_K3S_BIN}"
-  exit 1
-fi
-
 # --- add quotes to command arguments ---
 quote() {
   for arg in "$@"; do
@@ -192,3 +159,36 @@ if [ "${CMD_K3S}" = server ]; then
   kubectl version --output=json
 fi
 }
+
+# [ aarch64 | x86_64 ] 软件包下载
+# https://github.com/k3s-io/k3s/releases
+INSTALL_K3S_BIN=/usr/local/bin/k3s
+INSTALL_K3S_IMAGES=/var/lib/rancher/k3s/agent/images/k3s-airgap-images.tar
+INSTALL_K3S_VERSION=${INSTALL_K3S_VERSION:-"v1.33.12+k3s1"}
+DOWNLOAD_K3S_VERSION=$(echo ${INSTALL_K3S_VERSION} | sed "s/+/-/g")
+DOWNLOADER_URL=${DOWNLOADER_URL:-"https://obs.renlm.cn"}
+DOWNLOADER=curl
+if [ ! -f ${INSTALL_K3S_BIN} ]; then
+  mkdir -p /usr/local/bin
+  mkdir -p /var/lib/rancher/k3s/agent/images
+  # 下载资源
+  if uname -m | grep -q aarch64; then
+    download ${INSTALL_K3S_BIN} ${DOWNLOADER_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-arm64
+    download ${INSTALL_K3S_IMAGES} ${DOWNLOADER_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-arm64.tar
+  else
+    download ${INSTALL_K3S_BIN} ${DOWNLOADER_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s
+    download ${INSTALL_K3S_IMAGES} ${DOWNLOADER_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-amd64.tar
+  fi
+  # 安装校验
+  if [ -f ${INSTALL_K3S_BIN} ]; then
+    echo -e "${_GREEN_}[ 安装完成 ]${_NC_} ${INSTALL_K3S_BIN}"
+    chmod +x ${INSTALL_K3S_BIN}
+    create_service
+  else
+    echo -e "${_RED_}[ 安装失败 ]${_NC_} ${INSTALL_K3S_BIN}"
+    exit 1
+  fi
+else
+  echo -e "${_YELLOW_}[ 已安装 ]${_NC_} ${INSTALL_K3S_BIN}"
+  exit 1
+fi
