@@ -12,6 +12,11 @@ DOWNLOADER_URL=${DOWNLOADER_URL:-"https://obs.renlm.cn"}
 # $ curl -sfL https://renlm.github.io/sh/k3s-install.sh | K3S_TOKEN=istio sh -s - server --disable=traefik --server https://k3s.renlm.cn:6443
 ###### agent 节点
 # $ curl -sfL https://renlm.github.io/sh/k3s-install.sh | K3S_TOKEN=istio sh -s - agent --server https://k3s.renlm.cn:6443
+###### 重载命令行别名
+# $ source ~/.bashrc
+# $ kubectl get nodes
+# $ ctr -n k8s.io c ls
+# $ kubectl version --output=json
 ########################################################################
 
 # 颜色代码
@@ -156,10 +161,10 @@ if [ "${CMD_K3S}" = server ]; then
   sed -i '$a alias kubectl="k3s kubectl"' ~/.bashrc
   sed -i '$a alias ctr="k3s ctr"' ~/.bashrc
   sed -i '$a alias crictl="k3s crictl"' ~/.bashrc
-  source ~/.bashrc
-  kubectl get nodes
-  ctr -n k8s.io c ls
-  kubectl version --output=json
+  . ~/.bashrc
+  k3s kubectl get nodes
+  k3s ctr -n k8s.io c ls
+  k3s kubectl version --output=json
 fi
 }
 
