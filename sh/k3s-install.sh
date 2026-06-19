@@ -33,12 +33,12 @@ download() {
 
   case $DOWNLOADER in
     curl)
-      echo -e "${_BLUE_}[ 下载 ]${_NC_} curl -o $1 -sfL $2"
+      echo -e "[ ${_BLUE_}下载${_NC_} ] curl -o $1 -sfL $2"
       curl -o $1 -sfL $2
       status=$?
     ;;
     wget)
-      echo -e "${_BLUE_}[ 下载 ]${_NC_} wget -qO $1 $2"
+      echo -e "[ ${_BLUE_}下载${_NC_} ] wget -qO $1 $2"
       wget -qO $1 $2
       status=$?
     ;;
@@ -106,7 +106,7 @@ create_service() {
   setup_env "$@"
   K3S_SERVICE_FILE="/etc/systemd/system/${SYSTEM_NAME}.service"
   K3S_ENV_FILE="${K3S_SERVICE_FILE}.env"
-  echo -e "[ 开机自启 ] ${K3S_SERVICE_FILE}"
+  echo -e "[ ${_BLUE_}开机自启${_NC_} ] ${K3S_SERVICE_FILE}"
   touch ${K3S_ENV_FILE}
   touch ${K3S_SERVICE_FILE}
   chmod 0600 ${K3S_ENV_FILE}
@@ -156,7 +156,7 @@ if [ "${CMD_K3S}" = server ]; then
   sed -i '$a alias kubectl="k3s kubectl"' /etc/profile
   sed -i '$a alias ctr="k3s ctr"' /etc/profile
   sed -i '$a alias crictl="k3s crictl"' /etc/profile
-  source /etc/profile
+  . /etc/profile
   kubectl get nodes
   ctr -n k8s.io c ls
   kubectl version --output=json
@@ -181,14 +181,14 @@ if [ ! -f ${INSTALL_K3S_BIN} ]; then
   fi
   # 安装校验
   if [ -f ${INSTALL_K3S_BIN} ]; then
-    echo -e "${_GREEN_}[ 安装完成 ]${_NC_} ${INSTALL_K3S_BIN}"
+    echo -e "[ ${_GREEN_}安装完成${_NC_} ] ${INSTALL_K3S_BIN}"
     chmod +x ${INSTALL_K3S_BIN}
     create_service
   else
-    echo -e "${_RED_}[ 安装失败 ]${_NC_} ${INSTALL_K3S_BIN}"
+    echo -e "[ ${_RED_}安装失败${_NC_} ] ${INSTALL_K3S_BIN}"
     exit 1
   fi
 else
-  echo -e "${_YELLOW_}[ 已安装 ]${_NC_} ${INSTALL_K3S_BIN}"
+  echo -e "[ ${_YELLOW_}已安装${_NC_} ] ${INSTALL_K3S_BIN}"
   exit 1
 fi
