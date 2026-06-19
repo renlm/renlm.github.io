@@ -22,8 +22,8 @@ DOWNLOADER_URL=${DOWNLOADER_URL:-"https://obs.renlm.cn"}
 # $ source ~/.bashrc
 # $ helm version
 # $ kubectl get nodes
-# $ ctr -n k8s.io c ls
 # $ kubectl version --output=json
+# $ ctr -n k8s.io c ls
 ########################################################################
 
 # 颜色代码
