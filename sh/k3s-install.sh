@@ -116,7 +116,6 @@ setup_env() {
 
 # 设置开机自启
 create_service() {
-  setup_env "$@"
   K3S_SERVICE_FILE="/etc/systemd/system/${SYSTEM_NAME}.service"
   K3S_ENV_FILE="${K3S_SERVICE_FILE}.env"
   echo -e "[ ${_GREEN_}开机自启${_NC_} ] ${K3S_SERVICE_FILE}"
@@ -214,6 +213,7 @@ if [ ! -f ${INSTALL_K3S_BIN} ]; then
   if [ -f ${INSTALL_K3S_BIN} ]; then
     echo -e "[ ${_GREEN_}安装${_NC_} ] ${INSTALL_K3S_BIN}"
     chmod +x ${INSTALL_K3S_BIN}
+    setup_env "$@"
     create_service
   else
     echo -e "[ ${_RED_}安装失败${_NC_} ] ${INSTALL_K3S_BIN}"
