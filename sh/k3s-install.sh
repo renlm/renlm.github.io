@@ -3,15 +3,15 @@ set -e
 set -o noglob
 
 # 颜色代码
-export _RED_='\033[0;31m'   # 红色
-export _GREEN_='\033[0;32m' # 绿色
-export _NC_='\033[0m'       # 重置
+_RED_='\033[0;31m'   # 红色
+_GREEN_='\033[0;32m' # 绿色
+_NC_='\033[0m'       # 重置
 
 # [ aarch64 | x86_64 ] 软件包下载
 # https://github.com/k3s-io/k3s/releases
-export K3S_BIN=/usr/local/bin/k3s
-export K3S_AIRGAP_IMAGES=/var/lib/rancher/k3s/agent/images/k3s-airgap-images.tar
-export INSTALL_K3S_VERSION=${INSTALL_K3S_VERSION:-"v1.33.12+k3s1"}
+K3S_BIN=/usr/local/bin/k3s
+K3S_AIRGAP_IMAGES=/var/lib/rancher/k3s/agent/images/k3s-airgap-images.tar
+INSTALL_K3S_VERSION=${INSTALL_K3S_VERSION:-"v1.33.12+k3s1"}
 if [ ! -f ${K3S_BIN} ]; then
   mkdir -p /usr/local/bin
   mkdir -p /var/lib/rancher/k3s/agent/images
@@ -37,10 +37,56 @@ else
   exit 1
 fi
 
+# --- add quotes to command arguments ---
+quote() {
+  for arg in "$@"; do
+    printf '%s\n' "$arg" | sed "s/'/'\\\\''/g;1s/^/'/;\$s/\$/'/"
+  done
+}
+
+# --- add indentation and trailing slash to quoted args ---
+quote_indent() {
+  printf ' \\\n'
+  for arg in "$@"; do
+    printf '\t%s \\\n' "$(quote "$arg")"
+  done
+}
+
+# --- define needed environment variables ---
+setup_env() {
+  # --- use command args if passed or create default ---
+  case "$1" in
+    # --- if we only have flags discover if command should be server or agent ---
+    (-*|"")
+      if [ -z "${K3S_URL}" ]; then
+        CMD_K3S=server
+      else
+        if [ -z "${K3S_TOKEN}" ] && [ -z "${K3S_TOKEN_FILE}" ]; then
+          fatal "Defaulted k3s exec command to 'agent' because K3S_URL is defined, but K3S_TOKEN or K3S_TOKEN_FILE is not defined."
+        fi
+        CMD_K3S=agent
+      fi
+    ;;
+    # --- command is provided ---
+    (*)
+      CMD_K3S=$1
+      shift
+    ;;
+  esac
+
+  CMD_K3S_EXEC="${CMD_K3S}$(quote_indent "$@")"
+  if [ "${CMD_K3S}" = server ]; then
+    SYSTEM_NAME=k3s
+  else
+    SYSTEM_NAME=k3s-${CMD_K3S}
+  fi
+}
+
 # 设置开机自启
-export K3S_SERVICE_FILE="/etc/systemd/system/k3s.service"
+setup_env "$@"
+K3S_SERVICE_FILE="/etc/systemd/system/${SYSTEM_NAME}.service"
 if [ ! -f ${K3S_SERVICE_FILE} ]; then
-  export K3S_ENV_FILE="${K3S_SERVICE_FILE}.env"
+  K3S_ENV_FILE="${K3S_SERVICE_FILE}.env"
   echo -e "[ 开机自启 ] ${K3S_SERVICE_FILE}"
   touch ${K3S_ENV_FILE}
   touch ${K3S_SERVICE_FILE}
