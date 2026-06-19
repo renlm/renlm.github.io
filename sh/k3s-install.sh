@@ -3,7 +3,13 @@ set -e
 set -o noglob
 
 ########################################################################
+# https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-14-2/
+# https://helm.sh/docs/topics/version_skew/
+# https://github.com/k3s-io/k3s/releases
+# https://github.com/helm/helm/releases/
+# [ 版本匹配 ] k3s: v1.33.12+k3s1, helm: v4.2.2, rancher: v2.14.2
 INSTALL_K3S_VERSION=${INSTALL_K3S_VERSION:-"v1.33.12+k3s1"}
+INSTALL_HELM_VERSION=${INSTALL_HELM_VERSION:-"v4.2.2"}
 DOWNLOAD_K3S_VERSION=$(echo ${INSTALL_K3S_VERSION} | sed "s/+/-/g")
 DOWNLOADER_URL=${DOWNLOADER_URL:-"https://obs.renlm.cn"}
 ###### master 主节点
@@ -14,6 +20,7 @@ DOWNLOADER_URL=${DOWNLOADER_URL:-"https://obs.renlm.cn"}
 # $ curl -sfL https://renlm.github.io/sh/k3s-install.sh | K3S_TOKEN=istio sh -s - agent --server https://k3s.renlm.cn:6443
 ###### 重载命令行别名
 # $ source ~/.bashrc
+# $ helm version
 # $ kubectl get nodes
 # $ ctr -n k8s.io c ls
 # $ kubectl version --output=json
@@ -157,13 +164,14 @@ EOF
   echo -e "[ ${_GREEN_}启动成功${_NC_} ] ${SYSTEM_NAME}"
 }
 if [ "${CMD_K3S}" = server ]; then
+  ln -sf /usr/local/helm-${INSTALL_HELM_VERSION}/helm /usr/local/bin/helm
   sed -i '$a export KUBECONFIG=/etc/rancher/k3s/k3s.yaml' ~/.bashrc
   sed -i '$a alias kubectl="k3s kubectl"' ~/.bashrc
   sed -i '$a alias ctr="k3s ctr"' ~/.bashrc
   sed -i '$a alias crictl="k3s crictl"' ~/.bashrc
   echo -e "[ ${_GREEN_}sleep${_NC_} ] 5s"
   sleep 5s
-  . ~/.bashrc
+  helm version
   k3s kubectl get nodes
   k3s ctr -n k8s.io c ls
   k3s kubectl version --output=json
@@ -171,14 +179,29 @@ fi
 }
 
 # [ aarch64 | x86_64 ] 软件包下载
-# https://github.com/k3s-io/k3s/releases
+INSTALL_HELM_BIN=/usr/local/bin/helm
 INSTALL_K3S_BIN=/usr/local/bin/k3s
 INSTALL_K3S_IMAGES=/var/lib/rancher/k3s/agent/images/k3s-airgap-images.tar
 DOWNLOADER=curl
+# helm
+if [ ! -f ${INSTALL_HELM_BIN} ]; then
+  # 下载软件包
+  mkdir -p /usr/local/bin
+  if uname -m | grep -q aarch64; then
+    download helm-${INSTALL_HELM_VERSION}-linux-arm64.tar.gz ${DOWNLOADER_URL}/helm/${INSTALL_HELM_VERSION}/helm-${INSTALL_HELM_VERSION}-linux-arm64.tar.gz
+    tar -zxvf helm-${INSTALL_HELM_VERSION}-linux-arm64.tar.gz -C /usr/local --transform="s/linux-arm64/helm-${INSTALL_HELM_VERSION}/g"
+  	rm -f helm-${INSTALL_HELM_VERSION}-linux-arm64.tar.gz
+  else
+    download helm-${INSTALL_HELM_VERSION}-linux-amd64.tar.gz ${DOWNLOADER_URL}/helm/${INSTALL_HELM_VERSION}/helm-${INSTALL_HELM_VERSION}-linux-amd64.tar.gz
+    tar -zxvf helm-${INSTALL_HELM_VERSION}-linux-amd64.tar.gz -C /usr/local --transform="s/linux-amd64/helm-${INSTALL_HELM_VERSION}/g"
+  	rm -f helm-${INSTALL_HELM_VERSION}-linux-amd64.tar.gz
+  fi
+fi
+# k3s
 if [ ! -f ${INSTALL_K3S_BIN} ]; then
+  # 下载软件包
   mkdir -p /usr/local/bin
   mkdir -p /var/lib/rancher/k3s/agent/images
-  # 下载资源
   if uname -m | grep -q aarch64; then
     download ${INSTALL_K3S_BIN} ${DOWNLOADER_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-arm64
     download ${INSTALL_K3S_IMAGES} ${DOWNLOADER_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-arm64.tar
