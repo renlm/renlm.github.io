@@ -47,11 +47,13 @@ download() {
   case $DOWNLOADER in
     curl)
       echo -e "[ ${_GREEN_}下载${_NC_} ] curl -o $1 -sfL $2"
+      mkdir -p ${1%/*}
       curl -o $1 -sfL $2
       status=$?
     ;;
     wget)
       echo -e "[ ${_GREEN_}下载${_NC_} ] wget -qO $1 $2"
+      mkdir -p ${1%/*}
       wget -qO $1 $2
       status=$?
     ;;
@@ -186,7 +188,6 @@ DOWNLOADER=curl
 # helm
 if [ ! -f ${INSTALL_HELM_BIN} ]; then
   # 下载软件包
-  mkdir -p /usr/local/bin
   if uname -m | grep -q aarch64; then
     download helm-${INSTALL_HELM_VERSION}-linux-arm64.tar.gz ${DOWNLOADER_URL}/helm/${INSTALL_HELM_VERSION}/helm-${INSTALL_HELM_VERSION}-linux-arm64.tar.gz
     tar -zxf helm-${INSTALL_HELM_VERSION}-linux-arm64.tar.gz -C /usr/local --transform="s/linux-arm64/helm-${INSTALL_HELM_VERSION}/g"
@@ -200,8 +201,6 @@ fi
 # k3s
 if [ ! -f ${INSTALL_K3S_BIN} ]; then
   # 下载软件包
-  mkdir -p /usr/local/bin
-  mkdir -p /var/lib/rancher/k3s/agent/images
   if uname -m | grep -q aarch64; then
     download ${INSTALL_K3S_BIN} ${DOWNLOADER_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-arm64
     download ${INSTALL_K3S_IMAGES} ${DOWNLOADER_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-arm64.tar
