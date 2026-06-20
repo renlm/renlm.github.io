@@ -276,7 +276,7 @@ EOF
 EOF
 if [ ! -f ${CONTAINERD_CONFIG} ]; then
   mkdir -p ${CONTAINERD_CONFIG%/*}
-  containerd config default | sed "s|^root = \"/var/lib/containerd\"|root = \"${CONTAINERD_DATA_ROOT}\"|g" > ${CONTAINERD_CONFIG}
+  containerd config default | sed "s|^root = '/var/lib/containerd'|root = '${CONTAINERD_DATA_ROOT}'|g" > ${CONTAINERD_CONFIG}
   chmod 0600 ${CONTAINERD_CONFIG}
 fi
 {
