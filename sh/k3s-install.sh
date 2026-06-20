@@ -135,13 +135,13 @@ download() {
 
   case $DOWNLOADER in
     curl)
-      echo -e "[ ${_GREEN_}下载${_NC_} ] curl -o $1 -sfL $2"
+      printf "[ ${_GREEN_}下载${_NC_} ] curl -o $1 -sfL $2"
       mkdir -p ${1%/*}
       curl -o $1 -sfL $2
       status=$?
     ;;
     wget)
-      echo -e "[ ${_GREEN_}下载${_NC_} ] wget -qO $1 $2"
+      printf "[ ${_GREEN_}下载${_NC_} ] wget -qO $1 $2"
       mkdir -p ${1%/*}
       wget -qO $1 $2
       status=$?
@@ -209,7 +209,7 @@ setup_env() {
 create_service() {
   K3S_SERVICE_FILE="/etc/systemd/system/${SYSTEM_NAME}.service"
   K3S_ENV_FILE="${K3S_SERVICE_FILE}.env"
-  echo -e "[ ${_GREEN_}开机自启${_NC_} ] ${K3S_SERVICE_FILE}"
+  printf "[ ${_GREEN_}开机自启${_NC_} ] ${K3S_SERVICE_FILE}"
   touch ${K3S_ENV_FILE}
   touch ${K3S_SERVICE_FILE}
   chmod 0600 ${K3S_ENV_FILE}
@@ -254,7 +254,7 @@ EOF
   systemctl daemon-reload
   systemctl enable ${SYSTEM_NAME}
   systemctl restart ${SYSTEM_NAME}
-  echo -e "[ ${_GREEN_}启动服务${_NC_} ] ${SYSTEM_NAME}"
+  printf "[ ${_GREEN_}启动服务${_NC_} ] ${SYSTEM_NAME}"
 }
 {
   ln -sf /usr/local/helm-${INSTALL_HELM_VERSION}/helm /usr/local/bin/helm
@@ -262,11 +262,11 @@ EOF
   sed -i '$a alias kubectl="k3s kubectl"' ~/.bashrc
   sed -i '$a alias ctr="k3s ctr"' ~/.bashrc
   sed -i '$a alias crictl="k3s crictl"' ~/.bashrc
-  echo -e "${_YELLOW_}[ KUBECONFIG ]${_NC_} /etc/rancher/k3s/k3s.yaml"
-  echo -e "${_YELLOW_}[ 手动执行 ]${_NC_} source ~/.bashrc"
+  printf "${_YELLOW_}[ KUBECONFIG ]${_NC_} /etc/rancher/k3s/k3s.yaml"
+  printf "${_YELLOW_}[ 手动执行 ]${_NC_} source ~/.bashrc"
 }
 if [ "${CMD_K3S}" = server ]; then
-  echo -e "[ ${_GREEN_}SLEEPING${_NC_} ] 5s"
+  printf "[ ${_GREEN_}SLEEPING${_NC_} ] 5s"
   sleep 5s
   helm version
   k3s kubectl get nodes
@@ -301,15 +301,15 @@ if [ ! -f ${INSTALL_K3S_BIN} ]; then
   fi
   # 安装校验
   if [ -f ${INSTALL_K3S_BIN} ]; then
-    echo -e "[ ${_GREEN_}安装${_NC_} ] ${INSTALL_K3S_BIN}"
+    printf "[ ${_GREEN_}安装${_NC_} ] ${INSTALL_K3S_BIN}"
     chmod +x ${INSTALL_K3S_BIN}
     setup_env "$@"
     create_service
   else
-    echo -e "[ ${_RED_}安装失败${_NC_} ] ${INSTALL_K3S_BIN}"
+    printf "[ ${_RED_}安装失败${_NC_} ] ${INSTALL_K3S_BIN}"
     exit 1
   fi
 else
-  echo -e "[ ${_YELLOW_}已安装${_NC_} ] ${INSTALL_K3S_BIN}"
+  printf "[ ${_YELLOW_}已安装${_NC_} ] ${INSTALL_K3S_BIN}"
   exit 1
 fi
