@@ -14,6 +14,8 @@ INSTALL_K3S_VERSION=${INSTALL_K3S_VERSION:-"v1.34.8+k3s1"}
 INSTALL_HELM_VERSION=${INSTALL_HELM_VERSION:-"v4.0.5"}
 DOWNLOAD_K3S_VERSION=$(echo ${INSTALL_K3S_VERSION} | sed "s/+/-/g")
 DOWNLOADER_URL=${DOWNLOADER_URL:-"https://obs.renlm.cn"}
+# K3S内部CA证书的最大有效期上限，最大值被限制为3650天（10年）
+CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS=3650
 ###### master 主节点
 # $ curl -sfL https://renlm.github.io/sh/k3s-install.sh | K3S_TOKEN=istio sh -s - server --disable=traefik --tls-san k3s.renlm.cn --cluster-init
 ###### master 从节点
@@ -199,6 +201,7 @@ create_service() {
   chmod 0755 ${K3S_SERVICE_FILE}
   sh -c export | while read x v; do echo $v; done | grep -E '^(K3S|CONTAINERD)_' | tee ${K3S_ENV_FILE} >/dev/null
   sh -c export | while read x v; do echo $v; done | grep -Ei '^(NO|HTTP|HTTPS)_PROXY' | tee -a ${K3S_ENV_FILE} >/dev/null
+  echo "CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS=${CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS}" | tee -a ${K3S_ENV_FILE} >/dev/null
   cat <<EOF | tee ${K3S_SERVICE_FILE} >/dev/null
 [Unit]
 Description=Lightweight Kubernetes
