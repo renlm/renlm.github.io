@@ -8,6 +8,7 @@ set -o noglob
 # https://github.com/docker/compose/releases
 # https://github.com/moby/moby/blob/docker-v29.4.3/contrib/init/systemd/docker.service
 # https://github.com/moby/moby/blob/docker-v29.4.3/contrib/init/systemd/docker.socket
+# https://github.com/containerd/containerd/blob/v2.2.3/containerd.service
 # 从 github releases 页面 Dependency Changes 中查看三者的版本匹配关系
 # [ 版本匹配 ] docker: 29.4.3, buildx: 0.34.1, compose: 5.1.3
 INSTALL_DOCKER_VERSION=${INSTALL_DOCKER_VERSION:-"29.4.3"}
@@ -151,11 +152,14 @@ download() {
 create_service() {
   DOCKER_SERVICE_FILE="/etc/systemd/system/docker.service"
   DOCKER_SOCKET_FILE="/etc/systemd/system/docker.socket"
+  DOCKER_CONTAINERD_FILE="/etc/systemd/system/containerd.service"
   printf "[ ${_GREEN_}开机自启${_NC_} ] ${DOCKER_SERVICE_FILE}\n"
   touch ${DOCKER_SERVICE_FILE}
   touch ${DOCKER_SOCKET_FILE}
+  touch ${DOCKER_CONTAINERD_FILE}
   chmod 0755 ${DOCKER_SERVICE_FILE}
   chmod 0755 ${DOCKER_SOCKET_FILE}
+  chmod 0755 ${DOCKER_CONTAINERD_FILE}
   cat <<EOF | tee ${DOCKER_SERVICE_FILE} >/dev/null
 [Unit]
 Description=Docker Application Container Engine
@@ -171,7 +175,7 @@ Type=notify
 # the default is not to use systemd for cgroups because the delegate issues still
 # exists and systemd currently does not support the cgroup feature set required
 # for containers run by docker
-ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+ExecStart=${INSTALL_DOCKER_ROOT}/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
 ExecReload=/bin/kill -s HUP $MAINPID
 TimeoutStartSec=0
 RestartSec=2
@@ -213,16 +217,61 @@ SocketGroup=docker
 WantedBy=sockets.target
 
 EOF
+  cat <<EOF | tee ${DOCKER_CONTAINERD_FILE} >/dev/null
+# Copyright The containerd Authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+[Unit]
+Description=containerd container runtime
+Documentation=https://containerd.io
+After=network.target dbus.service
+
+[Service]
+ExecStartPre=-/sbin/modprobe overlay
+ExecStart=${INSTALL_DOCKER_ROOT}/containerd
+
+Type=notify
+Delegate=yes
+KillMode=process
+Restart=always
+RestartSec=5
+
+# Having non-zero Limit*s causes performance problems due to accounting overhead
+# in the kernel. We recommend using cgroups to do container-local accounting.
+LimitNPROC=infinity
+LimitCORE=infinity
+
+# Comment TasksMax if your systemd version does not supports it.
+# Only systemd 226 and above support this version.
+TasksMax=infinity
+OOMScoreAdjust=-999
+
+[Install]
+WantedBy=multi-user.target
+
+EOF
 {
   systemctl daemon-reload
-  systemctl enable docker
-  systemctl restart docker
+  systemctl enable --now containerd
+  systemctl enable --now docker
+  printf "[ ${_GREEN_}启动服务${_NC_} ] containerd\n"
   printf "[ ${_GREEN_}启动服务${_NC_} ] docker\n"
 }
 }
 
 # [ aarch64 | x86_64 ]
-INSTALL_DOCKER_ROOT=/usr/bin
+INSTALL_DOCKER_ROOT=/usr/local/bin
 INSTALL_DOCKER_BIN=${INSTALL_DOCKER_ROOT}/docker
 DOWNLOADS_ROOT=/opt/docker-install
 DOWNLOADER=curl
@@ -234,22 +283,22 @@ if [ ! -f ${INSTALL_DOCKER_BIN} ]; then
     download ${DOWNLOADS_ROOT}/docker/${INSTALL_DOCKER_VERSION}/aarch64/docker-${INSTALL_DOCKER_VERSION}.tgz ${DOWNLOADER_URL}/docker/${INSTALL_DOCKER_VERSION}/aarch64/docker-${INSTALL_DOCKER_VERSION}.tgz
     download ${DOWNLOADS_ROOT}/docker/buildx/${INSTALL_BUILDX_VERSION}/buildx-v${INSTALL_BUILDX_VERSION}.linux-arm64 ${DOWNLOADER_URL}/docker/buildx/${INSTALL_BUILDX_VERSION}/buildx-v${INSTALL_BUILDX_VERSION}.linux-arm64
     download ${DOWNLOADS_ROOT}/docker/compose/${INSTALL_COMPOSE_VERSION}/docker-compose-linux-aarch64 ${DOWNLOADER_URL}/docker/compose/${INSTALL_COMPOSE_VERSION}/docker-compose-linux-aarch64
-    tar -zxf ${DOWNLOADS_ROOT}/docker/${INSTALL_DOCKER_VERSION}/aarch64/docker-${INSTALL_DOCKER_VERSION}.tgz --strip-components=1 -C /usr/bin
+    tar -zxf ${DOWNLOADS_ROOT}/docker/${INSTALL_DOCKER_VERSION}/aarch64/docker-${INSTALL_DOCKER_VERSION}.tgz --strip-components=1 -C ${INSTALL_DOCKER_ROOT}
   	cp ${DOWNLOADS_ROOT}/docker/buildx/${INSTALL_BUILDX_VERSION}/buildx-v${INSTALL_BUILDX_VERSION}.linux-arm64 /usr/libexec/docker/cli-plugins/docker-buildx
     cp ${DOWNLOADS_ROOT}/docker/compose/${INSTALL_COMPOSE_VERSION}/docker-compose-linux-aarch64 /usr/libexec/docker/cli-plugins/docker-compose
   else
     download ${DOWNLOADS_ROOT}/docker/${INSTALL_DOCKER_VERSION}/x86_64/docker-${INSTALL_DOCKER_VERSION}.tgz ${DOWNLOADER_URL}/docker/${INSTALL_DOCKER_VERSION}/x86_64/docker-${INSTALL_DOCKER_VERSION}.tgz
     download ${DOWNLOADS_ROOT}/docker/buildx/${INSTALL_BUILDX_VERSION}/buildx-v${INSTALL_BUILDX_VERSION}.linux-amd64 ${DOWNLOADER_URL}/docker/buildx/${INSTALL_BUILDX_VERSION}/buildx-v${INSTALL_BUILDX_VERSION}.linux-amd64
     download ${DOWNLOADS_ROOT}/docker/compose/${INSTALL_COMPOSE_VERSION}/docker-compose-linux-x86_64 ${DOWNLOADER_URL}/docker/compose/${INSTALL_COMPOSE_VERSION}/docker-compose-linux-x86_64
-  	tar -zxf ${DOWNLOADS_ROOT}/docker/${INSTALL_DOCKER_VERSION}/x86_64/docker-${INSTALL_DOCKER_VERSION}.tgz --strip-components=1 -C /usr/bin
+  	tar -zxf ${DOWNLOADS_ROOT}/docker/${INSTALL_DOCKER_VERSION}/x86_64/docker-${INSTALL_DOCKER_VERSION}.tgz --strip-components=1 -C ${INSTALL_DOCKER_ROOT}
   	cp ${DOWNLOADS_ROOT}/docker/buildx/${INSTALL_BUILDX_VERSION}/buildx-v${INSTALL_BUILDX_VERSION}.linux-amd64 /usr/libexec/docker/cli-plugins/docker-buildx
     cp ${DOWNLOADS_ROOT}/docker/compose/${INSTALL_COMPOSE_VERSION}/docker-compose-linux-x86_64 /usr/libexec/docker/cli-plugins/docker-compose
   fi
   # 安装校验
-  ln -sf /usr/libexec/docker/cli-plugins/docker-compose /usr/bin/docker-compose
-  ln -sf /usr/libexec/docker/cli-plugins/docker-buildx /usr/bin/docker-buildx
-  chmod +x /usr/bin/docker-compose
-  chmod +x /usr/bin/docker-buildx
+  ln -sf /usr/libexec/docker/cli-plugins/docker-compose ${INSTALL_DOCKER_ROOT}/docker-compose
+  ln -sf /usr/libexec/docker/cli-plugins/docker-buildx ${INSTALL_DOCKER_ROOT}/docker-buildx
+  chmod +x ${INSTALL_DOCKER_ROOT}/docker-compose
+  chmod +x ${INSTALL_DOCKER_ROOT}/docker-buildx
   if [ -f ${INSTALL_DOCKER_BIN} ]; then
     printf "[ ${_GREEN_}安装${_NC_} ] ${INSTALL_DOCKER_BIN}\n"
     create_service
