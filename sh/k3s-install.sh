@@ -63,7 +63,7 @@ kernel_parameter_adjustment() {
     __SELINUX_ENFORCING_NUM__=$(grep -c "^SELINUX=enforcing" /etc/selinux/config || true)
     if [ $__SELINUX_ENFORCING_NUM__ -gt 0 ]; then
       echo "[ selinux ] setenforce 0"
-      setenforce 0
+      setenforce 0 || true
       sed -i "s|SELINUX=enforcing|SELINUX=Permissive|g" /etc/selinux/config
     fi
   fi
