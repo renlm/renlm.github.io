@@ -44,17 +44,18 @@ download() {
   # Default to a failure status
   status=1
 
+  DOWNLOAD_LOCAL_FILE=$1
   case $DOWNLOADER in
     curl)
-      echo -e "[ ${_GREEN_}下载${_NC_} ] curl -o $1 -sfL $2"
-      mkdir -p ${1%/*}
-      curl -o $1 -sfL $2
+      echo -e "[ ${_GREEN_}下载${_NC_} ] curl -o $DOWNLOAD_LOCAL_FILE -sfL $2"
+      mkdir -p ${DOWNLOAD_LOCAL_FILE%/*}
+      curl -o $DOWNLOAD_LOCAL_FILE -sfL $2
       status=$?
     ;;
     wget)
-      echo -e "[ ${_GREEN_}下载${_NC_} ] wget -qO $1 $2"
-      mkdir -p ${1%/*}
-      wget -qO $1 $2
+      echo -e "[ ${_GREEN_}下载${_NC_} ] wget -qO $DOWNLOAD_LOCAL_FILE $2"
+      mkdir -p ${DOWNLOAD_LOCAL_FILE%/*}
+      wget -qO $DOWNLOAD_LOCAL_FILE $2
       status=$?
     ;;
     *)
