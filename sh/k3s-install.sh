@@ -45,24 +45,24 @@ kernel_parameter_adjustment() {
   __FS_INOTIFY_MAX_USER_INSTANCES_NUM__=$(grep -c "^fs.inotify.max_user_instances = 4096" /etc/sysctl.conf || true)
   if [ $__VM_OVERCOMMIT_MEMORY_NUM__ -eq 0 ]; then
     SYSCTL_P=$((SYSCTL_P+1))
-    echo "[ 内核参数调整 ] vm.overcommit_memory = 1"
+    printf "[ ${_GREEN_}内核参数调整${_NC_} ] vm.overcommit_memory = 1\n"
     sed -i '$a vm.overcommit_memory = 1' /etc/sysctl.conf
   fi
   if [ $__NET_CORE_SOMAXCONN_NUM__ -eq 0 ]; then
     SYSCTL_P=$((SYSCTL_P+1))
-    echo "[ 内核参数调整 ] net.core.somaxconn = 4096"
+    printf "[ ${_GREEN_}内核参数调整${_NC_} ] net.core.somaxconn = 4096\n"
     sed -i '$a net.core.somaxconn = 4096' /etc/sysctl.conf
   fi
   if [ $__FS_INOTIFY_MAX_USER_INSTANCES_NUM__ -eq 0 ]; then
     SYSCTL_P=$((SYSCTL_P+1))
-    echo "[ 内核参数调整 ] fs.inotify.max_user_instances = 4096"
+    printf "[ ${_GREEN_}内核参数调整${_NC_} ] fs.inotify.max_user_instances = 4096\n"
     sed -i '$a fs.inotify.max_user_instances = 4096' /etc/sysctl.conf
   fi
   # selinux
   if [ -f /etc/selinux/config ]; then
     __SELINUX_ENFORCING_NUM__=$(grep -c "^SELINUX=enforcing" /etc/selinux/config || true)
     if [ $__SELINUX_ENFORCING_NUM__ -gt 0 ]; then
-      echo "[ selinux ] setenforce 0"
+      printf "[ ${_GREEN_}selinux${_NC_} ] setenforce 0\n"
       setenforce 0 || true
       sed -i "s|SELINUX=enforcing|SELINUX=Permissive|g" /etc/selinux/config
     fi
@@ -95,7 +95,7 @@ EOF
   __IPV4_FORWARD_NUM__=$(grep -c "net.ipv4.ip_forward = 1" /etc/sysctl.conf || true)
   if [ $__IPV4_FORWARD_NUM__ -eq 0 ]; then
     SYSCTL_P=$((SYSCTL_P+1))
-    echo "[ 内核参数调整 ] 开启ipv4转发"
+    printf "[ ${_GREEN_}内核参数调整${_NC_} ] 开启ipv4转发\n"
     sed -i '$a net.ipv4.ip_forward = 1' /etc/sysctl.conf
     sed -i '$a net.bridge.bridge-nf-call-iptables = 1' /etc/sysctl.conf
     sed -i '$a net.bridge.bridge-nf-call-ip6tables = 1' /etc/sysctl.conf
@@ -111,14 +111,14 @@ EOF
     systemctl daemon-reload
     if [ "$__SYS_FS_CGROUP__" = cgroup2fs ]; then
       __SYS_FS_CGROUP_CONTROLLERS__=$(cat /sys/fs/cgroup/user.slice/user-$(id -u).slice/user@$(id -u).service/cgroup.controllers || true)
-      echo "[ cgroup2fs ] ${__SYS_FS_CGROUP_CONTROLLERS__}"
+      printf "[ ${_GREEN_}cgroup2fs${_NC_} ] ${__SYS_FS_CGROUP_CONTROLLERS__}\n"
     fi
   fi
 
   # sysctl -p
   if [ $SYSCTL_P -gt 0 ]; then
     echo
-    echo "[ 内核参数调整 ] sysctl -p"
+    printf "[ ${_GREEN_}重载内核参数${_NC_} ] sysctl -p\n"
     sysctl -p
     echo
   fi
