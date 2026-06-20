@@ -172,7 +172,7 @@ EOF
   sed -i '$a alias kubectl="k3s kubectl"' ~/.bashrc
   sed -i '$a alias ctr="k3s ctr"' ~/.bashrc
   sed -i '$a alias crictl="k3s crictl"' ~/.bashrc
-  echo -e "[ ${_YELLOW_}KUBECONFIG${_NC_} ] /etc/rancher/k3s/k3s.yaml"
+  echo -e "${_YELLOW_}[ KUBECONFIG ]${_NC_} /etc/rancher/k3s/k3s.yaml"
   echo -e "${_YELLOW_}[ 手动执行 ]${_NC_} source ~/.bashrc"
 }
 if [ "${CMD_K3S}" = server ]; then
