@@ -212,7 +212,7 @@ Description=Docker Socket for the API
 [Socket]
 # If /var/run is not implemented as a symlink to /run, you may need to
 # specify ListenStream=/var/run/docker.sock instead.
-ListenStream=/var/run/docker.sock
+ListenStream=/run/docker.sock
 SocketMode=0660
 SocketUser=root
 SocketGroup=docker
@@ -270,8 +270,7 @@ EOF
   "data-root": "$DOCKER_DATA_ROOT",
   "features": { "buildkit" : true },
   "log-driver": "json-file",
-  "log-opts": { "max-size": "300m", "max-file": "10" },
-  "hosts": ["unix:///var/run/docker.sock"]
+  "log-opts": { "max-size": "300m", "max-file": "10" }
 }
 EOF
 if [ ! -f ${CONTAINERD_CONFIG} ]; then
