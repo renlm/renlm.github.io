@@ -108,8 +108,10 @@ EOF
 
   # sysctl -p
   if [ $SYSCTL_P -gt 0 ]; then
+    echo
     echo "[ 内核参数调整 ] sysctl -p"
     sysctl -p
+    echo
   fi
 }
 
