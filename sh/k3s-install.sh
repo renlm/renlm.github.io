@@ -239,37 +239,29 @@ INSTALL_K3S_BIN=/usr/local/bin/k3s
 INSTALL_K3S_IMAGES=/var/lib/rancher/k3s/agent/images/
 DOWNLOADS_ROOT=/opt/k3s-install
 DOWNLOADER=curl
-# helm
-if [ ! -f ${INSTALL_HELM_BIN} ]; then
-  # 下载软件包
-  if uname -m | grep -q aarch64; then
-    download ${DOWNLOADS_ROOT}/helm/${INSTALL_HELM_VERSION}/helm-${INSTALL_HELM_VERSION}-linux-arm64.tar.gz ${DOWNLOADER_URL}/helm/${INSTALL_HELM_VERSION}/helm-${INSTALL_HELM_VERSION}-linux-arm64.tar.gz
-    tar -zxf ${DOWNLOADS_ROOT}/helm/${INSTALL_HELM_VERSION}/helm-${INSTALL_HELM_VERSION}-linux-arm64.tar.gz -C /usr/local --transform="s/linux-arm64/helm-${INSTALL_HELM_VERSION}/g"
-  else
-    download ${DOWNLOADS_ROOT}/helm/${INSTALL_HELM_VERSION}/helm-${INSTALL_HELM_VERSION}-linux-amd64.tar.gz ${DOWNLOADER_URL}/helm/${INSTALL_HELM_VERSION}/helm-${INSTALL_HELM_VERSION}-linux-amd64.tar.gz
-    tar -zxf ${DOWNLOADS_ROOT}/helm/${INSTALL_HELM_VERSION}/helm-${INSTALL_HELM_VERSION}-linux-amd64.tar.gz -C /usr/local --transform="s/linux-amd64/helm-${INSTALL_HELM_VERSION}/g"
-  fi
-fi
-# k3s
+# 下载并安装
 if [ ! -f ${INSTALL_K3S_BIN} ]; then
-  # 下载软件包
+  kernel_parameter_adjustment
   mkdir -p ${INSTALL_K3S_IMAGES}
   if uname -m | grep -q aarch64; then
+    download ${DOWNLOADS_ROOT}/helm/${INSTALL_HELM_VERSION}/helm-${INSTALL_HELM_VERSION}-linux-arm64.tar.gz ${DOWNLOADER_URL}/helm/${INSTALL_HELM_VERSION}/helm-${INSTALL_HELM_VERSION}-linux-arm64.tar.gz
     download ${DOWNLOADS_ROOT}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-arm64 ${DOWNLOADER_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-arm64
     download ${DOWNLOADS_ROOT}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-arm64.tar ${DOWNLOADER_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-arm64.tar
+    tar -zxf ${DOWNLOADS_ROOT}/helm/${INSTALL_HELM_VERSION}/helm-${INSTALL_HELM_VERSION}-linux-arm64.tar.gz -C /usr/local --transform="s/linux-arm64/helm-${INSTALL_HELM_VERSION}/g"
     cp ${DOWNLOADS_ROOT}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-arm64 ${INSTALL_K3S_BIN}
     cp ${DOWNLOADS_ROOT}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-arm64.tar ${INSTALL_K3S_IMAGES}
   else
+    download ${DOWNLOADS_ROOT}/helm/${INSTALL_HELM_VERSION}/helm-${INSTALL_HELM_VERSION}-linux-amd64.tar.gz ${DOWNLOADER_URL}/helm/${INSTALL_HELM_VERSION}/helm-${INSTALL_HELM_VERSION}-linux-amd64.tar.gz
     download ${DOWNLOADS_ROOT}/k3s/${DOWNLOAD_K3S_VERSION}/k3s ${DOWNLOADER_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s
     download ${DOWNLOADS_ROOT}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-amd64.tar ${DOWNLOADER_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-amd64.tar
-  	cp ${DOWNLOADS_ROOT}/k3s/${DOWNLOAD_K3S_VERSION}/k3s ${INSTALL_K3S_BIN}
+  	tar -zxf ${DOWNLOADS_ROOT}/helm/${INSTALL_HELM_VERSION}/helm-${INSTALL_HELM_VERSION}-linux-amd64.tar.gz -C /usr/local --transform="s/linux-amd64/helm-${INSTALL_HELM_VERSION}/g"
+    cp ${DOWNLOADS_ROOT}/k3s/${DOWNLOAD_K3S_VERSION}/k3s ${INSTALL_K3S_BIN}
     cp ${DOWNLOADS_ROOT}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-amd64.tar ${INSTALL_K3S_IMAGES}
   fi
   # 安装校验
   if [ -f ${INSTALL_K3S_BIN} ]; then
     echo -e "[ ${_GREEN_}安装${_NC_} ] ${INSTALL_K3S_BIN}"
     chmod +x ${INSTALL_K3S_BIN}
-    kernel_parameter_adjustment
     setup_env "$@"
     create_service
   else
