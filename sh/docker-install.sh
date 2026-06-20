@@ -14,6 +14,7 @@ INSTALL_DOCKER_VERSION=${INSTALL_DOCKER_VERSION:-"29.4.3"}
 INSTALL_BUILDX_VERSION=${INSTALL_BUILDX_VERSION:-"0.34.1"}
 INSTALL_COMPOSE_VERSION=${INSTALL_COMPOSE_VERSION:-"5.1.3"}
 DOWNLOADER_URL=${DOWNLOADER_URL:-"https://obs.renlm.cn"}
+###### 一键安装
 # $ curl -sfL https://renlm.github.io/sh/docker-install.sh | sh
 ########################################################################
 
@@ -219,10 +220,10 @@ if [ ! -f ${INSTALL_DOCKER_BIN} ]; then
     cp ${DOWNLOADS_ROOT}/docker/compose/${INSTALL_COMPOSE_VERSION}/docker-compose-linux-aarch64 /usr/libexec/docker/cli-plugins/docker-compose
   else
     download ${DOWNLOADS_ROOT}/docker/${INSTALL_DOCKER_VERSION}/x86_64/docker-${INSTALL_DOCKER_VERSION}.tgz ${DOWNLOADER_URL}/docker/${INSTALL_DOCKER_VERSION}/x86_64/docker-${INSTALL_DOCKER_VERSION}.tgz
-    download ${DOWNLOADS_ROOT}/docker/buildx/${INSTALL_DOCKER_VERSION}/buildx-v${INSTALL_DOCKER_VERSION}.linux-amd64 ${DOWNLOADER_URL}/docker/buildx/${INSTALL_DOCKER_VERSION}/buildx-v${INSTALL_DOCKER_VERSION}.linux-amd64
+    download ${DOWNLOADS_ROOT}/docker/buildx/${INSTALL_BUILDX_VERSION}/buildx-v${INSTALL_BUILDX_VERSION}.linux-amd64 ${DOWNLOADER_URL}/docker/buildx/${INSTALL_BUILDX_VERSION}/buildx-v${INSTALL_BUILDX_VERSION}.linux-amd64
     download ${DOWNLOADS_ROOT}/docker/compose/${INSTALL_COMPOSE_VERSION}/docker-compose-linux-x86_64 ${DOWNLOADER_URL}/docker/compose/${INSTALL_COMPOSE_VERSION}/docker-compose-linux-x86_64
   	tar -zxf ${DOWNLOADS_ROOT}/docker/${INSTALL_DOCKER_VERSION}/x86_64/docker-${INSTALL_DOCKER_VERSION}.tgz --strip-components=1 -C /usr/bin
-  	cp ${DOWNLOADS_ROOT}/docker/buildx/${INSTALL_DOCKER_VERSION}/buildx-v${INSTALL_DOCKER_VERSION}.linux-amd64 /usr/libexec/docker/cli-plugins/docker-buildx
+  	cp ${DOWNLOADS_ROOT}/docker/buildx/${INSTALL_BUILDX_VERSION}/buildx-v${INSTALL_BUILDX_VERSION}.linux-amd64 /usr/libexec/docker/cli-plugins/docker-buildx
     cp ${DOWNLOADS_ROOT}/docker/compose/${INSTALL_COMPOSE_VERSION}/docker-compose-linux-x86_64 /usr/libexec/docker/cli-plugins/docker-compose
   fi
   # 安装校验
