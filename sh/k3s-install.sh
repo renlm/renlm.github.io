@@ -40,6 +40,7 @@ download() {
 
   # Disable exit-on-error so we can do custom error messages on failure
   set +e
+  set +o noglob
 
   # Default to a failure status
   status=1
