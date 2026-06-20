@@ -100,16 +100,16 @@ EOF
     sed -i '$a net.ipv4.ip_forward = 1' /etc/sysctl.conf
     sed -i '$a net.bridge.bridge-nf-call-iptables = 1' /etc/sysctl.conf
     sed -i '$a net.bridge.bridge-nf-call-ip6tables = 1' /etc/sysctl.conf
-    modprobe bridge || true
+    modprobe bridge
     brNetfilterWcl=$(ls -l /lib/modules/$(uname -r)/kernel/net/bridge/ | grep br_netfilter | wc -l)
     if [ $brNetfilterWcl -gt 0 ]; then
-      modprobe br_netfilter || true
+      modprobe br_netfilter
     fi
   fi
   
   # systemctl daemon-reload
   if [ $SYSTEMCTL_DAEMON_RELOAD_P -gt 0 ]; then
-    systemctl daemon-reload || true
+    systemctl daemon-reload
     if [ "$__SYS_FS_CGROUP__" = cgroup2fs ]; then
       __SYS_FS_CGROUP_CONTROLLERS__=$(cat /sys/fs/cgroup/user.slice/user-$(id -u).slice/user@$(id -u).service/cgroup.controllers || true)
       echo "[ cgroup2fs ] ${__SYS_FS_CGROUP_CONTROLLERS__}"
