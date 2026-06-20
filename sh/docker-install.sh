@@ -145,3 +145,99 @@ download() {
   # Abort if download command failed
   [ $status -eq 0 ] || fatal 'Download failed'
 }
+
+# 设置开机自启
+create_service() {
+  DOCKER_SERVICE_FILE="/etc/systemd/system/docker.service"
+  printf "[ ${_GREEN_}开机自启${_NC_} ] ${DOCKER_SERVICE_FILE}\n"
+  touch ${DOCKER_SERVICE_FILE}
+  chmod 0755 ${DOCKER_SERVICE_FILE}
+  cat <<EOF | tee ${DOCKER_SERVICE_FILE} >/dev/null
+[Unit]
+Description=Docker Application Container Engine
+Documentation=https://docs.docker.com
+After=network-online.target nss-lookup.target docker.socket firewalld.service containerd.service time-set.target
+Wants=network-online.target containerd.service
+Requires=docker.socket
+StartLimitBurst=3
+StartLimitIntervalSec=60
+
+[Service]
+Type=notify
+# the default is not to use systemd for cgroups because the delegate issues still
+# exists and systemd currently does not support the cgroup feature set required
+# for containers run by docker
+ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+ExecReload=/bin/kill -s HUP $MAINPID
+TimeoutStartSec=0
+RestartSec=2
+Restart=always
+
+# Having non-zero Limit*s causes performance problems due to accounting overhead
+# in the kernel. We recommend using cgroups to do container-local accounting.
+LimitNPROC=infinity
+LimitCORE=infinity
+
+# Comment TasksMax if your systemd version does not support it.
+# Only systemd 226 and above support this option.
+TasksMax=infinity
+
+# set delegate yes so that systemd does not reset the cgroups of docker containers
+Delegate=yes
+
+# kill only the docker process, not all processes in the cgroup
+KillMode=process
+OOMScoreAdjust=-500
+
+[Install]
+WantedBy=multi-user.target
+
+EOF
+{
+  systemctl daemon-reload
+  systemctl enable docker
+  systemctl restart docker
+  printf "[ ${_GREEN_}启动服务${_NC_} ] docker\n"
+}
+}
+
+# [ aarch64 | x86_64 ]
+INSTALL_DOCKER_ROOT=/usr/bin
+INSTALL_DOCKER_BIN=${INSTALL_DOCKER_ROOT}/docker
+DOWNLOADS_ROOT=/opt/docker-install
+DOWNLOADER=curl
+# 下载并安装
+if [ ! -f ${INSTALL_DOCKER_BIN} ]; then
+  kernel_parameter_adjustment
+  mkdir -p /usr/libexec/docker/cli-plugins
+  if uname -m | grep -q aarch64; then
+    download ${DOWNLOADS_ROOT}/docker/${INSTALL_DOCKER_VERSION}/aarch64/docker-${INSTALL_DOCKER_VERSION}.tgz ${DOWNLOADER_URL}/docker/${INSTALL_DOCKER_VERSION}/aarch64/docker-${INSTALL_DOCKER_VERSION}.tgz
+    download ${DOWNLOADS_ROOT}/docker/buildx/${INSTALL_BUILDX_VERSION}/buildx-v${INSTALL_BUILDX_VERSION}.linux-arm64 ${DOWNLOADER_URL}/docker/buildx/${INSTALL_BUILDX_VERSION}/buildx-v${INSTALL_BUILDX_VERSION}.linux-arm64
+    download ${DOWNLOADS_ROOT}/docker/compose/${INSTALL_COMPOSE_VERSION}/docker-compose-linux-aarch64 ${DOWNLOADER_URL}/docker/compose/${INSTALL_COMPOSE_VERSION}/docker-compose-linux-aarch64
+    tar -zxf ${DOWNLOADS_ROOT}/docker/${INSTALL_DOCKER_VERSION}/aarch64/docker-${INSTALL_DOCKER_VERSION}.tgz --strip-components=1 -C /usr/bin
+  	cp ${DOWNLOADS_ROOT}/docker/buildx/${INSTALL_BUILDX_VERSION}/buildx-v${INSTALL_BUILDX_VERSION}.linux-arm64 /usr/libexec/docker/cli-plugins/docker-buildx
+    cp ${DOWNLOADS_ROOT}/docker/compose/${INSTALL_COMPOSE_VERSION}/docker-compose-linux-aarch64 /usr/libexec/docker/cli-plugins/docker-compose
+  else
+    download ${DOWNLOADS_ROOT}/docker/${INSTALL_DOCKER_VERSION}/x86_64/docker-${INSTALL_DOCKER_VERSION}.tgz ${DOWNLOADER_URL}/docker/${INSTALL_DOCKER_VERSION}/x86_64/docker-${INSTALL_DOCKER_VERSION}.tgz
+    download ${DOWNLOADS_ROOT}/docker/buildx/${INSTALL_DOCKER_VERSION}/buildx-v${INSTALL_DOCKER_VERSION}.linux-amd64 ${DOWNLOADER_URL}/docker/buildx/${INSTALL_DOCKER_VERSION}/buildx-v${INSTALL_DOCKER_VERSION}.linux-amd64
+    download ${DOWNLOADS_ROOT}/docker/compose/${INSTALL_COMPOSE_VERSION}/docker-compose-linux-x86_64 ${DOWNLOADER_URL}/docker/compose/${INSTALL_COMPOSE_VERSION}/docker-compose-linux-x86_64
+  	tar -zxf ${DOWNLOADS_ROOT}/docker/${INSTALL_DOCKER_VERSION}/x86_64/docker-${INSTALL_DOCKER_VERSION}.tgz --strip-components=1 -C /usr/bin
+  	cp ${DOWNLOADS_ROOT}/docker/buildx/${INSTALL_DOCKER_VERSION}/buildx-v${INSTALL_DOCKER_VERSION}.linux-amd64 /usr/libexec/docker/cli-plugins/docker-buildx
+    cp ${DOWNLOADS_ROOT}/docker/compose/${INSTALL_COMPOSE_VERSION}/docker-compose-linux-x86_64 /usr/libexec/docker/cli-plugins/docker-compose
+  fi
+  # 安装校验
+  ln -sf /usr/libexec/docker/cli-plugins/docker-compose /usr/bin/docker-compose
+  ln -sf /usr/libexec/docker/cli-plugins/docker-buildx /usr/bin/docker-buildx
+  chmod +x /usr/bin/docker-compose
+  chmod +x /usr/bin/docker-buildx
+  if [ -f ${INSTALL_DOCKER_BIN} ]; then
+    printf "[ ${_GREEN_}安装${_NC_} ] ${INSTALL_DOCKER_BIN}\n"
+    create_service
+  else
+    printf "[ ${_RED_}安装失败${_NC_} ] ${INSTALL_DOCKER_BIN}\n"
+    exit 1
+  fi
+else
+  printf "[ ${_YELLOW_}已安装${_NC_} ] ${INSTALL_DOCKER_BIN}\n"
+  exit 1
+fi
