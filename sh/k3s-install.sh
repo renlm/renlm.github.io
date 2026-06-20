@@ -166,12 +166,16 @@ EOF
   systemctl restart ${SYSTEM_NAME}
   echo -e "[ ${_GREEN_}启动服务${_NC_} ] ${SYSTEM_NAME}"
 }
-if [ "${CMD_K3S}" = server ]; then
+{
   ln -sf /usr/local/helm-${INSTALL_HELM_VERSION}/helm /usr/local/bin/helm
   sed -i '$a export KUBECONFIG=/etc/rancher/k3s/k3s.yaml' ~/.bashrc
   sed -i '$a alias kubectl="k3s kubectl"' ~/.bashrc
   sed -i '$a alias ctr="k3s ctr"' ~/.bashrc
   sed -i '$a alias crictl="k3s crictl"' ~/.bashrc
+  echo -e "[ ${_YELLOW_}KUBECONFIG${_NC_} ] /etc/rancher/k3s/k3s.yaml"
+  echo -e "[ ${_YELLOW_}手动执行${_NC_} ] source ~/.bashrc"
+}
+if [ "${CMD_K3S}" = server ]; then
   echo -e "[ ${_GREEN_}SLEEPING${_NC_} ] 5s"
   sleep 5s
   helm version
