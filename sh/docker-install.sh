@@ -156,14 +156,17 @@ create_service() {
   DOCKER_CONTAINERD_FILE="/etc/systemd/system/containerd.service"
   printf "[ ${_GREEN_}开机自启${_NC_} ] ${DOCKER_SERVICE_FILE}\n"
   mkdir -p ${DOCKER_CONFIG%/*}
+  mkdir -p ${CONTAINERD_CONFIG%/*}
   touch ${DOCKER_SERVICE_FILE}
   touch ${DOCKER_SOCKET_FILE}
   touch ${DOCKER_CONTAINERD_FILE}
   touch ${DOCKER_CONFIG}
+  touch ${CONTAINERD_CONFIG}
   chmod 0755 ${DOCKER_SERVICE_FILE}
   chmod 0755 ${DOCKER_SOCKET_FILE}
   chmod 0755 ${DOCKER_CONTAINERD_FILE}
   chmod 0600 ${DOCKER_CONFIG}
+  chmod 0600 ${CONTAINERD_CONFIG}
   cat <<EOF | tee ${DOCKER_SERVICE_FILE} >/dev/null
 [Unit]
 Description=Docker Application Container Engine
@@ -244,7 +247,7 @@ After=network.target dbus.service
 
 [Service]
 ExecStartPre=-/sbin/modprobe overlay
-ExecStart=${INSTALL_DOCKER_ROOT}/containerd
+ExecStart=${INSTALL_DOCKER_ROOT}/containerd --config ${CONTAINERD_CONFIG}
 
 Type=notify
 Delegate=yes
@@ -275,6 +278,9 @@ EOF
   "hosts": ["unix:///var/run/docker.sock"]
 }
 EOF
+if [ ! -f ${CONTAINERD_CONFIG} ]; then
+  containerd config default > ${CONTAINERD_CONFIG}
+fi
 {
   systemctl daemon-reload
   systemctl enable --now containerd
@@ -290,6 +296,7 @@ EOF
 INSTALL_DOCKER_ROOT=/usr/bin
 INSTALL_DOCKER_BIN=${INSTALL_DOCKER_ROOT}/docker
 DOCKER_CONFIG=/etc/docker/daemon.json
+CONTAINERD_CONFIG=/etc/containerd/config.toml
 DOWNLOADS_ROOT=/opt/docker-install
 DOWNLOADER=curl
 # 下载并安装
