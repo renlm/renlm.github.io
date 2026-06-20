@@ -54,7 +54,7 @@ kernel_parameter_adjustment() {
   if [ -f /etc/selinux/config ]; then
     __SELINUX_ENFORCING_NUM__=$(grep -c "^SELINUX=enforcing" /etc/selinux/config || true)
     if [ $__SELINUX_ENFORCING_NUM__ -gt 0 ]; then
-      printf "[ ${_GREEN_}selinux${_NC_} ] setenforce 0\n"
+      printf "[ ${_YELLOW_}selinux${_NC_} ] setenforce 0\n"
       setenforce 0 || true
       sed -i "s|SELINUX=enforcing|SELINUX=Permissive|g" /etc/selinux/config
     fi
@@ -110,7 +110,7 @@ EOF
   # sysctl -p
   if [ $SYSCTL_P -gt 0 ]; then
     echo
-    printf "[ ${_GREEN_}重载内核参数${_NC_} ] sysctl -p\n"
+    printf "[ ${_YELLOW_}重载内核参数${_NC_} ] sysctl -p\n"
     sysctl -p
     echo
   fi
