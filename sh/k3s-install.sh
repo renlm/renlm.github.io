@@ -68,29 +68,27 @@ kernel_parameter_adjustment() {
     fi
   fi
   # cgroup
-  if [ -d /sys/fs/cgroup ]; then
-    # 对于 cgroup v1，输出为 tmpfs
-    # 对于 cgroup v2，输出为 cgroup2fs
-    __SYS_FS_CGROUP__=$(stat -fc %T /sys/fs/cgroup || true)
-    if [ "$__SYS_FS_CGROUP__" = cgroup2fs ]; then
-      __SYS_FS_CGROUP_CONTROLLERS__=$(cat /sys/fs/cgroup/user.slice/user-$(id -u).slice/user@$(id -u).service/cgroup.controllers || true)
-      __SYS_FS_CGROUP_CONTROLLERS_NUM__=$(echo "${__SYS_FS_CGROUP_CONTROLLERS__}" | grep -o ' ' | wc -l || true)
-      ((__SYS_FS_CGROUP_CONTROLLERS_NUM__=__SYS_FS_CGROUP_CONTROLLERS_NUM__+1))
-      __SYS_FS_CGROUP_CONTROLLERS_P__=0
-      for i in $(seq 1 $__SYS_FS_CGROUP_CONTROLLERS_NUM__); do
-        __SYS_FS_CGROUP_CONTROLLER__=$(echo "$__SYS_FS_CGROUP_CONTROLLERS__" | cut -d ' ' -f $i)
-        if [ "${__SYS_FS_CGROUP_CONTROLLER__}" = cpu ] || [ "${__SYS_FS_CGROUP_CONTROLLER__}" = cpuset ] || [ "${__SYS_FS_CGROUP_CONTROLLER__}" = io ] || [ "${__SYS_FS_CGROUP_CONTROLLER__}" = memory ] || [ "${__SYS_FS_CGROUP_CONTROLLER__}" = pids ]; then
-          ((__SYS_FS_CGROUP_CONTROLLERS_P__=__SYS_FS_CGROUP_CONTROLLERS_P__+1))
-        fi
-      done
-      if [ $__SYS_FS_CGROUP_CONTROLLERS_P__ -lt 5 ]; then
-        ((SYSTEMCTL_DAEMON_RELOAD_P=SYSTEMCTL_DAEMON_RELOAD_P+1))
-        mkdir -p /etc/systemd/system/user@.service.d
-        cat <<EOF | tee /etc/systemd/system/user@.service.d/delegate.conf >/dev/null
+  # 对于 cgroup v1，输出为 tmpfs
+  # 对于 cgroup v2，输出为 cgroup2fs
+  __SYS_FS_CGROUP__=$(stat -fc %T /sys/fs/cgroup || true)
+  if [ "$__SYS_FS_CGROUP__" = cgroup2fs ]; then
+    __SYS_FS_CGROUP_CONTROLLERS__=$(cat /sys/fs/cgroup/user.slice/user-$(id -u).slice/user@$(id -u).service/cgroup.controllers || true)
+    __SYS_FS_CGROUP_CONTROLLERS_NUM__=$(echo "${__SYS_FS_CGROUP_CONTROLLERS__}" | grep -o ' ' | wc -l || true)
+    ((__SYS_FS_CGROUP_CONTROLLERS_NUM__=__SYS_FS_CGROUP_CONTROLLERS_NUM__+1))
+    __SYS_FS_CGROUP_CONTROLLERS_P__=0
+    for i in $(seq 1 $__SYS_FS_CGROUP_CONTROLLERS_NUM__); do
+      __SYS_FS_CGROUP_CONTROLLER__=$(echo "$__SYS_FS_CGROUP_CONTROLLERS__" | cut -d ' ' -f $i)
+      if [ "${__SYS_FS_CGROUP_CONTROLLER__}" = cpu ] || [ "${__SYS_FS_CGROUP_CONTROLLER__}" = cpuset ] || [ "${__SYS_FS_CGROUP_CONTROLLER__}" = io ] || [ "${__SYS_FS_CGROUP_CONTROLLER__}" = memory ] || [ "${__SYS_FS_CGROUP_CONTROLLER__}" = pids ]; then
+        ((__SYS_FS_CGROUP_CONTROLLERS_P__=__SYS_FS_CGROUP_CONTROLLERS_P__+1))
+      fi
+    done
+    if [ $__SYS_FS_CGROUP_CONTROLLERS_P__ -lt 5 ]; then
+      ((SYSTEMCTL_DAEMON_RELOAD_P=SYSTEMCTL_DAEMON_RELOAD_P+1))
+      mkdir -p /etc/systemd/system/user@.service.d
+      cat <<EOF | tee /etc/systemd/system/user@.service.d/delegate.conf >/dev/null
 [Service]
 Delegate=cpu cpuset io memory pids
 EOF
-      fi
     fi
   fi
 
