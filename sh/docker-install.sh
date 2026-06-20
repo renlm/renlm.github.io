@@ -6,6 +6,8 @@ set -o noglob
 # https://download.docker.com/linux/static/stable
 # https://github.com/docker/buildx/releases
 # https://github.com/docker/compose/releases
+# https://github.com/moby/moby/blob/docker-v29.4.3/contrib/init/systemd/docker.service
+# https://github.com/moby/moby/blob/docker-v29.4.3/contrib/init/systemd/docker.socket
 # 从 github releases 页面 Dependency Changes 中查看三者的版本匹配关系
 # [ 版本匹配 ] docker: 29.4.3, buildx: 0.34.1, compose: 5.1.3
 INSTALL_DOCKER_VERSION=${INSTALL_DOCKER_VERSION:-"29.4.3"}
