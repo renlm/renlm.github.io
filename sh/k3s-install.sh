@@ -212,7 +212,7 @@ create_service() {
   touch ${K3S_ENV_FILE}
   touch ${K3S_SERVICE_FILE}
   chmod 0600 ${K3S_ENV_FILE}
-  chmod 0755 ${K3S_SERVICE_FILE}
+  chmod 0644 ${K3S_SERVICE_FILE}
   sh -c export | while read x v; do echo $v; done | grep -E '^(K3S|CONTAINERD)_' | tee ${K3S_ENV_FILE} >/dev/null
   sh -c export | while read x v; do echo $v; done | grep -Ei '^(NO|HTTP|HTTPS)_PROXY' | tee -a ${K3S_ENV_FILE} >/dev/null
   echo "CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS=${CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS}" | tee -a ${K3S_ENV_FILE} >/dev/null

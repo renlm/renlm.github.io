@@ -156,14 +156,14 @@ create_service() {
   DOCKER_CONTAINERD_FILE="/etc/systemd/system/containerd.service"
   printf "[ ${_GREEN_}开机自启${_NC_} ] ${DOCKER_SERVICE_FILE}\n"
   mkdir -p ${DOCKER_CONFIG%/*}
+  touch ${DOCKER_CONFIG}
   touch ${DOCKER_SERVICE_FILE}
   touch ${DOCKER_SOCKET_FILE}
   touch ${DOCKER_CONTAINERD_FILE}
-  touch ${DOCKER_CONFIG}
-  chmod 0755 ${DOCKER_SERVICE_FILE}
-  chmod 0755 ${DOCKER_SOCKET_FILE}
-  chmod 0755 ${DOCKER_CONTAINERD_FILE}
   chmod 0600 ${DOCKER_CONFIG}
+  chmod 0644 ${DOCKER_SERVICE_FILE}
+  chmod 0644 ${DOCKER_SOCKET_FILE}
+  chmod 0644 ${DOCKER_CONTAINERD_FILE}
   cat <<EOF | tee ${DOCKER_SERVICE_FILE} >/dev/null
 [Unit]
 Description=Docker Application Container Engine
