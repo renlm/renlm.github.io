@@ -179,11 +179,10 @@ StartLimitIntervalSec=60
 
 [Service]
 Type=notify
-Environment="DOCKER_CONFIG=${DOCKER_CONFIG}"
 # the default is not to use systemd for cgroups because the delegate issues still
 # exists and systemd currently does not support the cgroup feature set required
 # for containers run by docker
-ExecStart=${INSTALL_DOCKER_ROOT}/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+ExecStart=${INSTALL_DOCKER_ROOT}/dockerd --config-file ${DOCKER_CONFIG} -H fd:// --containerd=/run/containerd/containerd.sock
 ExecReload=/bin/kill -s HUP $MAINPID
 TimeoutStartSec=0
 RestartSec=2
