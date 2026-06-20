@@ -109,10 +109,8 @@ EOF
 
   # sysctl -p
   if [ $SYSCTL_P -gt 0 ]; then
-    echo
     printf "[ ${_YELLOW_}重载内核参数${_NC_} ] sysctl -p\n"
     sysctl -p
-    echo
   fi
 }
 
