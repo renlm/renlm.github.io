@@ -213,7 +213,7 @@ Description=Docker Socket for the API
 [Socket]
 # If /var/run is not implemented as a symlink to /run, you may need to
 # specify ListenStream=/var/run/docker.sock instead.
-ListenStream=/run/docker.sock
+ListenStream=/var/run/docker.sock
 SocketMode=0660
 SocketUser=root
 SocketGroup=docker
@@ -272,14 +272,19 @@ EOF
   "features": { "buildkit" : true },
   "log-driver": "json-file",
   "log-opts": { "max-size": "300m", "max-file": "10" },
-  "hosts": ["unix:///run/docker.sock"]
+  "hosts": ["unix:///var/run/docker.sock"]
 }
 EOF
 {
   systemctl daemon-reload
-  systemctl enable --now containerd
-  systemctl enable --now docker
+  systemctl enable containerd
+  systemctl enable docker.socket
+  systemctl enable docker
+  systemctl restart containerd
+  systemctl restart docker.socket
+  systemctl restart docker
   printf "[ ${_GREEN_}启动服务${_NC_} ] containerd\n"
+  printf "[ ${_GREEN_}启动服务${_NC_} ] docker.socket\n"
   printf "[ ${_GREEN_}启动服务${_NC_} ] docker\n"
 }
 }
