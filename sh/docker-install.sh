@@ -150,9 +150,12 @@ download() {
 # 设置开机自启
 create_service() {
   DOCKER_SERVICE_FILE="/etc/systemd/system/docker.service"
+  DOCKER_SOCKET_FILE="/etc/systemd/system/docker.socket"
   printf "[ ${_GREEN_}开机自启${_NC_} ] ${DOCKER_SERVICE_FILE}\n"
   touch ${DOCKER_SERVICE_FILE}
+  touch ${DOCKER_SOCKET_FILE}
   chmod 0755 ${DOCKER_SERVICE_FILE}
+  chmod 0755 ${DOCKER_SOCKET_FILE}
   cat <<EOF | tee ${DOCKER_SERVICE_FILE} >/dev/null
 [Unit]
 Description=Docker Application Container Engine
@@ -192,6 +195,22 @@ OOMScoreAdjust=-500
 
 [Install]
 WantedBy=multi-user.target
+
+EOF
+  cat <<EOF | tee ${DOCKER_SOCKET_FILE} >/dev/null
+[Unit]
+Description=Docker Socket for the API
+
+[Socket]
+# If /var/run is not implemented as a symlink to /run, you may need to
+# specify ListenStream=/var/run/docker.sock instead.
+ListenStream=/run/docker.sock
+SocketMode=0660
+SocketUser=root
+SocketGroup=docker
+
+[Install]
+WantedBy=sockets.target
 
 EOF
 {
