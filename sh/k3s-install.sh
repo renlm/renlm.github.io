@@ -273,7 +273,7 @@ if [ "${CMD_K3S}" = server ]; then
 fi
 }
 
-# [ aarch64 | x86_64 ] 软件包下载
+# [ aarch64 | x86_64 ]
 INSTALL_HELM_BIN=/usr/local/bin/helm
 INSTALL_K3S_BIN=/usr/local/bin/k3s
 INSTALL_K3S_IMAGES=/var/lib/rancher/k3s/agent/images/

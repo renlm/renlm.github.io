@@ -11,6 +11,7 @@ set -o noglob
 # https://github.com/containerd/containerd/blob/v2.2.3/containerd.service
 # 从 github releases 页面 Dependency Changes 中查看三者的版本匹配关系
 # [ 版本匹配 ] docker: 29.4.3, buildx: 0.34.1, compose: 5.1.3
+DOCKER_DATA_ROOT=${DOCKER_DATA_ROOT:-"/data/docker"}
 INSTALL_DOCKER_VERSION=${INSTALL_DOCKER_VERSION:-"29.4.3"}
 INSTALL_BUILDX_VERSION=${INSTALL_BUILDX_VERSION:-"0.34.1"}
 INSTALL_COMPOSE_VERSION=${INSTALL_COMPOSE_VERSION:-"5.1.3"}
@@ -260,6 +261,15 @@ OOMScoreAdjust=-999
 [Install]
 WantedBy=multi-user.target
 
+EOF
+  cat <<EOF | tee /etc/docker/daemon.json >/dev/null
+{
+  "data-root": "$DOCKER_DATA_ROOT",
+  "features": { "buildkit" : true },
+  "log-driver": "json-file",
+  "log-opts": { "max-size": "300m", "max-file": "10" },
+  "hosts": ["unix:///run/docker.sock"]
+}
 EOF
 {
   systemctl daemon-reload
