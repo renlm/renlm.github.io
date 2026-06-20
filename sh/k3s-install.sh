@@ -44,17 +44,17 @@ kernel_parameter_adjustment() {
   __NET_CORE_SOMAXCONN_NUM__=$(grep -c "^net.core.somaxconn = 4096" /etc/sysctl.conf || true)
   __FS_INOTIFY_MAX_USER_INSTANCES_NUM__=$(grep -c "^fs.inotify.max_user_instances = 4096" /etc/sysctl.conf || true)
   if [ $__VM_OVERCOMMIT_MEMORY_NUM__ -eq 0 ]; then
-    ((SYSCTL_P++))
+    SYSCTL_P=$((SYSCTL_P+1))
     echo "[ 内核参数调整 ] vm.overcommit_memory = 1"
     sed -i '$a vm.overcommit_memory = 1' /etc/sysctl.conf
   fi
   if [ $__NET_CORE_SOMAXCONN_NUM__ -eq 0 ]; then
-    ((SYSCTL_P++))
+    SYSCTL_P=$((SYSCTL_P+1))
     echo "[ 内核参数调整 ] net.core.somaxconn = 4096"
     sed -i '$a net.core.somaxconn = 4096' /etc/sysctl.conf
   fi
   if [ $__FS_INOTIFY_MAX_USER_INSTANCES_NUM__ -eq 0 ]; then
-    ((SYSCTL_P++))
+    SYSCTL_P=$((SYSCTL_P+1))
     echo "[ 内核参数调整 ] fs.inotify.max_user_instances = 4096"
     sed -i '$a fs.inotify.max_user_instances = 4096' /etc/sysctl.conf
   fi
@@ -74,16 +74,16 @@ kernel_parameter_adjustment() {
   if [ "$__SYS_FS_CGROUP__" = cgroup2fs ]; then
     __SYS_FS_CGROUP_CONTROLLERS__=$(cat /sys/fs/cgroup/user.slice/user-$(id -u).slice/user@$(id -u).service/cgroup.controllers || true)
     __SYS_FS_CGROUP_CONTROLLERS_NUM__=$(echo "${__SYS_FS_CGROUP_CONTROLLERS__}" | grep -o ' ' | wc -l || true)
-    ((__SYS_FS_CGROUP_CONTROLLERS_NUM__++))
+    __SYS_FS_CGROUP_CONTROLLERS_NUM__=$((__SYS_FS_CGROUP_CONTROLLERS_NUM__+1))
     __SYS_FS_CGROUP_CONTROLLERS_P__=0
     for i in $(seq 1 $__SYS_FS_CGROUP_CONTROLLERS_NUM__); do
       __SYS_FS_CGROUP_CONTROLLER__=$(echo "$__SYS_FS_CGROUP_CONTROLLERS__" | cut -d ' ' -f $i)
       if [ "${__SYS_FS_CGROUP_CONTROLLER__}" = cpu ] || [ "${__SYS_FS_CGROUP_CONTROLLER__}" = cpuset ] || [ "${__SYS_FS_CGROUP_CONTROLLER__}" = io ] || [ "${__SYS_FS_CGROUP_CONTROLLER__}" = memory ] || [ "${__SYS_FS_CGROUP_CONTROLLER__}" = pids ]; then
-        ((__SYS_FS_CGROUP_CONTROLLERS_P__++))
+        __SYS_FS_CGROUP_CONTROLLERS_P__=$((__SYS_FS_CGROUP_CONTROLLERS_P__+1))
       fi
     done
     if [ $__SYS_FS_CGROUP_CONTROLLERS_P__ -lt 5 ]; then
-      ((SYSTEMCTL_DAEMON_RELOAD_P++))
+      SYSTEMCTL_DAEMON_RELOAD_P=$((SYSTEMCTL_DAEMON_RELOAD_P+1))
       mkdir -p /etc/systemd/system/user@.service.d
       cat <<EOF | tee /etc/systemd/system/user@.service.d/delegate.conf >/dev/null
 [Service]
@@ -95,7 +95,7 @@ EOF
   # 开启ipv4转发
   __IPV4_FORWARD_NUM__=$(grep -c "net.ipv4.ip_forward = 1" /etc/sysctl.conf || true)
   if [ $__IPV4_FORWARD_NUM__ -eq 0 ]; then
-    ((SYSCTL_P++))
+    SYSCTL_P=$((SYSCTL_P+1))
     echo "[ 内核参数调整 ] 开启ipv4转发"
     sed -i '$a net.ipv4.ip_forward = 1' /etc/sysctl.conf
     sed -i '$a net.bridge.bridge-nf-call-iptables = 1' /etc/sysctl.conf
