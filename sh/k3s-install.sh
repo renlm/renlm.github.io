@@ -68,7 +68,7 @@ kernel_parameter_adjustment() {
     fi
   fi
   # cgroup
-  if [ -f /sys/fs/cgroup ]; then
+  if [ -d /sys/fs/cgroup ]; then
     # 对于 cgroup v1，输出为 tmpfs
     # 对于 cgroup v2，输出为 cgroup2fs
     __SYS_FS_CGROUP__=$(stat -fc %T /sys/fs/cgroup || true)
