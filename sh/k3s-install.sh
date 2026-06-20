@@ -37,9 +37,10 @@ _NC_='\033[0m'        # 重置
 # 内核参数调整
 kernel_parameter_adjustment() {
   SYSCTL_P=0
-  __VM_OVERCOMMIT_MEMORY_NUM__=$(grep -c "vm.overcommit_memory = 1" /etc/sysctl.conf || true)
-  __NET_CORE_SOMAXCONN_NUM__=$(grep -c "net.core.somaxconn = 4096" /etc/sysctl.conf || true)
-  __FS_INOTIFY_MAX_USER_INSTANCES_NUM__=$(grep -c "fs.inotify.max_user_instances = 4096" /etc/sysctl.conf || true)
+  __VM_OVERCOMMIT_MEMORY_NUM__=$(grep -c "^vm.overcommit_memory = 1" /etc/sysctl.conf || true)
+  __NET_CORE_SOMAXCONN_NUM__=$(grep -c "^net.core.somaxconn = 4096" /etc/sysctl.conf || true)
+  __FS_INOTIFY_MAX_USER_INSTANCES_NUM__=$(grep -c "^fs.inotify.max_user_instances = 4096" /etc/sysctl.conf || true)
+  __SELINUX_ENFORCING_NUM__=$(grep -c "^SELINUX=enforcing" /etc/selinux/config || true)
   if [ $__VM_OVERCOMMIT_MEMORY_NUM__ -eq 0 ]; then
     ((SYSCTL_P=SYSCTL_P+1))
     echo "[ 内核参数调整 ] vm.overcommit_memory = 1"
@@ -54,6 +55,10 @@ kernel_parameter_adjustment() {
     ((SYSCTL_P=SYSCTL_P+1))
     echo "[ 内核参数调整 ] fs.inotify.max_user_instances = 4096"
     sed -i '$a fs.inotify.max_user_instances = 4096' /etc/sysctl.conf
+  fi
+  if [ $__SELINUX_ENFORCING_NUM__ -gt 0 ]; then
+    setenforce 0
+    sed -i "s|SELINUX=enforcing|SELINUX=Permissive|g" /etc/selinux/config
   fi
 
   # 开启ipv4转发
