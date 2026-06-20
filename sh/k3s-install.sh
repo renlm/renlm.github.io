@@ -37,10 +37,12 @@ _NC_='\033[0m'        # 重置
 # 内核参数调整
 kernel_parameter_adjustment() {
   SYSCTL_P=0
+  SYSTEMCTL_DAEMON_RELOAD_P=0
   __VM_OVERCOMMIT_MEMORY_NUM__=$(grep -c "^vm.overcommit_memory = 1" /etc/sysctl.conf || true)
   __NET_CORE_SOMAXCONN_NUM__=$(grep -c "^net.core.somaxconn = 4096" /etc/sysctl.conf || true)
   __FS_INOTIFY_MAX_USER_INSTANCES_NUM__=$(grep -c "^fs.inotify.max_user_instances = 4096" /etc/sysctl.conf || true)
   __SELINUX_ENFORCING_NUM__=$(grep -c "^SELINUX=enforcing" /etc/selinux/config || true)
+  __SYS_FS_CGROUP__=$(stat -fc %T /sys/fs/cgroup || true)
   if [ $__VM_OVERCOMMIT_MEMORY_NUM__ -eq 0 ]; then
     ((SYSCTL_P=SYSCTL_P+1))
     echo "[ 内核参数调整 ] vm.overcommit_memory = 1"
@@ -57,8 +59,20 @@ kernel_parameter_adjustment() {
     sed -i '$a fs.inotify.max_user_instances = 4096' /etc/sysctl.conf
   fi
   if [ $__SELINUX_ENFORCING_NUM__ -gt 0 ]; then
+    echo "[ selinux ] setenforce 0"
     setenforce 0
     sed -i "s|SELINUX=enforcing|SELINUX=Permissive|g" /etc/selinux/config
+  fi
+  if [ $__SYS_FS_CGROUP__ = cgroup2fs ]; then
+    __SYS_FS_CGROUP_CONTROLLERS__=$(cat /sys/fs/cgroup/user.slice/user-$(id -u).slice/user@$(id -u).service/cgroup.controllers || true)
+    if [ $__SYS_FS_CGROUP_CONTROLLERS__ = "memory pids" ]; then
+      ((SYSTEMCTL_DAEMON_RELOAD_P=SYSTEMCTL_DAEMON_RELOAD_P+1))
+      mkdir -p /etc/systemd/system/user@.service.d
+      cat <<EOF | tee /etc/systemd/system/user@.service.d/delegate.conf >/dev/null
+[Service]
+Delegate=cpu cpuset io memory pids
+EOF
+    fi
   fi
 
   # 开启ipv4转发
@@ -75,8 +89,17 @@ kernel_parameter_adjustment() {
       modprobe br_netfilter
     fi
   fi
+  
+  # systemctl daemon-reload
+  if [ $SYSTEMCTL_DAEMON_RELOAD_P -gt 0 ]; then
+    systemctl daemon-reload
+    if [ $__SYS_FS_CGROUP__ = cgroup2fs ]; then
+      __SYS_FS_CGROUP_CONTROLLERS__=$(cat /sys/fs/cgroup/user.slice/user-$(id -u).slice/user@$(id -u).service/cgroup.controllers || true)
+      echo "[ cgroup2fs ] ${__SYS_FS_CGROUP_CONTROLLERS__}"
+    fi
+  fi
 
-  # /etc/sysctl.conf
+  # sysctl -p
   if [ $SYSCTL_P -gt 0 ]; then
     echo "[ 内核参数调整 ] sysctl -p"
     sysctl -p
