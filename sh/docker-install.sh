@@ -13,6 +13,7 @@ set -o noglob
 # [ 版本匹配 ] docker: 29.4.3, buildx: 0.34.1, compose: 5.1.3
 RUN_DATA_ROOT=${RUN_DATA_ROOT:-"/data"}
 DOCKER_IPTABLES=${DOCKER_IPTABLES:-true}
+DOCKER_IP6TABLES=${DOCKER_IP6TABLES:-false}
 DOCKER_DATA_ROOT=${DOCKER_DATA_ROOT:-"${RUN_DATA_ROOT}/docker"}
 CONTAINERD_DATA_ROOT=${CONTAINERD_DATA_ROOT:-"${RUN_DATA_ROOT}/containerd"}
 INSTALL_DOCKER_VERSION=${INSTALL_DOCKER_VERSION:-"29.4.3"}
@@ -182,7 +183,7 @@ Type=notify
 # the default is not to use systemd for cgroups because the delegate issues still
 # exists and systemd currently does not support the cgroup feature set required
 # for containers run by docker
-ExecStart=${INSTALL_DOCKER_ROOT}/dockerd --iptables=${DOCKER_IPTABLES} --default-ulimit nofile=655350:655350 --config-file ${DOCKER_CONFIG} -H fd:// --containerd=/run/containerd/containerd.sock
+ExecStart=${INSTALL_DOCKER_ROOT}/dockerd --iptables=${DOCKER_IPTABLES} --ip6tables=${DOCKER_IP6TABLES} --default-ulimit nofile=655350:655350 --config-file ${DOCKER_CONFIG} -H fd:// --containerd=/run/containerd/containerd.sock
 ExecReload=/bin/kill -s HUP $MAINPID
 TimeoutStartSec=0
 RestartSec=2
@@ -284,9 +285,12 @@ fi
 {
   groupadd --system docker 2>/dev/null || true
   systemctl daemon-reload
-  systemctl enable --now containerd
-  systemctl enable --now docker.socket
-  systemctl enable --now docker
+  systemctl enable containerd
+  systemctl enable docker.socket
+  systemctl enable docker
+  systemctl restart containerd
+  systemctl restart docker.socket
+  systemctl restart docker
   printf "[ ${_GREEN_}启动服务${_NC_} ] containerd\n"
   printf "[ ${_GREEN_}启动服务${_NC_} ] docker.socket\n"
   printf "[ ${_GREEN_}启动服务${_NC_} ] docker\n"
