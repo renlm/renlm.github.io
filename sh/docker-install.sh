@@ -12,6 +12,7 @@ set -o noglob
 # 从 github releases 页面 Dependency Changes 中查看三者的版本匹配关系
 # [ 版本匹配 ] docker: 29.4.3, buildx: 0.34.1, compose: 5.1.3
 DOCKER_DATA_ROOT=${DOCKER_DATA_ROOT:-"/data/docker"}
+CONTAINERD_DATA_ROOT=${CONTAINERD_DATA_ROOT:-"/data/containerd"}
 INSTALL_DOCKER_VERSION=${INSTALL_DOCKER_VERSION:-"29.4.3"}
 INSTALL_BUILDX_VERSION=${INSTALL_BUILDX_VERSION:-"0.34.1"}
 INSTALL_COMPOSE_VERSION=${INSTALL_COMPOSE_VERSION:-"5.1.3"}
@@ -275,10 +276,11 @@ EOF
 EOF
 if [ ! -f ${CONTAINERD_CONFIG} ]; then
   mkdir -p ${CONTAINERD_CONFIG%/*}
-  containerd config default > ${CONTAINERD_CONFIG}
+  containerd config default | sed "s|^root = \"/var/lib/containerd\"|root = \"${CONTAINERD_DATA_ROOT}\"|g" > ${CONTAINERD_CONFIG}
   chmod 0600 ${CONTAINERD_CONFIG}
 fi
 {
+  groupadd --system docker 2>/dev/null || true
   systemctl daemon-reload
   systemctl enable --now containerd
   systemctl enable --now docker.socket
