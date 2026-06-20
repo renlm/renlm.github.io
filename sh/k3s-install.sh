@@ -35,46 +35,48 @@ _YELLOW_='\033[0;33m' # 黄色
 _NC_='\033[0m'        # 重置
 
 # 内核参数调整
-SYSCTL_P=0
-__VM_OVERCOMMIT_MEMORY_NUM__=$(grep -c "vm.overcommit_memory = 1" /etc/sysctl.conf || true)
-__NET_CORE_SOMAXCONN_NUM__=$(grep -c "net.core.somaxconn = 4096" /etc/sysctl.conf || true)
-__FS_INOTIFY_MAX_USER_INSTANCES_NUM__=$(grep -c "fs.inotify.max_user_instances = 4096" /etc/sysctl.conf || true)
-if [ $__VM_OVERCOMMIT_MEMORY_NUM__ -eq 0 ]; then
-  ((SYSCTL_P=SYSCTL_P+1))
-  echo "[ 内核参数调整 ] vm.overcommit_memory = 1"
-  sed -i '$a vm.overcommit_memory = 1' /etc/sysctl.conf
-fi
-if [ $__NET_CORE_SOMAXCONN_NUM__ -eq 0 ]; then
-  ((SYSCTL_P=SYSCTL_P+1))
-  echo "[ 内核参数调整 ] net.core.somaxconn = 4096"
-  sed -i '$a net.core.somaxconn = 4096' /etc/sysctl.conf
-fi
-if [ $__FS_INOTIFY_MAX_USER_INSTANCES_NUM__ -eq 0 ]; then
-  ((SYSCTL_P=SYSCTL_P+1))
-  echo "[ 内核参数调整 ] fs.inotify.max_user_instances = 4096"
-  sed -i '$a fs.inotify.max_user_instances = 4096' /etc/sysctl.conf
-fi
-
-# 开启ipv4转发
-__IPV4_FORWARD_NUM__=$(grep -c "net.ipv4.ip_forward = 1" /etc/sysctl.conf || true)
-if [ $__IPV4_FORWARD_NUM__ -eq 0 ]; then
-  ((SYSCTL_P=SYSCTL_P+1))
-  echo "[ 内核参数调整 ] 开启ipv4转发"
-  sed -i '$a net.ipv4.ip_forward = 1' /etc/sysctl.conf
-  sed -i '$a net.bridge.bridge-nf-call-iptables = 1' /etc/sysctl.conf
-  sed -i '$a net.bridge.bridge-nf-call-ip6tables = 1' /etc/sysctl.conf
-  modprobe bridge
-  brNetfilterWcl=$(ls -l /lib/modules/$(uname -r)/kernel/net/bridge/ | grep br_netfilter | wc -l)
-  if [ $brNetfilterWcl -gt 0 ]; then
-    modprobe br_netfilter
+kernel_parameter_adjustment() {
+  SYSCTL_P=0
+  __VM_OVERCOMMIT_MEMORY_NUM__=$(grep -c "vm.overcommit_memory = 1" /etc/sysctl.conf || true)
+  __NET_CORE_SOMAXCONN_NUM__=$(grep -c "net.core.somaxconn = 4096" /etc/sysctl.conf || true)
+  __FS_INOTIFY_MAX_USER_INSTANCES_NUM__=$(grep -c "fs.inotify.max_user_instances = 4096" /etc/sysctl.conf || true)
+  if [ $__VM_OVERCOMMIT_MEMORY_NUM__ -eq 0 ]; then
+    ((SYSCTL_P=SYSCTL_P+1))
+    echo "[ 内核参数调整 ] vm.overcommit_memory = 1"
+    sed -i '$a vm.overcommit_memory = 1' /etc/sysctl.conf
   fi
-fi
+  if [ $__NET_CORE_SOMAXCONN_NUM__ -eq 0 ]; then
+    ((SYSCTL_P=SYSCTL_P+1))
+    echo "[ 内核参数调整 ] net.core.somaxconn = 4096"
+    sed -i '$a net.core.somaxconn = 4096' /etc/sysctl.conf
+  fi
+  if [ $__FS_INOTIFY_MAX_USER_INSTANCES_NUM__ -eq 0 ]; then
+    ((SYSCTL_P=SYSCTL_P+1))
+    echo "[ 内核参数调整 ] fs.inotify.max_user_instances = 4096"
+    sed -i '$a fs.inotify.max_user_instances = 4096' /etc/sysctl.conf
+  fi
 
-# /etc/sysctl.conf
-if [ $SYSCTL_P -gt 0 ]; then
-  echo "[ 内核参数调整 ] sysctl -p"
-  sysctl -p
-fi
+  # 开启ipv4转发
+  __IPV4_FORWARD_NUM__=$(grep -c "net.ipv4.ip_forward = 1" /etc/sysctl.conf || true)
+  if [ $__IPV4_FORWARD_NUM__ -eq 0 ]; then
+    ((SYSCTL_P=SYSCTL_P+1))
+    echo "[ 内核参数调整 ] 开启ipv4转发"
+    sed -i '$a net.ipv4.ip_forward = 1' /etc/sysctl.conf
+    sed -i '$a net.bridge.bridge-nf-call-iptables = 1' /etc/sysctl.conf
+    sed -i '$a net.bridge.bridge-nf-call-ip6tables = 1' /etc/sysctl.conf
+    modprobe bridge
+    brNetfilterWcl=$(ls -l /lib/modules/$(uname -r)/kernel/net/bridge/ | grep br_netfilter | wc -l)
+    if [ $brNetfilterWcl -gt 0 ]; then
+      modprobe br_netfilter
+    fi
+  fi
+
+  # /etc/sysctl.conf
+  if [ $SYSCTL_P -gt 0 ]; then
+    echo "[ 内核参数调整 ] sysctl -p"
+    sysctl -p
+  fi
+}
 
 # --- download from url ---
 download() {
@@ -262,6 +264,7 @@ if [ ! -f ${INSTALL_K3S_BIN} ]; then
   if [ -f ${INSTALL_K3S_BIN} ]; then
     echo -e "[ ${_GREEN_}安装${_NC_} ] ${INSTALL_K3S_BIN}"
     chmod +x ${INSTALL_K3S_BIN}
+    kernel_parameter_adjustment
     setup_env "$@"
     create_service
   else
