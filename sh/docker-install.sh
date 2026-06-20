@@ -2,3 +2,144 @@
 set -e
 set -o noglob
 
+########################################################################
+# https://download.docker.com/linux/static/stable
+# https://github.com/docker/buildx/releases
+# https://github.com/docker/compose/releases
+# 从 github releases 页面 Dependency Changes 中查看三者的版本匹配关系
+# [ 版本匹配 ] docker: 29.4.3, buildx: 0.34.1, compose: 5.1.3
+INSTALL_DOCKER_VERSION=${INSTALL_DOCKER_VERSION:-"29.4.3"}
+INSTALL_BUILDX_VERSION=${INSTALL_BUILDX_VERSION:-"0.34.1"}
+INSTALL_COMPOSE_VERSION=${INSTALL_COMPOSE_VERSION:-"5.1.3"}
+DOWNLOADER_URL=${DOWNLOADER_URL:-"https://obs.renlm.cn"}
+# $ curl -sfL https://renlm.github.io/sh/docker-install.sh | sh
+########################################################################
+
+# 颜色代码
+_RED_='\033[0;31m'    # 红色
+_GREEN_='\033[0;32m'  # 绿色
+_YELLOW_='\033[0;33m' # 黄色
+_NC_='\033[0m'        # 重置
+
+# 内核参数调整
+kernel_parameter_adjustment() {
+  SYSCTL_P=0
+  SYSTEMCTL_DAEMON_RELOAD_P=0
+  __VM_OVERCOMMIT_MEMORY_NUM__=$(grep -c "^vm.overcommit_memory = 1" /etc/sysctl.conf || true)
+  __NET_CORE_SOMAXCONN_NUM__=$(grep -c "^net.core.somaxconn = 4096" /etc/sysctl.conf || true)
+  __FS_INOTIFY_MAX_USER_INSTANCES_NUM__=$(grep -c "^fs.inotify.max_user_instances = 4096" /etc/sysctl.conf || true)
+  if [ $__VM_OVERCOMMIT_MEMORY_NUM__ -eq 0 ]; then
+    SYSCTL_P=$((SYSCTL_P+1))
+    echo "[ 内核参数调整 ] vm.overcommit_memory = 1"
+    sed -i '$a vm.overcommit_memory = 1' /etc/sysctl.conf
+  fi
+  if [ $__NET_CORE_SOMAXCONN_NUM__ -eq 0 ]; then
+    SYSCTL_P=$((SYSCTL_P+1))
+    echo "[ 内核参数调整 ] net.core.somaxconn = 4096"
+    sed -i '$a net.core.somaxconn = 4096' /etc/sysctl.conf
+  fi
+  if [ $__FS_INOTIFY_MAX_USER_INSTANCES_NUM__ -eq 0 ]; then
+    SYSCTL_P=$((SYSCTL_P+1))
+    echo "[ 内核参数调整 ] fs.inotify.max_user_instances = 4096"
+    sed -i '$a fs.inotify.max_user_instances = 4096' /etc/sysctl.conf
+  fi
+  # selinux
+  if [ -f /etc/selinux/config ]; then
+    __SELINUX_ENFORCING_NUM__=$(grep -c "^SELINUX=enforcing" /etc/selinux/config || true)
+    if [ $__SELINUX_ENFORCING_NUM__ -gt 0 ]; then
+      echo "[ selinux ] setenforce 0"
+      setenforce 0 || true
+      sed -i "s|SELINUX=enforcing|SELINUX=Permissive|g" /etc/selinux/config
+    fi
+  fi
+  # cgroup v1，输出为 tmpfs
+  # cgroup v2，输出为 cgroup2fs
+  __SYS_FS_CGROUP__=$(stat -fc %T /sys/fs/cgroup || true)
+  if [ "$__SYS_FS_CGROUP__" = cgroup2fs ]; then
+    __SYS_FS_CGROUP_CONTROLLERS__=$(cat /sys/fs/cgroup/user.slice/user-$(id -u).slice/user@$(id -u).service/cgroup.controllers || true)
+    __SYS_FS_CGROUP_CONTROLLERS_NUM__=$(echo "${__SYS_FS_CGROUP_CONTROLLERS__}" | grep -o ' ' | wc -l || true)
+    __SYS_FS_CGROUP_CONTROLLERS_NUM__=$((__SYS_FS_CGROUP_CONTROLLERS_NUM__+1))
+    __SYS_FS_CGROUP_CONTROLLERS_P__=0
+    for i in $(seq 1 $__SYS_FS_CGROUP_CONTROLLERS_NUM__); do
+      __SYS_FS_CGROUP_CONTROLLER__=$(echo "$__SYS_FS_CGROUP_CONTROLLERS__" | cut -d ' ' -f $i)
+      if [ "${__SYS_FS_CGROUP_CONTROLLER__}" = cpu ] || [ "${__SYS_FS_CGROUP_CONTROLLER__}" = cpuset ] || [ "${__SYS_FS_CGROUP_CONTROLLER__}" = io ] || [ "${__SYS_FS_CGROUP_CONTROLLER__}" = memory ] || [ "${__SYS_FS_CGROUP_CONTROLLER__}" = pids ]; then
+        __SYS_FS_CGROUP_CONTROLLERS_P__=$((__SYS_FS_CGROUP_CONTROLLERS_P__+1))
+      fi
+    done
+    if [ $__SYS_FS_CGROUP_CONTROLLERS_P__ -lt 5 ]; then
+      SYSTEMCTL_DAEMON_RELOAD_P=$((SYSTEMCTL_DAEMON_RELOAD_P+1))
+      mkdir -p /etc/systemd/system/user@.service.d
+      cat <<EOF | tee /etc/systemd/system/user@.service.d/delegate.conf >/dev/null
+[Service]
+Delegate=cpu cpuset io memory pids
+EOF
+    fi
+  fi
+
+  # 开启ipv4转发
+  __IPV4_FORWARD_NUM__=$(grep -c "net.ipv4.ip_forward = 1" /etc/sysctl.conf || true)
+  if [ $__IPV4_FORWARD_NUM__ -eq 0 ]; then
+    SYSCTL_P=$((SYSCTL_P+1))
+    echo "[ 内核参数调整 ] 开启ipv4转发"
+    sed -i '$a net.ipv4.ip_forward = 1' /etc/sysctl.conf
+    sed -i '$a net.bridge.bridge-nf-call-iptables = 1' /etc/sysctl.conf
+    sed -i '$a net.bridge.bridge-nf-call-ip6tables = 1' /etc/sysctl.conf
+    modprobe bridge
+    brNetfilterWcl=$(ls -l /lib/modules/$(uname -r)/kernel/net/bridge/ | grep br_netfilter | wc -l)
+    if [ $brNetfilterWcl -gt 0 ]; then
+      modprobe br_netfilter
+    fi
+  fi
+  
+  # systemctl daemon-reload
+  if [ $SYSTEMCTL_DAEMON_RELOAD_P -gt 0 ]; then
+    systemctl daemon-reload
+    if [ "$__SYS_FS_CGROUP__" = cgroup2fs ]; then
+      __SYS_FS_CGROUP_CONTROLLERS__=$(cat /sys/fs/cgroup/user.slice/user-$(id -u).slice/user@$(id -u).service/cgroup.controllers || true)
+      echo "[ cgroup2fs ] ${__SYS_FS_CGROUP_CONTROLLERS__}"
+    fi
+  fi
+
+  # sysctl -p
+  if [ $SYSCTL_P -gt 0 ]; then
+    echo "[ 内核参数调整 ] sysctl -p"
+    sysctl -p
+  fi
+}
+
+# --- download from url ---
+download() {
+  [ $# -eq 2 ] || fatal 'download needs exactly 2 arguments'
+
+  # Disable exit-on-error so we can do custom error messages on failure
+  set +e
+
+  # Default to a failure status
+  status=1
+
+  case $DOWNLOADER in
+    curl)
+      printf "[ ${_GREEN_}下载${_NC_} ] curl -o $1 -sfL $2\n"
+      mkdir -p ${1%/*}
+      curl -o $1 -sfL $2
+      status=$?
+    ;;
+    wget)
+      printf "[ ${_GREEN_}下载${_NC_} ] wget -qO $1 $2\n"
+      mkdir -p ${1%/*}
+      wget -qO $1 $2
+      status=$?
+    ;;
+    *)
+      # Enable exit-on-error for fatal to execute
+      set -e
+      fatal "Incorrect executable '$DOWNLOADER'"
+    ;;
+  esac
+
+  # Re-enable exit-on-error
+  set -e
+
+  # Abort if download command failed
+  [ $status -eq 0 ] || fatal 'Download failed'
+}
