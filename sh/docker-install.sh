@@ -277,12 +277,9 @@ EOF
 EOF
 {
   systemctl daemon-reload
-  systemctl enable containerd
-  systemctl enable docker.socket
-  systemctl enable docker
-  systemctl restart containerd
-  systemctl restart docker.socket
-  systemctl restart docker
+  systemctl enable --now containerd
+  systemctl enable --now docker.socket
+  systemctl enable --now docker
   printf "[ ${_GREEN_}启动服务${_NC_} ] containerd\n"
   printf "[ ${_GREEN_}启动服务${_NC_} ] docker.socket\n"
   printf "[ ${_GREEN_}启动服务${_NC_} ] docker\n"
@@ -290,7 +287,7 @@ EOF
 }
 
 # [ aarch64 | x86_64 ]
-INSTALL_DOCKER_ROOT=/usr/local/bin
+INSTALL_DOCKER_ROOT=/usr/bin
 INSTALL_DOCKER_BIN=${INSTALL_DOCKER_ROOT}/docker
 DOCKER_CONFIG=/etc/docker/daemon.json
 DOWNLOADS_ROOT=/opt/docker-install
