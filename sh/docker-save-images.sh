@@ -26,7 +26,7 @@ usage () {
   echo "  [-h|--help] Usage message"
 }
 
-while [[ $# -gt 0 ]]; do
+while [ $# -gt 0 ]; do
   key="$1"
   case $key in
     -t|--txt)
