@@ -13,7 +13,7 @@ set -o noglob
 #     --output rancher-images-v2.14.2
 ########################################################################
 IMAGES_TXT=images.txt
-OUTPUT=save-images
+OUTPUT=docker-save-images
 IMAGES_ARR=""
 TXT_ARR=""
 PULLED=""
@@ -130,13 +130,14 @@ fi
 
 # 下载镜像
 DOWNLOADER=curl
-OUTPUT="${OUTPUT}-${PLATFORM##*/}"
-rm -fr ./${OUTPUT}
-mkdir ./${OUTPUT}
-touch ./${OUTPUT}/${IMAGES_TXT}
+DOWNLOADS_ROOT="/opt/${OUTPUT}-${PLATFORM##*/}"
+DOWNLOADS_BASENAME=$(basename $DOWNLOADS_ROOT)
+rm -fr ${DOWNLOADS_ROOT}
+mkdir ${DOWNLOADS_ROOT}
+touch ${DOWNLOADS_ROOT}/${IMAGES_TXT}
 docker_pull() {
   if [ ! -z "$@" ]; then
-    echo "$@" >> ${OUTPUT}/${IMAGES_TXT}
+    echo "$@" >> ${DOWNLOADS_ROOT}/${IMAGES_TXT}
     if docker pull --platform ${PLATFORM} "$@" > /dev/null 2>&1; then
       info "Image pull success: $@"
       PULLED="${PULLED} $@"
@@ -162,6 +163,6 @@ for txt in $TXT_ARR; do
 done
 
 IMAGES_NUM=$(echo ${PULLED} | wc -w | tr -d '[:space:]')
-info "Creating ${OUTPUT}.tar.gz with $IMAGES_NUM images"
-docker save -o ${OUTPUT}/${OUTPUT}.tar $PULLED
-tar -czf ${OUTPUT}.tar.gz ${OUTPUT}
+info "Creating ${DOWNLOADS_BASENAME}.tar.gz with $IMAGES_NUM images"
+docker save -o ${DOWNLOADS_ROOT}/${DOWNLOADS_BASENAME}.tar $PULLED
+tar -czf ${DOWNLOADS_BASENAME}.tar.gz -C ${DOWNLOADS_ROOT%/*} ${DOWNLOADS_BASENAME}
