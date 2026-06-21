@@ -10,6 +10,7 @@ set -o noglob
 # https://github.com/k3s-io/k3s/releases
 # https://github.com/helm/helm/releases/
 # [ 版本匹配 ] k3s: v1.34.8+k3s1, helm: v4.0.5, rancher: v2.14.2
+INSTALL_SH=${INSTALL_SH:-"https://renlm.github.io/sh/k3s-install.sh"}
 INSTALL_K3S_VERSION=${INSTALL_K3S_VERSION:-"v1.34.8+k3s1"}
 INSTALL_HELM_VERSION=${INSTALL_HELM_VERSION:-"v4.0.5"}
 DOWNLOAD_K3S_VERSION=$(echo ${INSTALL_K3S_VERSION} | sed "s/+/-/g")
@@ -21,8 +22,8 @@ DOWNLOAD_SKIP=${DOWNLOAD_SKIP:-false}
 MODE=${MODE:-"INSTALL"}
 # CPU 指令集架构
 # auto: 根据服务器自动识别
-# x86_64: Intel/AMD 阵营的 64 位
-# aarch64: ARM 阵营的 64 位
+# [ ARCH_ALIAS=amd64 ] x86_64: Intel/AMD 阵营的 64 位
+# [ ARCH_ALIAS=arm64 ] aarch64: ARM 阵营的 64 位
 ARCH=${ARCH:-"auto"}
 # K3S内部CA证书的最大有效期上限，最大值被限制为3650天（10年）
 CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS=3650
@@ -80,17 +81,28 @@ fatal()
 
 # 参数校验
 if [ "$MODE" = INSTALL ] || [ "$ARCH" = PKG ]; then
-  info "MODE: $MODE"
+  if [ "$ARCH" = PKG ]; then
+    DOWNLOAD_SKIP=false
+  fi
+  {
+	info "MODE: $MODE"
+    info "DOWNLOAD_SKIP: $DOWNLOAD_SKIP"
+  }
 else
   fatal "Unknown MODE: $MODE, INSTALL or PKG"
 fi
 if [ "$ARCH" = auto ] || [ "$ARCH" = x86_64 ] || [ "$ARCH" = aarch64 ]; then
   if uname -m | grep -q aarch64; then
     ARCH=aarch64
+    ARCH_ALIAS=arm64
   else
     ARCH=x86_64
+    ARCH_ALIAS=amd64
   fi
-  info "ARCH: $ARCH"
+  {
+	info "ARCH: $ARCH"
+	info "ARCH_ALIAS: $ARCH_ALIAS"
+  }
 else
   fatal "Unknown ARCH: $ARCH, auto or x86_64 or aarch64"
 fi
@@ -349,33 +361,39 @@ DOWNLOADER=curl
 if $DOWNLOAD_SKIP; then
   DOWNLOADS_ROOT="."
 fi
-if [ ! -f ${INSTALL_K3S_BIN} ]; then
-  kernel_parameter_adjustment
-  mkdir -p ${INSTALL_K3S_IMAGES}
+if [ ! -f ${INSTALL_K3S_BIN} ] || [ "${MODE}" = PKG ]; then
+  DOWNLOADS_FILE_HELM_BIN=helm/${INSTALL_HELM_VERSION}/helm-${INSTALL_HELM_VERSION}-linux-amd64.tar.gz
+  DOWNLOADS_FILE_K3S_BIN=k3s/${DOWNLOAD_K3S_VERSION}/k3s
+  DOWNLOADS_FILE_K3S_IMAGES=k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-amd64.tar
   if [ "$ARCH" = aarch64 ]; then
-    download ${DOWNLOADS_ROOT}/helm/${INSTALL_HELM_VERSION}/helm-${INSTALL_HELM_VERSION}-linux-arm64.tar.gz ${DOWNLOADER_URL}/helm/${INSTALL_HELM_VERSION}/helm-${INSTALL_HELM_VERSION}-linux-arm64.tar.gz
-    download ${DOWNLOADS_ROOT}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-arm64 ${DOWNLOADER_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-arm64
-    download ${DOWNLOADS_ROOT}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-arm64.tar ${DOWNLOADER_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-arm64.tar
-    tar -zxf ${DOWNLOADS_ROOT}/helm/${INSTALL_HELM_VERSION}/helm-${INSTALL_HELM_VERSION}-linux-arm64.tar.gz -C /usr/local --transform="s/linux-arm64/helm-${INSTALL_HELM_VERSION}/g"
-    cp ${DOWNLOADS_ROOT}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-arm64 ${INSTALL_K3S_BIN}
-    cp ${DOWNLOADS_ROOT}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-arm64.tar ${INSTALL_K3S_IMAGES}
-  else
-    download ${DOWNLOADS_ROOT}/helm/${INSTALL_HELM_VERSION}/helm-${INSTALL_HELM_VERSION}-linux-amd64.tar.gz ${DOWNLOADER_URL}/helm/${INSTALL_HELM_VERSION}/helm-${INSTALL_HELM_VERSION}-linux-amd64.tar.gz
-    download ${DOWNLOADS_ROOT}/k3s/${DOWNLOAD_K3S_VERSION}/k3s ${DOWNLOADER_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s
-    download ${DOWNLOADS_ROOT}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-amd64.tar ${DOWNLOADER_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-amd64.tar
-  	tar -zxf ${DOWNLOADS_ROOT}/helm/${INSTALL_HELM_VERSION}/helm-${INSTALL_HELM_VERSION}-linux-amd64.tar.gz -C /usr/local --transform="s/linux-amd64/helm-${INSTALL_HELM_VERSION}/g"
-    cp ${DOWNLOADS_ROOT}/k3s/${DOWNLOAD_K3S_VERSION}/k3s ${INSTALL_K3S_BIN}
-    cp ${DOWNLOADS_ROOT}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-amd64.tar ${INSTALL_K3S_IMAGES}
+    DOWNLOADS_FILE_HELM_BIN=helm/${INSTALL_HELM_VERSION}/helm-${INSTALL_HELM_VERSION}-linux-arm64.tar.gz
+    DOWNLOADS_FILE_K3S_BIN=k3s/${DOWNLOAD_K3S_VERSION}/k3s-arm64
+    DOWNLOADS_FILE_K3S_IMAGES=k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-arm64.tar
   fi
+  { # 下载资源
+	download ${DOWNLOADS_ROOT}/${DOWNLOADS_FILE_HELM_BIN} ${DOWNLOADER_URL}/${DOWNLOADS_FILE_HELM_BIN}
+	download ${DOWNLOADS_ROOT}/${DOWNLOADS_FILE_K3S_BIN} ${DOWNLOADER_URL}/${DOWNLOADS_FILE_K3S_BIN}
+	download ${DOWNLOADS_ROOT}/${DOWNLOADS_FILE_K3S_IMAGES} ${DOWNLOADER_URL}/${DOWNLOADS_FILE_K3S_IMAGES}
+  }
   # 安装校验
-  if [ -f ${INSTALL_K3S_BIN} ]; then
-    printf "[ ${_GREEN_}安装${_NC_} ] ${INSTALL_K3S_BIN}\n"
-    chmod +x ${INSTALL_K3S_BIN}
-    setup_env "$@"
-    create_service
+  if [ "${MODE}" = INSTALL ]; then
+    kernel_parameter_adjustment
+    mkdir -p ${INSTALL_K3S_IMAGES}
+    tar -zxf ${DOWNLOADS_ROOT}/${DOWNLOADS_FILE_HELM_BIN} -C /usr/local --transform="s/linux-${ARCH_ALIAS}/helm-${INSTALL_HELM_VERSION}/g"
+    cp ${DOWNLOADS_ROOT}/${DOWNLOADS_FILE_K3S_BIN} ${INSTALL_K3S_BIN}
+    cp ${DOWNLOADS_ROOT}/${DOWNLOADS_FILE_K3S_IMAGES} ${INSTALL_K3S_IMAGES}
+    if [ -f ${INSTALL_K3S_BIN} ]; then
+      printf "[ ${_GREEN_}安装${_NC_} ] ${INSTALL_K3S_BIN}\n"
+      chmod +x ${INSTALL_K3S_BIN}
+      setup_env "$@"
+      create_service
+    else
+      printf "[ ${_RED_}安装失败${_NC_} ] ${INSTALL_K3S_BIN}\n"
+      exit 1
+    fi
+  # 生成离线包
   else
-    printf "[ ${_RED_}安装失败${_NC_} ] ${INSTALL_K3S_BIN}\n"
-    exit 1
+    
   fi
 else
   printf "[ ${_YELLOW_}已安装${_NC_} ] ${INSTALL_K3S_BIN}\n"
