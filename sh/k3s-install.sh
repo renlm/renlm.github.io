@@ -40,6 +40,23 @@ CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS=3650
 # $ ctr -n k8s.io c ls
 ########################################################################
 
+########################################################################
+###### 离线模式
+# 生成离线安装包
+# $ curl -sfL https://renlm.github.io/sh/k3s-install.sh | MODE=PKG ARCH=x86_64
+# $ curl -sfL https://renlm.github.io/sh/k3s-install.sh | MODE=PKG ARCH=aarch64
+# 上传离线安装包
+# 解压离线安装包
+# $ tar -zxvf k3s-install.x86_64.tar.gz
+# $ tar -zxvf k3s-install.aarch64.tar.gz
+###### [ 离线安装 ] master 主节点
+# $ cd k3s-install && cat k3s-install.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - server --disable=traefik --tls-san k3s-master.local --cluster-init
+###### [ 离线安装 ] master 从节点
+# $ cd k3s-install && cat k3s-install.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - server --disable=traefik --server https://k3s-master.local:6443
+###### [ 离线安装 ] agent 节点
+# $ cd k3s-install && cat k3s-install.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - agent --server https://k3s-master.local:6443
+########################################################################
+
 # 颜色代码
 _RED_='\033[0;31m'    # 红色
 _GREEN_='\033[0;32m'  # 绿色
