@@ -377,13 +377,14 @@ INSTALL_DOCKER_BIN=${INSTALL_DOCKER_ROOT}/docker
 DOCKER_CONFIG=/etc/docker/daemon.json
 CONTAINERD_CONFIG=/etc/containerd/config.toml
 DOWNLOADS_ROOT=/opt/docker-install
+DOWNLOADS_BASENAME=$(basename $DOWNLOADS_ROOT)
 DOWNLOADER=curl
 # 下载并安装
 if $DOWNLOAD_SKIP; then
   DOWNLOADS_ROOT=.
 fi
 if [ ! -f ${INSTALL_DOCKER_BIN} ] || [ "${MODE}" = PKG ]; then
-  DOWNLOADS_FILE_SH=docker-install.sh
+  DOWNLOADS_FILE_SH=${DOWNLOADS_BASENAME}.sh
   DOWNLOADS_FILE_DOCKER_BIN=docker/${INSTALL_DOCKER_VERSION}/aarch64/docker-${INSTALL_DOCKER_VERSION}.tgz
   DOWNLOADS_FILE_BUILDX_BIN=docker/buildx/${INSTALL_BUILDX_VERSION}/buildx-v${INSTALL_BUILDX_VERSION}.linux-arm64
   DOWNLOADS_FILE_COMPOSE_BIN=docker/compose/${INSTALL_COMPOSE_VERSION}/docker-compose-linux-aarch64
@@ -417,8 +418,8 @@ if [ ! -f ${INSTALL_DOCKER_BIN} ] || [ "${MODE}" = PKG ]; then
     fi
   # 生成离线包
   else
-    info "tar -czf ${DOWNLOADS_ROOT}"
-    tar -czf ${DOWNLOADS_ROOT}
+    info "生成离线包: tar -czf ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz -C ${DOWNLOADS_ROOT%/*} ${DOWNLOADS_BASENAME}"
+    tar -czf ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz -C ${DOWNLOADS_ROOT%/*} ${DOWNLOADS_BASENAME}
   fi
 else
   printf "[ ${_YELLOW_}已安装${_NC_} ] ${INSTALL_DOCKER_BIN}\n"

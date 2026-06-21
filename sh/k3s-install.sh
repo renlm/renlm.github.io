@@ -356,13 +356,14 @@ INSTALL_HELM_BIN=/usr/local/bin/helm
 INSTALL_K3S_BIN=/usr/local/bin/k3s
 INSTALL_K3S_IMAGES=/var/lib/rancher/k3s/agent/images/
 DOWNLOADS_ROOT=/opt/k3s-install
+DOWNLOADS_BASENAME=$(basename $DOWNLOADS_ROOT)
 DOWNLOADER=curl
 # 下载并安装
 if $DOWNLOAD_SKIP; then
   DOWNLOADS_ROOT=.
 fi
 if [ ! -f ${INSTALL_K3S_BIN} ] || [ "${MODE}" = PKG ]; then
-  DOWNLOADS_FILE_SH=k3s-install.sh
+  DOWNLOADS_FILE_SH=${DOWNLOADS_BASENAME}.sh
   DOWNLOADS_FILE_HELM_BIN=helm/${INSTALL_HELM_VERSION}/helm-${INSTALL_HELM_VERSION}-linux-amd64.tar.gz
   DOWNLOADS_FILE_K3S_BIN=k3s/${DOWNLOAD_K3S_VERSION}/k3s
   DOWNLOADS_FILE_K3S_IMAGES=k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-amd64.tar
@@ -395,8 +396,8 @@ if [ ! -f ${INSTALL_K3S_BIN} ] || [ "${MODE}" = PKG ]; then
     fi
   # 生成离线包
   else
-    info "tar -czf ${DOWNLOADS_ROOT}"
-    tar -czf ${DOWNLOADS_ROOT}
+    info "生成离线包: tar -czf ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz -C ${DOWNLOADS_ROOT%/*} ${DOWNLOADS_BASENAME}"
+    tar -czf ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz -C ${DOWNLOADS_ROOT%/*} ${DOWNLOADS_BASENAME}
   fi
 else
   printf "[ ${_YELLOW_}已安装${_NC_} ] ${INSTALL_K3S_BIN}\n"
