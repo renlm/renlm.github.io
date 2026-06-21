@@ -6,8 +6,11 @@
 	
 	清理无用镜像
 	k3s: v1.34.8+k3s1
-	$ wget https://github.com/rancher/rancher/releases/download/v2.14.2/rancher-images.txt
-	$ sed -i '/hardened/d' rancher-images.txt
-	$ sed -i '/rke2/d' rancher-images.txt
-	$ sed -i '/nginx/d' rancher-images.txt
-	
+	$ rm -f rancher-images.txt \
+        && wget https://github.com/rancher/rancher/releases/download/v2.14.2/rancher-images.txt \
+        && sed -i '/hardened/d' rancher-images.txt \
+        && sed -i '/harvester/d' rancher-images.txt \
+        && sed -i '/neuvector/d' rancher-images.txt \
+        && sed -i '/rke2/d' rancher-images.txt \
+        && sed -i '/nginx/d' rancher-images.txt
+        
