@@ -31,20 +31,20 @@ MODE=${MODE:-"INSTALL"}
 # [ ARCH_ALIAS=amd64 ] x86_64: Intel/AMD 阵营的 64 位
 # [ ARCH_ALIAS=arm64 ] aarch64: ARM 阵营的 64 位
 ARCH=${ARCH:-"auto"}
-###### 一键安装
+### 一键安装
 # $ curl -sfL https://renlm.github.io/sh/docker-install.sh | DOCKER_ROOT=/data DOCKER_IPTABLES=true sh
 ########################################################################
 
 ########################################################################
 ###### 离线模式
-# 生成离线安装包
+### 生成离线安装包
 # $ curl -sfL https://renlm.github.io/sh/docker-install.sh | MODE=PKG ARCH=x86_64
 # $ curl -sfL https://renlm.github.io/sh/docker-install.sh | MODE=PKG ARCH=aarch64
-# 上传离线安装包
-# 解压离线安装包
+### 上传离线安装包
+### 解压离线安装包
 # $ tar -zxvf docker-install.x86_64.tar.gz
 # $ tar -zxvf docker-install.aarch64.tar.gz
-###### 离线安装
+### 离线安装
 # $ cd docker-install && cat docker-install.sh | DOCKER_ROOT=/data DOCKER_IPTABLES=true sh
 ########################################################################
 

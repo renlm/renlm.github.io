@@ -27,13 +27,13 @@ MODE=${MODE:-"INSTALL"}
 ARCH=${ARCH:-"auto"}
 # K3S内部CA证书的最大有效期上限，最大值被限制为3650天（10年）
 CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS=3650
-###### [ 一键安装 ] master 主节点
+### [ 一键安装 ] master 主节点
 # $ curl -sfL https://renlm.github.io/sh/k3s-install.sh | K3S_TOKEN=istio sh -s - server --disable=traefik --tls-san k3s-master.local --cluster-init
-###### [ 一键安装 ] master 从节点
+### [ 一键安装 ] master 从节点
 # $ curl -sfL https://renlm.github.io/sh/k3s-install.sh | K3S_TOKEN=istio sh -s - server --disable=traefik --server https://k3s-master.local:6443
-###### [ 一键安装 ] agent 节点
+### [ 一键安装 ] agent 节点
 # $ curl -sfL https://renlm.github.io/sh/k3s-install.sh | K3S_TOKEN=istio sh -s - agent --server https://k3s-master.local:6443
-###### 重载命令行别名
+### 重载命令行别名
 # $ source ~/.bashrc
 # $ helm version
 # $ kubectl get nodes
@@ -43,18 +43,18 @@ CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS=3650
 
 ########################################################################
 ###### 离线模式
-# 生成离线安装包
+### 生成离线安装包
 # $ curl -sfL https://renlm.github.io/sh/k3s-install.sh | MODE=PKG ARCH=x86_64
 # $ curl -sfL https://renlm.github.io/sh/k3s-install.sh | MODE=PKG ARCH=aarch64
-# 上传离线安装包
-# 解压离线安装包
+### 上传离线安装包
+### 解压离线安装包
 # $ tar -zxvf k3s-install.x86_64.tar.gz
 # $ tar -zxvf k3s-install.aarch64.tar.gz
-###### [ 离线安装 ] master 主节点
+### [ 离线安装 ] master 主节点
 # $ cd k3s-install && cat k3s-install.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - server --disable=traefik --tls-san k3s-master.local --cluster-init
-###### [ 离线安装 ] master 从节点
+### [ 离线安装 ] master 从节点
 # $ cd k3s-install && cat k3s-install.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - server --disable=traefik --server https://k3s-master.local:6443
-###### [ 离线安装 ] agent 节点
+### [ 离线安装 ] agent 节点
 # $ cd k3s-install && cat k3s-install.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - agent --server https://k3s-master.local:6443
 ########################################################################
 
