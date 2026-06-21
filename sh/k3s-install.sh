@@ -80,8 +80,8 @@ fatal()
 }
 
 # 参数校验
-if [ "$MODE" = INSTALL ] || [ "$ARCH" = PKG ]; then
-  if [ "$ARCH" = PKG ]; then
+if [ "$MODE" = INSTALL ] || [ "$MODE" = PKG ]; then
+  if [ "$MODE" = PKG ]; then
     DOWNLOAD_SKIP=false
   fi
   {
