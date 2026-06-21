@@ -3,6 +3,7 @@
 ### 生成离线镜像包
 # $ curl -sfL https://renlm.github.io/sh/docker-save-images.sh | \
 #     sh -s - \
+#     --txt https://renlm.github.io/download/cert-manager/v1.20.2/images.txt \
 #     --txt https://github.com/rancher/rancher/releases/download/v2.14.2/rancher-images.txt \
 #     --images registry:3.1.1 \
 #     --images nginx:1.31.2-alpine \
