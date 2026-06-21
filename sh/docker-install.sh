@@ -11,6 +11,7 @@ set -o noglob
 # https://github.com/containerd/containerd/blob/v2.2.3/containerd.service
 # 从 github releases 页面 Dependency Changes 中查看三者的版本匹配关系
 # [ 版本匹配 ] docker: 29.4.3, buildx: 0.34.1, compose: 5.1.3
+INSTALL_SH=${INSTALL_SH:-"https://renlm.github.io/sh/docker-install.sh"}
 DOCKER_ROOT=${DOCKER_ROOT:-"/data"}
 DOCKER_IPTABLES=${DOCKER_IPTABLES:-true}
 DOCKER_IP6TABLES=${DOCKER_IP6TABLES:-false}
@@ -20,6 +21,16 @@ INSTALL_DOCKER_VERSION=${INSTALL_DOCKER_VERSION:-"29.4.3"}
 INSTALL_BUILDX_VERSION=${INSTALL_BUILDX_VERSION:-"0.34.1"}
 INSTALL_COMPOSE_VERSION=${INSTALL_COMPOSE_VERSION:-"5.1.3"}
 DOWNLOADER_URL=${DOWNLOADER_URL:-"https://obs.renlm.cn"}
+DOWNLOAD_SKIP=${DOWNLOAD_SKIP:-false}
+# 执行模式
+# INSTALL: 安装
+# PKG: 生成离线安装包
+MODE=${MODE:-"INSTALL"}
+# CPU 指令集架构
+# auto: 根据服务器自动识别
+# [ ARCH_ALIAS=amd64 ] x86_64: Intel/AMD 阵营的 64 位
+# [ ARCH_ALIAS=arm64 ] aarch64: ARM 阵营的 64 位
+ARCH=${ARCH:-"auto"}
 ###### 一键安装
 # $ curl -sfL https://renlm.github.io/sh/docker-install.sh | DOCKER_ROOT=/data DOCKER_IPTABLES=true sh
 ########################################################################
@@ -44,6 +55,34 @@ fatal()
   printf "[ ${_RED_}ERROR${_NC_} ] $@\n" >&2
   exit 1
 }
+
+# 参数校验
+if [ "$MODE" = INSTALL ] || [ "$ARCH" = PKG ]; then
+  if [ "$ARCH" = PKG ]; then
+    DOWNLOAD_SKIP=false
+  fi
+  {
+	info "MODE: $MODE"
+    info "DOWNLOAD_SKIP: $DOWNLOAD_SKIP"
+  }
+else
+  fatal "Unknown MODE: $MODE, INSTALL or PKG"
+fi
+if [ "$ARCH" = auto ] || [ "$ARCH" = x86_64 ] || [ "$ARCH" = aarch64 ]; then
+  if uname -m | grep -q aarch64; then
+    ARCH=aarch64
+    ARCH_ALIAS=arm64
+  else
+    ARCH=x86_64
+    ARCH_ALIAS=amd64
+  fi
+  {
+	info "ARCH: $ARCH"
+	info "ARCH_ALIAS: $ARCH_ALIAS"
+  }
+else
+  fatal "Unknown ARCH: $ARCH, auto or x86_64 or aarch64"
+fi
 
 # 内核参数调整
 kernel_parameter_adjustment() {
@@ -134,32 +173,39 @@ EOF
 # --- download from url ---
 download() {
   [ $# -eq 2 ] || fatal 'download needs exactly 2 arguments'
+  
+  # 读取本地文件
+  if $DOWNLOAD_SKIP; then
+    if [ ! -f $1 ]; then
+      fatal "请上传文件：$1"
+    fi
+  # 下载软件包
+  else
+    # Disable exit-on-error so we can do custom error messages on failure
+    set +e
 
-  # Disable exit-on-error so we can do custom error messages on failure
-  set +e
-
-  # Default to a failure status
-  status=1
-
-  case $DOWNLOADER in
-    curl)
-      printf "[ ${_GREEN_}下载${_NC_} ] curl -o $1 -sfL $2\n"
-      mkdir -p ${1%/*}
-      curl -o $1 -sfL $2
-      status=$?
-    ;;
-    wget)
-      printf "[ ${_GREEN_}下载${_NC_} ] wget -qO $1 $2\n"
-      mkdir -p ${1%/*}
-      wget -qO $1 $2
-      status=$?
-    ;;
-    *)
-      # Enable exit-on-error for fatal to execute
-      set -e
-      fatal "Incorrect executable '$DOWNLOADER'"
-    ;;
-  esac
+    # Default to a failure status
+    status=1
+    case $DOWNLOADER in
+      curl)
+        printf "[ ${_GREEN_}下载${_NC_} ] curl -o $1 -sfL $2\n"
+        mkdir -p ${1%/*}
+        curl -o $1 -sfL $2
+        status=$?
+      ;;
+      wget)
+        printf "[ ${_GREEN_}下载${_NC_} ] wget -qO $1 $2\n"
+        mkdir -p ${1%/*}
+        wget -qO $1 $2
+        status=$?
+      ;;
+      *)
+        # Enable exit-on-error for fatal to execute
+        set -e
+        fatal "Incorrect executable '$DOWNLOADER'"
+      ;;
+    esac
+  fi
 
   # Re-enable exit-on-error
   set -e

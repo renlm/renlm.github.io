@@ -359,7 +359,7 @@ DOWNLOADS_ROOT=/opt/k3s-install
 DOWNLOADER=curl
 # 下载并安装
 if $DOWNLOAD_SKIP; then
-  DOWNLOADS_ROOT="."
+  DOWNLOADS_ROOT=.
 fi
 if [ ! -f ${INSTALL_K3S_BIN} ] || [ "${MODE}" = PKG ]; then
   DOWNLOADS_FILE_SH=k3s-install.sh
