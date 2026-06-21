@@ -129,9 +129,10 @@ fi
 
 # 下载镜像
 DOWNLOADER=curl
+OUTPUT="${OUTPUT}-${PLATFORM##*/}"
 rm -fr ./${OUTPUT}
-mkdir ${OUTPUT}
-touch ${OUTPUT}/${IMAGES_TXT}
+mkdir ./${OUTPUT}
+touch ./${OUTPUT}/${IMAGES_TXT}
 docker_pull() {
   if [ ! -z "$@" ]; then
     echo "$@" >> ${OUTPUT}/${IMAGES_TXT}
