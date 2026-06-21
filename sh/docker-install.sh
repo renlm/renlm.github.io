@@ -366,35 +366,46 @@ CONTAINERD_CONFIG=/etc/containerd/config.toml
 DOWNLOADS_ROOT=/opt/docker-install
 DOWNLOADER=curl
 # 下载并安装
-if [ ! -f ${INSTALL_DOCKER_BIN} ]; then
-  kernel_parameter_adjustment
-  mkdir -p /usr/libexec/docker/cli-plugins
-  if uname -m | grep -q aarch64; then
-    download ${DOWNLOADS_ROOT}/docker/${INSTALL_DOCKER_VERSION}/aarch64/docker-${INSTALL_DOCKER_VERSION}.tgz ${DOWNLOADER_URL}/docker/${INSTALL_DOCKER_VERSION}/aarch64/docker-${INSTALL_DOCKER_VERSION}.tgz
-    download ${DOWNLOADS_ROOT}/docker/buildx/${INSTALL_BUILDX_VERSION}/buildx-v${INSTALL_BUILDX_VERSION}.linux-arm64 ${DOWNLOADER_URL}/docker/buildx/${INSTALL_BUILDX_VERSION}/buildx-v${INSTALL_BUILDX_VERSION}.linux-arm64
-    download ${DOWNLOADS_ROOT}/docker/compose/${INSTALL_COMPOSE_VERSION}/docker-compose-linux-aarch64 ${DOWNLOADER_URL}/docker/compose/${INSTALL_COMPOSE_VERSION}/docker-compose-linux-aarch64
-    tar -zxf ${DOWNLOADS_ROOT}/docker/${INSTALL_DOCKER_VERSION}/aarch64/docker-${INSTALL_DOCKER_VERSION}.tgz --strip-components=1 -C ${INSTALL_DOCKER_ROOT}
-  	cp ${DOWNLOADS_ROOT}/docker/buildx/${INSTALL_BUILDX_VERSION}/buildx-v${INSTALL_BUILDX_VERSION}.linux-arm64 /usr/libexec/docker/cli-plugins/docker-buildx
-    cp ${DOWNLOADS_ROOT}/docker/compose/${INSTALL_COMPOSE_VERSION}/docker-compose-linux-aarch64 /usr/libexec/docker/cli-plugins/docker-compose
-  else
-    download ${DOWNLOADS_ROOT}/docker/${INSTALL_DOCKER_VERSION}/x86_64/docker-${INSTALL_DOCKER_VERSION}.tgz ${DOWNLOADER_URL}/docker/${INSTALL_DOCKER_VERSION}/x86_64/docker-${INSTALL_DOCKER_VERSION}.tgz
-    download ${DOWNLOADS_ROOT}/docker/buildx/${INSTALL_BUILDX_VERSION}/buildx-v${INSTALL_BUILDX_VERSION}.linux-amd64 ${DOWNLOADER_URL}/docker/buildx/${INSTALL_BUILDX_VERSION}/buildx-v${INSTALL_BUILDX_VERSION}.linux-amd64
-    download ${DOWNLOADS_ROOT}/docker/compose/${INSTALL_COMPOSE_VERSION}/docker-compose-linux-x86_64 ${DOWNLOADER_URL}/docker/compose/${INSTALL_COMPOSE_VERSION}/docker-compose-linux-x86_64
-  	tar -zxf ${DOWNLOADS_ROOT}/docker/${INSTALL_DOCKER_VERSION}/x86_64/docker-${INSTALL_DOCKER_VERSION}.tgz --strip-components=1 -C ${INSTALL_DOCKER_ROOT}
-  	cp ${DOWNLOADS_ROOT}/docker/buildx/${INSTALL_BUILDX_VERSION}/buildx-v${INSTALL_BUILDX_VERSION}.linux-amd64 /usr/libexec/docker/cli-plugins/docker-buildx
-    cp ${DOWNLOADS_ROOT}/docker/compose/${INSTALL_COMPOSE_VERSION}/docker-compose-linux-x86_64 /usr/libexec/docker/cli-plugins/docker-compose
+if $DOWNLOAD_SKIP; then
+  DOWNLOADS_ROOT=.
+fi
+if [ ! -f ${INSTALL_DOCKER_BIN} ] || [ "${MODE}" = PKG ]; then
+  DOWNLOADS_FILE_SH=docker-install.sh
+  DOWNLOADS_FILE_DOCKER_BIN=docker/${INSTALL_DOCKER_VERSION}/aarch64/docker-${INSTALL_DOCKER_VERSION}.tgz
+  DOWNLOADS_FILE_BUILDX_BIN=docker/buildx/${INSTALL_BUILDX_VERSION}/buildx-v${INSTALL_BUILDX_VERSION}.linux-arm64
+  DOWNLOADS_FILE_COMPOSE_BIN=docker/compose/${INSTALL_COMPOSE_VERSION}/docker-compose-linux-aarch64
+  if [ "$ARCH" = aarch64 ]; then
+    DOWNLOADS_FILE_DOCKER_BIN=docker/${INSTALL_DOCKER_VERSION}/x86_64/docker-${INSTALL_DOCKER_VERSION}.tgz
+    DOWNLOADS_FILE_BUILDX_BIN=docker/buildx/${INSTALL_BUILDX_VERSION}/buildx-v${INSTALL_BUILDX_VERSION}.linux-amd64
+    DOWNLOADS_FILE_COMPOSE_BIN=docker/compose/${INSTALL_COMPOSE_VERSION}/docker-compose-linux-x86_64
   fi
+  { # 下载资源
+	download ${DOWNLOADS_ROOT}/${DOWNLOADS_FILE_SH} ${INSTALL_SH}
+	download ${DOWNLOADS_ROOT}/${DOWNLOADS_FILE_DOCKER_BIN} ${DOWNLOADER_URL}/${DOWNLOADS_FILE_DOCKER_BIN}
+	download ${DOWNLOADS_ROOT}/${DOWNLOADS_FILE_BUILDX_BIN} ${DOWNLOADER_URL}/${DOWNLOADS_FILE_BUILDX_BIN}
+	download ${DOWNLOADS_ROOT}/${DOWNLOADS_FILE_COMPOSE_BIN} ${DOWNLOADER_URL}/${DOWNLOADS_FILE_COMPOSE_BIN}
+  }
   # 安装校验
-  ln -sf /usr/libexec/docker/cli-plugins/docker-compose ${INSTALL_DOCKER_ROOT}/docker-compose
-  ln -sf /usr/libexec/docker/cli-plugins/docker-buildx ${INSTALL_DOCKER_ROOT}/docker-buildx
-  chmod +x ${INSTALL_DOCKER_ROOT}/docker-compose
-  chmod +x ${INSTALL_DOCKER_ROOT}/docker-buildx
-  if [ -f ${INSTALL_DOCKER_BIN} ]; then
-    printf "[ ${_GREEN_}安装${_NC_} ] ${INSTALL_DOCKER_BIN}\n"
-    create_service
+  if [ "${MODE}" = INSTALL ]; then
+    kernel_parameter_adjustment
+    tar -zxf ${DOWNLOADS_ROOT}/docker/${INSTALL_DOCKER_VERSION}/${ARCH}/docker-${INSTALL_DOCKER_VERSION}.tgz --strip-components=1 -C ${INSTALL_DOCKER_ROOT}
+  	cp ${DOWNLOADS_ROOT}/docker/buildx/${INSTALL_BUILDX_VERSION}/buildx-v${INSTALL_BUILDX_VERSION}.linux-${ARCH_ALIAS} /usr/libexec/docker/cli-plugins/docker-buildx
+    cp ${DOWNLOADS_ROOT}/docker/compose/${INSTALL_COMPOSE_VERSION}/docker-compose-linux-${ARCH} /usr/libexec/docker/cli-plugins/docker-compose
+    ln -sf /usr/libexec/docker/cli-plugins/docker-compose ${INSTALL_DOCKER_ROOT}/docker-compose
+    ln -sf /usr/libexec/docker/cli-plugins/docker-buildx ${INSTALL_DOCKER_ROOT}/docker-buildx
+    chmod +x ${INSTALL_DOCKER_ROOT}/docker-compose
+    chmod +x ${INSTALL_DOCKER_ROOT}/docker-buildx
+    if [ -f ${INSTALL_DOCKER_BIN} ]; then
+      printf "[ ${_GREEN_}安装${_NC_} ] ${INSTALL_DOCKER_BIN}\n"
+      create_service
+    else
+      printf "[ ${_RED_}安装失败${_NC_} ] ${INSTALL_DOCKER_BIN}\n"
+      exit 1
+    fi
+  # 生成离线包
   else
-    printf "[ ${_RED_}安装失败${_NC_} ] ${INSTALL_DOCKER_BIN}\n"
-    exit 1
+    info "tar -czf ${DOWNLOADS_ROOT}"
+    tar -czf ${DOWNLOADS_ROOT}
   fi
 else
   printf "[ ${_YELLOW_}已安装${_NC_} ] ${INSTALL_DOCKER_BIN}\n"
