@@ -38,8 +38,8 @@ ARCH=${ARCH:-"auto"}
 ########################################################################
 ###### 离线模式
 ### 生成离线安装包
-# $ curl -sfL https://renlm.github.io/sh/docker-install.sh | MODE=PKG ARCH=x86_64
-# $ curl -sfL https://renlm.github.io/sh/docker-install.sh | MODE=PKG ARCH=aarch64
+# $ curl -sfL https://renlm.github.io/sh/docker-install.sh | MODE=PKG ARCH=x86_64 sh
+# $ curl -sfL https://renlm.github.io/sh/docker-install.sh | MODE=PKG ARCH=aarch64 sh
 ### 上传离线安装包
 ### 解压离线安装包
 # $ tar -zxvf docker-install.x86_64.tar.gz
@@ -70,8 +70,8 @@ fatal()
 }
 
 # 参数校验
-if [ "$MODE" = INSTALL ] || [ "$ARCH" = PKG ]; then
-  if [ "$ARCH" = PKG ]; then
+if [ "$MODE" = INSTALL ] || [ "$MODE" = PKG ]; then
+  if [ "$MODE" = PKG ]; then
     DOWNLOAD_SKIP=false
   fi
   {

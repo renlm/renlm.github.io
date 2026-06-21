@@ -44,8 +44,8 @@ CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS=3650
 ########################################################################
 ###### 离线模式
 ### 生成离线安装包
-# $ curl -sfL https://renlm.github.io/sh/k3s-install.sh | MODE=PKG ARCH=x86_64
-# $ curl -sfL https://renlm.github.io/sh/k3s-install.sh | MODE=PKG ARCH=aarch64
+# $ curl -sfL https://renlm.github.io/sh/k3s-install.sh | MODE=PKG ARCH=x86_64 sh
+# $ curl -sfL https://renlm.github.io/sh/k3s-install.sh | MODE=PKG ARCH=aarch64 sh
 ### 上传离线安装包
 ### 解压离线安装包
 # $ tar -zxvf k3s-install.x86_64.tar.gz
