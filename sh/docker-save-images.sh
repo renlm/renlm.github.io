@@ -27,6 +27,64 @@ else
   exit 1
 fi
 
+# 颜色代码
+_RED_='\033[0;31m'    # 红色
+_GREEN_='\033[0;32m'  # 绿色
+_YELLOW_='\033[0;33m' # 黄色
+_NC_='\033[0m'        # 重置
+
+# --- helper functions for logs ---
+info()
+{
+  printf "[ ${_GREEN_}INFO${_NC_} ] $@\n"
+}
+warn()
+{
+  printf "[ ${_YELLOW_}WARN${_NC_} ] $@\n" >&2
+}
+fatal()
+{
+  printf "[ ${_RED_}ERROR${_NC_} ] $@\n" >&2
+  exit 1
+}
+
+# --- download from url ---
+download() {
+  [ $# -eq 2 ] || fatal 'download needs exactly 2 arguments'
+
+  # Disable exit-on-error so we can do custom error messages on failure
+  set +e
+
+  # Default to a failure status
+  status=1
+
+  case $DOWNLOADER in
+    curl)
+      printf "[ ${_GREEN_}下载${_NC_} ] curl -o $1 -sfL $2\n"
+      mkdir -p ${1%/*}
+      curl -o $1 -sfL $2
+      status=$?
+    ;;
+    wget)
+      printf "[ ${_GREEN_}下载${_NC_} ] wget -qO $1 $2\n"
+      mkdir -p ${1%/*}
+      wget -qO $1 $2
+      status=$?
+    ;;
+    *)
+      # Enable exit-on-error for fatal to execute
+      set -e
+      fatal "Incorrect executable '$DOWNLOADER'"
+    ;;
+  esac
+
+  # Re-enable exit-on-error
+  set -e
+
+  # Abort if download command failed
+  [ $status -eq 0 ] || fatal 'Download failed'
+}
+
 usage () {
   echo "USAGE: $0 [--txt rancher-images.txt] [--images registry:3.1.1] [--output rancher-images.tar.gz]"
   echo "  [-t|--txt url] txt file with list of images; one image per line."
@@ -70,6 +128,7 @@ if $help; then
 fi
 
 # 下载镜像
+DOWNLOADER=curl
 rm -fr ./${OUTPUT}
 mkdir ${OUTPUT}
 touch ${OUTPUT}/.${IMAGES_TXT}
@@ -93,12 +152,12 @@ for image in $IMAGES_ARR; do
 done
 for txt in $TXT_ARR; do
   txt_file=${txt##*/}
-  echo "curl -o $txt_file -sfL $txt"
-  curl -o $txt_file -sfL $txt
-  while IFS= read -r i; do
-    docker_pull $txt
-  done < $txt_file
+  download $txt_file $txt
+  grep -v '^#' $txt_file | while IFS= read -r i; do
+    docker_pull $i
+  done
 done
 
-echo "Creating ${OUTPUT}.tar.gz with $(echo ${PULLED} | wc -w | tr -d '[:space:]') images"
+info "Creating ${OUTPUT}.tar.gz with $(echo ${PULLED} | wc -w | tr -d '[:space:]') images"
 docker save $(echo ${PULLED}) | gzip --stdout > ${OUTPUT}.tar.gz
+
