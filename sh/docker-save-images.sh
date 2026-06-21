@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/bin/sh
+set -e
+set -o noglob
 ########################################################################
 ### 生成离线镜像包
 # $ curl -sfL https://renlm.github.io/sh/docker-save-images.sh | \
@@ -11,8 +13,9 @@
 ########################################################################
 IMAGES_TXT=images.txt
 OUTPUT=save-images
-IMAGES_ARR=()
-TXT_ARR=()
+IMAGES_ARR=""
+TXT_ARR=""
+PULLED=""
 help=false
 
 usage () {
@@ -28,12 +31,12 @@ while [[ $# -gt 0 ]]; do
   key="$1"
   case $key in
     -t|--txt)
-    TXT_ARR+=($2)
+    TXT_ARR="$TXT_ARR $2"
     shift # past argument
     shift # past value
     ;;
     -i|--images)
-    IMAGES_ARR+=($2)
+    IMAGES_ARR="$IMAGES_ARR $2"
     shift # past argument
     shift # past value
     ;;
@@ -59,7 +62,6 @@ if [[ $help ]]; then
 fi
 
 # 下载镜像
-pulled=""
 rm -fr ./${OUTPUT}
 mkdir ${OUTPUT}
 touch ${OUTPUT}/.${IMAGES_TXT}
@@ -68,10 +70,10 @@ docker_pull() {
     echo "${i}" >> ${OUTPUT}/.${IMAGES_TXT}
     if docker pull "$@" > /dev/null 2>&1; then
       echo "Image pull success: $@"
-      pulled="${pulled} $@"
+      PULLED="${PULLED} $@"
     else
       if docker inspect "$@" > /dev/null 2>&1; then
-        pulled="${pulled} $@"
+        PULLED="${PULLED} $@"
       else
         echo "Image pull failed: $@"
       fi
@@ -90,5 +92,5 @@ for txt in "${TXT_ARR[@]}"; do
   done < "${txt_file}"
 done
 
-echo "Creating ${OUTPUT}.tar.gz with $(echo ${pulled} | wc -w | tr -d '[:space:]') images"
-docker save $(echo ${pulled}) | gzip --stdout > ${OUTPUT}.tar.gz
+echo "Creating ${OUTPUT}.tar.gz with $(echo ${PULLED} | wc -w | tr -d '[:space:]') images"
+docker save $(echo ${PULLED}) | gzip --stdout > ${OUTPUT}.tar.gz
