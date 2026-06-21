@@ -131,10 +131,10 @@ fi
 DOWNLOADER=curl
 rm -fr ./${OUTPUT}
 mkdir ${OUTPUT}
-touch ${OUTPUT}/.${IMAGES_TXT}
+touch ${OUTPUT}/${IMAGES_TXT}
 docker_pull() {
   if [ ! -z "$@" ]; then
-    echo "$@" >> ${OUTPUT}/.${IMAGES_TXT}
+    echo "$@" >> ${OUTPUT}/${IMAGES_TXT}
     if docker pull --platform ${PLATFORM} "$@" > /dev/null 2>&1; then
       info "Image pull success: $@"
       PULLED="${PULLED} $@"
@@ -153,11 +153,18 @@ done
 for txt in $TXT_ARR; do
   txt_file=${txt##*/}
   download $txt_file $txt
-  grep -v '^#' $txt_file | while IFS= read -r i; do
-    docker_pull $i
-  done
+  while IFS= read -r line; do
+    case "$str" in
+      '#'*)
+      ;;
+      *)
+      docker_pull $line
+      ;;
+    esac
+  done < $txt_file
 done
 
 IMAGES_NUM=$(echo ${PULLED} | wc -w | tr -d '[:space:]')
-info "Creating ${OUTPUT}.tar with $IMAGES_NUM images"
-docker save -o ${OUTPUT}.tar $PULLED
+info "Creating ${OUTPUT}.tar.gz with $IMAGES_NUM images"
+docker save -o ${OUTPUT}/${OUTPUT}.tar $PULLED
+tar -czf ${OUTPUT}.tar.gz ${OUTPUT}
