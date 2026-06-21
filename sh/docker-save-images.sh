@@ -5,7 +5,7 @@ set -o noglob
 ### 生成离线镜像包
 # $ curl -sfL https://renlm.github.io/sh/docker-save-images.sh | \
 #     PLATFORM=linux/amd64 sh -s - \
-#     --txt https://renlm.github.io/resources/cert-manager/v1.20.2/cert-manager.txt \
+#     --txt https://renlm.github.io/resources/cert-manager/v1.20.2/cert-manager-images.txt \
 #     --txt https://renlm.github.io/resources/rancher/v2.14.2/rancher-images.txt \
 #     --images registry:3.1.1 \
 #     --images nginx:1.31.2-alpine \
