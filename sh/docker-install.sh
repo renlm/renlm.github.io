@@ -220,13 +220,13 @@ download() {
         fatal "Incorrect executable '$DOWNLOADER'"
       ;;
     esac
+
+    # Re-enable exit-on-error
+    set -e
+
+    # Abort if download command failed
+    [ $status -eq 0 ] || fatal 'Download failed'
   fi
-
-  # Re-enable exit-on-error
-  set -e
-
-  # Abort if download command failed
-  [ $status -eq 0 ] || fatal 'Download failed'
 }
 
 # 设置开机自启
