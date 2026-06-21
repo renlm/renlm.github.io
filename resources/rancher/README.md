@@ -12,5 +12,10 @@
         && sed -i '/harvester/d' rancher-images.txt \
         && sed -i '/neuvector/d' rancher-images.txt \
         && sed -i '/rke2/d' rancher-images.txt \
-        && sed -i '/nginx/d' rancher-images.txt
+        && sed -i '/cilium/d' rancher-images.txt \
+        && sed -i '/longhornio/d' rancher-images.txt \
+        && sed -i '/mirrored-sig-storage/d' rancher-images.txt \
+        && sed -i '/mirrored-cloud-provider-vsphere/d' rancher-images.txt \
+        && sed -i '/nginx/d' rancher-images.txt \
+        && sed -i '/-k3s/{/v1.34.8+k3s1/!d}' rancher-images.txt
         
