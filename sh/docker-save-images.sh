@@ -49,7 +49,7 @@ while [ $# -gt 0 ]; do
     shift # past value
     ;;
     -o|--output)
-    SAVE_FILE=$2
+    OUTPUT=$2
     shift # past argument
     shift # past value
     ;;
@@ -75,7 +75,7 @@ mkdir ${OUTPUT}
 touch ${OUTPUT}/.${IMAGES_TXT}
 docker_pull() {
   if [ ! -z "$@" ]; then
-    echo "${i}" >> ${OUTPUT}/.${IMAGES_TXT}
+    echo "${@}" >> ${OUTPUT}/.${IMAGES_TXT}
     if docker pull --platform ${PLATFORM} "$@" > /dev/null 2>&1; then
       echo "Image pull success: $@"
       PULLED="${PULLED} $@"
@@ -89,14 +89,14 @@ docker_pull() {
   fi
 }
 for image in "${IMAGES_ARR}"; do
-  docker_pull $image
+  docker_pull "$image"
 done
 for txt in "${TXT_ARR}"; do
   txt_file=${txt##*/}
   echo "curl -o $txt_file -sfL $txt"
   curl -o $txt_file -sfL $txt
   while IFS= read -r i; do
-    docker_pull $image
+    docker_pull "$image"
   done < "${txt_file}"
 done
 
