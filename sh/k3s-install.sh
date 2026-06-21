@@ -402,9 +402,9 @@ if [ ! -f ${INSTALL_K3S_BIN} ] || [ "${MODE}" = PKG ]; then
     tar -czf ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz -C ${DOWNLOADS_ROOT%/*} ${DOWNLOADS_BASENAME}
     info "离线安装 - 第1步：上传离线安装包 ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz"
     info "离线安装 - 第2步：解压离线安装包 tar -zxvf ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz"
-    info "master 主节点：$ cd ${DOWNLOADS_BASENAME} && cat ${DOWNLOADS_BASENAME}.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - server --disable=traefik --tls-san k3s-master.local --cluster-init"
-    info "master 从节点：$ cd ${DOWNLOADS_BASENAME} && cat ${DOWNLOADS_BASENAME}.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - server --disable=traefik --server https://k3s-master.local:6443"
-    info "agent 节点：$ cd ${DOWNLOADS_BASENAME} && cat ${DOWNLOADS_BASENAME}.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - agent --server https://k3s-master.local:6443"
+    info "master 主节点：\$ cd ${DOWNLOADS_BASENAME} && cat ${DOWNLOADS_BASENAME}.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - server --disable=traefik --tls-san k3s-master.local --cluster-init"
+    info "master 从节点：\$ cd ${DOWNLOADS_BASENAME} && cat ${DOWNLOADS_BASENAME}.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - server --disable=traefik --server https://k3s-master.local:6443"
+    info "agent 节点：\$ cd ${DOWNLOADS_BASENAME} && cat ${DOWNLOADS_BASENAME}.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - agent --server https://k3s-master.local:6443"
   fi
 else
   printf "[ ${_YELLOW_}已安装${_NC_} ] ${INSTALL_K3S_BIN}\n"
