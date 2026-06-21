@@ -191,6 +191,8 @@ download() {
   if $DOWNLOAD_SKIP; then
     if [ ! -f $1 ]; then
       fatal "请上传文件：$1"
+    else
+      info "读取本地文件：$1"
     fi
   # 下载软件包
   else
