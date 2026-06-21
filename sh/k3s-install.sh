@@ -14,6 +14,16 @@ INSTALL_K3S_VERSION=${INSTALL_K3S_VERSION:-"v1.34.8+k3s1"}
 INSTALL_HELM_VERSION=${INSTALL_HELM_VERSION:-"v4.0.5"}
 DOWNLOAD_K3S_VERSION=$(echo ${INSTALL_K3S_VERSION} | sed "s/+/-/g")
 DOWNLOADER_URL=${DOWNLOADER_URL:-"https://obs.renlm.cn"}
+DOWNLOAD_SKIP=${DOWNLOAD_SKIP:-false}
+# 执行模式
+# INSTALL: 安装
+# PKG: 生成离线安装包
+MODE=${MODE:-"INSTALL"}
+# CPU 指令集架构
+# auto: 根据服务器自动识别
+# x86_64: Intel/AMD 阵营的 64 位
+# aarch64: ARM 阵营的 64 位
+ARCH=${ARCH:-"auto"}
 # K3S内部CA证书的最大有效期上限，最大值被限制为3650天（10年）
 CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS=3650
 ###### [ 一键安装 ] master 主节点
@@ -50,6 +60,23 @@ fatal()
   printf "[ ${_RED_}ERROR${_NC_} ] $@\n" >&2
   exit 1
 }
+
+# 参数校验
+if [ "$MODE" = INSTALL ] || [ "$ARCH" = PKG ]; then
+  info "MODE: $MODE"
+else
+  fatal "Unknown MODE: $MODE, INSTALL or PKG"
+fi
+if [ "$ARCH" = auto ] || [ "$ARCH" = x86_64 ] || [ "$ARCH" = aarch64 ]; then
+  if uname -m | grep -q aarch64; then
+    ARCH=aarch64
+  else
+    ARCH=x86_64
+  fi
+  info "ARCH: $ARCH"
+else
+  fatal "Unknown ARCH: $ARCH, auto or x86_64 or aarch64"
+fi
 
 # 内核参数调整
 kernel_parameter_adjustment() {
@@ -140,32 +167,39 @@ EOF
 # --- download from url ---
 download() {
   [ $# -eq 2 ] || fatal 'download needs exactly 2 arguments'
+  
+  # 读取本地文件
+  if $DOWNLOAD_SKIP; then
+    if [ ! -f $1 ]; then
+      fatal "请上传文件：$1"
+    fi
+  # 下载软件包
+  else
+    # Disable exit-on-error so we can do custom error messages on failure
+    set +e
 
-  # Disable exit-on-error so we can do custom error messages on failure
-  set +e
-
-  # Default to a failure status
-  status=1
-
-  case $DOWNLOADER in
-    curl)
-      printf "[ ${_GREEN_}下载${_NC_} ] curl -o $1 -sfL $2\n"
-      mkdir -p ${1%/*}
-      curl -o $1 -sfL $2
-      status=$?
-    ;;
-    wget)
-      printf "[ ${_GREEN_}下载${_NC_} ] wget -qO $1 $2\n"
-      mkdir -p ${1%/*}
-      wget -qO $1 $2
-      status=$?
-    ;;
-    *)
-      # Enable exit-on-error for fatal to execute
-      set -e
-      fatal "Incorrect executable '$DOWNLOADER'"
-    ;;
-  esac
+    # Default to a failure status
+    status=1
+    case $DOWNLOADER in
+      curl)
+        printf "[ ${_GREEN_}下载${_NC_} ] curl -o $1 -sfL $2\n"
+        mkdir -p ${1%/*}
+        curl -o $1 -sfL $2
+        status=$?
+      ;;
+      wget)
+        printf "[ ${_GREEN_}下载${_NC_} ] wget -qO $1 $2\n"
+        mkdir -p ${1%/*}
+        wget -qO $1 $2
+        status=$?
+      ;;
+      *)
+        # Enable exit-on-error for fatal to execute
+        set -e
+        fatal "Incorrect executable '$DOWNLOADER'"
+      ;;
+    esac
+  fi
 
   # Re-enable exit-on-error
   set -e
@@ -295,10 +329,13 @@ INSTALL_K3S_IMAGES=/var/lib/rancher/k3s/agent/images/
 DOWNLOADS_ROOT=/opt/k3s-install
 DOWNLOADER=curl
 # 下载并安装
+if $DOWNLOAD_SKIP; then
+  DOWNLOADS_ROOT="."
+fi
 if [ ! -f ${INSTALL_K3S_BIN} ]; then
   kernel_parameter_adjustment
   mkdir -p ${INSTALL_K3S_IMAGES}
-  if uname -m | grep -q aarch64; then
+  if [ "$ARCH" = aarch64 ]; then
     download ${DOWNLOADS_ROOT}/helm/${INSTALL_HELM_VERSION}/helm-${INSTALL_HELM_VERSION}-linux-arm64.tar.gz ${DOWNLOADER_URL}/helm/${INSTALL_HELM_VERSION}/helm-${INSTALL_HELM_VERSION}-linux-arm64.tar.gz
     download ${DOWNLOADS_ROOT}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-arm64 ${DOWNLOADER_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-arm64
     download ${DOWNLOADS_ROOT}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-arm64.tar ${DOWNLOADER_URL}/k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-arm64.tar
