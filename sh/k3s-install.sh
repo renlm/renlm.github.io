@@ -362,6 +362,7 @@ if $DOWNLOAD_SKIP; then
   DOWNLOADS_ROOT="."
 fi
 if [ ! -f ${INSTALL_K3S_BIN} ] || [ "${MODE}" = PKG ]; then
+  DOWNLOADS_FILE_SH=k3s-install.sh
   DOWNLOADS_FILE_HELM_BIN=helm/${INSTALL_HELM_VERSION}/helm-${INSTALL_HELM_VERSION}-linux-amd64.tar.gz
   DOWNLOADS_FILE_K3S_BIN=k3s/${DOWNLOAD_K3S_VERSION}/k3s
   DOWNLOADS_FILE_K3S_IMAGES=k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-amd64.tar
@@ -371,6 +372,7 @@ if [ ! -f ${INSTALL_K3S_BIN} ] || [ "${MODE}" = PKG ]; then
     DOWNLOADS_FILE_K3S_IMAGES=k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-arm64.tar
   fi
   { # 下载资源
+	download ${DOWNLOADS_ROOT}/${DOWNLOADS_FILE_SH} ${INSTALL_SH}
 	download ${DOWNLOADS_ROOT}/${DOWNLOADS_FILE_HELM_BIN} ${DOWNLOADER_URL}/${DOWNLOADS_FILE_HELM_BIN}
 	download ${DOWNLOADS_ROOT}/${DOWNLOADS_FILE_K3S_BIN} ${DOWNLOADER_URL}/${DOWNLOADS_FILE_K3S_BIN}
 	download ${DOWNLOADS_ROOT}/${DOWNLOADS_FILE_K3S_IMAGES} ${DOWNLOADER_URL}/${DOWNLOADS_FILE_K3S_IMAGES}
@@ -393,7 +395,8 @@ if [ ! -f ${INSTALL_K3S_BIN} ] || [ "${MODE}" = PKG ]; then
     fi
   # 生成离线包
   else
-    
+    info "tar -czf ${DOWNLOADS_ROOT}"
+    tar -czf ${DOWNLOADS_ROOT}
   fi
 else
   printf "[ ${_YELLOW_}已安装${_NC_} ] ${INSTALL_K3S_BIN}\n"
