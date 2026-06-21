@@ -45,7 +45,7 @@ ARCH=${ARCH:-"auto"}
 # $ tar -zxvf docker-install.x86_64.tar.gz
 # $ tar -zxvf docker-install.aarch64.tar.gz
 ### 离线安装
-# $ cd docker-install && cat docker-install.sh | DOCKER_ROOT=/data DOCKER_IPTABLES=true sh
+# $ cd docker-install && cat docker-install.sh | DOWNLOAD_SKIP=true DOCKER_ROOT=/data DOCKER_IPTABLES=true sh
 ########################################################################
 
 # 颜色代码
@@ -422,6 +422,9 @@ if [ ! -f ${INSTALL_DOCKER_BIN} ] || [ "${MODE}" = PKG ]; then
   else
     info "生成离线包: tar -czf ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz -C ${DOWNLOADS_ROOT%/*} ${DOWNLOADS_BASENAME}"
     tar -czf ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz -C ${DOWNLOADS_ROOT%/*} ${DOWNLOADS_BASENAME}
+    info "离线安装 - 第1步：上传离线安装包 ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz"
+    info "离线安装 - 第2步：解压离线安装包 tar -zxvf ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz"
+    info "离线安装 - 第3步：cd ${DOWNLOADS_BASENAME} && cat ${DOWNLOADS_BASENAME}.sh | DOWNLOAD_SKIP=true DOCKER_ROOT=/data DOCKER_IPTABLES=true sh"
   fi
 else
   printf "[ ${_YELLOW_}已安装${_NC_} ] ${INSTALL_DOCKER_BIN}\n"
