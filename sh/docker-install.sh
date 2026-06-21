@@ -11,17 +11,17 @@ set -o noglob
 # https://github.com/containerd/containerd/blob/v2.2.3/containerd.service
 # 从 github releases 页面 Dependency Changes 中查看三者的版本匹配关系
 # [ 版本匹配 ] docker: 29.4.3, buildx: 0.34.1, compose: 5.1.3
-DOCKER_RUN_ROOT=${DOCKER_RUN_ROOT:-"/data"}
+DOCKER_ROOT=${DOCKER_ROOT:-"/data"}
 DOCKER_IPTABLES=${DOCKER_IPTABLES:-true}
 DOCKER_IP6TABLES=${DOCKER_IP6TABLES:-false}
-DOCKER_DATA_DIR=${DOCKER_DATA_DIR:-"${DOCKER_RUN_ROOT}/docker"}
-CONTAINERD_DATA_DIR=${CONTAINERD_DATA_DIR:-"${DOCKER_RUN_ROOT}/containerd"}
+DOCKER_DATA_DIR=${DOCKER_DATA_DIR:-"${DOCKER_ROOT}/docker"}
+CONTAINERD_DATA_DIR=${CONTAINERD_DATA_DIR:-"${DOCKER_ROOT}/containerd"}
 INSTALL_DOCKER_VERSION=${INSTALL_DOCKER_VERSION:-"29.4.3"}
 INSTALL_BUILDX_VERSION=${INSTALL_BUILDX_VERSION:-"0.34.1"}
 INSTALL_COMPOSE_VERSION=${INSTALL_COMPOSE_VERSION:-"5.1.3"}
 DOWNLOADER_URL=${DOWNLOADER_URL:-"https://obs.renlm.cn"}
 ###### 一键安装
-# $ curl -sfL https://renlm.github.io/sh/docker-install.sh | DOCKER_RUN_ROOT=/data DOCKER_IPTABLES=true sh
+# $ curl -sfL https://renlm.github.io/sh/docker-install.sh | DOCKER_ROOT=/data DOCKER_IPTABLES=true sh
 ########################################################################
 
 # 颜色代码
