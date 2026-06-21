@@ -5,11 +5,12 @@ set -o noglob
 ### 生成离线镜像包
 # $ curl -sfL https://renlm.github.io/sh/docker-save-images.sh | \
 #     PLATFORM=linux/amd64 sh -s - \
-#     -t https://renlm.github.io/resources/cert-manager/v1.20.2/images.txt \
-#     -t https://github.com/rancher/rancher/releases/download/v2.14.2/rancher-images.txt \
-#     -i registry:3.1.1 \
-#     -i nginx:1.31.2-alpine \
-#     -o rancher-images-v2.14.2
+#     --txt https://renlm.github.io/resources/cert-manager/v1.20.2/images.txt \
+#     --txt https://github.com/rancher/rancher/releases/download/v2.14.2/rancher-images.txt \
+#     --images registry:3.1.1 \
+#     --images nginx:1.31.2-alpine \
+#     --images moby/buildkit:buildx-stable-1 \
+#     --output rancher-images-v2.14.2
 ########################################################################
 IMAGES_TXT=images.txt
 OUTPUT=save-images
