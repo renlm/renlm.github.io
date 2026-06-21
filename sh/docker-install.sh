@@ -404,6 +404,7 @@ if [ ! -f ${INSTALL_DOCKER_BIN} ] || [ "${MODE}" = PKG ]; then
   # 安装校验
   if [ "${MODE}" = INSTALL ]; then
     kernel_parameter_adjustment
+    mkdir -p /usr/libexec/docker/cli-plugins
     tar -zxf ${DOWNLOADS_ROOT}/docker/${INSTALL_DOCKER_VERSION}/${ARCH}/docker-${INSTALL_DOCKER_VERSION}.tgz --strip-components=1 -C ${INSTALL_DOCKER_ROOT}
   	cp ${DOWNLOADS_ROOT}/docker/buildx/${INSTALL_BUILDX_VERSION}/buildx-v${INSTALL_BUILDX_VERSION}.linux-${ARCH_ALIAS} /usr/libexec/docker/cli-plugins/docker-buildx
     cp ${DOWNLOADS_ROOT}/docker/compose/${INSTALL_COMPOSE_VERSION}/docker-compose-linux-${ARCH} /usr/libexec/docker/cli-plugins/docker-compose
