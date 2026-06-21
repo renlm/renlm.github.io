@@ -8,4 +8,4 @@
         grep -oP 'image:\s*\K.*' | \
         sed 's/^"//;s/"$//' | \
         sort -u
-	
+        
