@@ -64,7 +64,7 @@ while [ $# -gt 0 ]; do
   esac
 done
 
-if [ $help ]; then
+if $help; then
   usage
   exit 0
 fi
