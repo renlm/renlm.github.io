@@ -36,6 +36,21 @@ _GREEN_='\033[0;32m'  # 绿色
 _YELLOW_='\033[0;33m' # 黄色
 _NC_='\033[0m'        # 重置
 
+# --- helper functions for logs ---
+info()
+{
+  printf "[ ${_GREEN_}INFO${_NC_} ] $@\n"
+}
+warn()
+{
+  printf "[ ${_YELLOW_}WARN${_NC_} ] $@\n" >&2
+}
+fatal()
+{
+  printf "[ ${_RED_}ERROR${_NC_} ] $@\n" >&2
+  exit 1
+}
+
 # 内核参数调整
 kernel_parameter_adjustment() {
   SYSCTL_P=0

@@ -33,16 +33,16 @@ _NC_='\033[0m'        # 重置
 # --- helper functions for logs ---
 info()
 {
-    echo '[INFO] ' "$@"
+  printf "[ ${_GREEN_}INFO${_NC_} ] $@\n"
 }
 warn()
 {
-    echo '[WARN] ' "$@" >&2
+  printf "[ ${_YELLOW_}WARN${_NC_} ] $@\n" >&2
 }
 fatal()
 {
-    echo '[ERROR] ' "$@" >&2
-    exit 1
+  printf "[ ${_RED_}ERROR${_NC_} ] $@\n" >&2
+  exit 1
 }
 
 # 内核参数调整
