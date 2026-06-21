@@ -153,14 +153,9 @@ done
 for txt in $TXT_ARR; do
   txt_file=${txt##*/}
   download $txt_file $txt
+  sed -i '/^#/d' $txt_file
   while IFS= read -r line; do
-    case "$str" in
-      '#'*)
-      ;;
-      *)
-      docker_pull $line
-      ;;
-    esac
+    docker_pull $line
   done < $txt_file
 done
 
