@@ -385,7 +385,7 @@ if [ ! -f ${INSTALL_K3S_BIN} ] || [ "${MODE}" = PKG ]; then
     cp ${DOWNLOADS_ROOT}/${DOWNLOADS_FILE_K3S_BIN} ${INSTALL_K3S_BIN}
     cp ${DOWNLOADS_ROOT}/${DOWNLOADS_FILE_K3S_IMAGES} ${INSTALL_K3S_IMAGES}
     if [ -f ${INSTALL_K3S_BIN} ]; then
-      printf "[ ${_GREEN_}安装${_NC_} ] ${INSTALL_K3S_BIN}\n"
+      printf "[ ${_GREEN_}开始安装${_NC_} ] ${INSTALL_K3S_BIN}\n"
       chmod +x ${INSTALL_K3S_BIN}
       setup_env "$@"
       create_service

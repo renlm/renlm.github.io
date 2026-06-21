@@ -35,6 +35,19 @@ ARCH=${ARCH:-"auto"}
 # $ curl -sfL https://renlm.github.io/sh/docker-install.sh | DOCKER_ROOT=/data DOCKER_IPTABLES=true sh
 ########################################################################
 
+########################################################################
+###### 离线模式
+# 生成离线安装包
+# $ curl -sfL https://renlm.github.io/sh/docker-install.sh | MODE=PKG ARCH=x86_64
+# $ curl -sfL https://renlm.github.io/sh/docker-install.sh | MODE=PKG ARCH=aarch64
+# 上传离线安装包
+# 解压离线安装包
+# $ tar -zxvf docker-install.x86_64.tar.gz
+# $ tar -zxvf docker-install.aarch64.tar.gz
+###### 离线安装
+# $ cd docker-install && cat docker-install.sh | DOCKER_ROOT=/data DOCKER_IPTABLES=true sh
+########################################################################
+
 # 颜色代码
 _RED_='\033[0;31m'    # 红色
 _GREEN_='\033[0;32m'  # 绿色
@@ -396,7 +409,7 @@ if [ ! -f ${INSTALL_DOCKER_BIN} ] || [ "${MODE}" = PKG ]; then
     chmod +x ${INSTALL_DOCKER_ROOT}/docker-compose
     chmod +x ${INSTALL_DOCKER_ROOT}/docker-buildx
     if [ -f ${INSTALL_DOCKER_BIN} ]; then
-      printf "[ ${_GREEN_}安装${_NC_} ] ${INSTALL_DOCKER_BIN}\n"
+      printf "[ ${_GREEN_}开始安装${_NC_} ] ${INSTALL_DOCKER_BIN}\n"
       create_service
     else
       printf "[ ${_RED_}安装失败${_NC_} ] ${INSTALL_DOCKER_BIN}\n"
