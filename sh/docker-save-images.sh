@@ -158,5 +158,6 @@ for txt in $TXT_ARR; do
   done
 done
 
-info "Creating ${OUTPUT}.tar with $(echo ${PULLED} | wc -w | tr -d '[:space:]') images"
+IMAGES_NUM=$(echo ${PULLED} | wc -w | tr -d '[:space:]')
+info "Creating ${OUTPUT}.tar with $IMAGES_NUM images"
 docker save -o ${OUTPUT}.tar $PULLED
