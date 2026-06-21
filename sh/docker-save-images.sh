@@ -2,8 +2,17 @@
 set -e
 set -o noglob
 
+########################################################################
+### 生成离线镜像包
+# $ curl -sfL https://renlm.github.io/sh/docker-save-images.sh | \
+#     sh -s - \
+#     --txt https://github.com/rancher/rancher/releases/download/v2.14.2/rancher-images.txt \
+#     --images registry:3.1.1 \
+#     --images nginx:1.31.2-alpine \
+#     --out rancher-images.v2.14.2.tar.gz
+########################################################################
 IMAGES_TXT=images.txt
-SAVE_FILE_NAME=save-images
+SAVE_FILE=save-images.tar.gz
 IMAGES_ARR=()
 TXT_ARR=()
 help=false
@@ -31,7 +40,7 @@ while [[ $# -gt 0 ]]; do
     shift # past value
     ;;
     -o|--out)
-    SAVE_FILE_NAME=$2
+    SAVE_FILE=$2
     shift # past argument
     shift # past value
     ;;
