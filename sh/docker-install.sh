@@ -45,7 +45,7 @@ ARCH=${ARCH:-"auto"}
 # $ tar -zxvf docker-install.x86_64.tar.gz
 # $ tar -zxvf docker-install.aarch64.tar.gz
 ### 离线安装
-# $ cd docker-install && cat docker-install.sh | DOWNLOAD_SKIP=true DOCKER_ROOT=/data DOCKER_IPTABLES=true sh
+# $ cat docker-install/install.sh | DOWNLOAD_SKIP=true DOCKER_ROOT=/data DOCKER_IPTABLES=true sh
 ########################################################################
 
 # 颜色代码
@@ -383,10 +383,10 @@ DOWNLOADS_BASENAME=$(basename $DOWNLOADS_ROOT)
 DOWNLOADER=curl
 # 下载并安装
 if $DOWNLOAD_SKIP; then
-  DOWNLOADS_ROOT=.
+  DOWNLOADS_ROOT=${DOWNLOADS_BASENAME}
 fi
 if [ ! -f ${INSTALL_DOCKER_BIN} ] || [ "${MODE}" = PKG ]; then
-  DOWNLOADS_FILE_SH=${DOWNLOADS_BASENAME}.sh
+  DOWNLOADS_FILE_SH=install.sh
   DOWNLOADS_FILE_DOCKER_BIN=docker/${INSTALL_DOCKER_VERSION}/x86_64/docker-${INSTALL_DOCKER_VERSION}.tgz
   DOWNLOADS_FILE_BUILDX_BIN=docker/buildx/${INSTALL_BUILDX_VERSION}/buildx-v${INSTALL_BUILDX_VERSION}.linux-amd64
   DOWNLOADS_FILE_COMPOSE_BIN=docker/compose/${INSTALL_COMPOSE_VERSION}/docker-compose-linux-x86_64
@@ -425,7 +425,7 @@ if [ ! -f ${INSTALL_DOCKER_BIN} ] || [ "${MODE}" = PKG ]; then
     tar -czf ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz -C ${DOWNLOADS_ROOT%/*} ${DOWNLOADS_BASENAME}
     info "离线安装 - 第1步：上传离线安装包 ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz"
     info "离线安装 - 第2步：解压离线安装包 tar -zxvf ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz"
-    info "\$ cd ${DOWNLOADS_BASENAME} && cat ${DOWNLOADS_BASENAME}.sh | DOWNLOAD_SKIP=true DOCKER_ROOT=/data DOCKER_IPTABLES=true sh"
+    info "\$ cat ${DOWNLOADS_BASENAME}/install.sh | DOWNLOAD_SKIP=true DOCKER_ROOT=/data DOCKER_IPTABLES=true sh"
   fi
 else
   printf "[ ${_YELLOW_}已安装${_NC_} ] ${INSTALL_DOCKER_BIN}\n"

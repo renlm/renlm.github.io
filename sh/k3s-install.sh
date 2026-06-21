@@ -51,11 +51,11 @@ CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS=3650
 # $ tar -zxvf k3s-install.x86_64.tar.gz
 # $ tar -zxvf k3s-install.aarch64.tar.gz
 ### [ 离线安装 ] master 主节点
-# $ cd k3s-install && cat k3s-install.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - server --disable=traefik --tls-san k3s-master.local --cluster-init
+# $ cat k3s-install/install.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - server --disable=traefik --tls-san k3s-master.local --cluster-init
 ### [ 离线安装 ] master 从节点
-# $ cd k3s-install && cat k3s-install.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - server --disable=traefik --server https://k3s-master.local:6443
+# $ cat k3s-install/install.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - server --disable=traefik --server https://k3s-master.local:6443
 ### [ 离线安装 ] agent 节点
-# $ cd k3s-install && cat k3s-install.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - agent --server https://k3s-master.local:6443
+# $ cat k3s-install/install.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - agent --server https://k3s-master.local:6443
 ########################################################################
 
 # 颜色代码
@@ -362,10 +362,10 @@ DOWNLOADS_BASENAME=$(basename $DOWNLOADS_ROOT)
 DOWNLOADER=curl
 # 下载并安装
 if $DOWNLOAD_SKIP; then
-  DOWNLOADS_ROOT=.
+  DOWNLOADS_ROOT=${DOWNLOADS_BASENAME}
 fi
 if [ ! -f ${INSTALL_K3S_BIN} ] || [ "${MODE}" = PKG ]; then
-  DOWNLOADS_FILE_SH=${DOWNLOADS_BASENAME}.sh
+  DOWNLOADS_FILE_SH=install.sh
   DOWNLOADS_FILE_HELM_BIN=helm/${INSTALL_HELM_VERSION}/helm-${INSTALL_HELM_VERSION}-linux-amd64.tar.gz
   DOWNLOADS_FILE_K3S_BIN=k3s/${DOWNLOAD_K3S_VERSION}/k3s
   DOWNLOADS_FILE_K3S_IMAGES=k3s/${DOWNLOAD_K3S_VERSION}/k3s-airgap-images-amd64.tar
@@ -402,9 +402,9 @@ if [ ! -f ${INSTALL_K3S_BIN} ] || [ "${MODE}" = PKG ]; then
     tar -czf ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz -C ${DOWNLOADS_ROOT%/*} ${DOWNLOADS_BASENAME}
     info "离线安装 - 第1步：上传离线安装包 ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz"
     info "离线安装 - 第2步：解压离线安装包 tar -zxvf ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz"
-    info "master 主节点：\$ cd ${DOWNLOADS_BASENAME} && cat ${DOWNLOADS_BASENAME}.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - server --disable=traefik --tls-san k3s-master.local --cluster-init"
-    info "master 从节点：\$ cd ${DOWNLOADS_BASENAME} && cat ${DOWNLOADS_BASENAME}.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - server --disable=traefik --server https://k3s-master.local:6443"
-    info "agent 节点：\$ cd ${DOWNLOADS_BASENAME} && cat ${DOWNLOADS_BASENAME}.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - agent --server https://k3s-master.local:6443"
+    info "master 主节点：\$ cat ${DOWNLOADS_BASENAME}/install.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - server --disable=traefik --tls-san k3s-master.local --cluster-init"
+    info "master 从节点：\$ cat ${DOWNLOADS_BASENAME}/install.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - server --disable=traefik --server https://k3s-master.local:6443"
+    info "agent 节点：\$ cat ${DOWNLOADS_BASENAME}/install.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - agent --server https://k3s-master.local:6443"
   fi
 else
   printf "[ ${_YELLOW_}已安装${_NC_} ] ${INSTALL_K3S_BIN}\n"
