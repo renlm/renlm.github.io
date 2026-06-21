@@ -63,13 +63,11 @@ download() {
   case $DOWNLOADER in
     curl)
       printf "[ ${_GREEN_}下载${_NC_} ] curl -o $1 -sfL $2\n"
-      mkdir -p ${1%/*}
       curl -o $1 -sfL $2
       status=$?
     ;;
     wget)
       printf "[ ${_GREEN_}下载${_NC_} ] wget -qO $1 $2\n"
-      mkdir -p ${1%/*}
       wget -qO $1 $2
       status=$?
     ;;
