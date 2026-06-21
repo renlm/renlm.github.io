@@ -1,7 +1,4 @@
-#!/bin/sh
-set -e
-set -o noglob
-
+#!/bin/bash
 ########################################################################
 ### 生成离线镜像包
 # $ curl -sfL https://renlm.github.io/sh/docker-save-images.sh | \
