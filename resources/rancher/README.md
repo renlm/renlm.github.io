@@ -1,7 +1,13 @@
 # Rancher
 
 ## 2.14.2
-	https://github.com/rancher/rancher/releases/download/v2.14.2/rancher-images.txt
 	$ helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
 	$ helm fetch rancher-stable/rancher --version=2.14.2
+	
+	清理无用镜像
+	k3s: v1.34.8+k3s1
+	$ wget https://github.com/rancher/rancher/releases/download/v2.14.2/rancher-images.txt
+	$ sed -i '/hardened/d' rancher-images.txt
+	$ sed -i '/rke2/d' rancher-images.txt
+	$ sed -i '/nginx/d' rancher-images.txt
 	
