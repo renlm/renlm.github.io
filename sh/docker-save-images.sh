@@ -75,7 +75,7 @@ mkdir ${OUTPUT}
 touch ${OUTPUT}/.${IMAGES_TXT}
 docker_pull() {
   if [ ! -z "$@" ]; then
-    echo "${@}" >> ${OUTPUT}/.${IMAGES_TXT}
+    echo "$@" >> ${OUTPUT}/.${IMAGES_TXT}
     if docker pull --platform ${PLATFORM} "$@" > /dev/null 2>&1; then
       echo "Image pull success: $@"
       PULLED="${PULLED} $@"
@@ -88,16 +88,16 @@ docker_pull() {
     fi
   fi
 }
-for image in "${IMAGES_ARR}"; do
-  docker_pull "$image"
+for image in $IMAGES_ARR; do
+  docker_pull $image
 done
-for txt in "${TXT_ARR}"; do
+for txt in $TXT_ARR; do
   txt_file=${txt##*/}
   echo "curl -o $txt_file -sfL $txt"
   curl -o $txt_file -sfL $txt
   while IFS= read -r i; do
-    docker_pull "$image"
-  done < "${txt_file}"
+    docker_pull $txt
+  done < $txt_file
 done
 
 echo "Creating ${OUTPUT}.tar.gz with $(echo ${PULLED} | wc -w | tr -d '[:space:]') images"
