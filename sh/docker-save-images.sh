@@ -4,7 +4,7 @@ set -o noglob
 ########################################################################
 ### 生成离线镜像包
 # $ curl -sfL https://renlm.github.io/sh/docker-save-images.sh | \
-#     sh -s - \
+#     PLATFORM=linux/amd64 sh -s - \
 #     --txt https://renlm.github.io/resources/cert-manager/v1.20.2/images.txt \
 #     --txt https://github.com/rancher/rancher/releases/download/v2.14.2/rancher-images.txt \
 #     --images registry:3.1.1 \
@@ -17,6 +17,15 @@ IMAGES_ARR=""
 TXT_ARR=""
 PULLED=""
 help=false
+# linux/amd64
+# linux/arm64
+PLATFORM=${PLATFORM}
+if [ "$PLATFORM" = "linux/amd64" ] || [ "$PLATFORM" = "linux/arm64" ]; then
+  echo "PLATFORM: $PLATFORM"
+else
+  echo "Unknown PLATFORM: $PLATFORM, linux/amd64 or linux/arm64"
+  exit 1
+fi
 
 usage () {
   echo "USAGE: $0 [--txt rancher-images.txt] [--images registry:3.1.1] [--output rancher-images.tar.gz]"
@@ -55,7 +64,7 @@ while [ $# -gt 0 ]; do
   esac
 done
 
-if [[ $help ]]; then
+if [ $help ]; then
   usage
   exit 0
 fi
@@ -67,7 +76,7 @@ touch ${OUTPUT}/.${IMAGES_TXT}
 docker_pull() {
   if [ ! -z "$@" ]; then
     echo "${i}" >> ${OUTPUT}/.${IMAGES_TXT}
-    if docker pull "$@" > /dev/null 2>&1; then
+    if docker pull --platform ${PLATFORM} "$@" > /dev/null 2>&1; then
       echo "Image pull success: $@"
       PULLED="${PULLED} $@"
     else
