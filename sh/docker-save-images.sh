@@ -88,10 +88,10 @@ docker_pull() {
     fi
   fi
 }
-for image in "${IMAGES_ARR[@]}"; do
+for image in "${IMAGES_ARR}"; do
   docker_pull $image
 done
-for txt in "${TXT_ARR[@]}"; do
+for txt in "${TXT_ARR}"; do
   txt_file=${txt##*/}
   echo "curl -o $txt_file -sfL $txt"
   curl -o $txt_file -sfL $txt
