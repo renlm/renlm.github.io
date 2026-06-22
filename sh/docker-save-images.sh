@@ -4,7 +4,7 @@ set -o noglob
 ########################################################################
 ### 生成离线镜像包
 # $ curl -sfL https://renlm.github.io/sh/docker-save-images.sh | \
-#     PLATFORM=linux/amd64 sh -s - \
+#     sh -s - \
 #     --txt https://renlm.github.io/resources/cert-manager/v1.20.2/cert-manager-images.txt \
 #     --txt https://renlm.github.io/resources/rancher/v2.14.2/rancher-images.txt \
 #     --images registry:3.1.1 \
@@ -12,15 +12,13 @@ set -o noglob
 #     --images moby/buildkit:buildx-stable-1 \
 #     --output rancher-images-v2.14.2
 ########################################################################
+PLATFORM=${PLATFORM:-"linux/amd64,linux/arm64"}
 IMAGES_TXT=images.txt
 OUTPUT=docker-save-images
 IMAGES_ARR=""
 TXT_ARR=""
 PULLED=""
 help=false
-# linux/amd64
-# linux/arm64
-PLATFORM=${PLATFORM}
 
 # 颜色代码
 _RED_='\033[0;31m'    # 红色
@@ -44,10 +42,12 @@ fatal()
 }
 
 # 参数校验
-if [ "$PLATFORM" = "linux/amd64" ] || [ "$PLATFORM" = "linux/arm64" ]; then
+PLATFORM_NUM=$(echo ${PLATFORM} | tr -cd ',' | wc -c)
+PLATFORM_NUM=$((PLATFORM_NUM+1))
+if [ "$PLATFORM" = "linux/amd64" ] || [ "$PLATFORM" = "linux/arm64" ] || [ "$PLATFORM" = "linux/amd64,linux/arm64" ] || [ "$PLATFORM" = "linux/arm64,linux/amd64" ]; then
   info "PLATFORM: $PLATFORM"
 else
-  fatal "Unknown PLATFORM: $PLATFORM, linux/amd64 or linux/arm64"
+  fatal "Unknown PLATFORM: $PLATFORM, linux/amd64 or linux/arm64 or linux/amd64,linux/arm64"
   exit 1
 fi
 
@@ -130,7 +130,10 @@ fi
 
 # 下载镜像
 DOWNLOADER=curl
-DOWNLOADS_ROOT="/opt/${OUTPUT}-${PLATFORM##*/}"
+DOWNLOADS_ROOT=/opt/${OUTPUT}
+if [ $PLATFORM_NUM -eq 1 ]; then
+  DOWNLOADS_ROOT="/opt/${OUTPUT}-${PLATFORM##*/}"
+fi
 DOWNLOADS_BASENAME=$(basename $DOWNLOADS_ROOT)
 rm -fr ${DOWNLOADS_ROOT}
 mkdir ${DOWNLOADS_ROOT}
