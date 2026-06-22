@@ -42,8 +42,6 @@ fatal()
 }
 
 # 参数校验
-PLATFORM_NUM=$(echo ${PLATFORM} | tr -cd ',' | wc -c)
-PLATFORM_NUM=$((PLATFORM_NUM+1))
 if [ "$PLATFORM" = "linux/amd64" ] || [ "$PLATFORM" = "linux/arm64" ] || [ "$PLATFORM" = "linux/amd64,linux/arm64" ] || [ "$PLATFORM" = "linux/arm64,linux/amd64" ]; then
   info "PLATFORM: $PLATFORM"
 else
@@ -131,6 +129,7 @@ fi
 # 下载镜像
 DOWNLOADER=curl
 DOWNLOADS_ROOT=/opt/${OUTPUT}
+PLATFORM_NUM=$(( $(echo ${PLATFORM} | tr -cd ',' | wc -c) + 1 ))
 if [ $PLATFORM_NUM -eq 1 ]; then
   DOWNLOADS_ROOT="/opt/${OUTPUT}-${PLATFORM##*/}"
 fi
