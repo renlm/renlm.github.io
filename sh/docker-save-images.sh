@@ -144,20 +144,29 @@ docker_pull() {
     for i in $(seq 1 $PLATFORM_NUM); do
       PLATFORM_ITEM=$(echo "$PLATFORM" | cut -d ',' -f $i)
       if [ $PLATFORM_NUM -gt 1 ]; then
-        targetImage="${pullImage}-${PLATFORM_ITEM##*/}"
+        targetImage="${targetImage}-${PLATFORM_ITEM##*/}"
       fi
       echo "${pullImage}=${PLATFORM_ITEM}@${targetImage}" >> ${DOWNLOADS_ROOT}/${IMAGES_TXT}
-      if docker pull --platform ${PLATFORM_ITEM} "${pullImage}" > /dev/null 2>&1; then
+      targetBasename=$(basename $targetImage)
+      targetBasename=$(echo ${targetBasename} | sed "s/:/-/g")
+      if docker pull --platform ${PLATFORM_ITEM} ${pullImage} > /dev/null 2>&1; then
         info "Image pull success: ${pullImage}"
         if [ $PLATFORM_NUM -gt 1 ]; then
           if docker tag ${pullImage} ${targetImage} > /dev/null 2>&1; then
             info "Image tag success: ${targetImage}"
             PULLED="${PULLED} ${targetImage}"
+            info "docker save -o ${DOWNLOADS_ROOT}/${targetBasename}.tar ${targetImage}"
+            docker save -o ${DOWNLOADS_ROOT}/${targetBasename}.tar ${targetImage}
+            docker rmi ${targetBasename} --force 2>/dev/null || true
+            docker rmi ${pullImage} --force 2>/dev/null || true
           else
             fatal "Image tag failed: ${targetImage}"
           fi
         else
           PULLED="${PULLED} ${pullImage}"
+          info "docker save -o ${DOWNLOADS_ROOT}/${targetBasename}.tar ${targetImage}"
+          docker save -o ${DOWNLOADS_ROOT}/${targetBasename}.tar ${targetImage}
+          docker rmi ${targetBasename} --force 2>/dev/null || true
         fi
       else
         fatal "Image pull failed: ${pullImage}"
@@ -179,5 +188,4 @@ done
 
 IMAGES_NUM=$(echo ${PULLED} | wc -w | tr -d '[:space:]')
 info "Creating ${DOWNLOADS_BASENAME}.tar.gz with $IMAGES_NUM images"
-docker save -o ${DOWNLOADS_ROOT}/${DOWNLOADS_BASENAME}.tar $PULLED
 tar -czf ${DOWNLOADS_BASENAME}.tar.gz -C ${DOWNLOADS_ROOT%/*} ${DOWNLOADS_BASENAME}
