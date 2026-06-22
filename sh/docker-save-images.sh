@@ -137,7 +137,7 @@ fi
 DOWNLOADS_BASENAME=$(basename $DOWNLOADS_ROOT)
 rm -fr ${DOWNLOADS_ROOT}
 mkdir ${DOWNLOADS_ROOT}
-touch ${DOWNLOADS_ROOT}/${IMAGES_TXT}
+echo "@PLATFORM=${PLATFORM}" > ${DOWNLOADS_ROOT}/${IMAGES_TXT}
 docker_pull() {
   if [ ! -z "$@" ]; then
     echo "$@" >> ${DOWNLOADS_ROOT}/${IMAGES_TXT}
