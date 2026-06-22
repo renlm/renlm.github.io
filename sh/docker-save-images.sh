@@ -138,18 +138,31 @@ rm -fr ${DOWNLOADS_ROOT}
 mkdir ${DOWNLOADS_ROOT}
 echo "@PLATFORM=${PLATFORM}" > ${DOWNLOADS_ROOT}/${IMAGES_TXT}
 docker_pull() {
-  if [ ! -z "$@" ]; then
-    echo "$@" >> ${DOWNLOADS_ROOT}/${IMAGES_TXT}
-    if docker pull --platform ${PLATFORM} "$@" > /dev/null 2>&1; then
-      info "Image pull success: $@"
-      PULLED="${PULLED} $@"
-    else
-      if docker inspect "$@" > /dev/null 2>&1; then
-        PULLED="${PULLED} $@"
-      else
-        fatal "Image pull failed: $@"
+  pullImage="$@"
+  targetImage="${pullImage}"
+  if [ ! -z "${pullImage}" ]; then
+    for i in $(seq 1 $PLATFORM_NUM); do
+      PLATFORM_ITEM=$(echo "$PLATFORM" | cut -d ',' -f $i)
+      if [ $PLATFORM_NUM -gt 1 ]; then
+        targetImage="${pullImage}-${PLATFORM_ITEM##*/}"
       fi
-    fi
+      echo "${pullImage}=${PLATFORM_ITEM}@${targetImage}" >> ${DOWNLOADS_ROOT}/${IMAGES_TXT}
+      if docker pull --platform ${PLATFORM_ITEM} "${pullImage}" > /dev/null 2>&1; then
+        info "Image pull success: ${pullImage}"
+        if [ $PLATFORM_NUM -gt 1 ]; then
+          if docker tag ${pullImage} ${targetImage} > /dev/null 2>&1; then
+            info "Image tag success: ${targetImage}"
+            PULLED="${PULLED} ${targetImage}"
+          else
+            fatal "Image tag failed: ${targetImage}"
+          fi
+        else
+          PULLED="${PULLED} ${pullImage}"
+        fi
+      else
+        fatal "Image pull failed: ${pullImage}"
+      fi
+    done
   fi
 }
 for image in $IMAGES_ARR; do
