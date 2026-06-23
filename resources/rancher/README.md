@@ -21,6 +21,7 @@
         && sed -i '/rancher\/gke/d' rancher-images.txt \
         && sed -i '/rancher\/scc/d' rancher-images.txt \
         && sed -i '/rancher\/appco/d' rancher-images.txt \
+        && sed -i '/rancher\/mirrored-idealista-prom2teams/d' rancher-images.txt \
         && sed -i '/rancher\/supportability-review/d' rancher-images.txt \
         && sed -i '/rancher\/mirrored-calico/d' rancher-images.txt \
         && sed -i '/prometheus/d' rancher-images.txt \
