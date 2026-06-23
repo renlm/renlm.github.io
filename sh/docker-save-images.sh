@@ -3,9 +3,9 @@ set -e
 set -o noglob
 ########################################################################
 ### 生成离线镜像包
-# $ curl -sfL https://renlm.github.io/sh/docker-save-images.sh | sh -s - -i registry:3.1.1 -o registry-3.1.1.tar
-# $ curl -sfL https://renlm.github.io/sh/docker-save-images.sh | sh -s - -i nginx:1.31.2-alpine -o nginx-1.31.2-alpine.tar
-# $ curl -sfL https://renlm.github.io/sh/docker-save-images.sh | sh -s - -i moby/buildkit:buildx-stable-1 -o tools.tar
+# $ curl -sfL https://renlm.github.io/sh/docker-save-images.sh | sh -s - -i registry:3.1.1 -o registry-3.1.1
+# $ curl -sfL https://renlm.github.io/sh/docker-save-images.sh | sh -s - -i nginx:1.31.2-alpine -o nginx-1.31.2-alpine
+# $ curl -sfL https://renlm.github.io/sh/docker-save-images.sh | sh -s - -i moby/buildkit:buildx-stable-1 -o tools
 # $ curl -sfL https://renlm.github.io/sh/docker-save-images.sh | \
 #     sh -s - \
 #     --txt https://renlm.github.io/resources/cert-manager/v1.20.2/cert-manager-images.txt \
