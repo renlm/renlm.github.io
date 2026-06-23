@@ -374,9 +374,8 @@ fi
   while IFS= read -r line; do
     TXT_LINE=$((TXT_LINE+1))
     if [ $TXT_LINE -gt 1 ]; then
-      line_val=$(echo $line | cut -d "=" -f2-)
-      line_tar=$(echo $line_val | cut -d "@" -f2)
-      printf "docker load -i ${DOWNLOADS_ROOT}/docker/images/tools-${ARCH_ALIAS}/$line_tar\n"
+      line_val=$(echo "$line" | cut -d "=" -f2)
+      line_tar=$(echo "$line_val" | cut -d "@" -f2)
       docker load -i ${DOWNLOADS_ROOT}/docker/images/tools-${ARCH_ALIAS}/$line_tar
     fi
   done < ${DOWNLOADS_ROOT}/docker/images/tools-${ARCH_ALIAS}/tools-${ARCH_ALIAS}.txt
