@@ -157,7 +157,7 @@ docker_pull() {
             PULLED="${PULLED} ${targetImage}"
             info "docker save -o ${DOWNLOADS_ROOT}/${targetBasename}.tar ${targetImage}"
             docker save -o ${DOWNLOADS_ROOT}/${targetBasename}.tar ${targetImage}
-            docker rmi ${targetBasename} --force 2>/dev/null || true
+            docker rmi ${targetImage} --force 2>/dev/null || true
             docker rmi ${pullImage} --force 2>/dev/null || true
           else
             fatal "Image tag failed: ${targetImage}"
@@ -166,7 +166,7 @@ docker_pull() {
           PULLED="${PULLED} ${pullImage}"
           info "docker save -o ${DOWNLOADS_ROOT}/${targetBasename}.tar ${targetImage}"
           docker save -o ${DOWNLOADS_ROOT}/${targetBasename}.tar ${targetImage}
-          docker rmi ${targetBasename} --force 2>/dev/null || true
+          docker rmi ${targetImage} --force 2>/dev/null || true
         fi
       else
         fatal "Image pull failed: ${pullImage}"
