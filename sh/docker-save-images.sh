@@ -134,7 +134,9 @@ fi
 mkdir -p ${DOWNLOADS_ROOT}
 DOWNLOADS_BASENAME=$(basename $DOWNLOADS_ROOT)
 IMAGES_TXT=${DOWNLOADS_BASENAME}.txt
-echo "@PLATFORM=${PLATFORM}" > ${DOWNLOADS_ROOT}/${IMAGES_TXT}
+if [ ! -f ${DOWNLOADS_ROOT}/${IMAGES_TXT} ]; then
+  echo "@PLATFORM=${PLATFORM}" > ${DOWNLOADS_ROOT}/${IMAGES_TXT}
+fi
 docker_pull() {
   pullImage="$@"
   if [ ! -z "${pullImage}" ]; then
