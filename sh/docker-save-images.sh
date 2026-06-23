@@ -131,7 +131,7 @@ PLATFORM_NUM=$(( $(echo ${PLATFORM} | tr -cd ',' | wc -c) + 1 ))
 if [ $PLATFORM_NUM -eq 1 ]; then
   DOWNLOADS_ROOT="/opt/${OUTPUT}-${PLATFORM##*/}"
 fi
-mkdir ${DOWNLOADS_ROOT}
+mkdir -p ${DOWNLOADS_ROOT}
 DOWNLOADS_BASENAME=$(basename $DOWNLOADS_ROOT)
 IMAGES_TXT=${DOWNLOADS_BASENAME}.txt
 echo "@PLATFORM=${PLATFORM}" > ${DOWNLOADS_ROOT}/${IMAGES_TXT}
