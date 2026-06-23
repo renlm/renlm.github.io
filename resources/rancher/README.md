@@ -18,6 +18,8 @@
         && sed -i '/mirrored-cloud-provider-vsphere/d' rancher-images.txt \
         && sed -i '/rancher\/mirrored-calico/d' rancher-images.txt \
         && sed -i '/prometheus/d' rancher-images.txt \
+        && sed -i '/grafana/d' rancher-images.txt \
+        && sed -i '/elemental/d' rancher-images.txt \
         && sed -i '/nginx/d' rancher-images.txt \
         && sed -i '/-k3s/{/v1.34.8-k3s1/!d}' rancher-images.txt
         
