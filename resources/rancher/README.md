@@ -21,6 +21,10 @@
         && sed -i '/rancher\/gke/d' rancher-images.txt \
         && sed -i '/rancher\/scc/d' rancher-images.txt \
         && sed -i '/rancher\/appco/d' rancher-images.txt \
+        && sed -i '/rancher\/mirrored-bci/d' rancher-images.txt \
+        && sed -i '/rancher\/mirrored-messagebird-sachet/d' rancher-images.txt \
+        && sed -i '/rancher\/compliance-operator/d' rancher-images.txt \
+        && sed -i '/rancher\/mirrored-sonobuoy-sonobuoy/d' rancher-images.txt \
         && sed -i '/rancher\/mirrored-idealista-prom2teams/d' rancher-images.txt \
         && sed -i '/rancher\/mirrored-jimmidyson-configmap-reload/d' rancher-images.txt \
         && sed -i '/rancher\/mirrored-jkroepke-kube-webhook-certgen/d' rancher-images.txt \
