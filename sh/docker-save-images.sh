@@ -141,9 +141,9 @@ IMAGES_TXT=${DOWNLOADS_BASENAME}.txt
 echo "@PLATFORM=${PLATFORM}" > ${DOWNLOADS_ROOT}/${IMAGES_TXT}
 docker_pull() {
   pullImage="$@"
-  targetImage="${pullImage}"
   if [ ! -z "${pullImage}" ]; then
     for i in $(seq 1 $PLATFORM_NUM); do
+      targetImage="${pullImage}"
       PLATFORM_ITEM=$(echo "$PLATFORM" | cut -d ',' -f $i)
       if [ $PLATFORM_NUM -gt 1 ]; then
         targetImage="${targetImage}-${PLATFORM_ITEM##*/}"
