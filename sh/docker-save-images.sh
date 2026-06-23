@@ -136,8 +136,8 @@ if [ $PLATFORM_NUM -eq 1 ]; then
 fi
 rm -fr ${DOWNLOADS_ROOT}
 mkdir ${DOWNLOADS_ROOT}
-IMAGES_TXT=${OUTPUT}.txt
 DOWNLOADS_BASENAME=$(basename $DOWNLOADS_ROOT)
+IMAGES_TXT=${DOWNLOADS_BASENAME}.txt
 echo "@PLATFORM=${PLATFORM}" > ${DOWNLOADS_ROOT}/${IMAGES_TXT}
 docker_pull() {
   pullImage="$@"
