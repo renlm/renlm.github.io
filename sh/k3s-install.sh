@@ -14,7 +14,7 @@ INSTALL_SH=${INSTALL_SH:-"https://renlm.github.io/sh/k3s-install.sh"}
 INSTALL_K3S_VERSION=${INSTALL_K3S_VERSION:-"v1.34.8+k3s1"}
 INSTALL_HELM_VERSION=${INSTALL_HELM_VERSION:-"v4.0.5"}
 DOWNLOAD_K3S_VERSION=$(echo ${INSTALL_K3S_VERSION} | sed "s/+/-/g")
-DOWNLOADER_URL=${DOWNLOADER_URL:-"https://obs.renlm.cn"}
+DOWNLOADER_URL=${DOWNLOADER_URL:-"https://oss.renlm.cn"}
 DOWNLOAD_SKIP=${DOWNLOAD_SKIP:-false}
 # 执行模式
 # INSTALL: 安装
