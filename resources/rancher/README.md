@@ -27,5 +27,6 @@
         && sed -i '/grafana/d' rancher-images.txt \
         && sed -i '/elemental/d' rancher-images.txt \
         && sed -i '/nginx/d' rancher-images.txt \
+        && sed -i '/upgrade/d' rancher-images.txt \
         && sed -i '/-k3s/{/v1.34.8-k3s1/!d}' rancher-images.txt
         
