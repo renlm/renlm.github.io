@@ -28,9 +28,9 @@ ARCH=${ARCH:-"auto"}
 # K3S内部CA证书的最大有效期上限，最大值被限制为3650天（10年）
 CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS=3650
 ### [ 一键安装 ] master 主节点
-# $ curl -sfL https://renlm.github.io/sh/k3s-install.sh | K3S_TOKEN=istio sh -s - server --disable=traefik --tls-san k3s-master.local --cluster-init
+# $ curl -sfL https://renlm.github.io/sh/k3s-install.sh | K3S_TOKEN=istio sh -s - server --tls-san k3s-master.local --cluster-init
 ### [ 一键安装 ] master 从节点
-# $ curl -sfL https://renlm.github.io/sh/k3s-install.sh | K3S_TOKEN=istio sh -s - server --disable=traefik --server https://k3s-master.local:6443
+# $ curl -sfL https://renlm.github.io/sh/k3s-install.sh | K3S_TOKEN=istio sh -s - server --server https://k3s-master.local:6443
 ### [ 一键安装 ] agent 节点
 # $ curl -sfL https://renlm.github.io/sh/k3s-install.sh | K3S_TOKEN=istio sh -s - agent --server https://k3s-master.local:6443
 ### 重载命令行别名
@@ -51,9 +51,9 @@ CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS=3650
 # $ tar -zxvf k3s-install.x86_64.tar.gz
 # $ tar -zxvf k3s-install.aarch64.tar.gz
 ### [ 离线安装 ] master 主节点
-# $ cat k3s-install/install.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - server --disable=traefik --tls-san k3s-master.local --cluster-init
+# $ cat k3s-install/install.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - server --tls-san k3s-master.local --cluster-init
 ### [ 离线安装 ] master 从节点
-# $ cat k3s-install/install.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - server --disable=traefik --server https://k3s-master.local:6443
+# $ cat k3s-install/install.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - server --server https://k3s-master.local:6443
 ### [ 离线安装 ] agent 节点
 # $ cat k3s-install/install.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - agent --server https://k3s-master.local:6443
 ########################################################################
@@ -402,8 +402,8 @@ if [ ! -f ${INSTALL_K3S_BIN} ] || [ "${MODE}" = PKG ]; then
     tar -czf ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz -C ${DOWNLOADS_ROOT%/*} ${DOWNLOADS_BASENAME}
     info "离线安装 - 第1步：上传离线安装包 ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz"
     info "离线安装 - 第2步：解压离线安装包 tar -zxvf ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz"
-    info "master 主节点：\$ cat ${DOWNLOADS_BASENAME}/install.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - server --disable=traefik --tls-san k3s-master.local --cluster-init"
-    info "master 从节点：\$ cat ${DOWNLOADS_BASENAME}/install.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - server --disable=traefik --server https://k3s-master.local:6443"
+    info "master 主节点：\$ cat ${DOWNLOADS_BASENAME}/install.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - server --tls-san k3s-master.local --cluster-init"
+    info "master 从节点：\$ cat ${DOWNLOADS_BASENAME}/install.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - server --server https://k3s-master.local:6443"
     info "agent 节点：\$ cat ${DOWNLOADS_BASENAME}/install.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - agent --server https://k3s-master.local:6443"
   fi
 else
