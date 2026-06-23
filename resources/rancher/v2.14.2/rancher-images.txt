@@ -1,10 +1,8 @@
 rancher/backup-restore-operator:v10.0.4
 rancher/cluster-api-controller:v1.12.7
 rancher/compliance-operator:v1.4.3
-rancher/eks-operator:v1.14.2
 rancher/fleet-agent:v0.15.2
 rancher/fleet:v0.15.2
-rancher/gke-operator:v1.14.2
 rancher/helm-controller:v0.16.10
 rancher/klipper-helm:v0.9.10-build20251111
 rancher/klipper-helm:v0.9.12-build20251215
@@ -39,9 +37,6 @@ rancher/mirrored-coredns-coredns:1.14.1
 rancher/mirrored-coredns-coredns:1.14.2
 rancher/mirrored-fluent-fluent-bit:3.1.8
 rancher/mirrored-fluent-fluent-bit:3.1.8-debug
-rancher/mirrored-idealista-prom2teams:4.2.1
-rancher/mirrored-jimmidyson-configmap-reload:v0.13.1
-rancher/mirrored-jkroepke-kube-webhook-certgen:1.7.4
 rancher/mirrored-kube-logging-config-reloader:v0.0.6
 rancher/mirrored-kube-logging-fluentd:v1.16-4.10-full
 rancher/mirrored-kube-logging-logging-operator:4.10.0
@@ -68,14 +63,8 @@ rancher/rancher-csp-adapter:v9.0.0
 rancher/rancher-webhook:v0.10.6
 rancher/rancher:v2.14.2
 rancher/remotedialer-proxy:v0.7.3
-rancher/scc-operator:v0.4.1
 rancher/security-scan:v0.9.2
 rancher/shell:v0.7.0
-rancher/supportability-review-app-frontend:v0.19.0
-rancher/supportability-review-internal:latest
-rancher/supportability-review-operator:v0.19.0
-rancher/supportability-review:latest
 rancher/system-agent:v0.3.16-suc
-rancher/system-upgrade-controller:v0.19.1
 rancher/turtles:v0.26.2
 rancher/ui-plugin-catalog:4.23.0
