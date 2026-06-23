@@ -135,7 +135,7 @@ rm -fr ${DOWNLOADS_ROOT}
 mkdir ${DOWNLOADS_ROOT}
 DOWNLOADS_BASENAME=$(basename $DOWNLOADS_ROOT)
 IMAGES_TXT=${DOWNLOADS_BASENAME}.txt
-echo "@PLATFORM=${PLATFORM}" > ${DOWNLOADS_ROOT}/${IMAGES_TXT}
+echo "@@@PLATFORM=${PLATFORM}" > ${DOWNLOADS_ROOT}/${IMAGES_TXT}
 docker_pull() {
   pullImage="$@"
   if [ ! -z "${pullImage}" ]; then
@@ -145,9 +145,9 @@ docker_pull() {
       if [ $PLATFORM_NUM -gt 1 ]; then
         targetImage="${targetImage}-${PLATFORM_ITEM##*/}"
       fi
-      echo "${pullImage}=${PLATFORM_ITEM}@${targetImage}" >> ${DOWNLOADS_ROOT}/${IMAGES_TXT}
       targetBasename=$(basename $targetImage)
       targetBasename=$(echo ${targetBasename} | sed "s/:/-/g")
+      echo "${pullImage}=${PLATFORM_ITEM}@@@${targetBasename}.tar@@@${targetImage}" >> ${DOWNLOADS_ROOT}/${IMAGES_TXT}
       if docker pull --platform ${PLATFORM_ITEM} ${pullImage} > /dev/null 2>&1; then
         info "Image pull success: ${pullImage}"
         if [ $PLATFORM_NUM -gt 1 ]; then
