@@ -33,6 +33,7 @@
         && sed -i '/rancher\/mirrored-jkroepke-kube-webhook-certgen/d' rancher-images.txt \
         && sed -i '/rancher\/supportability-review/d' rancher-images.txt \
         && sed -i '/rancher\/mirrored-calico/d' rancher-images.txt \
+        && sed -i '/rancher\/rancher-csp-adapter/d' rancher-images.txt \
         && sed -i '/prometheus/d' rancher-images.txt \
         && sed -i '/grafana/d' rancher-images.txt \
         && sed -i '/elemental/d' rancher-images.txt \
