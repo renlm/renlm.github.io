@@ -370,6 +370,7 @@ fi
   printf "[ ${_GREEN_}启动服务${_NC_} ] containerd\n"
   printf "[ ${_GREEN_}启动服务${_NC_} ] docker.socket\n"
   printf "[ ${_GREEN_}启动服务${_NC_} ] docker\n"
+  tar -zxf ${DOWNLOADS_ROOT}/${TOOLS_IMAGES_TAR}
 }
 }
 
@@ -396,6 +397,7 @@ if [ ! -f ${INSTALL_DOCKER_BIN} ] || [ "${MODE}" = PKG ]; then
 	download ${DOWNLOADS_ROOT}/${DOWNLOADS_FILE_DOCKER_BIN} ${DOWNLOADER_URL}/${DOWNLOADS_FILE_DOCKER_BIN}
 	download ${DOWNLOADS_ROOT}/${DOWNLOADS_FILE_BUILDX_BIN} ${DOWNLOADER_URL}/${DOWNLOADS_FILE_BUILDX_BIN}
 	download ${DOWNLOADS_ROOT}/${DOWNLOADS_FILE_COMPOSE_BIN} ${DOWNLOADER_URL}/${DOWNLOADS_FILE_COMPOSE_BIN}
+	download ${DOWNLOADS_ROOT}/${TOOLS_IMAGES_TAR} ${DOWNLOADER_URL}/${TOOLS_IMAGES_TAR}
   }
   # 安装校验
   if [ "${MODE}" = INSTALL ]; then
