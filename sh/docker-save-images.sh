@@ -147,7 +147,12 @@ docker_pull() {
       fi
       targetBasename=$(basename $targetImage)
       targetBasename=$(echo ${targetBasename} | sed "s/:/-/g")
-      echo "${pullImage}=${PLATFORM_ITEM}@${targetBasename}.tar@${targetImage}" >> ${DOWNLOADS_ROOT}/${IMAGES_TXT}
+      IMAGES_TXT_LINE="${pullImage}=${PLATFORM_ITEM}@${targetBasename}.tar@${targetImage}"
+      IMAGES_TXT_LINE_NUM=$(cat ${DOWNLOADS_ROOT}/${IMAGES_TXT} | grep "${IMAGES_TXT_LINE}" | wc -l || true)
+      if [ $IMAGES_TXT_LINE_NUM -eq 1 ]; then
+        info "Image saved: ${targetImage}"
+        continue
+      fi
       if docker pull --platform ${PLATFORM_ITEM} ${pullImage} > /dev/null 2>&1; then
         if [ $PLATFORM_NUM -gt 1 ]; then
           if docker tag ${pullImage} ${targetImage} > /dev/null 2>&1; then
@@ -156,6 +161,7 @@ docker_pull() {
             docker save --platform ${PLATFORM_ITEM} -o ${DOWNLOADS_ROOT}/${targetBasename}.tar ${targetImage}
             docker rmi ${targetImage} --force > /dev/null 2>&1 || true
             docker rmi ${pullImage} --force > /dev/null 2>&1 || true
+            echo "${IMAGES_TXT_LINE}" >> ${DOWNLOADS_ROOT}/${IMAGES_TXT}
           else
             fatal "Image tag failed: ${targetImage}"
           fi
@@ -164,6 +170,7 @@ docker_pull() {
           info "Image save: ${targetImage}"
           docker save --platform ${PLATFORM_ITEM} -o ${DOWNLOADS_ROOT}/${targetBasename}.tar ${targetImage}
           docker rmi ${targetImage} --force > /dev/null 2>&1 || true
+          echo "${IMAGES_TXT_LINE}" >> ${DOWNLOADS_ROOT}/${IMAGES_TXT}
         fi
       else
         fatal "Image pull failed: ${pullImage}"
