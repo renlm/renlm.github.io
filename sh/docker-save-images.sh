@@ -152,7 +152,7 @@ docker_pull() {
         if [ $PLATFORM_NUM -gt 1 ]; then
           if docker tag ${pullImage} ${targetImage} > /dev/null 2>&1; then
             PULLED="${PULLED} ${targetImage}"
-            info "Image saved success: ${targetImage}"
+            info "Image save: ${targetImage}"
             docker save --platform ${PLATFORM_ITEM} -o ${DOWNLOADS_ROOT}/${targetBasename}.tar ${targetImage}
             docker rmi ${targetImage} --force > /dev/null 2>&1 || true
             docker rmi ${pullImage} --force > /dev/null 2>&1 || true
@@ -161,7 +161,7 @@ docker_pull() {
           fi
         else
           PULLED="${PULLED} ${pullImage}"
-          info "Image saved success: ${targetImage}"
+          info "Image save: ${targetImage}"
           docker save --platform ${PLATFORM_ITEM} -o ${DOWNLOADS_ROOT}/${targetBasename}.tar ${targetImage}
           docker rmi ${targetImage} --force > /dev/null 2>&1 || true
         fi
