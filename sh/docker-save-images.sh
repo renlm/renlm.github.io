@@ -154,8 +154,8 @@ docker_pull() {
           if docker tag ${pullImage} ${targetImage} > /dev/null 2>&1; then
             info "Image tag success: ${targetImage}"
             PULLED="${PULLED} ${targetImage}"
-            info "docker save -o ${DOWNLOADS_ROOT}/${targetBasename}.tar ${targetImage}"
-            docker save -o ${DOWNLOADS_ROOT}/${targetBasename}.tar ${targetImage}
+            info "docker save --platform ${PLATFORM_ITEM} -o ${DOWNLOADS_ROOT}/${targetBasename}.tar ${targetImage}"
+            docker save --platform ${PLATFORM_ITEM} -o ${DOWNLOADS_ROOT}/${targetBasename}.tar ${targetImage}
             docker rmi ${targetImage} --force > /dev/null 2>&1 || true
             docker rmi ${pullImage} --force > /dev/null 2>&1 || true
           else
@@ -163,8 +163,8 @@ docker_pull() {
           fi
         else
           PULLED="${PULLED} ${pullImage}"
-          info "docker save -o ${DOWNLOADS_ROOT}/${targetBasename}.tar ${targetImage}"
-          docker save -o ${DOWNLOADS_ROOT}/${targetBasename}.tar ${targetImage}
+          info "docker save --platform ${PLATFORM_ITEM} -o ${DOWNLOADS_ROOT}/${targetBasename}.tar ${targetImage}"
+          docker save --platform ${PLATFORM_ITEM} -o ${DOWNLOADS_ROOT}/${targetBasename}.tar ${targetImage}
           docker rmi ${targetImage} --force > /dev/null 2>&1 || true
         fi
       else
