@@ -3,9 +3,11 @@ set -e
 set -o noglob
 ########################################################################
 ### 生成离线镜像包
-# $ curl -sfL https://renlm.github.io/sh/docker-save-images.sh | sh -s - -i registry:3.1.1 -o registry-3.1.1
-# $ curl -sfL https://renlm.github.io/sh/docker-save-images.sh | sh -s - -i nginx:1.31.2-alpine -o nginx-1.31.2-alpine
 # $ curl -sfL https://renlm.github.io/sh/docker-save-images.sh | sh -s - -i moby/buildkit:buildx-stable-1 -o tools
+# $ curl -sfL https://renlm.github.io/sh/docker-save-images.sh | PLATFORM=linux/amd64 sh -s - -i registry:3.1.1 -o registry-3.1.1
+# $ curl -sfL https://renlm.github.io/sh/docker-save-images.sh | PLATFORM=linux/arm64 sh -s - -i registry:3.1.1 -o registry-3.1.1
+# $ curl -sfL https://renlm.github.io/sh/docker-save-images.sh | PLATFORM=linux/amd64 sh -s - -i nginx:1.31.2-alpine -o nginx-1.31.2-alpine
+# $ curl -sfL https://renlm.github.io/sh/docker-save-images.sh | PLATFORM=linux/arm64 sh -s - -i nginx:1.31.2-alpine -o nginx-1.31.2-alpine
 # $ curl -sfL https://renlm.github.io/sh/docker-save-images.sh | \
 #     sh -s - \
 #     --txt https://renlm.github.io/resources/cert-manager/v1.20.2/cert-manager-images.txt \
@@ -17,7 +19,6 @@ OUTPUT=docker-save-images
 IMAGES_ARR=""
 TXT_ARR=""
 PULLED=""
-help=false
 
 # 颜色代码
 _RED_='\033[0;31m'    # 红色
@@ -83,6 +84,7 @@ download() {
   [ $status -eq 0 ] || fatal 'Download failed'
 }
 
+help=false
 usage () {
   info "USAGE: $0 [--txt rancher-images.txt] [--images registry:3.1.1] [--output rancher-images.tar]"
   info "  [-t|--txt url] txt file with list of images; one image per line."
@@ -132,10 +134,10 @@ PLATFORM_NUM=$(( $(echo ${PLATFORM} | tr -cd ',' | wc -c) + 1 ))
 if [ $PLATFORM_NUM -eq 1 ]; then
   DOWNLOADS_ROOT="/opt/${OUTPUT}-${PLATFORM##*/}"
 fi
-DOWNLOADS_BASENAME=$(basename $DOWNLOADS_ROOT)
 rm -fr ${DOWNLOADS_ROOT}
 mkdir ${DOWNLOADS_ROOT}
 IMAGES_TXT=${OUTPUT}.txt
+DOWNLOADS_BASENAME=$(basename $DOWNLOADS_ROOT)
 echo "@PLATFORM=${PLATFORM}" > ${DOWNLOADS_ROOT}/${IMAGES_TXT}
 docker_pull() {
   pullImage="$@"
