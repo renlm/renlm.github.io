@@ -19,5 +19,5 @@
         && sed -i '/rancher\/mirrored-calico/d' rancher-images.txt \
         && sed -i '/prometheus/d' rancher-images.txt \
         && sed -i '/nginx/d' rancher-images.txt \
-        && sed -i '/-k3s/{/v1.34.8+k3s1/!d}' rancher-images.txt
+        && sed -i '/-k3s/{/v1.34.8-k3s1/!d}' rancher-images.txt
         
