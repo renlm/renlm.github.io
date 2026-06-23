@@ -148,10 +148,10 @@ docker_pull() {
       targetBasename=$(basename $targetImage)
       targetBasename=$(echo ${targetBasename} | sed "s/:/-/g")
       echo "${pullImage}=${PLATFORM_ITEM}@@@${targetBasename}.tar@@@${targetImage}" >> ${DOWNLOADS_ROOT}/${IMAGES_TXT}
-      if docker pull --platform ${PLATFORM_ITEM} ${pullImage} 2>/dev/null; then
+      if docker pull --platform ${PLATFORM_ITEM} ${pullImage} > /dev/null 2>&1; then
         info "Image pull success: ${pullImage}"
         if [ $PLATFORM_NUM -gt 1 ]; then
-          if docker tag ${pullImage} ${targetImage} 2>/dev/null; then
+          if docker tag ${pullImage} ${targetImage} > /dev/null 2>&1; then
             info "Image tag success: ${targetImage}"
             PULLED="${PULLED} ${targetImage}"
             info "docker save -o ${DOWNLOADS_ROOT}/${targetBasename}.tar ${targetImage}"
