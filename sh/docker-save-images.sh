@@ -86,7 +86,14 @@ fi
 # ossutil
 DOWNLOADER=curl
 if ! which ossutil > /dev/null 2>&1; then
-  download /usr/local/bin/ossutil ${DOWNLOADER_URL}/ossutil/${PLATFORM##*/}/ossutil
+  if uname -m | grep -q aarch64; then
+    download /usr/local/bin/ossutil ${DOWNLOADER_URL}/ossutil/arm64/ossutil
+  else
+    download /usr/local/bin/ossutil ${DOWNLOADER_URL}/ossutil/amd64/ossutil
+  fi
+  {
+	chmod +x /usr/local/bin/ossutil
+  }
 fi
 # ossutil cp registry-3.1.1-arm64.tar.gz oss://renlm-github-io/docker/images/
 # ossutil cp registry-3.1.1-arm64.tar.gz oss://renlm-github-io/docker/images/
