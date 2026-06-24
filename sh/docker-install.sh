@@ -70,14 +70,14 @@ fatal()
 }
 
 # 参数校验
-DOCKER_REGISTRY_INNER_NO=${DOCKER_REGISTRY_INNER_NO:-true}
+NOT_INNER_SH=${NOT_INNER_SH:-true}
 if [ "$MODE" = INSTALL ] || [ "$MODE" = PKG ]; then
   if [ "$MODE" = PKG ]; then
     DOWNLOAD_SKIP=false
   fi
   {
-	$DOCKER_REGISTRY_INNER_NO || info "MODE: $MODE"
-    $DOCKER_REGISTRY_INNER_NO || info "DOWNLOAD_SKIP: $DOWNLOAD_SKIP"
+	[ "$NOT_INNER_SH" = true ] || info "MODE: $MODE"
+    [ "$NOT_INNER_SH" = true ] || info "DOWNLOAD_SKIP: $DOWNLOAD_SKIP"
   }
 else
   fatal "Unknown MODE: $MODE, INSTALL or PKG"
@@ -91,8 +91,8 @@ if [ "$ARCH" = auto ] || [ "$ARCH" = x86_64 ] || [ "$ARCH" = aarch64 ]; then
     ARCH_ALIAS=amd64
   fi
   {
-	$DOCKER_REGISTRY_INNER_NO || info "ARCH: $ARCH"
-	$DOCKER_REGISTRY_INNER_NO || info "ARCH_ALIAS: $ARCH_ALIAS"
+	[ "$NOT_INNER_SH" = true ] || info "ARCH: $ARCH"
+	[ "$NOT_INNER_SH" = true ] || info "ARCH_ALIAS: $ARCH_ALIAS"
   }
 else
   fatal "Unknown ARCH: $ARCH, auto or x86_64 or aarch64"
@@ -429,11 +429,11 @@ if [ ! -f ${INSTALL_DOCKER_BIN} ] || [ "${MODE}" = PKG ]; then
     fi
   # 生成离线包
   else
-    $DOCKER_REGISTRY_INNER_NO || info "生成离线包: tar -czf ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz -C ${DOWNLOADS_ROOT%/*} ${DOWNLOADS_BASENAME}"
+    [ "$NOT_INNER_SH" = true ] || info "生成离线包: tar -czf ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz -C ${DOWNLOADS_ROOT%/*} ${DOWNLOADS_BASENAME}"
     tar -czf ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz -C ${DOWNLOADS_ROOT%/*} ${DOWNLOADS_BASENAME}
-    $DOCKER_REGISTRY_INNER_NO || info "离线安装 - 第1步：上传离线安装包 ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz"
-    $DOCKER_REGISTRY_INNER_NO || info "离线安装 - 第2步：解压离线安装包 tar -zxvf ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz"
-    $DOCKER_REGISTRY_INNER_NO || info "\$ cat ${DOWNLOADS_BASENAME}/install.sh | DOWNLOAD_SKIP=true DOCKER_ROOT=/data DOCKER_IPTABLES=true sh"
+    [ "$NOT_INNER_SH" = true ] || info "离线安装 - 第1步：上传离线安装包 ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz"
+    [ "$NOT_INNER_SH" = true ] || info "离线安装 - 第2步：解压离线安装包 tar -zxvf ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz"
+    [ "$NOT_INNER_SH" = true ] || info "\$ cat ${DOWNLOADS_BASENAME}/install.sh | DOWNLOAD_SKIP=true DOCKER_ROOT=/data DOCKER_IPTABLES=true sh"
   fi
 else
   printf "[ ${_YELLOW_}已安装${_NC_} ] ${INSTALL_DOCKER_BIN}\n"
