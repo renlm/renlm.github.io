@@ -71,17 +71,24 @@ else
   fatal "Unknown ARCH: $ARCH, auto or x86_64 or aarch64"
 fi
 
-# 安装Docker
-if which docker > /dev/null 2>&1; then
-  printf "[ ${_YELLOW_}已安装${_NC_} ] $(which docker)\n"
+# 生成离线包
+if [ "${MODE}" = PKG ]; then
+  curl -sfL $DOCKER_INSTALL_SH | MODE=$MODE ARCH=$ARCH sh
+# 安装服务
 else
-  # 离线模式
-  if $DOWNLOAD_SKIP; then
-    cat docker-install/install.sh | DOWNLOAD_SKIP=true DOCKER_ROOT=$DOCKER_ROOT DOCKER_IPTABLES=$DOCKER_IPTABLES sh
-  # 在线模式
+  # 安装Docker
+  if which docker > /dev/null 2>&1; then
+    printf "[ ${_YELLOW_}已安装${_NC_} ] $(which docker)\n"
   else
-    curl -sfL $DOCKER_INSTALL_SH | DOCKER_ROOT=$DOCKER_ROOT DOCKER_IPTABLES=$DOCKER_IPTABLES sh
+    # 离线模式
+    if $DOWNLOAD_SKIP; then
+      cat docker-install/install.sh | DOWNLOAD_SKIP=true DOCKER_ROOT=$DOCKER_ROOT DOCKER_IPTABLES=$DOCKER_IPTABLES sh
+    # 在线模式
+    else
+      curl -sfL $DOCKER_INSTALL_SH | DOCKER_ROOT=$DOCKER_ROOT DOCKER_IPTABLES=$DOCKER_IPTABLES sh
+    fi
   fi
-fi
 
-# 启动registry
+  # 启动registry
+  
+fi
