@@ -13,6 +13,7 @@ set -o noglob
 #     --txt https://renlm.github.io/resources/rancher/v2.14.2/rancher-images.txt \
 #     --output rancher-images-v2.14.2
 ########################################################################
+DOWNLOADER_URL=${DOWNLOADER_URL:-"https://oss.renlm.cn"}
 PLATFORM=${PLATFORM:-"linux/amd64,linux/arm64"}
 OUTPUT=docker-save-images
 IMAGES_ARR=""
@@ -80,6 +81,24 @@ if [ "$PLATFORM" = "linux/amd64" ] || [ "$PLATFORM" = "linux/arm64" ] || [ "$PLA
 else
   fatal "Unknown PLATFORM: $PLATFORM, linux/amd64 or linux/arm64 or linux/amd64,linux/arm64"
   exit 1
+fi
+
+# ossutil
+if which ossutil > /dev/null 2>&1; then
+  download /usr/local/bin/ossutil ${DOWNLOADER_URL}/ossutil/${PLATFORM##*/}/ossutil
+fi
+# ossutil cp registry-3.1.1-arm64.tar.gz oss://renlm-github-io/docker/images/
+# ossutil cp registry-3.1.1-arm64.tar.gz oss://renlm-github-io/docker/images/
+# ossutil cp tools-amd64.tar.gz oss://renlm-github-io/docker/images/
+# ossutil cp tools-arm64.tar.gz oss://renlm-github-io/docker/images/
+if [ ! -f ~/.ossutilconfig ]; then
+  cat <<EOF | tee ~/.ossutilconfig >/dev/null
+[Credentials]
+language=EN
+accessKeyID={ak}
+accessKeySecret={sk}
+endpoint=oss-cn-beijing.aliyuncs.com
+EOF
 fi
 
 help=false
