@@ -77,7 +77,7 @@ if which docker > /dev/null 2>&1; then
 else
   # 离线模式
   if $DOWNLOAD_SKIP; then
-    cat ${DOWNLOADS_BASENAME}/install.sh | DOWNLOAD_SKIP=true DOCKER_ROOT=$DOCKER_ROOT DOCKER_IPTABLES=$DOCKER_IPTABLES sh
+    cat docker-install/install.sh | DOWNLOAD_SKIP=true DOCKER_ROOT=$DOCKER_ROOT DOCKER_IPTABLES=$DOCKER_IPTABLES sh
   # 在线模式
   else
     curl -sfL $DOCKER_INSTALL_SH | DOCKER_ROOT=$DOCKER_ROOT DOCKER_IPTABLES=$DOCKER_IPTABLES sh
