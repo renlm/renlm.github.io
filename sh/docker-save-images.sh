@@ -37,14 +37,6 @@ fatal()
   exit 1
 }
 
-# 参数校验
-if [ "$PLATFORM" = "linux/amd64" ] || [ "$PLATFORM" = "linux/arm64" ] || [ "$PLATFORM" = "linux/amd64,linux/arm64" ] || [ "$PLATFORM" = "linux/arm64,linux/amd64" ]; then
-  info "PLATFORM: $PLATFORM"
-else
-  fatal "Unknown PLATFORM: $PLATFORM, linux/amd64 or linux/arm64 or linux/amd64,linux/arm64"
-  exit 1
-fi
-
 # --- download from url ---
 download() {
   [ $# -eq 2 ] || fatal 'download needs exactly 2 arguments'
@@ -79,6 +71,14 @@ download() {
   # Abort if download command failed
   [ $status -eq 0 ] || fatal 'Download failed'
 }
+
+# 参数校验
+if [ "$PLATFORM" = "linux/amd64" ] || [ "$PLATFORM" = "linux/arm64" ] || [ "$PLATFORM" = "linux/amd64,linux/arm64" ] || [ "$PLATFORM" = "linux/arm64,linux/amd64" ]; then
+  info "PLATFORM: $PLATFORM"
+else
+  fatal "Unknown PLATFORM: $PLATFORM, linux/amd64 or linux/arm64 or linux/amd64,linux/arm64"
+  exit 1
+fi
 
 help=false
 usage () {
