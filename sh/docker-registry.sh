@@ -7,7 +7,7 @@ DOCKER_INSTALL_SH="https://renlm.github.io/sh/docker-install.sh"
 REGISTRY_INSTALL_SH="https://renlm.github.io/sh/docker-registry.sh"
 DOCKER_ROOT=${DOCKER_ROOT:-"/data"}
 REGISTRY_HOME=${DOCKER_ROOT}/deploy/registry
-REGISTRY_USER=${REGISTRY_USER:-"usr_registry"}
+REGISTRY_USER=${REGISTRY_USER:-"local-usr"}
 REGISTRY_VERSION=${REGISTRY_VERSION:-"3.1.1"}
 REGISTRY_PORT=${REGISTRY_PORT:-"5000"}
 DOCKER_IPTABLES=${DOCKER_IPTABLES:-true}
@@ -24,6 +24,19 @@ MODE=${MODE:-"INSTALL"}
 ARCH=${ARCH:-"auto"}
 ### 一键安装
 # $ curl -sfL https://renlm.github.io/sh/docker-registry.sh | DOCKER_ROOT=/data DOCKER_IPTABLES=true sh
+########################################################################
+
+########################################################################
+###### 离线模式
+### 生成离线安装包
+# $ curl -sfL https://renlm.github.io/sh/docker-registry.sh | MODE=PKG ARCH=x86_64 sh
+# $ curl -sfL https://renlm.github.io/sh/docker-registry.sh | MODE=PKG ARCH=aarch64 sh
+### 上传离线安装包
+### 解压离线安装包
+# $ tar -zxvf docker-registry.x86_64.tar.gz
+# $ tar -zxvf docker-registry.aarch64.tar.gz
+### 离线安装
+# $ cat docker-registry/install.sh | DOWNLOAD_SKIP=true DOCKER_ROOT=/data DOCKER_IPTABLES=true sh
 ########################################################################
 
 # 颜色代码
