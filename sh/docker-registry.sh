@@ -47,36 +47,47 @@ fatal()
 # --- download from url ---
 download() {
   [ $# -eq 2 ] || fatal 'download needs exactly 2 arguments'
+  
+  # 读取本地文件
+  if $DOWNLOAD_SKIP; then
+    if [ ! -f $1 ]; then
+      fatal "请上传文件：$1"
+    else
+      info "读取本地文件：$1"
+    fi
+  # 下载软件包
+  else
+    # Disable exit-on-error so we can do custom error messages on failure
+    set +e
 
-  # Disable exit-on-error so we can do custom error messages on failure
-  set +e
+    # Default to a failure status
+    status=1
+    case $DOWNLOADER in
+      curl)
+        printf "[ ${_GREEN_}下载${_NC_} ] curl -o $1 -sfL $2\n"
+        mkdir -p ${1%/*}
+        curl -o $1 -sfL $2
+        status=$?
+      ;;
+      wget)
+        printf "[ ${_GREEN_}下载${_NC_} ] wget -qO $1 $2\n"
+        mkdir -p ${1%/*}
+        wget -qO $1 $2
+        status=$?
+      ;;
+      *)
+        # Enable exit-on-error for fatal to execute
+        set -e
+        fatal "Incorrect executable '$DOWNLOADER'"
+      ;;
+    esac
 
-  # Default to a failure status
-  status=1
+    # Re-enable exit-on-error
+    set -e
 
-  case $DOWNLOADER in
-    curl)
-      printf "[ ${_GREEN_}下载${_NC_} ] curl -o $1 -sfL $2\n"
-      curl -o $1 -sfL $2
-      status=$?
-    ;;
-    wget)
-      printf "[ ${_GREEN_}下载${_NC_} ] wget -qO $1 $2\n"
-      wget -qO $1 $2
-      status=$?
-    ;;
-    *)
-      # Enable exit-on-error for fatal to execute
-      set -e
-      fatal "Incorrect executable '$DOWNLOADER'"
-    ;;
-  esac
-
-  # Re-enable exit-on-error
-  set -e
-
-  # Abort if download command failed
-  [ $status -eq 0 ] || fatal 'Download failed'
+    # Abort if download command failed
+    [ $status -eq 0 ] || fatal 'Download failed'
+  fi
 }
 
 # 参数校验
@@ -111,6 +122,10 @@ fi
 DOWNLOADS_ROOT=/opt/docker-registry
 DOWNLOADS_BASENAME=$(basename $DOWNLOADS_ROOT)
 DOWNLOADER=curl
+# 下载并安装
+if $DOWNLOAD_SKIP; then
+  DOWNLOADS_ROOT=${DOWNLOADS_BASENAME}
+fi
 if [ "${MODE}" = PKG ]; then
   DOWNLOADS_FILE_SH=install.sh
   TOOLS_IMAGES_TAR=docker/images/registry-${REGISTRY_VERSION}-${ARCH_ALIAS}.tar.gz
@@ -139,5 +154,16 @@ else
   fi
 
   # 启动registry
+  TOOLS_IMAGES_TAR=docker/images/registry-${REGISTRY_VERSION}-${ARCH_ALIAS}.tar.gz
+  download ${DOWNLOADS_ROOT}/${TOOLS_IMAGES_TAR} ${DOWNLOADER_URL}/${TOOLS_IMAGES_TAR}
+  tar -zxf ${DOWNLOADS_ROOT}/${TOOLS_IMAGES_TAR} -C ${DOWNLOADS_ROOT}/docker/images
+  while IFS= read -r line; do
+    TXT_LINE=$((TXT_LINE+1))
+    if [ $TXT_LINE -gt 1 ]; then
+      line_val=$(echo "$line" | cut -d "=" -f2)
+      line_tar=$(echo "$line_val" | cut -d "@" -f2)
+      docker load -i ${DOWNLOADS_ROOT}/docker/images/registry-${REGISTRY_VERSION}-${ARCH_ALIAS}/$line_tar
+    fi
+  done < ${DOWNLOADS_ROOT}/docker/images/registry-${REGISTRY_VERSION}-${ARCH_ALIAS}.txt
   
 fi
