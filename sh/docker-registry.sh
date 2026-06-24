@@ -208,13 +208,14 @@ services:
       - CMD
       - curl
       - -f
-      - http://localhost:${REGISTRY_PORT}
+      - http://localhost:5001/debug/health
       interval: 5s
       timeout: 5s
       retries: 36
     environment:
       OTEL_TRACES_EXPORTER: none
       REGISTRY_HTTP_ADDR: 0.0.0.0:${REGISTRY_PORT}
+      REGISTRY_HTTP_DEBUG_ADDR: 0.0.0.0:5001
       REGISTRY_AUTH: htpasswd
       REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
       REGISTRY_AUTH_HTPASSWD_REALM: basic-realm
