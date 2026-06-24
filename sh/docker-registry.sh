@@ -107,7 +107,12 @@ else
 fi
 
 # 生成离线包
+DOWNLOADS_ROOT=/opt/docker-registry
+DOWNLOADS_BASENAME=$(basename $DOWNLOADS_ROOT)
+DOWNLOADER=curl
 if [ "${MODE}" = PKG ]; then
+  TOOLS_IMAGES_TAR=docker/images/tools-${ARCH_ALIAS}.tar.gz
+  download ${DOWNLOADS_ROOT}/${TOOLS_IMAGES_TAR} ${DOWNLOADER_URL}/${TOOLS_IMAGES_TAR}
   curl -sfL $DOCKER_INSTALL_SH | MODE=$MODE ARCH=$ARCH sh
 # 安装服务
 else
