@@ -1,7 +1,15 @@
 #!/bin/sh
 set -e
 set -o noglob
-
+########################################################################
+# https://distribution.github.io/distribution/about/deploying
+### 一键安装
+# $ curl -sfL https://renlm.github.io/sh/docker-registry.sh | DOCKER_ROOT=/data DOCKER_IPTABLES=true sh
+########################################################################
+DOCKER_INSTALL_SH="https://renlm.github.io/sh/docker-install.sh"
+REGISTRY_INSTALL_SH="https://renlm.github.io/sh/docker-registry.sh"
+DOCKER_ROOT=${DOCKER_ROOT:-"/data"}
+DOCKER_IPTABLES=${DOCKER_IPTABLES:-true}
 DOWNLOADER_URL=${DOWNLOADER_URL:-"https://oss.renlm.cn"}
 DOWNLOAD_SKIP=${DOWNLOAD_SKIP:-false}
 
@@ -35,6 +43,6 @@ else
   
   # 在线模式
   else
-  
+    curl -sfL $DOCKER_INSTALL_SH | DOCKER_ROOT=$DOCKER_ROOT DOCKER_IPTABLES=$DOCKER_IPTABLES sh
   fi
 fi
