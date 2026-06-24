@@ -15,7 +15,6 @@ PLATFORM=${PLATFORM:-"linux/amd64,linux/arm64"}
 OUTPUT=docker-save-images
 IMAGES_ARR=""
 TXT_ARR=""
-PULLED=""
 
 # 颜色代码
 _RED_='\033[0;31m'    # 红色
@@ -157,7 +156,6 @@ docker_pull() {
       if docker pull --platform ${PLATFORM_ITEM} ${pullImage} > /dev/null 2>&1; then
         if [ $PLATFORM_NUM -gt 1 ]; then
           if docker tag ${pullImage} ${targetImage} > /dev/null 2>&1; then
-            PULLED="${PULLED} ${targetImage}"
             info "Image saving: ${targetImage}"
             docker save --platform ${PLATFORM_ITEM} -o ${DOWNLOADS_ROOT}/${targetBasename}.tar ${targetImage}
             docker rmi ${targetImage} --force > /dev/null 2>&1 || true
@@ -167,7 +165,6 @@ docker_pull() {
             fatal "Image tag failed: ${targetImage}"
           fi
         else
-          PULLED="${PULLED} ${pullImage}"
           info "Image saving: ${targetImage}"
           docker save --platform ${PLATFORM_ITEM} -o ${DOWNLOADS_ROOT}/${targetBasename}.tar ${targetImage}
           docker rmi ${targetImage} --force > /dev/null 2>&1 || true
@@ -191,6 +188,6 @@ for txt in $TXT_ARR; do
   done < $txt_file
 done
 
-IMAGES_NUM=$(echo ${PULLED} | wc -w | tr -d '[:space:]')
+IMAGES_NUM=$(grep -v "^@PLATFORM=" ${DOWNLOADS_ROOT}/${IMAGES_TXT} | wc -l)
 info "Creating ${DOWNLOADS_BASENAME}.tar.gz with $IMAGES_NUM images"
 tar -czf ${DOWNLOADS_BASENAME}.tar.gz -C ${DOWNLOADS_ROOT%/*} ${DOWNLOADS_BASENAME}
