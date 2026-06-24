@@ -166,6 +166,7 @@ else
       docker load -i ${DOWNLOADS_ROOT}/docker/images/registry-${REGISTRY_VERSION}-${ARCH_ALIAS}/$line_tar
     fi
   done < ${DOWNLOADS_ROOT}/docker/images/registry-${REGISTRY_VERSION}-${ARCH_ALIAS}.txt
+  mkdir -p ${DOCKER_ROOT}/deploy/docker-registry
   cat <<EOF | tee ${DOCKER_ROOT}/deploy/docker-registry/docker-compose.yml >/dev/null
 services:
   registry:
@@ -175,6 +176,12 @@ services:
     restart: always
     ports:
     - ${REGISTRY_PORT}:${REGISTRY_PORT}
+    environment:
+      OTEL_TRACES_EXPORTER: none
+      REGISTRY_HTTP_ADDR: 0.0.0.0:${REGISTRY_PORT}
+      REGISTRY_AUTH: htpasswd
+      REGISTRY_AUTH_HTPASSWD_PATH: auth_htpasswd
+      REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
     volumes:
     - var_lib_registry:/var/lib/registry
 EOF
