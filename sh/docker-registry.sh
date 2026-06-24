@@ -6,7 +6,7 @@ set -o noglob
 DOCKER_INSTALL_SH="https://renlm.github.io/sh/docker-install.sh"
 REGISTRY_INSTALL_SH="https://renlm.github.io/sh/docker-registry.sh"
 DOCKER_ROOT=${DOCKER_ROOT:-"/data"}
-REGISTRY_HOME=${DOCKER_ROOT}/deploy/docker-registry
+REGISTRY_HOME=${DOCKER_ROOT}/deploy/registry
 REGISTRY_USER=${REGISTRY_USER:-"usr_registry"}
 REGISTRY_VERSION=${REGISTRY_VERSION:-"3.1.1"}
 REGISTRY_PORT=${REGISTRY_PORT:-"5000"}
@@ -173,8 +173,9 @@ else
   else
     mkdir -p ${REGISTRY_HOME}
     DEFAULT_HTPASSWD=$(head -c 32 /dev/urandom | base64 | tr -dc 'a-zA-Z0-9')
-    docker run --entrypoint htpasswd httpd:2 -Bbn ${REGISTRY_USER} ${DEFAULT_HTPASSWD} > ${REGISTRY_HOME}/auth_htpasswd
-    warn "默认登录账号密码查看：cat ${REGISTRY_HOME}/.auth_htpasswd"
+    docker run --entrypoint htpasswd httpd:2 -b -nBC12 ${REGISTRY_USER} ${DEFAULT_HTPASSWD} > ${REGISTRY_HOME}/auth_htpasswd
+    warn "$ cat ${REGISTRY_HOME}/.auth_htpasswd"
+    warn "$ docker login --username=${REGISTRY_USER} http://localhost:${REGISTRY_PORT}"
     cat <<EOF | tee ${REGISTRY_HOME}/.auth_htpasswd >/dev/null
 [default]
 username=${REGISTRY_USER}
@@ -189,18 +190,26 @@ services:
     restart: always
     ports:
     - ${REGISTRY_PORT}:${REGISTRY_PORT}
+    healthcheck:
+      test:
+      - CMD
+      - curl
+      - -f
+      - http://localhost:${REGISTRY_PORT}
+      interval: 5s
+      timeout: 5s
+      retries: 36
     environment:
       OTEL_TRACES_EXPORTER: none
       REGISTRY_HTTP_ADDR: 0.0.0.0:${REGISTRY_PORT}
       REGISTRY_AUTH: htpasswd
-      REGISTRY_AUTH_HTPASSWD_PATH: auth_htpasswd
-      REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
+      REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+      REGISTRY_AUTH_HTPASSWD_REALM: basic-realm
     volumes:
     - ${REGISTRY_HOME}/auth_htpasswd:/auth/htpasswd
     - ${REGISTRY_HOME}/var_lib_registry:/var/lib/registry
 EOF
 {
-  info "docker-compose -f ${REGISTRY_HOME}/docker-compose.yml up -d"
   docker-compose -f ${REGISTRY_HOME}/docker-compose.yml up -d
 }
 fi
