@@ -6,6 +6,7 @@ set -o noglob
 DOCKER_INSTALL_SH="https://renlm.github.io/sh/docker-install.sh"
 REGISTRY_INSTALL_SH="https://renlm.github.io/sh/docker-registry.sh"
 REGISTRY_VERSION=${REGISTRY_VERSION:-"3.1.1"}
+REGISTRY_PORT=${REGISTRY_PORT:-"5000"}
 DOCKER_ROOT=${DOCKER_ROOT:-"/data"}
 DOCKER_IPTABLES=${DOCKER_IPTABLES:-true}
 DOWNLOADER_URL=${DOWNLOADER_URL:-"https://oss.renlm.cn"}
@@ -165,5 +166,16 @@ else
       docker load -i ${DOWNLOADS_ROOT}/docker/images/registry-${REGISTRY_VERSION}-${ARCH_ALIAS}/$line_tar
     fi
   done < ${DOWNLOADS_ROOT}/docker/images/registry-${REGISTRY_VERSION}-${ARCH_ALIAS}.txt
-  
+  cat <<EOF | tee ${DOCKER_ROOT}/deploy/docker-registry/docker-compose.yml >/dev/null
+services:
+  registry:
+    image: registry:${REGISTRY_VERSION}
+    container_name: registry
+    hostname: registry
+    restart: always
+    ports:
+    - ${REGISTRY_PORT}:${REGISTRY_PORT}
+    volumes:
+    - var_lib_registry:/var/lib/registry
+EOF
 fi
