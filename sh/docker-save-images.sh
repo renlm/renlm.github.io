@@ -84,7 +84,7 @@ else
 fi
 
 # ossutil
-if which ossutil > /dev/null 2>&1; then
+if ! which ossutil > /dev/null 2>&1; then
   download /usr/local/bin/ossutil ${DOWNLOADER_URL}/ossutil/${PLATFORM##*/}/ossutil
 fi
 # ossutil cp registry-3.1.1-arm64.tar.gz oss://renlm-github-io/docker/images/
