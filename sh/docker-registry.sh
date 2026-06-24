@@ -5,6 +5,7 @@ set -o noglob
 # https://distribution.github.io/distribution/about/deploying
 DOCKER_INSTALL_SH="https://renlm.github.io/sh/docker-install.sh"
 REGISTRY_INSTALL_SH="https://renlm.github.io/sh/docker-registry.sh"
+REGISTRY_VERSION=${REGISTRY_VERSION:-"3.1.1"}
 DOCKER_ROOT=${DOCKER_ROOT:-"/data"}
 DOCKER_IPTABLES=${DOCKER_IPTABLES:-true}
 DOWNLOADER_URL=${DOWNLOADER_URL:-"https://oss.renlm.cn"}
@@ -112,7 +113,7 @@ DOWNLOADS_BASENAME=$(basename $DOWNLOADS_ROOT)
 DOWNLOADER=curl
 if [ "${MODE}" = PKG ]; then
   DOWNLOADS_FILE_SH=install.sh
-  TOOLS_IMAGES_TAR=docker/images/tools-${ARCH_ALIAS}.tar.gz
+  TOOLS_IMAGES_TAR=docker/images/registry-${REGISTRY_VERSION}-${ARCH_ALIAS}.tar.gz
   download ${DOWNLOADS_ROOT}/${TOOLS_IMAGES_TAR} ${DOWNLOADER_URL}/${TOOLS_IMAGES_TAR}
   download ${DOWNLOADS_ROOT}/${DOWNLOADS_FILE_SH} ${REGISTRY_INSTALL_SH}
   curl -sfL $DOCKER_INSTALL_SH | MODE=$MODE ARCH=$ARCH sh
