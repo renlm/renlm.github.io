@@ -158,8 +158,8 @@ else
 
   # 启动registry
   TOOLS_IMAGES_TAR=docker/images/registry-${REGISTRY_VERSION}-${ARCH_ALIAS}
-  download ${DOWNLOADS_ROOT}/${TOOLS_IMAGES_ROOT}.tar.gz ${DOWNLOADER_URL}/${TOOLS_IMAGES_TAR}
-  tar -zxf ${DOWNLOADS_ROOT}/${TOOLS_IMAGES_ROOT}.tar.gz -C ${DOWNLOADS_ROOT}/docker/images
+  download ${DOWNLOADS_ROOT}/${TOOLS_IMAGES_TAR}.tar.gz ${DOWNLOADER_URL}/${TOOLS_IMAGES_TAR}
+  tar -zxf ${DOWNLOADS_ROOT}/${TOOLS_IMAGES_TAR}.tar.gz -C ${DOWNLOADS_ROOT}/docker/images
   while IFS= read -r line; do
     TXT_LINE=$((TXT_LINE+1))
     if [ $TXT_LINE -gt 1 ]; then
