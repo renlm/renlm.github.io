@@ -168,14 +168,14 @@ else
       docker load -i ${DOWNLOADS_ROOT}/${TOOLS_IMAGES_TAR}/$line_tar
     fi
   done < ${DOWNLOADS_ROOT}/${TOOLS_IMAGES_TAR}/registry-${REGISTRY_VERSION}-${ARCH_ALIAS}.txt
-  mkdir -p ${REGISTRY_HOME}
   if [ -f ${REGISTRY_HOME}/docker-compose.yml ]; then
-    warn "服务已存在：${REGISTRY_HOME}/docker-compose.yml" 
+    warn "服务已存在：${REGISTRY_HOME}/docker-compose.yml"
   else
+    mkdir -p ${REGISTRY_HOME}
     DEFAULT_HTPASSWD=$(head -c 32 /dev/urandom | base64 | tr -dc 'a-zA-Z0-9')
     docker run --entrypoint htpasswd httpd:2 -Bbn ${REGISTRY_USER} ${DEFAULT_HTPASSWD} > ${REGISTRY_HOME}/auth_htpasswd
-    warn "默认登录账号密码查看：cat ${REGISTRY_HOME}/.default"
-    cat <<EOF | tee ${REGISTRY_HOME}/.default >/dev/null
+    warn "默认登录账号密码查看：cat ${REGISTRY_HOME}/.auth_htpasswd"
+    cat <<EOF | tee ${REGISTRY_HOME}/.auth_htpasswd >/dev/null
 [default]
 username=${REGISTRY_USER}
 password=${DEFAULT_HTPASSWD}
@@ -196,8 +196,8 @@ services:
       REGISTRY_AUTH_HTPASSWD_PATH: auth_htpasswd
       REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
     volumes:
-    - auth_htpasswd:/auth/htpasswd
-    - var_lib_registry:/var/lib/registry
+    - ${REGISTRY_HOME}/auth_htpasswd:/auth/htpasswd
+    - ${REGISTRY_HOME}/var_lib_registry:/var/lib/registry
 EOF
 {
   info "docker-compose -f ${REGISTRY_HOME}/docker-compose.yml up -d"
