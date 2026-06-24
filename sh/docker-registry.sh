@@ -157,21 +157,24 @@ else
   fi
 
   # 启动registry
-  TOOLS_IMAGES_TAR=docker/images/registry-${REGISTRY_VERSION}-${ARCH_ALIAS}.tar.gz
-  download ${DOWNLOADS_ROOT}/${TOOLS_IMAGES_TAR} ${DOWNLOADER_URL}/${TOOLS_IMAGES_TAR}
-  tar -zxf ${DOWNLOADS_ROOT}/${TOOLS_IMAGES_TAR} -C ${DOWNLOADS_ROOT}/docker/images
+  TOOLS_IMAGES_TAR=docker/images/registry-${REGISTRY_VERSION}-${ARCH_ALIAS}
+  download ${DOWNLOADS_ROOT}/${TOOLS_IMAGES_ROOT}.tar.gz ${DOWNLOADER_URL}/${TOOLS_IMAGES_TAR}
+  tar -zxf ${DOWNLOADS_ROOT}/${TOOLS_IMAGES_ROOT}.tar.gz -C ${DOWNLOADS_ROOT}/docker/images
   while IFS= read -r line; do
     TXT_LINE=$((TXT_LINE+1))
     if [ $TXT_LINE -gt 1 ]; then
       line_val=$(echo "$line" | cut -d "=" -f2)
       line_tar=$(echo "$line_val" | cut -d "@" -f2)
-      docker load -i ${DOWNLOADS_ROOT}/docker/images/registry-${REGISTRY_VERSION}-${ARCH_ALIAS}/$line_tar
+      docker load -i ${DOWNLOADS_ROOT}/${TOOLS_IMAGES_TAR}/$line_tar
     fi
-  done < ${DOWNLOADS_ROOT}/docker/images/registry-${REGISTRY_VERSION}-${ARCH_ALIAS}.txt
+  done < ${DOWNLOADS_ROOT}/${TOOLS_IMAGES_TAR}/registry-${REGISTRY_VERSION}-${ARCH_ALIAS}.txt
   mkdir -p ${REGISTRY_HOME}
-  if [ ! -f ${REGISTRY_HOME}/auth_htpasswd ]; then
+  if [ -f ${REGISTRY_HOME}/docker-compose.yml ]; then
+    warn "服务已存在：${REGISTRY_HOME}/docker-compose.yml" 
+  else
     DEFAULT_HTPASSWD=$(head -c 32 /dev/urandom | base64 | tr -dc 'a-zA-Z0-9')
     docker run --entrypoint htpasswd httpd:2 -Bbn ${REGISTRY_USER} ${DEFAULT_HTPASSWD} > ${REGISTRY_HOME}/auth_htpasswd
+    warn "默认登录账号密码查看：cat ${REGISTRY_HOME}/.default"
     cat <<EOF | tee ${REGISTRY_HOME}/.default >/dev/null
 [default]
 username=${REGISTRY_USER}
@@ -196,5 +199,9 @@ services:
     - auth_htpasswd:/auth/htpasswd
     - var_lib_registry:/var/lib/registry
 EOF
+{
+  info "docker-compose -f ${REGISTRY_HOME}/docker-compose.yml up -d"
+  docker-compose -f ${REGISTRY_HOME}/docker-compose.yml up -d
+}
 fi
 fi
