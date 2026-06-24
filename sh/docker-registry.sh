@@ -163,6 +163,7 @@ else
   else
     # 离线模式
     if $DOWNLOAD_SKIP; then
+      tar -zxf docker-install.${ARCH}.tar.gz
       cat docker-install/install.sh | NOT_INNER_SH=false DOWNLOAD_SKIP=true DOCKER_ROOT=$DOCKER_ROOT DOCKER_IPTABLES=$DOCKER_IPTABLES sh
     # 在线模式
     else
