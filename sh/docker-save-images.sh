@@ -95,7 +95,7 @@ if ! which ossutil > /dev/null 2>&1; then
 	chmod +x /usr/local/bin/ossutil
   }
 fi
-# ossutil cp registry-3.1.1-arm64.tar.gz oss://renlm-github-io/docker/images/
+# ossutil cp registry-3.1.1-amd64.tar.gz oss://renlm-github-io/docker/images/
 # ossutil cp registry-3.1.1-arm64.tar.gz oss://renlm-github-io/docker/images/
 # ossutil cp tools-amd64.tar.gz oss://renlm-github-io/docker/images/
 # ossutil cp tools-arm64.tar.gz oss://renlm-github-io/docker/images/
