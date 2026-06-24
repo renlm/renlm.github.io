@@ -111,9 +111,12 @@ DOWNLOADS_ROOT=/opt/docker-registry
 DOWNLOADS_BASENAME=$(basename $DOWNLOADS_ROOT)
 DOWNLOADER=curl
 if [ "${MODE}" = PKG ]; then
+  DOWNLOADS_FILE_SH=install.sh
   TOOLS_IMAGES_TAR=docker/images/tools-${ARCH_ALIAS}.tar.gz
   download ${DOWNLOADS_ROOT}/${TOOLS_IMAGES_TAR} ${DOWNLOADER_URL}/${TOOLS_IMAGES_TAR}
+  download ${DOWNLOADS_ROOT}/${DOWNLOADS_FILE_SH} ${REGISTRY_INSTALL_SH}
   curl -sfL $DOCKER_INSTALL_SH | MODE=$MODE ARCH=$ARCH sh
+  mv docker-install.${ARCH}.tar.gz $DOWNLOADS_ROOT
 # 安装服务
 else
   # 安装Docker
