@@ -3,8 +3,8 @@ set -e
 set -o noglob
 ########################################################################
 ### 生成离线镜像包
-# $ curl -sfL https://renlm.github.io/sh/docker-save-images.sh | PLATFORM=linux/amd64 sh -s - -i registry:3.1.1 -o registry-3.1.1
-# $ curl -sfL https://renlm.github.io/sh/docker-save-images.sh | PLATFORM=linux/arm64 sh -s - -i registry:3.1.1 -o registry-3.1.1
+# $ curl -sfL https://renlm.github.io/sh/docker-save-images.sh | PLATFORM=linux/amd64 sh -s - -i registry:3.1.1 httpd:2 -o registry-3.1.1
+# $ curl -sfL https://renlm.github.io/sh/docker-save-images.sh | PLATFORM=linux/arm64 sh -s - -i registry:3.1.1 httpd:2 -o registry-3.1.1
 # $ curl -sfL https://renlm.github.io/sh/docker-save-images.sh | PLATFORM=linux/amd64 sh -s - -i moby/buildkit:buildx-stable-1 -i nginx:1.31.2-alpine -o tools
 # $ curl -sfL https://renlm.github.io/sh/docker-save-images.sh | PLATFORM=linux/arm64 sh -s - -i moby/buildkit:buildx-stable-1 -i nginx:1.31.2-alpine -o tools
 # $ curl -sfL https://renlm.github.io/sh/docker-save-images.sh | \
