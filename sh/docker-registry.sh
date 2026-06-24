@@ -5,9 +5,11 @@ set -o noglob
 # https://distribution.github.io/distribution/about/deploying
 DOCKER_INSTALL_SH="https://renlm.github.io/sh/docker-install.sh"
 REGISTRY_INSTALL_SH="https://renlm.github.io/sh/docker-registry.sh"
+DOCKER_ROOT=${DOCKER_ROOT:-"/data"}
+REGISTRY_HOME=${DOCKER_ROOT}/deploy/docker-registry
+REGISTRY_USER=${REGISTRY_USER:-"usr_registry"}
 REGISTRY_VERSION=${REGISTRY_VERSION:-"3.1.1"}
 REGISTRY_PORT=${REGISTRY_PORT:-"5000"}
-DOCKER_ROOT=${DOCKER_ROOT:-"/data"}
 DOCKER_IPTABLES=${DOCKER_IPTABLES:-true}
 DOWNLOADER_URL=${DOWNLOADER_URL:-"https://oss.renlm.cn"}
 DOWNLOAD_SKIP=${DOWNLOAD_SKIP:-false}
@@ -166,8 +168,16 @@ else
       docker load -i ${DOWNLOADS_ROOT}/docker/images/registry-${REGISTRY_VERSION}-${ARCH_ALIAS}/$line_tar
     fi
   done < ${DOWNLOADS_ROOT}/docker/images/registry-${REGISTRY_VERSION}-${ARCH_ALIAS}.txt
-  mkdir -p ${DOCKER_ROOT}/deploy/docker-registry
-  cat <<EOF | tee ${DOCKER_ROOT}/deploy/docker-registry/docker-compose.yml >/dev/null
+  mkdir -p ${REGISTRY_HOME}
+  if [ ! -f ${REGISTRY_HOME}/auth_htpasswd ]; then
+    DEFAULT_HTPASSWD=$(head -c 32 /dev/urandom | base64 | tr -dc 'a-zA-Z0-9')
+    docker run --entrypoint htpasswd httpd:2 -Bbn ${REGISTRY_USER} ${DEFAULT_HTPASSWD} > ${REGISTRY_HOME}/auth_htpasswd
+    cat <<EOF | tee ${REGISTRY_HOME}/.default >/dev/null
+[default]
+username=${REGISTRY_USER}
+password=${DEFAULT_HTPASSWD}
+EOF
+    cat <<EOF | tee ${REGISTRY_HOME}/docker-compose.yml >/dev/null
 services:
   registry:
     image: registry:${REGISTRY_VERSION}
@@ -183,6 +193,8 @@ services:
       REGISTRY_AUTH_HTPASSWD_PATH: auth_htpasswd
       REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
     volumes:
+    - auth_htpasswd:/auth/htpasswd
     - var_lib_registry:/var/lib/registry
 EOF
+fi
 fi
