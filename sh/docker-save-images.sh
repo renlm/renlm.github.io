@@ -84,6 +84,7 @@ else
 fi
 
 # ossutil
+DOWNLOADER=curl
 if ! which ossutil > /dev/null 2>&1; then
   download /usr/local/bin/ossutil ${DOWNLOADER_URL}/ossutil/${PLATFORM##*/}/ossutil
 fi
@@ -145,7 +146,6 @@ if $help; then
 fi
 
 # 下载镜像
-DOWNLOADER=curl
 DOWNLOADS_ROOT=/opt/${OUTPUT}
 PLATFORM_NUM=$(( $(echo ${PLATFORM} | tr -cd ',' | wc -c) + 1 ))
 if [ $PLATFORM_NUM -eq 1 ]; then
