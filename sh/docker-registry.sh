@@ -117,6 +117,11 @@ if [ "${MODE}" = PKG ]; then
   download ${DOWNLOADS_ROOT}/${DOWNLOADS_FILE_SH} ${REGISTRY_INSTALL_SH}
   curl -sfL $DOCKER_INSTALL_SH | MODE=$MODE ARCH=$ARCH sh
   mv docker-install.${ARCH}.tar.gz $DOWNLOADS_ROOT
+  info "生成离线包: tar -czf ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz -C ${DOWNLOADS_ROOT%/*} ${DOWNLOADS_BASENAME}"
+  tar -czf ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz -C ${DOWNLOADS_ROOT%/*} ${DOWNLOADS_BASENAME}
+  info "离线安装 - 第1步：上传离线安装包 ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz"
+  info "离线安装 - 第2步：解压离线安装包 tar -zxvf ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz"
+  info "\$ cat ${DOWNLOADS_BASENAME}/install.sh | DOWNLOAD_SKIP=true DOCKER_ROOT=/data DOCKER_IPTABLES=true sh"
 # 安装服务
 else
   # 安装Docker
