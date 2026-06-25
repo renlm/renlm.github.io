@@ -7,7 +7,7 @@ DOCKER_INSTALL_SH="https://renlm.github.io/sh/docker-install.sh"
 REGISTRY_INSTALL_SH="https://renlm.github.io/sh/docker-registry.sh"
 DOCKER_ROOT=${DOCKER_ROOT:-"/data"}
 REGISTRY_HOME=${DOCKER_ROOT}/deploy/registry
-REGISTRY_USER=${REGISTRY_USER:-"local-usr"}
+REGISTRY_USER=${REGISTRY_USER:-"registry@local"}
 REGISTRY_VERSION=${REGISTRY_VERSION:-"3.1.1"}
 REGISTRY_PORT=${REGISTRY_PORT:-"5000"}
 REGISTRY_DEBUG_PORT=$((REGISTRY_PORT+1))
@@ -188,11 +188,11 @@ else
   else
     mkdir -p ${REGISTRY_HOME}
     DEFAULT_HTPASSWD=$(head -c 32 /dev/urandom | base64 | tr -dc 'a-zA-Z0-9')
-    docker run --entrypoint htpasswd httpd:2 -b -nBC12 ${REGISTRY_USER} ${DEFAULT_HTPASSWD} > ${REGISTRY_HOME}/auth_htpasswd
-    warn "$ cat ${REGISTRY_HOME}/.auth_htpasswd"
-    warn "$ docker login --username=${REGISTRY_USER} http://localhost:${REGISTRY_PORT}"
+    docker run --rm --entrypoint htpasswd httpd:2 -b -nBC12 ${REGISTRY_USER} ${DEFAULT_HTPASSWD} > ${REGISTRY_HOME}/auth_htpasswd
+    printf "[ ${_YELLOW_}查看${_NC_} ] $ cat ${REGISTRY_HOME}/.auth_htpasswd"
+    printf "[ ${_YELLOW_}登录${_NC_} ] $ docker login --username=${REGISTRY_USER} http://localhost:${REGISTRY_PORT}\n"
     cat <<EOF | tee ${REGISTRY_HOME}/.auth_htpasswd >/dev/null
-[default]
+[registry]
 username=${REGISTRY_USER}
 password=${DEFAULT_HTPASSWD}
 EOF
