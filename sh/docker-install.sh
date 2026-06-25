@@ -82,6 +82,7 @@ if [ "$MODE" = INSTALL ] || [ "$MODE" = PKG ]; then
 else
   fatal "Unknown MODE: $MODE, INSTALL or PKG"
 fi
+ARCH_ALIAS=${ARCH}
 if [ "$ARCH" = auto ] || [ "$ARCH" = x86_64 ] || [ "$ARCH" = aarch64 ]; then
   if [ "$ARCH" = auto ]; then
     if uname -m | grep -q aarch64; then
