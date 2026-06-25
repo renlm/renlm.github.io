@@ -82,16 +82,19 @@ if [ "$MODE" = INSTALL ] || [ "$MODE" = PKG ]; then
 else
   fatal "Unknown MODE: $MODE, INSTALL or PKG"
 fi
-ARCH_ALIAS=${ARCH}
 if [ "$ARCH" = auto ] || [ "$ARCH" = x86_64 ] || [ "$ARCH" = aarch64 ]; then
   if [ "$ARCH" = auto ]; then
     if uname -m | grep -q aarch64; then
       ARCH=aarch64
-      ARCH_ALIAS=arm64
     else
       ARCH=x86_64
-      ARCH_ALIAS=amd64
     fi
+  fi
+  if [ "$ARCH" = aarch64 ]; then
+    ARCH_ALIAS=arm64
+  fi
+  if [ "$ARCH" = x86_64 ]; then
+    ARCH_ALIAS=amd64
   fi
   {
     [ "$NOT_INNER_SH" = true ] && info "ARCH: $ARCH" || true
