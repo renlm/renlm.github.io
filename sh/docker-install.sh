@@ -351,7 +351,9 @@ EOF
   "data-root": "$DOCKER_DATA_DIR",
   "features": { "buildkit" : true },
   "log-driver": "json-file",
-  "log-opts": { "max-size": "300m", "max-file": "10" }
+  "log-opts": { "max-size": "300m", "max-file": "10" },
+  "registry-mirrors": ["http://registry.local:5000"],
+  "insecure-registries": ["registry.local:5000"]
 }
 EOF
 if [ ! -f ${CONTAINERD_CONFIG} ]; then
