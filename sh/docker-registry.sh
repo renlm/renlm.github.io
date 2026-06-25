@@ -120,12 +120,14 @@ else
   fatal "Unknown MODE: $MODE, INSTALL or PKG"
 fi
 if [ "$ARCH" = auto ] || [ "$ARCH" = x86_64 ] || [ "$ARCH" = aarch64 ]; then
-  if uname -m | grep -q aarch64; then
-    ARCH=aarch64
-    ARCH_ALIAS=arm64
-  else
-    ARCH=x86_64
-    ARCH_ALIAS=amd64
+  if [ "$ARCH" = auto ]; then
+    if uname -m | grep -q aarch64; then
+      ARCH=aarch64
+      ARCH_ALIAS=arm64
+    else
+      ARCH=x86_64
+      ARCH_ALIAS=amd64
+    fi
   fi
   {
 	info "ARCH: $ARCH"
