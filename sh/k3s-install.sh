@@ -369,6 +369,8 @@ DOWNLOADER=curl
 # 下载并安装
 if $DOWNLOAD_SKIP; then
   DOWNLOADS_ROOT=${DOWNLOADS_BASENAME}
+else
+  rm -fr ${DOWNLOADS_ROOT}
 fi
 if [ ! -f ${INSTALL_K3S_BIN} ] || [ "${MODE}" = PKG ]; then
   DOWNLOADS_FILE_SH=install.sh

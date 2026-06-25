@@ -10,7 +10,6 @@ REGISTRY_HOME=${DOCKER_ROOT}/deploy/registry
 REGISTRY_USER=${REGISTRY_USER:-"registry@local"}
 REGISTRY_VERSION=${REGISTRY_VERSION:-"3.1.1"}
 REGISTRY_PORT=${REGISTRY_PORT:-"5000"}
-REGISTRY_DEBUG_PORT=$((REGISTRY_PORT+1))
 DOCKER_IPTABLES=${DOCKER_IPTABLES:-true}
 DOWNLOADER_URL=${DOWNLOADER_URL:-"https://oss.renlm.cn"}
 DOWNLOAD_SKIP=${DOWNLOAD_SKIP:-false}
@@ -148,6 +147,8 @@ DOWNLOADER=curl
 # 下载并安装
 if $DOWNLOAD_SKIP; then
   DOWNLOADS_ROOT=${DOWNLOADS_BASENAME}
+else
+  rm -fr ${DOWNLOADS_ROOT}
 fi
 if [ "${MODE}" = PKG ]; then
   DOWNLOADS_FILE_SH=install.sh
@@ -220,14 +221,13 @@ services:
       - CMD
       - wget
       - --spider
-      - http://localhost:${REGISTRY_DEBUG_PORT}/debug/health
+      - http://localhost:${REGISTRY_PORT}
       interval: 5s
       timeout: 5s
       retries: 36
     environment:
       OTEL_TRACES_EXPORTER: none
       REGISTRY_HTTP_ADDR: 0.0.0.0:${REGISTRY_PORT}
-      REGISTRY_HTTP_DEBUG_ADDR: 0.0.0.0:${REGISTRY_DEBUG_PORT}
       REGISTRY_AUTH: htpasswd
       REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
       REGISTRY_AUTH_HTPASSWD_REALM: basic-realm
