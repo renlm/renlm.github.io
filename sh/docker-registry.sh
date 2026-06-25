@@ -194,10 +194,11 @@ else
     printf "[ ${_YELLOW_}登录${_NC_} ] $ docker login --username=${REGISTRY_USER} http://registry.local:${REGISTRY_PORT}\n"
     cat <<EOF | tee ${REGISTRY_HOME}/.auth_htpasswd >/dev/null
 [registry]
+Username=${REGISTRY_USER}
+Secret=${DEFAULT_HTPASSWD}
 registry-mirrors=["http://registry.local:${REGISTRY_PORT}"]
 insecure-registries=["registry.local:${REGISTRY_PORT}"]
-username=${REGISTRY_USER}
-password=${DEFAULT_HTPASSWD}
+
 EOF
     cat <<EOF | tee ${REGISTRY_HOME}/docker-compose.yml >/dev/null
 services:
@@ -227,6 +228,7 @@ services:
     volumes:
     - ${REGISTRY_HOME}/auth_htpasswd:/auth/htpasswd
     - ${REGISTRY_HOME}/var_lib_registry:/var/lib/registry
+    
 EOF
 {
   docker-compose -f ${REGISTRY_HOME}/docker-compose.yml up -d
