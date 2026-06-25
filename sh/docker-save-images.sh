@@ -92,7 +92,7 @@ if ! which ossutil > /dev/null 2>&1; then
     download /usr/local/bin/ossutil ${DOWNLOADER_URL}/ossutil/amd64/ossutil
   fi
   {
-	chmod +x /usr/local/bin/ossutil
+    chmod +x /usr/local/bin/ossutil
   }
 fi
 # ossutil cp registry-3.1.1-amd64.tar.gz oss://renlm-github-io/docker/images/

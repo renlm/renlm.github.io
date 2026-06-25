@@ -113,7 +113,7 @@ if [ "$MODE" = INSTALL ] || [ "$MODE" = PKG ]; then
     DOWNLOAD_SKIP=false
   fi
   {
-	info "MODE: $MODE"
+    info "MODE: $MODE"
     info "DOWNLOAD_SKIP: $DOWNLOAD_SKIP"
   }
 else
@@ -130,8 +130,8 @@ if [ "$ARCH" = auto ] || [ "$ARCH" = x86_64 ] || [ "$ARCH" = aarch64 ]; then
     fi
   fi
   {
-	info "ARCH: $ARCH"
-	info "ARCH_ALIAS: $ARCH_ALIAS"
+    info "ARCH: $ARCH"
+    info "ARCH_ALIAS: $ARCH_ALIAS"
   }
 else
   fatal "Unknown ARCH: $ARCH, auto or x86_64 or aarch64"

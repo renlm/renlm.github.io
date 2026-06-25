@@ -76,7 +76,7 @@ if [ "$MODE" = INSTALL ] || [ "$MODE" = PKG ]; then
     DOWNLOAD_SKIP=false
   fi
   {
-	[ "$NOT_INNER_SH" = true ] && info "MODE: $MODE" || true
+    [ "$NOT_INNER_SH" = true ] && info "MODE: $MODE" || true
     [ "$NOT_INNER_SH" = true ] && info "DOWNLOAD_SKIP: $DOWNLOAD_SKIP" || true
   }
 else
@@ -93,8 +93,8 @@ if [ "$ARCH" = auto ] || [ "$ARCH" = x86_64 ] || [ "$ARCH" = aarch64 ]; then
     fi
   fi
   {
-	[ "$NOT_INNER_SH" = true ] && info "ARCH: $ARCH" || true
-	[ "$NOT_INNER_SH" = true ] && info "ARCH_ALIAS: $ARCH_ALIAS" || true
+    [ "$NOT_INNER_SH" = true ] && info "ARCH: $ARCH" || true
+    [ "$NOT_INNER_SH" = true ] && info "ARCH_ALIAS: $ARCH_ALIAS" || true
   }
 else
   fatal "Unknown ARCH: $ARCH, auto or x86_64 or aarch64"
@@ -407,11 +407,11 @@ if [ ! -f ${INSTALL_DOCKER_BIN} ] || [ "${MODE}" = PKG ]; then
   DOWNLOADS_FILE_COMPOSE_BIN=docker/compose/${INSTALL_COMPOSE_VERSION}/docker-compose-linux-${ARCH}
   TOOLS_IMAGES_TAR=docker/images/tools-${ARCH_ALIAS}.tar.gz
   { # 下载资源
-	download ${DOWNLOADS_ROOT}/${DOWNLOADS_FILE_SH} ${INSTALL_SH}
-	download ${DOWNLOADS_ROOT}/${DOWNLOADS_FILE_DOCKER_BIN} ${DOWNLOADER_URL}/${DOWNLOADS_FILE_DOCKER_BIN}
-	download ${DOWNLOADS_ROOT}/${DOWNLOADS_FILE_BUILDX_BIN} ${DOWNLOADER_URL}/${DOWNLOADS_FILE_BUILDX_BIN}
-	download ${DOWNLOADS_ROOT}/${DOWNLOADS_FILE_COMPOSE_BIN} ${DOWNLOADER_URL}/${DOWNLOADS_FILE_COMPOSE_BIN}
-	download ${DOWNLOADS_ROOT}/${TOOLS_IMAGES_TAR} ${DOWNLOADER_URL}/${TOOLS_IMAGES_TAR}
+    download ${DOWNLOADS_ROOT}/${DOWNLOADS_FILE_SH} ${INSTALL_SH}
+    download ${DOWNLOADS_ROOT}/${DOWNLOADS_FILE_DOCKER_BIN} ${DOWNLOADER_URL}/${DOWNLOADS_FILE_DOCKER_BIN}
+    download ${DOWNLOADS_ROOT}/${DOWNLOADS_FILE_BUILDX_BIN} ${DOWNLOADER_URL}/${DOWNLOADS_FILE_BUILDX_BIN}
+    download ${DOWNLOADS_ROOT}/${DOWNLOADS_FILE_COMPOSE_BIN} ${DOWNLOADER_URL}/${DOWNLOADS_FILE_COMPOSE_BIN}
+    download ${DOWNLOADS_ROOT}/${TOOLS_IMAGES_TAR} ${DOWNLOADER_URL}/${TOOLS_IMAGES_TAR}
   }
   # 安装校验
   if [ "${MODE}" = INSTALL ]; then
@@ -419,7 +419,7 @@ if [ ! -f ${INSTALL_DOCKER_BIN} ] || [ "${MODE}" = PKG ]; then
     mkdir -p /usr/libexec/docker/cli-plugins
     tar -zxf ${DOWNLOADS_ROOT}/${TOOLS_IMAGES_TAR} -C ${DOWNLOADS_ROOT}/docker/images
     tar -zxf ${DOWNLOADS_ROOT}/docker/${INSTALL_DOCKER_VERSION}/${ARCH}/docker-${INSTALL_DOCKER_VERSION}.tgz --strip-components=1 -C ${INSTALL_DOCKER_ROOT}
-  	cp ${DOWNLOADS_ROOT}/docker/buildx/${INSTALL_BUILDX_VERSION}/buildx-v${INSTALL_BUILDX_VERSION}.linux-${ARCH_ALIAS} /usr/libexec/docker/cli-plugins/docker-buildx
+    cp ${DOWNLOADS_ROOT}/docker/buildx/${INSTALL_BUILDX_VERSION}/buildx-v${INSTALL_BUILDX_VERSION}.linux-${ARCH_ALIAS} /usr/libexec/docker/cli-plugins/docker-buildx
     cp ${DOWNLOADS_ROOT}/docker/compose/${INSTALL_COMPOSE_VERSION}/docker-compose-linux-${ARCH} /usr/libexec/docker/cli-plugins/docker-compose
     ln -sf /usr/libexec/docker/cli-plugins/docker-compose ${INSTALL_DOCKER_ROOT}/docker-compose
     ln -sf /usr/libexec/docker/cli-plugins/docker-buildx ${INSTALL_DOCKER_ROOT}/docker-buildx
