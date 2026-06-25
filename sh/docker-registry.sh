@@ -189,7 +189,7 @@ else
     mkdir -p ${REGISTRY_HOME}
     DEFAULT_HTPASSWD=$(head -c 32 /dev/urandom | base64 | tr -dc 'a-zA-Z0-9')
     docker run --rm --entrypoint htpasswd httpd:2 -b -nBC12 ${REGISTRY_USER} ${DEFAULT_HTPASSWD} > ${REGISTRY_HOME}/auth_htpasswd
-    printf "[ ${_YELLOW_}查看${_NC_} ] $ cat ${REGISTRY_HOME}/.auth_htpasswd"
+    printf "[ ${_YELLOW_}查看${_NC_} ] $ cat ${REGISTRY_HOME}/.auth_htpasswd\n"
     printf "[ ${_YELLOW_}登录${_NC_} ] $ docker login --username=${REGISTRY_USER} http://localhost:${REGISTRY_PORT}\n"
     cat <<EOF | tee ${REGISTRY_HOME}/.auth_htpasswd >/dev/null
 [registry]
@@ -208,8 +208,8 @@ services:
     healthcheck:
       test:
       - CMD
-      - curl
-      - -f
+      - wget
+      - --spider
       - http://localhost:${REGISTRY_DEBUG_PORT}/debug/health
       interval: 5s
       timeout: 5s
