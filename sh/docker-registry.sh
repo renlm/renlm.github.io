@@ -227,6 +227,7 @@ services:
       retries: 36
     environment:
       OTEL_TRACES_EXPORTER: none
+      REGISTRY_LOG_LEVEL: info
       REGISTRY_HTTP_ADDR: 0.0.0.0:${REGISTRY_PORT}
       REGISTRY_AUTH: htpasswd
       REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
