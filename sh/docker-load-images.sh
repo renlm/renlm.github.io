@@ -17,7 +17,7 @@ TAG_REGISTRY=${TAG_REGISTRY:-"registry.local:5000"}
 if [ -f $IMAGES_TXT ]; then
   # 导入镜像
   PLATFORM=$(head -n 1 $IMAGES_TXT)
-  PLATFORM=$(echo "$PLATFORM" | cut -d '=' -f $2)
+  PLATFORM=$(echo "$PLATFORM" | cut -d '=' -f2)
   PLATFORM_NUM=$(( $(echo ${PLATFORM} | tr -cd ',' | wc -c) + 1 ))
   for i in $(seq 1 $PLATFORM_NUM); do
     PLATFORM_ITEM=$(echo "$PLATFORM" | cut -d ',' -f $i)
