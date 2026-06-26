@@ -40,6 +40,7 @@ if [ -f $IMAGES_TXT ]; then
               PLATFORM1=$(echo "$PLATFORM" | cut -d ',' -f 1)
               PLATFORM2=$(echo "$PLATFORM" | cut -d ',' -f 2)
               if [ "$INSECURE_REGISTRY" = true ]; then
+                mkdir -p /etc/docker
                 cat <<EOF | tee /etc/docker/buildkitd.toml >/dev/null
 [registry."${TAG_REGISTRY}"]
   mirrors = ["${TAG_REGISTRY}"]
