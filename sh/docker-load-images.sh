@@ -40,16 +40,23 @@ if [ -f $IMAGES_TXT ]; then
               PLATFORM1=$(echo "$PLATFORM" | cut -d ',' -f 1)
               PLATFORM2=$(echo "$PLATFORM" | cut -d ',' -f 2)
               if [ "$INSECURE_REGISTRY" = true ]; then
-                docker buildx imagetools create --insecure \
-                  --tag ${TAG_REGISTRY}/${line_key} \
-                        ${TAG_REGISTRY}/${line_key}-${PLATFORM1##*/} \
-                        ${TAG_REGISTRY}/${line_key}-${PLATFORM2##*/}
-              else
+                cat <<EOF | tee /etc/docker/buildkitd.toml >/dev/null
+[registry."${TAG_REGISTRY}"]
+  mirrors = ["${TAG_REGISTRY}"]
+  http = true
+  insecure = true
+  
+EOF
+                {
+                  docker buildx create --config /etc/docker/buildkitd.toml --use
+                }
+              fi
+              {
                 docker buildx imagetools create \
                   --tag ${TAG_REGISTRY}/${line_key} \
-                        ${TAG_REGISTRY}/${line_key}-${PLATFORM1##*/} \
-                        ${TAG_REGISTRY}/${line_key}-${PLATFORM2##*/}
-              fi
+                    ${TAG_REGISTRY}/${line_key}-${PLATFORM1##*/} \
+                    ${TAG_REGISTRY}/${line_key}-${PLATFORM2##*/}
+              }
             fi
           fi
         fi
