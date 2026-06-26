@@ -8,6 +8,8 @@ set -o noglob
 ### 加载离线镜像包并推送到私有仓库
 # $ tar -zxvf rancher-images-v2.14.2.tar.gz
 # $ TAG_ENABLE=true INSECURE_REGISTRY=true TAG_REGISTRY=registry.local:5000 sh rancher-images-v2.14.2/docker-load-images.sh
+### 查看镜像详情
+# $ docker buildx imagetools inspect registry.local:5000/nginx:1.31.2-alpine
 ########################################################################
 SH_FILE=$0
 SH_ROOT=${SH_FILE%/*}
