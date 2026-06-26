@@ -17,6 +17,7 @@ TAG_REGISTRY=${TAG_REGISTRY:-"registry.local:5000"}
 if [ -f $IMAGES_TXT ]; then
   # 导入镜像
   PLATFORM=$(head -n 1 $IMAGES_TXT)
+  PLATFORM=$(echo "$PLATFORM" | cut -d '=' -f $2)
   PLATFORM_NUM=$(( $(echo ${PLATFORM} | tr -cd ',' | wc -c) + 1 ))
   for i in $(seq 1 $PLATFORM_NUM); do
     PLATFORM_ITEM=$(echo "$PLATFORM" | cut -d ',' -f $i)
@@ -28,7 +29,7 @@ if [ -f $IMAGES_TXT ]; then
         line_platform=$(echo "$line_val" | cut -d "@" -f1)
         line_tar=$(echo "$line_val" | cut -d "@" -f2)
         line_image=$(echo "$line_val" | cut -d "@" -f3)
-        if [ $PLATFORM_ITEM = "$line_platform" ]; then
+        if [ "$PLATFORM_ITEM" = "$line_platform" ]; then
           docker load -i ${SH_ROOT}/$line_tar
           if [ "$TAG_ENABLE" = true ]; then
             docker tag $line_image ${TAG_REGISTRY}/$line_image
