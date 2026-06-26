@@ -100,6 +100,7 @@ fi
 # ossutil cp registry-3.1.1-arm64.tar.gz oss://renlm-github-io/docker/images/
 # ossutil cp tools-amd64.tar.gz oss://renlm-github-io/docker/images/
 # ossutil cp tools-arm64.tar.gz oss://renlm-github-io/docker/images/
+# ossutil cp rancher-images-v2.14.2.tar.gz oss://renlm-github-io/docker/images/
 if [ ! -f ~/.ossutilconfig ]; then
   cat <<EOF | tee ~/.ossutilconfig >/dev/null
 [Credentials]
