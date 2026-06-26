@@ -25,6 +25,7 @@ if [ -f $IMAGES_TXT ]; then
     while IFS= read -r line; do
       TXT_LINE=$((TXT_LINE+1))
       if [ $TXT_LINE -gt 1 ]; then
+        line_key=$(echo "$line" | cut -d "=" -f1)
         line_val=$(echo "$line" | cut -d "=" -f2)
         line_platform=$(echo "$line_val" | cut -d "@" -f1)
         line_tar=$(echo "$line_val" | cut -d "@" -f2)
@@ -38,9 +39,9 @@ if [ -f $IMAGES_TXT ]; then
               PLATFORM1=$(echo "$PLATFORM" | cut -d ',' -f 1)
               PLATFORM2=$(echo "$PLATFORM" | cut -d ',' -f 2)
               docker buildx imagetools create \
-                --tag ${TAG_REGISTRY}/${line_val} \
-                ${TAG_REGISTRY}/${line_val}-${PLATFORM1##*/} \
-                ${TAG_REGISTRY}/${line_val}-${PLATFORM2##*/}
+                --tag ${TAG_REGISTRY}/${line_key} \
+                ${TAG_REGISTRY}/${line_key}-${PLATFORM1##*/} \
+                ${TAG_REGISTRY}/${line_key}-${PLATFORM2##*/}
             fi
           fi
         fi
