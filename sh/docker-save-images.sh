@@ -224,4 +224,4 @@ tar -czf ${DOWNLOADS_BASENAME}.tar.gz -C ${DOWNLOADS_ROOT%/*} ${DOWNLOADS_BASENA
 info "上传离线镜像包 ${DOWNLOADS_BASENAME}.tar.gz"
 info "解压离线镜像包 tar -zxvf ${DOWNLOADS_BASENAME}.tar.gz"
 info "场景1 - 加载离线镜像包到本地 sh ${DOWNLOADS_BASENAME}/docker-load-images.sh"
-info "场景2 - 推送到远程私有仓库 TAG_ENABLE=true TAG_REGISTRY=registry.local:5000 sh ${DOWNLOADS_BASENAME}/docker-load-images.sh"
+info "场景2 - 推送到远程私有仓库 TAG_ENABLE=true INSECURE_REGISTRY=true TAG_REGISTRY=registry.local:5000 sh ${DOWNLOADS_BASENAME}/docker-load-images.sh"

@@ -7,12 +7,13 @@ set -o noglob
 # $ sh tools-amd64/docker-load-images.sh
 ### 加载离线镜像包并推送到私有仓库
 # $ tar -zxvf rancher-images-v2.14.2.tar.gz
-# $ TAG_ENABLE=true TAG_REGISTRY=registry.local:5000 sh rancher-images-v2.14.2/docker-load-images.sh
+# $ TAG_ENABLE=true INSECURE_REGISTRY=true TAG_REGISTRY=registry.local:5000 sh rancher-images-v2.14.2/docker-load-images.sh
 ########################################################################
 SH_FILE=$0
 SH_ROOT=${SH_FILE%/*}
 IMAGES_TXT=${SH_ROOT}/${SH_ROOT}.txt
 TAG_ENABLE=${TAG_ENABLE:-false}
+INSECURE_REGISTRY=${INSECURE_REGISTRY:-false}
 TAG_REGISTRY=${TAG_REGISTRY:-"registry.local:5000"}
 if [ -f $IMAGES_TXT ]; then
   # 导入镜像
@@ -38,10 +39,17 @@ if [ -f $IMAGES_TXT ]; then
             if [ $i -eq 2 ]; then
               PLATFORM1=$(echo "$PLATFORM" | cut -d ',' -f 1)
               PLATFORM2=$(echo "$PLATFORM" | cut -d ',' -f 2)
-              docker buildx imagetools create \
-                --tag ${TAG_REGISTRY}/${line_key} \
-                ${TAG_REGISTRY}/${line_key}-${PLATFORM1##*/} \
-                ${TAG_REGISTRY}/${line_key}-${PLATFORM2##*/}
+              if [ "$INSECURE_REGISTRY" = true ]; then
+                docker buildx imagetools create --insecure \
+                  --tag ${TAG_REGISTRY}/${line_key} \
+                        ${TAG_REGISTRY}/${line_key}-${PLATFORM1##*/} \
+                        ${TAG_REGISTRY}/${line_key}-${PLATFORM2##*/}
+              else
+                docker buildx imagetools create \
+                  --tag ${TAG_REGISTRY}/${line_key} \
+                        ${TAG_REGISTRY}/${line_key}-${PLATFORM1##*/} \
+                        ${TAG_REGISTRY}/${line_key}-${PLATFORM2##*/}
+              fi
             fi
           fi
         fi
