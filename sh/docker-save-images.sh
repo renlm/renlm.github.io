@@ -217,7 +217,11 @@ for txt in $TXT_ARR; do
   done < $txt_file
 done
 
-download ${DOWNLOADS_ROOT%/*}/docker-load-images.sh ${DOCKER_LOAD_IMAGES_SH}
+download ${DOWNLOADS_ROOT}/docker-load-images.sh ${DOCKER_LOAD_IMAGES_SH}
 IMAGES_NUM=$(grep -v "^@PLATFORM=" ${DOWNLOADS_ROOT}/${IMAGES_TXT} | wc -l)
 info "Creating ${DOWNLOADS_BASENAME}.tar.gz with $IMAGES_NUM images"
 tar -czf ${DOWNLOADS_BASENAME}.tar.gz -C ${DOWNLOADS_ROOT%/*} ${DOWNLOADS_BASENAME}
+info "上传离线镜像包 ${DOWNLOADS_BASENAME}.tar.gz"
+info "解压离线镜像包 tar -zxvf ${DOWNLOADS_BASENAME}.tar.gz"
+info "场景1 - 加载离线镜像包到本地 sh ${DOWNLOADS_BASENAME}/docker-load-images.sh"
+info "场景2 - 推送到远程私有仓库 TAG_ENABLE=true TAG_REGISTRY=registry.local:5000 sh ${DOWNLOADS_BASENAME}/docker-load-images.sh"

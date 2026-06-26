@@ -2,12 +2,12 @@
 set -e
 set -o noglob
 ########################################################################
-### 加载离线镜像离线包
-# $ tar -zxvf docker-registry.x86_64.tar.gz
-# $ sh docker-registry/docker-load-images.sh
+### 加载离线镜像包
+# $ tar -zxvf tools-amd64.tar.gz
+# $ sh tools-amd64/docker-load-images.sh
 ### 加载离线镜像包并推送到私有仓库
-# $ tar -zxvf docker-registry.tar.gz
-# $ TAG_ENABLE=true TAG_REGISTRY=registry.local:5000 sh docker-registry/docker-load-images.sh
+# $ tar -zxvf rancher-images-v2.14.2.tar.gz
+# $ TAG_ENABLE=true TAG_REGISTRY=registry.local:5000 sh rancher-images-v2.14.2/docker-load-images.sh
 ########################################################################
 SH_FILE=$0
 SH_ROOT=${SH_FILE%/*}
