@@ -13,7 +13,7 @@ set -o noglob
 ########################################################################
 SH_FILE=$0
 SH_ROOT=${SH_FILE%/*}
-IMAGES_TXT=${SH_ROOT}/${SH_ROOT}.txt
+IMAGES_TXT=${SH_ROOT}/${SH_ROOT##*/}.txt
 TAG_ENABLE=${TAG_ENABLE:-false}
 INSECURE_REGISTRY=${INSECURE_REGISTRY:-false}
 TAG_REGISTRY=${TAG_REGISTRY:-"registry.local:5000"}
