@@ -13,6 +13,7 @@ set -o noglob
 #     --txt https://renlm.github.io/resources/rancher/v2.14.2/rancher-images.txt \
 #     --output rancher-images-v2.14.2
 ########################################################################
+DOCKER_LOAD_IMAGES_SH="https://renlm.github.io/sh/docker-load-images.sh"
 DOWNLOADER_URL=${DOWNLOADER_URL:-"https://oss.renlm.cn"}
 PLATFORM=${PLATFORM:-"linux/amd64,linux/arm64"}
 OUTPUT=docker-save-images
@@ -216,6 +217,7 @@ for txt in $TXT_ARR; do
   done < $txt_file
 done
 
+download ${DOWNLOADS_ROOT%/*}/docker-load-images.sh ${DOCKER_LOAD_IMAGES_SH}
 IMAGES_NUM=$(grep -v "^@PLATFORM=" ${DOWNLOADS_ROOT}/${IMAGES_TXT} | wc -l)
 info "Creating ${DOWNLOADS_BASENAME}.tar.gz with $IMAGES_NUM images"
 tar -czf ${DOWNLOADS_BASENAME}.tar.gz -C ${DOWNLOADS_ROOT%/*} ${DOWNLOADS_BASENAME}
