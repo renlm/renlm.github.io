@@ -59,9 +59,20 @@ acme_issuer acme-letsencrypt {
     accept_terms_of_service;
 }
 
+map \$http_upgrade \$connection_upgrade {
+    default Upgrade;
+    ''      close;
+}
+
 server {
-    listen       443 ssl;
-    server_name  ${REGISTRY_DOMAIN};
+    listen 80;
+    server_name ${REGISTRY_DOMAIN};
+    return 301 https://\$server_name\$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name ${REGISTRY_DOMAIN};
     
     acme_certificate      acme-letsencrypt;
     ssl_certificate       \$acme_certificate;
@@ -71,7 +82,16 @@ server {
     client_max_body_size 1024m;
     
     location / {
+        proxy_set_header Host \$host;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+        proxy_set_header X-Forwarded-Port \$server_port;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
         proxy_pass http://${LOCAL_IP}:${REGISTRY_PORT};
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade \$http_upgrade;
+        proxy_set_header Connection \$connection_upgrade;
+        proxy_read_timeout 900s;
+        proxy_buffering off;
     }
     
     location = /robots.txt {
