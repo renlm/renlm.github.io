@@ -349,6 +349,7 @@ ExecStart=${INSTALL_K3S_BIN} \\
 EOF
 # https://docs.k3s.io/zh/installation/private-registry
 if [ ! -f /etc/rancher/k3s/registries.yaml ]; then
+  mkdir -p /etc/rancher/k3s
   cat <<EOF | tee /etc/rancher/k3s/registries.yaml >/dev/null
 mirrors:
   docker.io:
