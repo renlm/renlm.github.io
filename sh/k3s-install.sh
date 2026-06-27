@@ -60,9 +60,11 @@ CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS=3650
 
 ########################################################################
 ### 安装cert-manager v1.20.2
+# https://cert-manager.io/docs/installation/helm
 # $ wget https://renlm.github.io/resources/cert-manager/v1.20.2/cert-manager-v1.20.2.tgz
 # $ helm install cert-manager cert-manager-v1.20.2.tgz --namespace cert-manager --create-namespace --set crds.enabled=true
 ### 安装rancher v2.14.2
+# https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/installation-references/helm-chart-options
 # $ wget https://renlm.github.io/resources/rancher/v2.14.2/rancher-2.14.2.tgz
 # $ kubectl create namespace cattle-system
 # $ helm install rancher rancher-2.14.2.tgz --namespace cattle-system --set hostname=rancher.renlm.cn --set ingress.enabled=false --set replicas=1
