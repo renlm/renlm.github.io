@@ -370,6 +370,8 @@ mirrors:
   quay.io:
     endpoint:
     - ${REGISTRY_URL}
+    rewrite:
+      "^quay\\\\.io/(.*)": "quay\\\\.io/\$1"
 configs:
   "${REGISTRY}":
     auth:
