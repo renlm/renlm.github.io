@@ -28,6 +28,7 @@ set -e
 set -o noglob
 
 # 获取 Docker 内置 DNS 地址
+cp -f /mnt/${REGISTRY_CONF} /etc/nginx/${REGISTRY_CONF}
 LOCAL_NAMESERVER=\$(awk 'BEGIN{ORS=" "} \$1=="nameserver" {if (\$2 ~ ":") {print "["\$2"]"} else {print \$2}}' /etc/resolv.conf)
 LOCAL_RESOLVER=\${LOCAL_NAMESERVER% }
 echo "sed -i \"s|\\\${LOCAL_RESOLVER}|\${LOCAL_RESOLVER}|g\" /etc/nginx/${REGISTRY_CONF}"
@@ -88,7 +89,7 @@ services:
       retries: 4
     volumes:
     - ${DEPLOY_HOME}/init.sh:/docker-entrypoint.d/init.sh
-    - ${NGINX_HOME}/${REGISTRY_CONF}:/etc/nginx/${REGISTRY_CONF}
+    - ${NGINX_HOME}/${REGISTRY_CONF}:/mnt/${REGISTRY_CONF}
     - ${NGINX_HOME}/acme-letsencrypt:/var/cache/nginx/acme-letsencrypt
     
 EOF
