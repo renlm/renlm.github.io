@@ -18,6 +18,8 @@ REGISTRY_PORT=${REGISTRY_PORT:-"5000"}
 REGISTRY_DOMAIN=${REGISTRY_DOMAIN:-"registry.renlm.cn"}
 ACME_ISSUER_CONTACT=${ACME_ISSUER_CONTACT:-"renlm@21cn.com"}
 if [ -f ${NGINX_HOME}/docker-compose.yml ]; then
+  echo "服务已存在：${NGINX_HOME}/docker-compose.yml"
+else
   mkdir -p ${NGINX_HOME}/conf.d
   LOCAL_IP=$(hostname -I | cut -d ' ' -f1)
   LOCAL_NAMESERVERS=$(awk 'BEGIN{ORS=" "} $1=="nameserver" {if ($2 ~ ":") {print "["$2"]"} else {print $2}}' /etc/resolv.conf)
