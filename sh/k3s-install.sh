@@ -69,14 +69,14 @@ CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS=3650
 ### 安装rancher v2.14.2
 # https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/installation-references/helm-chart-options
 # $ kubectl -n cattle-system rollout status deploy/rancher
-# $ wget https://renlm.github.io/resources/rancher/v2.14.2/rancher-2.14.2.tgz \
+# $ wget https://renlm.github.io/resources/rancher/v2.14.2/rancher-2.14.2.tgz
 # $ helm install rancher rancher-2.14.2.tgz \
 #     --namespace cattle-system --create-namespace \
 #     --set hostname=rancher.renlm.cn \
 #     --set ingress.tls.source=letsEncrypt \
 #     --set letsEncrypt.email=renlm@21cn.com \
 #     --set letsEncrypt.ingress.class=traefik \
-#     --set replicas=3 \
+#     --set replicas=3
 ########################################################################
 # $ docker login --username=registry@local https://registry.renlm.cn
 read -p "REGISTRY_URL [ https://registry.renlm.cn ] : " REGISTRY_URL < /dev/tty
