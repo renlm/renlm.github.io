@@ -29,8 +29,8 @@ set -e
 set -o noglob
 
 # 加载 ACME 模块
-NGX_HTTP_ACME_MODULE_SO_WCL=$(cat /etc/nginx/nginx.conf | grep "^load_module modules/ngx_http_acme_module.so;" | wc -l)
-if [ $NGX_HTTP_ACME_MODULE_SO_WCL -eq 0 ]; then
+NGX_HTTP_ACME_MODULE_SO_WCL=\$(cat /etc/nginx/nginx.conf | grep "^load_module modules/ngx_http_acme_module.so;" | wc -l)
+if [ \$NGX_HTTP_ACME_MODULE_SO_WCL -eq 0 ]; then
   echo "sed -i \"/^worker_processes/a\load_module modules/ngx_http_acme_module.so;\" /etc/nginx/nginx.conf"
   sed -i "/^worker_processes/a\load_module modules/ngx_http_acme_module.so;" /etc/nginx/nginx.conf
 fi
