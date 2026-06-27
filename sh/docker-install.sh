@@ -380,15 +380,7 @@ fi
   printf "[ ${_GREEN_}启动服务${_NC_} ] containerd\n"
   printf "[ ${_GREEN_}启动服务${_NC_} ] docker.socket\n"
   printf "[ ${_GREEN_}启动服务${_NC_} ] docker\n"
-  TXT_LINE=0
-  while IFS= read -r line; do
-    TXT_LINE=$((TXT_LINE+1))
-    if [ $TXT_LINE -gt 1 ]; then
-      line_val=$(echo "$line" | cut -d "=" -f2)
-      line_tar=$(echo "$line_val" | cut -d "@" -f2)
-      docker load -i ${DOWNLOADS_ROOT}/docker/images/tools-${ARCH_ALIAS}/$line_tar
-    fi
-  done < ${DOWNLOADS_ROOT}/docker/images/tools-${ARCH_ALIAS}/tools-${ARCH_ALIAS}.txt
+  sh ${DOWNLOADS_ROOT}/docker/images/tools-${ARCH_ALIAS}/docker-load-images.sh
 }
 }
 

@@ -179,18 +179,10 @@ else
   fi
 
   # 启动registry
-  TXT_LINE=0
   TOOLS_IMAGES_TAR=docker/images/registry-${REGISTRY_VERSION}-${ARCH_ALIAS}
   download ${DOWNLOADS_ROOT}/${TOOLS_IMAGES_TAR}.tar.gz ${DOWNLOADER_URL}/${TOOLS_IMAGES_TAR}.tar.gz
   tar -zxf ${DOWNLOADS_ROOT}/${TOOLS_IMAGES_TAR}.tar.gz -C ${DOWNLOADS_ROOT}/docker/images
-  while IFS= read -r line; do
-    TXT_LINE=$((TXT_LINE+1))
-    if [ $TXT_LINE -gt 1 ]; then
-      line_val=$(echo "$line" | cut -d "=" -f2)
-      line_tar=$(echo "$line_val" | cut -d "@" -f2)
-      docker load -i ${DOWNLOADS_ROOT}/${TOOLS_IMAGES_TAR}/$line_tar
-    fi
-  done < ${DOWNLOADS_ROOT}/${TOOLS_IMAGES_TAR}/registry-${REGISTRY_VERSION}-${ARCH_ALIAS}.txt
+  sh ${DOWNLOADS_ROOT}/${TOOLS_IMAGES_TAR}/docker-load-images.sh
   if [ -f ${REGISTRY_HOME}/docker-compose.yml ]; then
     warn "服务已存在：${REGISTRY_HOME}/docker-compose.yml"
   else
