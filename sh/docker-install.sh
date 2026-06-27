@@ -48,6 +48,15 @@ ARCH=${ARCH:-"auto"}
 # $ cat docker-install/install.sh | DOWNLOAD_SKIP=true DOCKER_ROOT=/data DOCKER_IPTABLES=true sh
 ########################################################################
 
+########################################################################
+### 清理缓存
+# $ docker system df
+# $ docker container prune
+# $ docker image prune -a
+# $ docker volume prune -a
+# $ docker builder prune -a
+########################################################################
+
 # 颜色代码
 _RED_='\033[0;31m'    # 红色
 _GREEN_='\033[0;32m'  # 绿色
