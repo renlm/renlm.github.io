@@ -73,6 +73,11 @@ server {
     location / {
         proxy_pass http://${LOCAL_IP}:${REGISTRY_PORT};
     }
+    
+    location = /robots.txt {
+        default_type text/plain;
+        return 200 "User-agent: *\nDisallow: /\n";
+    }
 }
 
 EOF
