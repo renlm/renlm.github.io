@@ -18,6 +18,9 @@ rancher/klipper-lb:v0.4.15
 rancher/klipper-lb:v0.4.16
 rancher/kube-api-auth:v0.2.6
 rancher/kubectl:v1.35.2
+rancher/kuberlr-kubectl:v6.0.0
+rancher/kuberlr-kubectl:v7.0.1
+rancher/kuberlr-kubectl:v7.0.3
 rancher/local-path-provisioner:v0.0.31
 rancher/local-path-provisioner:v0.0.32
 rancher/local-path-provisioner:v0.0.34
