@@ -57,13 +57,15 @@ CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS=3650
 ### [ 离线安装 ] agent 节点
 # $ cat k3s-install/install.sh | DOWNLOAD_SKIP=true sh -s - agent --server https://k3s-master.local:6443
 ########################################################################
+
+########################################################################
 ### 安装cert-manager v1.20.2
 # $ wget https://renlm.github.io/resources/cert-manager/v1.20.2/cert-manager-v1.20.2.tgz
 # $ helm install cert-manager cert-manager-v1.20.2.tgz --namespace cert-manager --create-namespace --set crds.enabled=true
 ### 安装rancher v2.14.2
 # $ wget https://renlm.github.io/resources/rancher/v2.14.2/rancher-2.14.2.tgz
 # $ kubectl create namespace cattle-system
-# $ helm install rancher rancher-2.14.2.tgz --namespace cattle-system --create-namespace --set ingress.enabled=false --set replicas=1
+# $ helm install rancher rancher-2.14.2.tgz --namespace cattle-system --set hostname=rancher.renlm.cn --set ingress.enabled=false --set replicas=1
 ########################################################################
 # $ docker login --username=registry@local https://registry.renlm.cn
 read -p "REGISTRY_URL [ https://registry.renlm.cn ] : " REGISTRY_URL < /dev/tty
