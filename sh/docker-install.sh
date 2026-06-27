@@ -267,7 +267,7 @@ Type=notify
 # exists and systemd currently does not support the cgroup feature set required
 # for containers run by docker
 ExecStart=${INSTALL_DOCKER_ROOT}/dockerd --iptables=${DOCKER_IPTABLES} --ip6tables=${DOCKER_IP6TABLES} --default-ulimit nofile=655350:655350 --config-file ${DOCKER_CONFIG} -H fd:// --containerd=/run/containerd/containerd.sock
-ExecReload=/bin/kill -s HUP $MAINPID
+ExecReload=/bin/kill -s HUP \$MAINPID
 TimeoutStartSec=0
 RestartSec=2
 Restart=always
