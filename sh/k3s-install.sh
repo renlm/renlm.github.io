@@ -57,6 +57,7 @@ CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS=3650
 ### [ 离线安装 ] agent 节点
 # $ cat k3s-install/install.sh | DOWNLOAD_SKIP=true sh -s - agent --server https://k3s-master.local:6443
 ########################################################################
+# $ docker login --username=registry@local https://registry.renlm.cn
 read -p "REGISTRY_URL [ https://registry.renlm.cn ] : " REGISTRY_URL
 read -p "REGISTRY_USERNAME [ registry@local ] : " REGISTRY_USERNAME
 read -sp "REGISTRY_PASSWORD [ ****** ] : " REGISTRY_PASSWORD
