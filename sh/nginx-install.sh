@@ -22,7 +22,7 @@ if [ -f ${NGINX_HOME}/docker-compose.yml ]; then
 else
   mkdir -p ${NGINX_HOME}/conf.d
   LOCAL_IP=$(hostname -I | cut -d ' ' -f1)
-  cat <<EOF | tee ${DEPLOY_HOME}/init.sh >/dev/null
+  cat <<EOF | tee ${NGINX_HOME}/init.sh >/dev/null
 #!/bin/sh
 set -e
 set -o noglob
@@ -70,10 +70,12 @@ server {
 }
 
 EOF
+  echo "alias ll='ls -l'" > ${NGINX_HOME}/.ashrc
   cat <<EOF | tee ${NGINX_HOME}/docker-compose.yml >/dev/null
 services:
   nginx:
     image: nginx:${NGINX_VERSION}
+    working_dir: /etc/nginx
     container_name: nginx
     hostname: nginx
     restart: always
@@ -89,14 +91,17 @@ services:
       interval: 15s
       timeout: 3s
       retries: 4
+    environment:
+      ENV: /etc/.ashrc
     volumes:
-    - ${DEPLOY_HOME}/init.sh:/docker-entrypoint.d/init.sh
+    - ${NGINX_HOME}/.ashrc:/etc/.ashrc
+    - ${NGINX_HOME}/init.sh:/docker-entrypoint.d/init.sh
     - ${NGINX_HOME}/${REGISTRY_CONF}:/mnt/${REGISTRY_CONF}
     - ${NGINX_HOME}/acme-letsencrypt:/var/cache/nginx/acme-letsencrypt
     
 EOF
 {
-  chmod +x ${DEPLOY_HOME}/init.sh
+  chmod +x ${NGINX_HOME}/init.sh
   docker-compose -f ${NGINX_HOME}/docker-compose.yml up -d
 }
 fi
