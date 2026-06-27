@@ -31,7 +31,7 @@ set -o noglob
 cp -f /mnt/${REGISTRY_CONF} /etc/nginx/${REGISTRY_CONF}
 LOCAL_NAMESERVER=\$(awk 'BEGIN{ORS=" "} \$1=="nameserver" {if (\$2 ~ ":") {print "["\$2"]"} else {print \$2}}' /etc/resolv.conf)
 LOCAL_RESOLVER=\${LOCAL_NAMESERVER% }
-echo "sed -i \"s|\\\${LOCAL_RESOLVER}|\${LOCAL_RESOLVER}|g\" /etc/nginx/${REGISTRY_CONF}"
+echo "sed -i \"s|\\\\\\\${LOCAL_RESOLVER}|\${LOCAL_RESOLVER}|g\" /etc/nginx/${REGISTRY_CONF}"
 sed -i "s|\\\${LOCAL_RESOLVER}|\${LOCAL_RESOLVER}|g" /etc/nginx/${REGISTRY_CONF}
 
 # 加载 ACME 模块
