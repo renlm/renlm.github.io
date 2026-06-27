@@ -28,11 +28,11 @@ ARCH=${ARCH:-"auto"}
 # K3S内部CA证书的最大有效期上限，最大值被限制为3650天（10年）
 CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS=3650
 ### [ 一键安装 ] master 主节点
-# $ curl -sfL https://renlm.github.io/sh/k3s-install.sh | K3S_TOKEN=istio sh -s - server --tls-san k3s-master.local --cluster-init
+# $ curl -sfL https://renlm.github.io/sh/k3s-install.sh | sh -s - server --tls-san k3s-master.local --cluster-init
 ### [ 一键安装 ] master 从节点
-# $ curl -sfL https://renlm.github.io/sh/k3s-install.sh | K3S_TOKEN=istio sh -s - server --server https://k3s-master.local:6443
+# $ curl -sfL https://renlm.github.io/sh/k3s-install.sh | sh -s - server --server https://k3s-master.local:6443
 ### [ 一键安装 ] agent 节点
-# $ curl -sfL https://renlm.github.io/sh/k3s-install.sh | K3S_TOKEN=istio sh -s - agent --server https://k3s-master.local:6443
+# $ curl -sfL https://renlm.github.io/sh/k3s-install.sh | sh -s - agent --server https://k3s-master.local:6443
 ### 重载命令行别名
 # $ source ~/.bashrc
 # $ helm version
@@ -51,12 +51,21 @@ CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS=3650
 # $ tar -zxvf k3s-install.x86_64.tar.gz
 # $ tar -zxvf k3s-install.aarch64.tar.gz
 ### [ 离线安装 ] master 主节点
-# $ cat k3s-install/install.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - server --tls-san k3s-master.local --cluster-init
+# $ cat k3s-install/install.sh | DOWNLOAD_SKIP=true sh -s - server --tls-san k3s-master.local --cluster-init
 ### [ 离线安装 ] master 从节点
-# $ cat k3s-install/install.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - server --server https://k3s-master.local:6443
+# $ cat k3s-install/install.sh | DOWNLOAD_SKIP=true sh -s - server --server https://k3s-master.local:6443
 ### [ 离线安装 ] agent 节点
-# $ cat k3s-install/install.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - agent --server https://k3s-master.local:6443
+# $ cat k3s-install/install.sh | DOWNLOAD_SKIP=true sh -s - agent --server https://k3s-master.local:6443
 ########################################################################
+read -p "REGISTRY_URL [ https://registry.renlm.cn ] : " REGISTRY_URL
+read -p "REGISTRY_USERNAME [ registry@local ] : " REGISTRY_USERNAME
+read -sp "REGISTRY_PASSWORD [ ****** ] : " REGISTRY_PASSWORD
+read -sp "K3S_TOKEN [ k3s@token ] : " K3S_TOKEN
+REGISTRY_URL=${REGISTRY_URL:-"https://registry.renlm.cn"}
+REGISTRY=$(echo "$REGISTRY_URL" | cut -d "/" -f3)
+REGISTRY_USERNAME=${REGISTRY_USERNAME:-"registry@local"}
+REGISTRY_PASSWORD=${REGISTRY_PASSWORD:-"******"}
+K3S_TOKEN=${K3S_TOKEN:-"k3s@token"}
 
 # 颜色代码
 _RED_='\033[0;31m'    # 红色
@@ -422,9 +431,9 @@ if [ ! -f ${INSTALL_K3S_BIN} ] || [ "${MODE}" = PKG ]; then
     tar -czf ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz -C ${DOWNLOADS_ROOT%/*} ${DOWNLOADS_BASENAME}
     info "离线安装 - 第1步：上传离线安装包 ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz"
     info "离线安装 - 第2步：解压离线安装包 tar -zxvf ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz"
-    info "master 主节点：\$ cat ${DOWNLOADS_BASENAME}/install.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - server --tls-san k3s-master.local --cluster-init"
-    info "master 从节点：\$ cat ${DOWNLOADS_BASENAME}/install.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - server --server https://k3s-master.local:6443"
-    info "agent 节点：\$ cat ${DOWNLOADS_BASENAME}/install.sh | DOWNLOAD_SKIP=true K3S_TOKEN=istio sh -s - agent --server https://k3s-master.local:6443"
+    info "master 主节点：\$ cat ${DOWNLOADS_BASENAME}/install.sh | DOWNLOAD_SKIP=true sh -s - server --tls-san k3s-master.local --cluster-init"
+    info "master 从节点：\$ cat ${DOWNLOADS_BASENAME}/install.sh | DOWNLOAD_SKIP=true sh -s - server --server https://k3s-master.local:6443"
+    info "agent 节点：\$ cat ${DOWNLOADS_BASENAME}/install.sh | DOWNLOAD_SKIP=true sh -s - agent --server https://k3s-master.local:6443"
   fi
 else
   printf "[ ${_YELLOW_}已安装${_NC_} ] ${INSTALL_K3S_BIN}\n"
