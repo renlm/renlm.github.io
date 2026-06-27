@@ -58,10 +58,15 @@ CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS=3650
 # $ cat k3s-install/install.sh | DOWNLOAD_SKIP=true sh -s - agent --server https://k3s-master.local:6443
 ########################################################################
 # $ docker login --username=registry@local https://registry.renlm.cn
+echo
 read -p "REGISTRY_URL [ https://registry.renlm.cn ] : " REGISTRY_URL < /dev/tty
+echo
 read -p "REGISTRY_USERNAME [ registry@local ] : " REGISTRY_USERNAME < /dev/tty
+echo
 read -sp "REGISTRY_PASSWORD [ ****** ] : " REGISTRY_PASSWORD < /dev/tty
+echo
 read -sp "K3S_TOKEN [ k3s@token ] : " K3S_TOKEN < /dev/tty
+echo
 REGISTRY_URL=${REGISTRY_URL:-"https://registry.renlm.cn"}
 REGISTRY=$(echo "$REGISTRY_URL" | cut -d "/" -f3)
 REGISTRY_USERNAME=${REGISTRY_USERNAME:-"registry@local"}
