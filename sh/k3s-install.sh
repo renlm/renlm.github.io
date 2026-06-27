@@ -361,7 +361,7 @@ mirrors:
     endpoint:
     - ${REGISTRY_URL}
     rewrite:
-      '^quay\.io/(.*)': '${REGISTRY}/quay\.io/\$1'
+      "^quay\\.io/(.*)": "${REGISTRY}/quay\\.io/\$1"
 configs:
   "${REGISTRY}":
     auth:
