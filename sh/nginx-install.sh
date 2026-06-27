@@ -23,6 +23,19 @@ else
   mkdir -p ${NGINX_HOME}/conf.d
   LOCAL_IP=$(hostname -I | cut -d ' ' -f1)
   LOCAL_NAMESERVERS=$(awk 'BEGIN{ORS=" "} $1=="nameserver" {if ($2 ~ ":") {print "["$2"]"} else {print $2}}' /etc/resolv.conf)
+  cat <<EOF | tee ${DEPLOY_HOME}/init.sh >/dev/null
+#!/bin/sh
+set -e
+set -o noglob
+
+# 加载 ACME 模块
+NGX_HTTP_ACME_MODULE_SO_WCL=$(cat /etc/nginx/nginx.conf | grep "^load_module modules/ngx_http_acme_module.so;" | wc -l)
+if [ $NGX_HTTP_ACME_MODULE_SO_WCL -eq 0 ]; then
+  echo "sed -i \"/^worker_processes/a\load_module modules/ngx_http_acme_module.so;\" /etc/nginx/nginx.conf"
+  sed -i "/^worker_processes/a\load_module modules/ngx_http_acme_module.so;" /etc/nginx/nginx.conf
+fi
+
+EOF
   cat <<EOF | tee ${NGINX_HOME}/${REGISTRY_CONF} >/dev/null
 resolver ${LOCAL_NAMESERVERS% } ipv6=off;
 acme_shared_zone zone=ngx_acme_shared:1M;
@@ -69,11 +82,13 @@ services:
       timeout: 3s
       retries: 4
     volumes:
+    - ${DEPLOY_HOME}/init.sh:/docker-entrypoint.d/init.sh
     - ${NGINX_HOME}/${REGISTRY_CONF}:/etc/nginx/${REGISTRY_CONF}
     - ${NGINX_HOME}/acme-letsencrypt:/var/cache/nginx/acme-letsencrypt
     
 EOF
 {
+  chmod +x ${DEPLOY_HOME}/init.sh
   docker-compose -f ${NGINX_HOME}/docker-compose.yml up -d
 }
 fi
