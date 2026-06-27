@@ -67,13 +67,8 @@ CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS=3650
 ### 安装rancher v2.14.2
 # https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/installation-references/helm-chart-options
 # $ wget https://renlm.github.io/resources/rancher/v2.14.2/rancher-2.14.2.tgz
-# 使用cert-manager为域名申请证书
 # $ helm install rancher rancher-2.14.2.tgz --namespace cattle-system --create-namespace --set hostname=rancher.renlm.cn --set replicas=3
-# 在外部的 L7 负载均衡器上终止 Rancher 的 SSL/TLS
-# $ helm install rancher rancher-2.14.2.tgz --namespace cattle-system --create-namespace --set hostname=rancher.renlm.cn --set ingress.enabled=false --set replicas=1
 # $ kubectl -n cattle-system rollout status deploy/rancher
-# Rancher 服务的 80 端口默认会进行 302 重定向，当 X-Forwarded-Proto 为 https 时停止
-# $ curl -i -HHost:rancher.renlm.cn -HX-Forwarded-Proto:https "http://{CLUSTER-IP}/dashboard/"
 ########################################################################
 # $ docker login --username=registry@local https://registry.renlm.cn
 read -p "REGISTRY_URL [ https://registry.renlm.cn ] : " REGISTRY_URL < /dev/tty
