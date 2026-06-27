@@ -335,6 +335,19 @@ ExecStart=${INSTALL_K3S_BIN} \\
     ${CMD_K3S_EXEC}
 
 EOF
+  cat <<EOF | tee /etc/rancher/k3s/registries.yaml >/dev/null
+mirrors:
+  docker.io:
+    endpoint:
+    - "${REGISTRY_URL}"
+    rewrite:
+      "^rancher/(.*)": "${REGISTRY}/rancher/\$1"
+configs:
+  "${REGISTRY}":
+    auth:
+      username: "${REGISTRY_USERNAME}"
+      password: "${REGISTRY_PASSWORD}"
+EOF
 {
   systemctl daemon-reload
   systemctl enable ${SYSTEM_NAME}
