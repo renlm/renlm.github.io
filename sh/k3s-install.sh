@@ -68,7 +68,7 @@ REGISTRY_URL=${REGISTRY_URL:-"https://registry.renlm.cn"}
 REGISTRY=$(echo "$REGISTRY_URL" | cut -d "/" -f3)
 REGISTRY_USERNAME=${REGISTRY_USERNAME:-"registry@local"}
 REGISTRY_PASSWORD=${REGISTRY_PASSWORD:-"******"}
-K3S_TOKEN=${K3S_TOKEN:-"k3s@token"}
+export K3S_TOKEN=${K3S_TOKEN:-"k3s@token"}
 
 # 颜色代码
 _RED_='\033[0;31m'    # 红色
