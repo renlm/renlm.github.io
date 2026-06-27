@@ -5,6 +5,8 @@ set -o noglob
 # https://nginx.org/en/docs/http/ngx_http_acme_module.html
 # https://letsencrypt.org/docs/profiles
 # https://letsencrypt.org/docs/acme-protocol-updates
+### 一键安装
+# $ curl -sfL https://renlm.github.io/sh/nginx-install.sh | REGISTRY_DOMAIN=registry.renlm.cn sh
 ########################################################################
 DOCKER_ROOT=${DOCKER_ROOT:-"/data"}
 NGINX_HOME=${DOCKER_ROOT}/deploy/nginx
