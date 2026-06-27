@@ -22,11 +22,16 @@ if [ -f ${NGINX_HOME}/docker-compose.yml ]; then
 else
   mkdir -p ${NGINX_HOME}/conf.d
   LOCAL_IP=$(hostname -I | cut -d ' ' -f1)
-  LOCAL_NAMESERVERS=$(awk 'BEGIN{ORS=" "} $1=="nameserver" {if ($2 ~ ":") {print "["$2"]"} else {print $2}}' /etc/resolv.conf)
   cat <<EOF | tee ${DEPLOY_HOME}/init.sh >/dev/null
 #!/bin/sh
 set -e
 set -o noglob
+
+# 获取 Docker 内置 DNS 地址
+LOCAL_NAMESERVER=\$(awk 'BEGIN{ORS=" "} \$1=="nameserver" {if (\$2 ~ ":") {print "["\$2"]"} else {print \$2}}' /etc/resolv.conf)
+LOCAL_RESOLVER=\${LOCAL_NAMESERVER% }
+echo "sed -i \"s|\\\${LOCAL_RESOLVER}|\${LOCAL_RESOLVER}|g\" /etc/nginx/${REGISTRY_CONF}"
+sed -i "s|\\\${LOCAL_RESOLVER}|\${LOCAL_RESOLVER}|g" /etc/nginx/${REGISTRY_CONF}
 
 # 加载 ACME 模块
 NGX_HTTP_ACME_MODULE_SO_WCL=\$(cat /etc/nginx/nginx.conf | grep "^load_module modules/ngx_http_acme_module.so;" | wc -l)
@@ -37,7 +42,7 @@ fi
 
 EOF
   cat <<EOF | tee ${NGINX_HOME}/${REGISTRY_CONF} >/dev/null
-resolver ${LOCAL_NAMESERVERS% } ipv6=off;
+resolver \${LOCAL_RESOLVER} valid=30s ipv6=off;
 acme_shared_zone zone=ngx_acme_shared:1M;
 acme_issuer acme-letsencrypt {
     uri         https://acme-v02.api.letsencrypt.org/directory;
