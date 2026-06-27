@@ -366,12 +366,10 @@ if [ ! -f /etc/rancher/k3s/registries.yaml ]; then
 mirrors:
   docker.io:
     endpoint:
-    - ${REGISTRY_URL}
+    - ${REGISTRY_URL}/v2
   quay.io:
     endpoint:
-    - ${REGISTRY_URL}
-    rewrite:
-      "^quay\\\\.io/(.*)": "quay\\\\.io/\$1"
+    - ${REGISTRY_URL}/v2/quay.io
 configs:
   "${REGISTRY}":
     auth:
