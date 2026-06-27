@@ -12,6 +12,7 @@ NGINX_VERSION=${NGINX_VERSION:-"1.31.2-alpine"}
 HTTP_PORT=${HTTP_PORT:-"80"}
 HTTPS_PORT=${HTTPS_PORT:-"443"}
 if [ -f ${NGINX_HOME}/docker-compose.yml ]; then
+  LOCAL_IP=$(hostname -I | cut -d ' ' -f1)
   cat <<EOF | tee ${NGINX_HOME}/docker-compose.yml >/dev/null
 services:
   nginx:
@@ -28,11 +29,12 @@ services:
       - curl
       - -f
       - http://localhost:${HTTP_PORT}
-      interval: 5s
-      timeout: 5s
-      retries: 12
+      interval: 15s
+      timeout: 3s
+      retries: 4
     volumes:
     - ${NGINX_HOME}/acme-letsencrypt:/var/cache/nginx/acme-letsencrypt
+    - ${NGINX_HOME}/conf.d/registry.conf:/etc/nginx/conf.d/registry.conf
     
 EOF
 {

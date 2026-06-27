@@ -215,9 +215,9 @@ services:
       - wget
       - --spider
       - http://localhost:${REGISTRY_PORT}
-      interval: 5s
-      timeout: 5s
-      retries: 36
+      interval: 15s
+      timeout: 3s
+      retries: 4
     environment:
       OTEL_TRACES_EXPORTER: none
       REGISTRY_LOG_LEVEL: info
