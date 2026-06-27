@@ -335,6 +335,8 @@ ExecStart=${INSTALL_K3S_BIN} \\
     ${CMD_K3S_EXEC}
 
 EOF
+# https://docs.k3s.io/zh/installation/private-registry
+if [ ! -f /etc/rancher/k3s/registries.yaml ]; then
   cat <<EOF | tee /etc/rancher/k3s/registries.yaml >/dev/null
 mirrors:
   docker.io:
@@ -342,12 +344,18 @@ mirrors:
     - "${REGISTRY_URL}"
     rewrite:
       "^rancher/(.*)": "${REGISTRY}/rancher/\$1"
+  quay.io:
+    endpoint:
+    - "${REGISTRY_URL}"
+    rewrite:
+      "^quay\.io/(.*)": "${REGISTRY}/quay\.io/\$1"
 configs:
   "${REGISTRY}":
     auth:
       username: "${REGISTRY_USERNAME}"
       password: "${REGISTRY_PASSWORD}"
 EOF
+fi
 {
   systemctl daemon-reload
   systemctl enable ${SYSTEM_NAME}
