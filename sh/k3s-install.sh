@@ -3,6 +3,14 @@ set -e
 set -o noglob
 
 ########################################################################
+### 安装cert-manager v1.20.2
+# $ wget https://renlm.github.io/resources/cert-manager/v1.20.2/cert-manager-v1.20.2.tgz
+# $ helm install cert-manager cert-manager-v1.20.2.tgz --namespace cert-manager --create-namespace --set crds.enabled=true
+### 安装rancher v1.20.2
+# $ wget https://renlm.github.io/resources/rancher/v2.14.2/rancher-2.14.2.tgz
+# $ kubectl create namespace cattle-system
+# $ helm install rancher rancher-2.14.2.tgz --namespace cattle-system --set hostname=rancher.renlm.cn --set ingress.enabled=false --set replicas=1
+########################################################################
 # https://get.k3s.io
 # https://docs.k3s.io/zh/installation/configuration
 # https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-14-2/
@@ -361,7 +369,7 @@ mirrors:
     endpoint:
     - ${REGISTRY_URL}
     rewrite:
-      "^quay\\.io/(.*)": "${REGISTRY}/quay\\.io/\$1"
+      "^quay\\\\.io/(.*)": "${REGISTRY}/quay\\\\.io/\$1"
 configs:
   "${REGISTRY}":
     auth:
