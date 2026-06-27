@@ -41,6 +41,12 @@ if [ \$NGX_HTTP_ACME_MODULE_SO_WCL -eq 0 ]; then
   sed -i "/^worker_processes/a\load_module modules/ngx_http_acme_module.so;" /etc/nginx/nginx.conf
 fi
 
+# 禁止所有爬虫抓取整个站点
+if [ ! -f /usr/share/nginx/html/robots.txt ]; then
+  echo "User-agent: *" > /usr/share/nginx/html/robots.txt
+  echo "Disallow: /" >> /usr/share/nginx/html/robots.txt
+fi
+
 EOF
   cat <<EOF | tee ${NGINX_HOME}/${REGISTRY_CONF} >/dev/null
 resolver \${LOCAL_RESOLVER} valid=30s ipv6=off;
