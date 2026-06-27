@@ -9,7 +9,7 @@ set -o noglob
 # https://helm.sh/docs/topics/version_skew/
 # https://github.com/k3s-io/k3s/releases
 # https://github.com/helm/helm/releases/
-# [ 版本匹配 ] k3s: v1.34.8+k3s1, helm: v4.0.5, rancher: v2.14.2
+# [ 版本匹配 ] k3s: v1.34.8+k3s1, helm: v4.0.5, cert-manager: v1.20.2, rancher: v2.14.2
 INSTALL_SH=${INSTALL_SH:-"https://renlm.github.io/sh/k3s-install.sh"}
 INSTALL_K3S_VERSION=${INSTALL_K3S_VERSION:-"v1.34.8+k3s1"}
 INSTALL_HELM_VERSION=${INSTALL_HELM_VERSION:-"v4.0.5"}
