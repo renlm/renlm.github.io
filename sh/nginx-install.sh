@@ -62,6 +62,8 @@ server {
     ssl_certificate_key   \$acme_certificate_key;
     ssl_certificate_cache max=2;
     
+    client_max_body_size 1024m;
+    
     location / {
         proxy_pass http://${LOCAL_IP}:${REGISTRY_PORT};
     }
