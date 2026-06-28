@@ -101,6 +101,8 @@ CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS=3650
 # Rancher 服务的 80 端口默认会进行 302 重定向，当 X-Forwarded-Proto 为 https 时停止
 # $ kubectl apply -f k3s-install/rancher.yaml
 # $ curl -i -HHost:rancher.renlm.cn -HX-Forwarded-Proto:https http://localhost:30080/dashboard/
+### 卸载 Rancher
+# $ helm uninstall rancher -n cattle-system
 ########################################################################
 
 ### 镜像仓库及集群Token设置
