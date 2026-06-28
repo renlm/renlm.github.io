@@ -5,10 +5,13 @@ set -o noglob
 ########################################################################
 # https://get.k3s.io
 # https://docs.k3s.io/zh/installation/configuration
-# https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-14-2/
-# https://helm.sh/docs/topics/version_skew/
+# https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-14-2
 # https://github.com/k3s-io/k3s/releases
-# https://github.com/helm/helm/releases/
+# https://helm.sh/docs/topics/version_skew
+# https://github.com/helm/helm/releases
+# https://cert-manager.io/docs/installation/helm
+# https://istio.io/latest/docs/setup/additional-setup/download-istio-release/
+# https://github.com/istio/istio/releases
 # [ 版本匹配 ] k3s: v1.34.8+k3s1, helm: v4.0.5, cert-manager: v1.20.2, rancher: v2.14.2, istio: 1.30.2
 INSTALL_SH=${INSTALL_SH:-"https://renlm.github.io/sh/k3s-install.sh"}
 INSTALL_K3S_VERSION=${INSTALL_K3S_VERSION:-"v1.34.8+k3s1"}
