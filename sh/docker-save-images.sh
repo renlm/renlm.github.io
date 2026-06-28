@@ -13,6 +13,10 @@ set -o noglob
 #     --txt https://oss.renlm.cn/rancher/v2.14.2/rancher-images.txt \
 #     --output rancher-images-v2.14.2
 ########################################################################
+# $ helm repo add jetstack https://charts.jetstack.io --force-update
+# $ helm fetch jetstack/cert-manager --version=v1.20.2
+# $ helm repo add rancher-stable https://releases.rancher.com/server-charts/stable --force-update
+# $ helm fetch rancher-stable/rancher --version=2.14.2
 # $ rm -f rancher-images.txt \
 #     && wget https://github.com/rancher/rancher/releases/download/v2.14.2/rancher-images.txt \
 #     && sed -i '/hardened/d' rancher-images.txt \
