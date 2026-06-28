@@ -78,11 +78,9 @@ create_conf() {
   ACME_PROXY_URL=$2
   ACME_PROXY_SCHEME=$(echo "$ACME_PROXY_URL" | cut -d ":" -f1)
   ACME_PROXY_SERVER=$(echo "$ACME_PROXY_URL" | cut -d "/" -f3)
-  if [ -f ${NGINX_HOME}/conf.d/acme.conf ]; then
-    info "已部署：${NGINX_HOME}/conf.d/acme.conf"
-  else
+  if [ ! -f ${NGINX_HOME}/conf.d/acme.conf ]; then
     mkdir -p ${NGINX_HOME}/conf.d
-    info "部署中：${NGINX_HOME}/conf.d/acme.conf"
+    info "Creating ${NGINX_HOME}/conf.d/acme.conf"
     cat <<EOF | tee ${NGINX_HOME}/conf.d/acme.conf >/dev/null
 resolver \${LOCAL_RESOLVER} valid=30s ipv6=off;
 acme_shared_zone zone=ngx_acme_shared:1M;
@@ -101,10 +99,8 @@ map \$http_upgrade \$connection_upgrade {
 
 EOF
 fi
-  if [ -f ${NGINX_HOME}/conf.d/${ACME_DOMAIN_NAME}.conf ]; then
-    info "已部署：${NGINX_HOME}/conf.d/${ACME_DOMAIN_NAME}.conf"
-  else
-    info "部署中：${NGINX_HOME}/conf.d/${ACME_DOMAIN_NAME}.conf"
+  if [ ! -f ${NGINX_HOME}/conf.d/${ACME_DOMAIN_NAME}.conf ]; then
+    info "Creating ${NGINX_HOME}/conf.d/${ACME_DOMAIN_NAME}.conf"
     cat <<EOF | tee ${NGINX_HOME}/conf.d/${ACME_DOMAIN_NAME}.conf >/dev/null
 upstream ${ACME_DOMAIN_NAME} {
     server ${ACME_PROXY_SERVER};
@@ -160,13 +156,13 @@ for acme_config in $ACME_CONFIG_ARR; do
 done
 
 if [ -f ${NGINX_HOME}/docker-compose.yml ]; then
-  info "已部署：${NGINX_HOME}/docker-compose.yml"
   info "docker exec -it nginx /docker-entrypoint.d/init.sh"
   docker exec -it nginx /docker-entrypoint.d/init.sh
   info "docker exec -it nginx nginx -s reload"
   docker exec -it nginx nginx -s reload
 else
   mkdir -p ${NGINX_HOME}/conf.d
+  info "Creating ${NGINX_HOME}/init.sh"
   cat <<EOF | tee ${NGINX_HOME}/init.sh >/dev/null
 #!/bin/sh
 set -e
@@ -197,6 +193,7 @@ fi
 
 EOF
   echo "alias ll='ls -l'" > ${NGINX_HOME}/.ashrc
+  info "Creating ${NGINX_HOME}/docker-compose.yml"
   cat <<EOF | tee ${NGINX_HOME}/docker-compose.yml >/dev/null
 services:
   nginx:
