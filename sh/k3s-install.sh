@@ -13,6 +13,9 @@ set -o noglob
 INSTALL_SH=${INSTALL_SH:-"https://renlm.github.io/sh/k3s-install.sh"}
 INSTALL_K3S_VERSION=${INSTALL_K3S_VERSION:-"v1.34.8+k3s1"}
 INSTALL_HELM_VERSION=${INSTALL_HELM_VERSION:-"v4.0.5"}
+INSTALL_CERT_MANAGER_VERSION=${INSTALL_CERT_MANAGER_VERSION:-"v1.20.2"}
+INSTALL_RANCHER_VERSION=${INSTALL_RANCHER_VERSION:-"v2.14.2"}
+DOWNLOAD_RANCHER_VERSION=$(echo ${INSTALL_RANCHER_VERSION} | sed "s/v//g")
 DOWNLOAD_K3S_VERSION=$(echo ${INSTALL_K3S_VERSION} | sed "s/+/-/g")
 DOWNLOADER_URL=${DOWNLOADER_URL:-"https://oss.renlm.cn"}
 DOWNLOAD_SKIP=${DOWNLOAD_SKIP:-false}
@@ -44,15 +47,13 @@ CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS=3650
 ### 安装cert-manager v1.20.2
 # https://cert-manager.io/docs/installation/helm
 # $ kubectl -n cert-manager get deploy cert-manager
-# $ wget https://renlm.github.io/resources/cert-manager/v1.20.2/cert-manager-v1.20.2.tgz
-# $ helm install cert-manager cert-manager-v1.20.2.tgz \
+# $ helm install cert-manager /opt/k3s-install/cert-manager-v1.20.2.tgz \
 #     --namespace cert-manager --create-namespace \
 #     --set crds.enabled=true
 ### 安装rancher v2.14.2
 # https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/installation-references/helm-chart-options
 # $ kubectl -n cattle-system rollout status deploy/rancher
-# $ wget https://renlm.github.io/resources/rancher/v2.14.2/rancher-2.14.2.tgz
-# $ helm install rancher rancher-2.14.2.tgz \
+# $ helm install rancher /opt/k3s-install/rancher-2.14.2.tgz \
 #     --namespace cattle-system --create-namespace \
 #     --set hostname=rancher.renlm.cn \
 #     --set ingress.tls.source=letsEncrypt \
