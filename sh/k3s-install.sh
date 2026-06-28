@@ -104,15 +104,15 @@ CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS=3650
 ########################################################################
 
 ### 镜像仓库及集群Token设置
-# $ docker login --username=registry@local https://registry.renlm.cn
+# $ docker login --username=registry@local http://registry.local:5000
 if [ ! "$MODE" = PKG ]; then
-  read -p "REGISTRY_URL [ https://registry.renlm.cn ] : " REGISTRY_URL < /dev/tty
+  read -p "REGISTRY_URL [ http://registry.local:5000 ] : " REGISTRY_URL < /dev/tty
   read -p "REGISTRY_USERNAME [ registry@local ] : " REGISTRY_USERNAME < /dev/tty
   read -sp "REGISTRY_PASSWORD [ ****** ] : " REGISTRY_PASSWORD < /dev/tty
   echo
   read -sp "K3S_TOKEN [ k3s@token ] : " K3S_TOKEN < /dev/tty
   echo
-  REGISTRY_URL=${REGISTRY_URL:-"https://registry.renlm.cn"}
+  REGISTRY_URL=${REGISTRY_URL:-"http://registry.local:5000"}
   REGISTRY=$(echo "$REGISTRY_URL" | cut -d "/" -f3)
   REGISTRY_USERNAME=${REGISTRY_USERNAME:-"registry@local"}
   REGISTRY_PASSWORD=${REGISTRY_PASSWORD:-"******"}
