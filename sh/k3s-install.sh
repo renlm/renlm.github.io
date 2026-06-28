@@ -420,6 +420,7 @@ fi
 }
 {
   ln -sf /usr/local/helm-${INSTALL_HELM_VERSION}/helm /usr/local/bin/helm
+  ln -sf /usr/local/istio-${INSTALL_ISTIO_VERSION}/bin/istioctl /usr/local/bin/istioctl
   sed -i '$a export KUBECONFIG=/etc/rancher/k3s/k3s.yaml' ~/.bashrc
   sed -i '$a alias kubectl="k3s kubectl"' ~/.bashrc
   sed -i '$a alias ctr="k3s ctr"' ~/.bashrc
@@ -473,6 +474,7 @@ if [ ! -f ${INSTALL_K3S_BIN} ] || [ "${MODE}" = PKG ]; then
     kernel_parameter_adjustment
     mkdir -p ${INSTALL_K3S_IMAGES}
     tar -zxf ${DOWNLOADS_ROOT}/${DOWNLOADS_FILE_HELM_BIN} -C /usr/local --transform="s/linux-${ARCH_ALIAS}/helm-${INSTALL_HELM_VERSION}/g"
+    tar -zxf ${DOWNLOADS_ROOT}/istio-${INSTALL_ISTIO_VERSION}-linux-${ARCH_ALIAS}.tar.gz -C /usr/local
     cp ${DOWNLOADS_ROOT}/${DOWNLOADS_FILE_K3S_BIN} ${INSTALL_K3S_BIN}
     cp ${DOWNLOADS_ROOT}/${DOWNLOADS_FILE_K3S_IMAGES} ${INSTALL_K3S_IMAGES}
     if [ -f ${INSTALL_K3S_BIN} ]; then
