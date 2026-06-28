@@ -110,9 +110,13 @@ CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS=3650
 if [ ! "$MODE" = PKG ]; then
   read -p "REGISTRY_URL [ http://registry.local:5000 ] : " REGISTRY_URL < /dev/tty
   read -p "REGISTRY_USERNAME [ registry@local ] : " REGISTRY_USERNAME < /dev/tty
-  read -sp "REGISTRY_PASSWORD [ ****** ] : " REGISTRY_PASSWORD < /dev/tty
+  stty -echo
+  read -p "REGISTRY_PASSWORD [ ****** ] : " REGISTRY_PASSWORD < /dev/tty
+  stty echo
   echo
-  read -sp "K3S_TOKEN [ k3s@token ] : " K3S_TOKEN < /dev/tty
+  stty -echo
+  read -p "K3S_TOKEN [ k3s@token ] : " K3S_TOKEN < /dev/tty
+  stty echo
   echo
   REGISTRY_URL=${REGISTRY_URL:-"http://registry.local:5000"}
   REGISTRY=$(echo "$REGISTRY_URL" | cut -d "/" -f3)
