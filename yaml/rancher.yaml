@@ -4,15 +4,15 @@ items:
 - apiVersion: v1
   kind: Service
   metadata:
-    name: rancher-service
+    name: rancher
+    namespace: cattle-system
   spec:
     type: NodePort
     ports:
-    - port: ${MYSQL_PORT}
-      nodePort: ${MYSQL_PORT}
+    - port: 80
+      nodePort: 8080
       protocol: TCP
-      name: tcp-mysql
+      name: tcp-rancher
     selector:
-      app: bim-gateway-service
-      app.kubernetes.io/instance: bim-gateway-service
+      app: rancher
       
