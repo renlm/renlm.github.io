@@ -10,7 +10,11 @@ set -o noglob
 # $ curl -sfL https://renlm.github.io/sh/nginx-install.sh | \
 #     sh -s - \
 #     --acme registry.renlm.cn=http://{{LOCAL_IP}}:5000 \
-#     --acme rancher.renlm.cn=http://{{LOCAL_IP}}:8080
+#     --acme rancher.renlm.cn=http://{{LOCAL_IP}}:30080
+### 手动触发配置变更
+# 默认配置目录: /data/deploy/nginx/conf.d
+# $ docker exec nginx /docker-entrypoint.d/init.sh
+# $ docker exec nginx nginx -s reload
 ########################################################################
 DOCKER_ROOT=${DOCKER_ROOT:-"/data"}
 NGINX_HOME=${DOCKER_ROOT}/deploy/nginx
