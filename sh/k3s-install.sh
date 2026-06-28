@@ -98,7 +98,9 @@ CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS=3650
 #     --set replicas=1
 ### 外部 Nginx 代理 Rancher
 # 以 NodePort 映射 Rancher 服务到 30080 端口
+# Rancher 服务的 80 端口默认会进行 302 重定向，当 X-Forwarded-Proto 为 https 时停止
 # $ kubectl apply -f k3s-install/rancher.yaml
+# $ curl -i -HHost:rancher.renlm.cn -HX-Forwarded-Proto:https http://localhost:30080/dashboard/
 ########################################################################
 
 ### 镜像仓库及集群Token设置
