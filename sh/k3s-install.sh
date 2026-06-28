@@ -94,17 +94,19 @@ CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS=3650
 
 ### 镜像仓库及集群Token设置
 # $ docker login --username=registry@local https://registry.renlm.cn
-read -p "REGISTRY_URL [ https://registry.renlm.cn ] : " REGISTRY_URL < /dev/tty
-read -p "REGISTRY_USERNAME [ registry@local ] : " REGISTRY_USERNAME < /dev/tty
-read -sp "REGISTRY_PASSWORD [ ****** ] : " REGISTRY_PASSWORD < /dev/tty
-echo
-read -sp "K3S_TOKEN [ k3s@token ] : " K3S_TOKEN < /dev/tty
-echo
-REGISTRY_URL=${REGISTRY_URL:-"https://registry.renlm.cn"}
-REGISTRY=$(echo "$REGISTRY_URL" | cut -d "/" -f3)
-REGISTRY_USERNAME=${REGISTRY_USERNAME:-"registry@local"}
-REGISTRY_PASSWORD=${REGISTRY_PASSWORD:-"******"}
-export K3S_TOKEN=${K3S_TOKEN:-"k3s@token"}
+if [ ! "$MODE" = PKG ]; then
+  read -p "REGISTRY_URL [ https://registry.renlm.cn ] : " REGISTRY_URL < /dev/tty
+  read -p "REGISTRY_USERNAME [ registry@local ] : " REGISTRY_USERNAME < /dev/tty
+  read -sp "REGISTRY_PASSWORD [ ****** ] : " REGISTRY_PASSWORD < /dev/tty
+  echo
+  read -sp "K3S_TOKEN [ k3s@token ] : " K3S_TOKEN < /dev/tty
+  echo
+  REGISTRY_URL=${REGISTRY_URL:-"https://registry.renlm.cn"}
+  REGISTRY=$(echo "$REGISTRY_URL" | cut -d "/" -f3)
+  REGISTRY_USERNAME=${REGISTRY_USERNAME:-"registry@local"}
+  REGISTRY_PASSWORD=${REGISTRY_PASSWORD:-"******"}
+  export K3S_TOKEN=${K3S_TOKEN:-"k3s@token"}
+fi
 
 # 颜色代码
 _RED_='\033[0;31m'    # 红色
@@ -477,9 +479,9 @@ if [ ! -f ${INSTALL_K3S_BIN} ] || [ "${MODE}" = PKG ]; then
     tar -czf ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz -C ${DOWNLOADS_ROOT%/*} ${DOWNLOADS_BASENAME}
     info "离线安装 - 第1步：上传离线安装包 ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz"
     info "离线安装 - 第2步：解压离线安装包 tar -zxvf ${DOWNLOADS_BASENAME}.${ARCH}.tar.gz"
-    info "master 主节点：\$ cat ${DOWNLOADS_BASENAME}/install.sh | DOWNLOAD_SKIP=true sh -s - server --tls-san k3s-master.local --cluster-init"
-    info "master 从节点：\$ cat ${DOWNLOADS_BASENAME}/install.sh | DOWNLOAD_SKIP=true sh -s - server --server https://k3s-master.local:6443"
-    info "agent 节点：\$ cat ${DOWNLOADS_BASENAME}/install.sh | DOWNLOAD_SKIP=true sh -s - agent --server https://k3s-master.local:6443"
+    info "master 主节点：\$ cat ${DOWNLOADS_BASENAME}/install.sh | DOWNLOAD_SKIP=true sh -s - server --disable=traefik --tls-san k3s-master.local --cluster-init"
+    info "master 从节点：\$ cat ${DOWNLOADS_BASENAME}/install.sh | DOWNLOAD_SKIP=true sh -s - server --disable=traefik --server https://k3s-master.local:6443"
+    info "agent 节点：\$ cat ${DOWNLOADS_BASENAME}/install.sh | DOWNLOAD_SKIP=true sh -s - agent --disable=traefik --server https://k3s-master.local:6443"
   fi
 else
   printf "[ ${_YELLOW_}已安装${_NC_} ] ${INSTALL_K3S_BIN}\n"
