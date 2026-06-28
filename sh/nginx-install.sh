@@ -6,17 +6,142 @@ set -o noglob
 # https://letsencrypt.org/docs/profiles
 # https://letsencrypt.org/docs/acme-protocol-updates
 ### 一键安装
-# $ curl -sfL https://renlm.github.io/sh/nginx-install.sh | REGISTRY_DOMAIN=registry.renlm.cn sh
+# [ {{LOCAL_IP}} ] 内置变量: 宿主机Ip
+# $ curl -sfL https://renlm.github.io/sh/nginx-install.sh | \
+#     sh -s - \
+#     --acme registry.renlm.cn=http://{{LOCAL_IP}}:5000 \
+#     --acme rancher.renlm.cn=http://{{LOCAL_IP}}:8080
 ########################################################################
 DOCKER_ROOT=${DOCKER_ROOT:-"/data"}
 NGINX_HOME=${DOCKER_ROOT}/deploy/nginx
 NGINX_VERSION=${NGINX_VERSION:-"1.31.2-alpine"}
 HTTP_PORT=${HTTP_PORT:-"80"}
 HTTPS_PORT=${HTTPS_PORT:-"443"}
-REGISTRY_CONF=conf.d/registry.conf
-REGISTRY_PORT=${REGISTRY_PORT:-"5000"}
-REGISTRY_DOMAIN=${REGISTRY_DOMAIN:-"registry.renlm.cn"}
 ACME_ISSUER_CONTACT=${ACME_ISSUER_CONTACT:-"renlm@21cn.com"}
+ACME_CONFIG_ARR=""
+
+# 颜色代码
+_RED_='\033[0;31m'    # 红色
+_GREEN_='\033[0;32m'  # 绿色
+_YELLOW_='\033[0;33m' # 黄色
+_NC_='\033[0m'        # 重置
+
+# --- helper functions for logs ---
+info()
+{
+  printf "[ ${_GREEN_}INFO${_NC_} ] $@\n"
+}
+warn()
+{
+  printf "[ ${_YELLOW_}WARN${_NC_} ] $@\n" >&2
+}
+fatal()
+{
+  printf "[ ${_RED_}ERROR${_NC_} ] $@\n" >&2
+  exit 1
+}
+
+help=false
+usage() {
+  info "USAGE: $0 [--acme {域名}:{代理地址}]"
+  info "  [-a|--acme {域名}:{代理地址}] 域名证书自动化配置."
+  info "  [-h|--help] Usage message."
+}
+
+while [ $# -gt 0 ]; do
+  key="$1"
+  case $key in
+    -a|--acme)
+    ACME_CONFIG_ARR="$ACME_CONFIG_ARR $2"
+    shift # past argument
+    shift # past value
+    ;;
+    -h|--help)
+    help=true
+    shift
+    ;;
+    *)
+    usage
+    exit 1
+    ;;
+  esac
+done
+
+if $help; then
+  usage
+  exit 0
+fi
+
+create_conf() {
+	[ $# -eq 2 ] || fatal 'create_conf needs exactly 2 arguments'
+	ACME_DOMAIN_NAME=$1
+	ACME_PROXY_URL=$2
+	if [ -f ${NGINX_HOME}/conf.d/${ACME_DOMAIN_NAME}.conf ]; then
+	  info "配置已存在：${NGINX_HOME}/conf.d/${ACME_DOMAIN_NAME}.conf"
+	else
+      cat <<EOF | tee ${NGINX_HOME}/conf.d/${ACME_DOMAIN_NAME}.conf >/dev/null
+resolver \${LOCAL_RESOLVER} valid=30s ipv6=off;
+acme_shared_zone zone=ngx_acme_shared:1M;
+acme_issuer acme-letsencrypt {
+    uri         https://acme-v02.api.letsencrypt.org/directory;
+    profile     shortlived;
+    contact     ${ACME_ISSUER_CONTACT};
+    state_path  /var/cache/nginx/acme-letsencrypt;
+    accept_terms_of_service;
+}
+
+map \$http_upgrade \$connection_upgrade {
+    default Upgrade;
+    ''      close;
+}
+
+server {
+    listen 80;
+    server_name ${ACME_DOMAIN_NAME};
+    return 301 https://\$server_name\$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    http2 on;
+    server_name ${ACME_DOMAIN_NAME};
+    
+    acme_certificate      acme-letsencrypt;
+    ssl_certificate       \$acme_certificate;
+    ssl_certificate_key   \$acme_certificate_key;
+    ssl_certificate_cache max=2;
+    
+    client_max_body_size 1024m;
+    
+    location / {
+        proxy_set_header Host \$host;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+        proxy_set_header X-Forwarded-Port \$server_port;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_pass ${ACME_PROXY_URL};
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade \$http_upgrade;
+        proxy_set_header Connection \$connection_upgrade;
+        proxy_read_timeout 900s;
+        proxy_buffering off;
+    }
+    
+    location = /robots.txt {
+        default_type text/plain;
+        return 200 "User-agent: *\nDisallow: /\n";
+    }
+}
+
+EOF
+fi
+}
+
+for acme_config in $ACME_CONFIG_ARR; do
+  acme_domain_name=$(echo "${acme_config}" | cut -d "=" -f1)
+  acme_proxy_url=$(echo "${acme_config}" | cut -d "=" -f2)
+  create_conf "$acme_domain_name" "$acme_proxy_url"
+done
+
 if [ -f ${NGINX_HOME}/docker-compose.yml ]; then
   echo "服务已存在：${NGINX_HOME}/docker-compose.yml"
 else
@@ -48,60 +173,7 @@ if [ ! -f /usr/share/nginx/html/robots.txt ]; then
 fi
 
 EOF
-  cat <<EOF | tee ${NGINX_HOME}/${REGISTRY_CONF} >/dev/null
-resolver \${LOCAL_RESOLVER} valid=30s ipv6=off;
-acme_shared_zone zone=ngx_acme_shared:1M;
-acme_issuer acme-letsencrypt {
-    uri         https://acme-v02.api.letsencrypt.org/directory;
-    profile     shortlived;
-    contact     ${ACME_ISSUER_CONTACT};
-    state_path  /var/cache/nginx/acme-letsencrypt;
-    accept_terms_of_service;
-}
 
-map \$http_upgrade \$connection_upgrade {
-    default Upgrade;
-    ''      close;
-}
-
-server {
-    listen 80;
-    server_name ${REGISTRY_DOMAIN};
-    return 301 https://\$server_name\$request_uri;
-}
-
-server {
-    listen 443 ssl;
-    http2 on;
-    server_name ${REGISTRY_DOMAIN};
-    
-    acme_certificate      acme-letsencrypt;
-    ssl_certificate       \$acme_certificate;
-    ssl_certificate_key   \$acme_certificate_key;
-    ssl_certificate_cache max=2;
-    
-    client_max_body_size 1024m;
-    
-    location / {
-        proxy_set_header Host \$host;
-        proxy_set_header X-Forwarded-Proto \$scheme;
-        proxy_set_header X-Forwarded-Port \$server_port;
-        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-        proxy_pass http://${LOCAL_IP}:${REGISTRY_PORT};
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade \$http_upgrade;
-        proxy_set_header Connection \$connection_upgrade;
-        proxy_read_timeout 900s;
-        proxy_buffering off;
-    }
-    
-    location = /robots.txt {
-        default_type text/plain;
-        return 200 "User-agent: *\nDisallow: /\n";
-    }
-}
-
-EOF
   echo "alias ll='ls -l'" > ${NGINX_HOME}/.ashrc
   cat <<EOF | tee ${NGINX_HOME}/docker-compose.yml >/dev/null
 services:

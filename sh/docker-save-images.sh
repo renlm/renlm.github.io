@@ -112,7 +112,7 @@ EOF
 fi
 
 help=false
-usage () {
+usage() {
   info "USAGE: $0 [--txt rancher-images.txt] [--images registry:3.1.1] [--output rancher-images.tar]"
   info "  [-t|--txt url] txt file with list of images; one image per line."
   info "  [-i|--images image] docker image full name."
