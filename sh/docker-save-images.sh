@@ -9,8 +9,8 @@ set -o noglob
 # $ curl -sfL https://renlm.github.io/sh/docker-save-images.sh | PLATFORM=linux/arm64 sh -s - -i moby/buildkit:buildx-stable-1 -i nginx:1.31.2-alpine -o tools
 # $ curl -sfL https://renlm.github.io/sh/docker-save-images.sh | \
 #     sh -s - \
-#     --txt https://renlm.github.io/resources/cert-manager/v1.20.2/cert-manager-images.txt \
-#     --txt https://renlm.github.io/resources/rancher/v2.14.2/rancher-images.txt \
+#     --txt https://oss.renlm.cn/cert-manager/v1.20.2/cert-manager-images.txt \
+#     --txt https://oss.renlm.cn/rancher/v2.14.2/rancher-images.txt \
 #     --output rancher-images-v2.14.2
 ########################################################################
 DOCKER_LOAD_IMAGES_SH="https://renlm.github.io/sh/docker-load-images.sh"
