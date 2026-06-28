@@ -156,8 +156,8 @@ for acme_config in $ACME_CONFIG_ARR; do
 done
 
 if [ -f ${NGINX_HOME}/docker-compose.yml ]; then
-  info "docker exec nginx /docker-entrypoint.d/init.sh"
-  docker exec nginx /docker-entrypoint.d/init.sh
+  info "docker exec nginx /docker-entrypoint.d/init.sh > /dev/null 2>&1"
+  docker exec nginx /docker-entrypoint.d/init.sh > /dev/null 2>&1
   info "docker exec nginx nginx -s reload"
   docker exec nginx nginx -s reload
 else
