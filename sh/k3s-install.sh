@@ -247,6 +247,7 @@ EOF
   # systemctl daemon-reload
   if [ $SYSTEMCTL_DAEMON_RELOAD_P -gt 0 ]; then
     systemctl daemon-reload
+    systemctl restart user@$(id -u).service
     if [ "$__SYS_FS_CGROUP__" = cgroup2fs ]; then
       __SYS_FS_CGROUP_CONTROLLERS__=$(cat /sys/fs/cgroup/user.slice/user-$(id -u).slice/user@$(id -u).service/cgroup.controllers || true)
       printf "[ ${_GREEN_}cgroup2fs${_NC_} ] ${__SYS_FS_CGROUP_CONTROLLERS__}\n"
