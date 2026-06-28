@@ -78,6 +78,8 @@ CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS=3650
 # $ cat k3s-install/install.sh | DOWNLOAD_SKIP=true sh -s - agent --disable=traefik --server https://k3s-master.local:6443
 ########################################################################
 ### 安装rancher v2.14.2
+# https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/installation-references/helm-chart-options
+# $ kubectl -n cattle-system rollout status deploy/rancher
 # $ helm install rancher k3s-install/rancher-2.14.2.tgz \
 #     --namespace cattle-system --create-namespace \
 #     --set hostname=rancher.renlm.cn \
