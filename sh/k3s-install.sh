@@ -96,8 +96,8 @@ CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS=3650
 #     --set hostname=rancher.renlm.cn \
 #     --set ingress.enabled=false \
 #     --set replicas=1
-### 外部nginx代理rancher
-# 以NodePort映射rancher服务80端口到30080
+### 外部 Nginx 代理 Rancher
+# 以 NodePort 映射 Rancher 服务到 30080 端口
 # $ kubectl apply -f k3s-install/rancher.yaml
 ########################################################################
 
