@@ -79,6 +79,7 @@ create_conf() {
 	if [ -f ${NGINX_HOME}/conf.d/${ACME_DOMAIN_NAME}.conf ]; then
 	  info "已部署：${NGINX_HOME}/conf.d/${ACME_DOMAIN_NAME}.conf"
 	else
+	  info "部署中：${NGINX_HOME}/conf.d/${ACME_DOMAIN_NAME}.conf"
       cat <<EOF | tee ${NGINX_HOME}/conf.d/${ACME_DOMAIN_NAME}.conf >/dev/null
 resolver \${LOCAL_RESOLVER} valid=30s ipv6=off;
 acme_shared_zone zone=ngx_acme_shared:1M;
