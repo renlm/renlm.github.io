@@ -82,6 +82,12 @@ CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS=3650
 ### [ 离线安装 ] agent 节点
 # $ cat k3s-install/install.sh | DOWNLOAD_SKIP=true sh -s - agent --disable=traefik --server https://k3s-master.local:6443
 ########################################################################
+### 安装cert-manager v1.20.2
+# https://cert-manager.io/docs/installation/helm
+# $ kubectl -n cert-manager get deploy cert-manager
+# $ helm install cert-manager k3s-install/cert-manager-v1.20.2.tgz \
+#     --namespace cert-manager --create-namespace \
+#     --set crds.enabled=true
 ### 安装rancher v2.14.2
 # https://ranchermanager.docs.rancher.com/zh/getting-started/installation-and-upgrade/installation-references/helm-chart-options
 # $ kubectl -n cattle-system rollout status deploy/rancher
