@@ -171,8 +171,8 @@ for mnt_conf in "/mnt/conf.d"/*; do
   cp -f \${mnt_conf} \${target_conf}
   LOCAL_NAMESERVER=\$(awk 'BEGIN{ORS=" "} \$1=="nameserver" {if (\$2 ~ ":") {print "["\$2"]"} else {print \$2}}' /etc/resolv.conf)
   LOCAL_RESOLVER=\${LOCAL_NAMESERVER% }
-  echo "sed -i \"s|\\\\\\\${LOCAL_RESOLVER}|\${LOCAL_RESOLVER}|g\" ${target_conf}"
-  sed -i "s|\\\${LOCAL_RESOLVER}|\${LOCAL_RESOLVER}|g" ${target_conf}
+  echo "sed -i \"s|\\\\\\\${LOCAL_RESOLVER}|\${LOCAL_RESOLVER}|g\" \${target_conf}"
+  sed -i "s|\\\${LOCAL_RESOLVER}|\${LOCAL_RESOLVER}|g" \${target_conf}
 done
 
 # 加载 ACME 模块
