@@ -77,7 +77,7 @@ create_conf() {
 	ACME_DOMAIN_NAME=$1
 	ACME_PROXY_URL=$2
 	if [ -f ${NGINX_HOME}/conf.d/${ACME_DOMAIN_NAME}.conf ]; then
-	  info "配置已存在：${NGINX_HOME}/conf.d/${ACME_DOMAIN_NAME}.conf"
+	  info "已部署：${NGINX_HOME}/conf.d/${ACME_DOMAIN_NAME}.conf"
 	else
       cat <<EOF | tee ${NGINX_HOME}/conf.d/${ACME_DOMAIN_NAME}.conf >/dev/null
 resolver \${LOCAL_RESOLVER} valid=30s ipv6=off;
@@ -136,17 +136,18 @@ EOF
 fi
 }
 
+LOCAL_IP=$(hostname -I | cut -d ' ' -f1)
 for acme_config in $ACME_CONFIG_ARR; do
   acme_domain_name=$(echo "${acme_config}" | cut -d "=" -f1)
   acme_proxy_url=$(echo "${acme_config}" | cut -d "=" -f2)
+  acme_proxy_url=$(echo "${acme_proxy_url}" | sed "s/{{LOCAL_IP}}/${LOCAL_IP}/g")
   create_conf "$acme_domain_name" "$acme_proxy_url"
 done
 
 if [ -f ${NGINX_HOME}/docker-compose.yml ]; then
-  echo "服务已存在：${NGINX_HOME}/docker-compose.yml"
+  info "已部署：${NGINX_HOME}/docker-compose.yml"
 else
   mkdir -p ${NGINX_HOME}/conf.d
-  LOCAL_IP=$(hostname -I | cut -d ' ' -f1)
   cat <<EOF | tee ${NGINX_HOME}/init.sh >/dev/null
 #!/bin/sh
 set -e
