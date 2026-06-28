@@ -208,8 +208,8 @@ services:
       ENV: /etc/.ashrc
     volumes:
     - ${NGINX_HOME}/.ashrc:/etc/.ashrc
+    - ${NGINX_HOME}/conf.d:/mnt/conf.d
     - ${NGINX_HOME}/init.sh:/docker-entrypoint.d/init.sh
-    - ${NGINX_HOME}/${REGISTRY_CONF}:/mnt/${REGISTRY_CONF}
     - ${NGINX_HOME}/acme-letsencrypt:/var/cache/nginx/acme-letsencrypt
     
 EOF
