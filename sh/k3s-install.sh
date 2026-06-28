@@ -40,25 +40,7 @@ CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS=3650
 # $ kubectl version --output=json
 # $ ctr -n k8s.io c ls
 ########################################################################
-
-########################################################################
-###### 离线模式
-### 生成离线安装包
-# $ curl -sfL https://renlm.github.io/sh/k3s-install.sh | MODE=PKG ARCH=x86_64 sh
-# $ curl -sfL https://renlm.github.io/sh/k3s-install.sh | MODE=PKG ARCH=aarch64 sh
-### 上传离线安装包
-### 解压离线安装包
-# $ tar -zxvf k3s-install.x86_64.tar.gz
-# $ tar -zxvf k3s-install.aarch64.tar.gz
-### [ 离线安装 ] master 主节点
-# $ cat k3s-install/install.sh | DOWNLOAD_SKIP=true sh -s - server --tls-san k3s-master.local --cluster-init
-### [ 离线安装 ] master 从节点
-# $ cat k3s-install/install.sh | DOWNLOAD_SKIP=true sh -s - server --server https://k3s-master.local:6443
-### [ 离线安装 ] agent 节点
-# $ cat k3s-install/install.sh | DOWNLOAD_SKIP=true sh -s - agent --server https://k3s-master.local:6443
-########################################################################
-
-########################################################################
+###### 域名证书自动化
 ### 安装cert-manager v1.20.2
 # https://cert-manager.io/docs/installation/helm
 # $ kubectl -n cert-manager get deploy cert-manager
@@ -78,6 +60,25 @@ CATTLE_NEW_SIGNED_CERT_EXPIRATION_DAYS=3650
 #     --set letsEncrypt.ingress.class=traefik \
 #     --set replicas=3
 ########################################################################
+
+########################################################################
+###### 离线模式（禁用traefik）
+### 生成离线安装包
+# $ curl -sfL https://renlm.github.io/sh/k3s-install.sh | MODE=PKG ARCH=x86_64 sh
+# $ curl -sfL https://renlm.github.io/sh/k3s-install.sh | MODE=PKG ARCH=aarch64 sh
+### 上传离线安装包
+### 解压离线安装包
+# $ tar -zxvf k3s-install.x86_64.tar.gz
+# $ tar -zxvf k3s-install.aarch64.tar.gz
+### [ 离线安装 ] master 主节点
+# $ cat k3s-install/install.sh | DOWNLOAD_SKIP=true sh -s - server --disable=traefik --tls-san k3s-master.local --cluster-init
+### [ 离线安装 ] master 从节点
+# $ cat k3s-install/install.sh | DOWNLOAD_SKIP=true sh -s - server --disable=traefik --server https://k3s-master.local:6443
+### [ 离线安装 ] agent 节点
+# $ cat k3s-install/install.sh | DOWNLOAD_SKIP=true sh -s - agent --disable=traefik --server https://k3s-master.local:6443
+########################################################################
+
+### 镜像仓库及集群Token设置
 # $ docker login --username=registry@local https://registry.renlm.cn
 read -p "REGISTRY_URL [ https://registry.renlm.cn ] : " REGISTRY_URL < /dev/tty
 read -p "REGISTRY_USERNAME [ registry@local ] : " REGISTRY_USERNAME < /dev/tty
