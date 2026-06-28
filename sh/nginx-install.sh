@@ -76,6 +76,7 @@ create_conf() {
 	[ $# -eq 2 ] || fatal 'create_conf needs exactly 2 arguments'
 	ACME_DOMAIN_NAME=$1
 	ACME_PROXY_URL=$2
+	ACME_PROXY_SCHEME=$(echo "$ACME_PROXY_URL" | cut -d ":" -f1)
 	ACME_PROXY_SERVER=$(echo "$ACME_PROXY_URL" | cut -d "/" -f3)
 	if [ -f ${NGINX_HOME}/conf.d/${ACME_DOMAIN_NAME}.conf ]; then
 	  info "已部署：${NGINX_HOME}/conf.d/${ACME_DOMAIN_NAME}.conf"
@@ -125,7 +126,7 @@ server {
         proxy_set_header X-Forwarded-Proto \$scheme;
         proxy_set_header X-Forwarded-Port \$server_port;
         proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-        proxy_pass ${ACME_DOMAIN_NAME};
+        proxy_pass ${ACME_PROXY_SCHEME}://${ACME_DOMAIN_NAME};
         proxy_http_version 1.1;
         proxy_set_header Upgrade \$http_upgrade;
         proxy_set_header Connection \$connection_upgrade;
