@@ -76,6 +76,7 @@ create_conf() {
 	[ $# -eq 2 ] || fatal 'create_conf needs exactly 2 arguments'
 	ACME_DOMAIN_NAME=$1
 	ACME_PROXY_URL=$2
+	ACME_PROXY_SERVER=$(echo "$ACME_PROXY_URL" | cut -d "/" -f3)
 	if [ -f ${NGINX_HOME}/conf.d/${ACME_DOMAIN_NAME}.conf ]; then
 	  info "已部署：${NGINX_HOME}/conf.d/${ACME_DOMAIN_NAME}.conf"
 	else
@@ -90,6 +91,10 @@ acme_issuer acme-letsencrypt {
     contact     ${ACME_ISSUER_CONTACT};
     state_path  /var/cache/nginx/acme-letsencrypt;
     accept_terms_of_service;
+}
+
+upstream ${ACME_DOMAIN_NAME} {
+    server ${ACME_PROXY_SERVER};
 }
 
 map \$http_upgrade \$connection_upgrade {
@@ -120,7 +125,7 @@ server {
         proxy_set_header X-Forwarded-Proto \$scheme;
         proxy_set_header X-Forwarded-Port \$server_port;
         proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-        proxy_pass ${ACME_PROXY_URL};
+        proxy_pass ${ACME_DOMAIN_NAME};
         proxy_http_version 1.1;
         proxy_set_header Upgrade \$http_upgrade;
         proxy_set_header Connection \$connection_upgrade;
@@ -161,8 +166,8 @@ set +o noglob
 
 # 获取 Docker 内置 DNS 地址
 for mnt_conf in "/mnt/conf.d"/*; do
-  target_conf=/etc/nginx/conf.d/${mnt_conf##*/}
-  cp -f ${mnt_conf} ${target_conf}
+  target_conf=/etc/nginx/conf.d/\${mnt_conf##*/}
+  cp -f \${mnt_conf} \${target_conf}
   LOCAL_NAMESERVER=\$(awk 'BEGIN{ORS=" "} \$1=="nameserver" {if (\$2 ~ ":") {print "["\$2"]"} else {print \$2}}' /etc/resolv.conf)
   LOCAL_RESOLVER=\${LOCAL_NAMESERVER% }
   echo "sed -i \"s|\\\\\\\${LOCAL_RESOLVER}|\${LOCAL_RESOLVER}|g\" ${target_conf}"
