@@ -421,8 +421,12 @@ fi
   printf "[ ${_GREEN_}启动服务${_NC_} ] ${SYSTEM_NAME}\n"
 }
 {
-  ln -sf /usr/local/helm-${INSTALL_HELM_VERSION}/helm /usr/local/bin/helm
-  ln -sf /usr/local/istio-${INSTALL_ISTIO_VERSION}/bin/istioctl /usr/local/bin/istioctl
+  ln -sf /usr/local/helm-${INSTALL_HELM_VERSION} /usr/local/helm
+  ln -sf /usr/local/helm/helm /usr/local/bin/helm
+  ln -sf /usr/local/istio-${INSTALL_ISTIO_VERSION} /usr/local/istio
+  ln -sf /usr/local/istio/bin/istioctl /usr/local/bin/istioctl
+  sed -i '$a export ISTIO_PATH=/usr/local/istio' ~/.bashrc
+  sed -i '$a export PATH=$ISTIO_PATH/bin:$PATH' ~/.bashrc
   sed -i '$a export KUBECONFIG=/etc/rancher/k3s/k3s.yaml' ~/.bashrc
   sed -i '$a alias kubectl="k3s kubectl"' ~/.bashrc
   sed -i '$a alias ctr="k3s ctr"' ~/.bashrc
