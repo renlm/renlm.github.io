@@ -73,16 +73,16 @@ if $help; then
 fi
 
 create_conf() {
-	[ $# -eq 2 ] || fatal 'create_conf needs exactly 2 arguments'
-	ACME_DOMAIN_NAME=$1
-	ACME_PROXY_URL=$2
-	ACME_PROXY_SCHEME=$(echo "$ACME_PROXY_URL" | cut -d ":" -f1)
-	ACME_PROXY_SERVER=$(echo "$ACME_PROXY_URL" | cut -d "/" -f3)
-	if [ -f ${NGINX_HOME}/conf.d/acme.conf ]; then
+    [ $# -eq 2 ] || fatal 'create_conf needs exactly 2 arguments'
+    ACME_DOMAIN_NAME=$1
+    ACME_PROXY_URL=$2
+    ACME_PROXY_SCHEME=$(echo "$ACME_PROXY_URL" | cut -d ":" -f1)
+    ACME_PROXY_SERVER=$(echo "$ACME_PROXY_URL" | cut -d "/" -f3)
+    if [ -f ${NGINX_HOME}/conf.d/acme.conf ]; then
       info "已部署：${NGINX_HOME}/conf.d/acme.conf"
-	else
-	  mkdir -p ${NGINX_HOME}/conf.d
-	  info "部署中：${NGINX_HOME}/conf.d/acme.conf"
+    else
+      mkdir -p ${NGINX_HOME}/conf.d
+      info "部署中：${NGINX_HOME}/conf.d/acme.conf"
       cat <<EOF | tee ${NGINX_HOME}/conf.d/acme.conf >/dev/null
 resolver \${LOCAL_RESOLVER} valid=30s ipv6=off;
 acme_shared_zone zone=ngx_acme_shared:1M;
@@ -100,11 +100,11 @@ map \$http_upgrade \$connection_upgrade {
 }
 
 EOF
-	fi
-	if [ -f ${NGINX_HOME}/conf.d/${ACME_DOMAIN_NAME}.conf ]; then
-	  info "已部署：${NGINX_HOME}/conf.d/${ACME_DOMAIN_NAME}.conf"
-	else
-	  info "部署中：${NGINX_HOME}/conf.d/${ACME_DOMAIN_NAME}.conf"
+    fi
+    if [ -f ${NGINX_HOME}/conf.d/${ACME_DOMAIN_NAME}.conf ]; then
+      info "已部署：${NGINX_HOME}/conf.d/${ACME_DOMAIN_NAME}.conf"
+    else
+      info "部署中：${NGINX_HOME}/conf.d/${ACME_DOMAIN_NAME}.conf"
       cat <<EOF | tee ${NGINX_HOME}/conf.d/${ACME_DOMAIN_NAME}.conf >/dev/null
 upstream ${ACME_DOMAIN_NAME} {
     server ${ACME_PROXY_SERVER};
