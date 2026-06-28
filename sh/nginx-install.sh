@@ -146,19 +146,26 @@ done
 
 if [ -f ${NGINX_HOME}/docker-compose.yml ]; then
   info "已部署：${NGINX_HOME}/docker-compose.yml"
+  info "docker exec -it nginx /docker-entrypoint.d/init.sh"
+  docker exec -it nginx /docker-entrypoint.d/init.sh
+  info "docker exec -it nginx nginx -s reload"
+  docker exec -it nginx nginx -s reload
 else
   mkdir -p ${NGINX_HOME}/conf.d
   cat <<EOF | tee ${NGINX_HOME}/init.sh >/dev/null
 #!/bin/sh
 set -e
-set -o noglob
+set +o noglob
 
 # 获取 Docker 内置 DNS 地址
-cp -f /mnt/${REGISTRY_CONF} /etc/nginx/${REGISTRY_CONF}
-LOCAL_NAMESERVER=\$(awk 'BEGIN{ORS=" "} \$1=="nameserver" {if (\$2 ~ ":") {print "["\$2"]"} else {print \$2}}' /etc/resolv.conf)
-LOCAL_RESOLVER=\${LOCAL_NAMESERVER% }
-echo "sed -i \"s|\\\\\\\${LOCAL_RESOLVER}|\${LOCAL_RESOLVER}|g\" /etc/nginx/${REGISTRY_CONF}"
-sed -i "s|\\\${LOCAL_RESOLVER}|\${LOCAL_RESOLVER}|g" /etc/nginx/${REGISTRY_CONF}
+for mnt_conf in "/mnt/conf.d"/*; do
+  target_conf=/etc/nginx/conf.d/${mnt_conf##*/}
+  cp -f ${mnt_conf} ${target_conf}
+  LOCAL_NAMESERVER=\$(awk 'BEGIN{ORS=" "} \$1=="nameserver" {if (\$2 ~ ":") {print "["\$2"]"} else {print \$2}}' /etc/resolv.conf)
+  LOCAL_RESOLVER=\${LOCAL_NAMESERVER% }
+  echo "sed -i \"s|\\\\\\\${LOCAL_RESOLVER}|\${LOCAL_RESOLVER}|g\" ${target_conf}"
+  sed -i "s|\\\${LOCAL_RESOLVER}|\${LOCAL_RESOLVER}|g" ${target_conf}
+done
 
 # 加载 ACME 模块
 NGX_HTTP_ACME_MODULE_SO_WCL=\$(cat /etc/nginx/nginx.conf | grep "^load_module modules/ngx_http_acme_module.so;" | wc -l)
@@ -174,7 +181,6 @@ if [ ! -f /usr/share/nginx/html/robots.txt ]; then
 fi
 
 EOF
-
   echo "alias ll='ls -l'" > ${NGINX_HOME}/.ashrc
   cat <<EOF | tee ${NGINX_HOME}/docker-compose.yml >/dev/null
 services:
@@ -206,7 +212,9 @@ services:
     
 EOF
 {
+  info "chmod +x ${NGINX_HOME}/init.sh"
   chmod +x ${NGINX_HOME}/init.sh
+  info "docker-compose -f ${NGINX_HOME}/docker-compose.yml up -d"
   docker-compose -f ${NGINX_HOME}/docker-compose.yml up -d
 }
 fi
